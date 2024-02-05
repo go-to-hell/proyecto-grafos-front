@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm" class="container mt-5">
         <!-- Top Content -->
-        <h2 class="mb-5 display-4 font-weight-bold">Iniciar Sesión</h2>
+        <h2 class="mb-5 display-6 font-weight-bold">Iniciar Sesión</h2>
         <p class="mb-4 text-muted">
             Ingresa a tu cuenta para crear, cargar y descargar grafos.
         </p>
@@ -50,7 +50,7 @@
             const password = ref('');
 
             // Computando las clases
-            const inputClasses = computed(() => 'form-control');
+            const inputClasses = computed(() => 'form-control mb-3');
             const buttonClasses = computed(() => 'btn btn-primary w-full md:w-auto d-flex justify-content-center align-items-center p-6 space-x-4 font-weight-bold text-white rounded-md px-9 bg-black shadow-black-100 hover-bg-opacity-90 shadow-sm hover-shadow-lg border transition hover-translate-y-0.5 duration-150');
 
             // Método para manejar el envío del formulario

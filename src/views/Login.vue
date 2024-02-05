@@ -3,7 +3,7 @@
         <div class="h-100">
             <div class="row h-100 m-0">
                 <!-- Left Side (Form) -->
-                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 d-flex justify-content-center align-items-center">
+                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 d-flex justify-content-start align-items-center">
                     <div class="bg-white rounded-lg p-4">
                         <!-- Login Form -->
                         <LoginForm />
@@ -56,6 +56,7 @@
         </div>
     </section>
 </template>
+
 
 <style scoped>
     .space-art {
