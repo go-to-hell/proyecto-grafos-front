@@ -6,8 +6,7 @@ import App from './App.vue'
 import VNetworkGraph from 'v-network-graph';
 
 import 'v-network-graph/lib/style.css';
-import './style.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-
-
-createApp(App).use(createPinia()).use(router).use(VNetworkGraph).mount('#app')
+createApp(App).use(bootstrap).use(createPinia()).use(router).use(VNetworkGraph).mount('#app')

@@ -1,38 +1,38 @@
 <template>
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="submitForm" class="container mt-5">
         <!-- Top Content -->
-        <h2 class="font-mono mb-5 text-4xl font-bold">Iniciar Sesión</h2>
-        <p class="mb-12 font-sans font-light text-gray-600">
-        Ingresa a tu cuenta para crear, cargar y descargar grafos.
+        <h2 class="mb-5 display-4 font-weight-bold">Iniciar Sesión</h2>
+        <p class="mb-4 text-muted">
+            Ingresa a tu cuenta para crear, cargar y descargar grafos.
         </p>
-
-        <div class="flex flex-col">
+    
+        <div class="form-group">
             <input
-            type="text"
-            placeholder="Ingresa tu dirección email"
-            :class="inputClasses"
-            v-model="email"
+                type="text"
+                class="form-control"
+                placeholder="Ingresa tu dirección email"
+                v-model="email"
             />
-
+    
             <input
-            type="password"
-            placeholder="Ingresa tu contraseña"
-            :class="inputClasses"
-            v-model="password"
+                type="password"
+                class="form-control"
+                placeholder="Ingresa tu contraseña"
+                v-model="password"
             />
         </div>
-
+    
         <!-- Middle Content -->
-        <div class="flex flex-col items-center justify-between mt-6 space-y-6 md:flex-row md:space-y-0">
-        <div class="font-thin text-red-light">¿Olvidaste tu contraseña?</div>
-            <button 
-                :class="buttonClasses" 
+        <div class="d-flex flex-column justify-content-between mt-4 mt-md-2">
+            <div class="text-danger mb-2">¿Olvidaste tu contraseña?</div>
+            <button
+                class="btn btn-primary"
                 type="submit"
             >
-                <span>Iniciar Sesión</span>
+                Iniciar Sesión
             </button>
         </div>
-    </form>
+    </form>    
 </template>
 
 <script>
