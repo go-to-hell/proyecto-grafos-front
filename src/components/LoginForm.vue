@@ -9,14 +9,14 @@
         <div class="form-group">
             <input
                 type="text"
-                class="form-control"
+                :class="inputClasses"
                 placeholder="Ingresa tu dirección email"
                 v-model="email"
             />
     
             <input
                 type="password"
-                class="form-control"
+                :class="inputClasses"
                 placeholder="Ingresa tu contraseña"
                 v-model="password"
             />
@@ -26,7 +26,7 @@
         <div class="d-flex flex-column justify-content-between mt-4 mt-md-2">
             <div class="text-danger mb-2">¿Olvidaste tu contraseña?</div>
             <button
-                class="btn btn-primary"
+                :class="buttonClasses"
                 type="submit"
             >
                 Iniciar Sesión
@@ -50,8 +50,8 @@
             const password = ref('');
 
             // Computando las clases
-            const inputClasses = computed(() => 'w-full p-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light mt-6');
-            const buttonClasses = computed(() => 'w-full md:w-auto flex justify-center items-center p-6 space-x-4 font-sans font-bold text-white rounded-md px-9 bg-black shadow-black-100 hover:bg-opacity-90 shadow-sm hover:shadow-lg border transition hover:-translate-y-0.5 duration-150');
+            const inputClasses = computed(() => 'form-control');
+            const buttonClasses = computed(() => 'btn btn-primary w-full md:w-auto d-flex justify-content-center align-items-center p-6 space-x-4 font-weight-bold text-white rounded-md px-9 bg-black shadow-black-100 hover-bg-opacity-90 shadow-sm hover-shadow-lg border transition hover-translate-y-0.5 duration-150');
 
             // Método para manejar el envío del formulario
             const submitForm = () => {

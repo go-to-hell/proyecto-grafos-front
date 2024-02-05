@@ -26,10 +26,10 @@
         
         setup(props) {
             const buttonClasses = computed(() =>
-                'flex items-center justify-center py-2 space-x-3 border border-gray-300 rounded shadow-sm hover:bg-opacity-30 hover:shadow-lg hover:-translate-y-0.5 transition duration-150 md:w-1/2'
+                'd-flex align-items-center justify-content-center py-2 mx-3 border border-secondary rounded shadow-sm'
             );
 
-            const textClasses = computed(() => 'font-thin');
+            const textClasses = computed(() => 'fw-light');
 
             const getImageSrc = () => {
                 // Concatena el prefijo del path con la propiedad imageSrc
