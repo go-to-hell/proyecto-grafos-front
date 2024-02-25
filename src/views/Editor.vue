@@ -1,6 +1,10 @@
 <template>
-    <div class="editor-container">
+    <button @click="goBack" class="btn btn-secondary top-0 start-0 mt-3 ms-3">
+        <i class="bi bi-arrow-left"></i>
+    </button>
 
+    <div class="editor-container">
+        
         <div class="editor-content">
             <!-- Editor Content -->
             <v-network-graph ref="graph" v-model:zoom-level="zoomLevel" v-model:selected-nodes="selectedNodes"
@@ -52,10 +56,15 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { Nodes, Edges, VNetworkGraphInstance, EventHandlers, defineConfigs } from 'v-network-graph';
-import { VueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import data from '../data/initial-data.js';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+
+const goBack = () => {
+    router.go(-1);
+};
 
 const graph = ref<VNetworkGraphInstance | null>(null);
 const nodes: Nodes = reactive({ ...data.nodes });

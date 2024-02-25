@@ -1,24 +1,24 @@
 <template>
     <!-- Global Container -->
-    <div class="flex items-center justify-center min-h-screen bg-red">
+    <div class="d-flex align-items-center justify-content-center vh-100 bg-dark">
         <!-- Card Container -->
-        <div class="relative flex flex-col m-6 space-y-10 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 md:m-0">            
+        <div class="d-flex flex-column m-3 p-3 bg-white shadow rounded-lg">            
 
             <!-- Left Side -->
-            <div class="p-6 md:p-8">
+            <div class="p-3">
                 <!-- SignUp Form -->
                 <SignUpForm />
 
                 <!-- Border -->
-                <div class="mt-12 border-b border-b-gray-300"></div>
+                <div class="mt-5 border-bottom border-secondary"></div>
                 
                 <!-- Social Buttons -->
-                <p class="py-6 text-sm font-thin text-center text-gray-400">
+                <p class="py-3 text-center text-muted">
                     Registrate con...
                 </p>
 
                 <!-- Buttons Container -->
-                <div class="flex flex-col space-x-0 space-y-6 md:flex-row md:space-x-6 md:space-y-0">
+                <div class="d-flex justify-content-center my-4">
                     <SocialButton
                         image-src="facebook.png"
                         image-alt="Facebook Logo"
