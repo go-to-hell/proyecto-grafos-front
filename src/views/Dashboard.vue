@@ -48,12 +48,14 @@
 <script>
     import { useAuthStore } from "../stores/auth";
     import { useRouter } from 'vue-router';
+
+    import UserlistService from "../services/userlistService";
     
     export default {
         setup() {
             const authStore = useAuthStore();
             const router = useRouter();
-
+            
             const goBack = () => {
                 authStore.logout();
                 router.go(-1);
@@ -69,5 +71,13 @@
                 goEditor,
             };
         },
+
+        mounted() {
+            const userlistService = new UserlistService();
+
+            console.log('Dashboard mounted, Listing users');
+            const usr_list = userlistService.getUsers();
+            console.log(usr_list);
+        }
     };
 </script>

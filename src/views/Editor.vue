@@ -60,6 +60,8 @@ import { Background } from '@vue-flow/background'
 import data from '../data/initial-data.js';
 import { useRouter } from 'vue-router';
 
+import fileService from '../services/fileService.js';
+
 const router = useRouter();
 
 const goBack = () => {
@@ -151,20 +153,23 @@ const startBoxSelection = () => graph.value?.startBoxSelection({
 const stopBoxSelection = () => graph.value?.stopBoxSelection();
 
 const saveGraph = () => {
+    const file_service = new fileService();
     const graphData = {
         nodes: nodes,
         edges: edges,
         layouts: layouts,
     };
 
-    // Download data as JSON file
-    const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(graphData, null, 2))}`;
-    const downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute('href', dataStr);
-    downloadAnchorNode.setAttribute('download', 'graph-data.json');
-    document.body.appendChild(downloadAnchorNode); // required for firefox
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
+    // Upload data to server as JSON file
+    const data_blob = new Blob([JSON.stringify(graphData)], { type: 'text/json' });
+    
+    const response = file_service.upload(data_blob, 'graph-data.json');
+
+    if (response) {
+        alert('El grafo ha sido guardado exitosamente.');
+    } else {
+        alert('Error al guardar el grafo.');
+    }    
     
 };
 </script>
