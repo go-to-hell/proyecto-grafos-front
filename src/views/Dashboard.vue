@@ -24,15 +24,15 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
+            <li class="nav-item me-md-3">
               <a class="nav-link active" aria-current="page" href="#">
                 Dashboard
               </a>
             </li>
             <li class="nav-item">
               <!-- Botón de Crear -->
-              <button class="nav-link" @click="goEditor">Crear</button>
+              <button class="nav-link w-100" @click="goEditor">Crear</button>
             </li>
             <!-- <li class="nav-item"> -->
             <!-- <a class="nav-link" href="#">Opción</a> -->
@@ -99,3 +99,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.nav-item:hover {
+  background-color: lightslategray;
+  transition: 0.5s;
+}
+</style>
