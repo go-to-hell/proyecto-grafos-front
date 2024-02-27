@@ -45,7 +45,7 @@
         <div class="d-flex justify-content-center">
           <button
             @click="signUp"
-            class="btn btn-primary p-3 mx-1 font-weight-bold"
+            class="btn btn-primary p-3 mx-1"
             type="submit"
           >
             <span>Regístrate</span>
