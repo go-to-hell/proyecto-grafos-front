@@ -21,10 +21,10 @@
         <LoginForm />
 
         <!-- Social Buttons -->
-        <p class="py-3 text-center text-muted">O ingresa con...</p>
+        <p class="py-3 text-center fw-light">&Oacute; ingresa con...</p>
 
         <!-- Buttons Container -->
-        <div class="d-sm-flex d-grid gap-3 justify-content-center my-4">
+        <div class="d-sm-flex d-grid gap-3 justify-content-center mb-4">
           <SocialButton
             class="bg-info-subtle"
             image-src="facebook.png"
@@ -39,13 +39,13 @@
           />
         </div>
 
-        <p class="py-2 text-center text-muted">
+        <p class="py-2 text-center fw-light">
           Si aún no tienes una cuenta puedes registrarte aquí
         </p>
         <div class="d-flex justify-content-center">
           <button
             @click="signUp"
-            class="btn btn-primary p-3 mx-1 font-weight-bold"
+            class="btn btn-primary p-3 mx-1"
             type="submit"
           >
             <span>Regístrate</span>
@@ -95,16 +95,6 @@
   );
   opacity: 0.7;
   mix-blend-mode: overlay;
-}
-
-.centered-text {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2em;
-  color: #fff;
-  font-weight: bold;
 }
 
 @keyframes space {
