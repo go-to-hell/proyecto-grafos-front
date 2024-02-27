@@ -1,8 +1,8 @@
 <template>
     <form @submit.prevent="submitForm" class="container mt-5">
         <!-- Top Content -->
-        <h2 class="mb-5 display-6 font-weight-bold">Iniciar Sesión</h2>
-        <p class="mb-4 text-muted">
+        <h2 class="mb-4 fs-1 fw-light">Iniciar Sesión</h2>
+        <p class="mb-4 fw-light">
             Ingresa a tu cuenta para crear, cargar y descargar grafos.
         </p>
     
@@ -12,8 +12,8 @@
                 :class="inputClasses"
                 placeholder="Ingresa tu dirección email"
                 v-model="email"
+                autofocus
             />
-    
             <input
                 type="password"
                 :class="inputClasses"
@@ -23,8 +23,8 @@
         </div>
     
         <!-- Middle Content -->
-        <div class="d-flex flex-column justify-content-between mt-4 mt-md-2">
-            <div class="text-danger mb-2">¿Olvidaste tu contraseña?</div>
+        <div class="d-flex flex-column mt-4 mt-md-2">
+            <a class="text-danger mb-3 text-end" href="/">¿Olvidaste tu contraseña?</a>
             <button
                 :class="buttonClasses"
                 type="submit"
