@@ -1,10 +1,10 @@
 <template>
-  <div class="row m-0">
+  <div class="row m-0 full-height">
     <!-- Left Side (Custom Design) -->
     <div class="col-md-6 p-0">
       <div class="h-100 w-100 bg-black text-white text-center">
         <!-- stars -->
-        <div class="space-art">
+        <div class="space-art d-flex align-items-center justify-content-center flex-column">
           <div class="fs-1 fw-bold my-3 my-md-5">Proyecto Grafos</div>
           <img
             class="w-75 pb-4"
@@ -15,7 +15,7 @@
       </div>
     </div>
     <!-- Right Side (Form) -->
-    <div class="col-md-6 bg-body-tertiary">
+    <div class="col-md-6 bg-body-tertiary d-flex align-items-center justify-content-center">
       <div class="px-md-5 pb-5">
         <!-- Login Form -->
         <LoginForm />
@@ -26,15 +26,15 @@
         <!-- Buttons Container -->
         <div class="d-sm-flex d-grid gap-3 justify-content-center mb-4">
           <SocialButton
-              class="bg-info-subtle"
-              icon="bi-facebook"
-              button-text="Facebook"
+            class="bg-info-subtle"
+            icon="bi-facebook"
+            button-text="Facebook"
           />
 
           <SocialButton
-              class="bg-danger-subtle"
-              icon="bi-google"
-              button-text="Google"
+            class="bg-danger-subtle"
+            icon="bi-google"
+            button-text="Google"
           />
         </div>
 
@@ -56,6 +56,15 @@
 </template>
 
 <style scoped>
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.full-height {
+  min-height: 100vh;
+}
 .space-art {
   position: relative;
   background-color: #000;

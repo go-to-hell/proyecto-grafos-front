@@ -1,6 +1,6 @@
 <template>
   <!-- Global Container -->
-  <div class="background">
+  <div class="background full-height d-flex align-items-center justify-content-center">
     <!-- Go Back Button -->
     <div>
       <button
@@ -11,7 +11,7 @@
       </button>
     </div>
     <!-- Card Container -->
-    <div class="mx-auto p-4 col-md-7 bg-body-tertiary rounded-4">
+    <div class="mx-auto p-4 col-md-4 bg-body-tertiary rounded-4">
       <!-- SignUp Form -->
       <SignUpForm />
 
@@ -23,15 +23,15 @@
       <!-- Buttons Container -->
       <div class="d-sm-flex d-grid gap-3 justify-content-center mb-4">
         <SocialButton
-            class="bg-info-subtle"
-            icon="bi-facebook"
-            button-text="Facebook"
+          class="bg-info-subtle"
+          icon="bi-facebook"
+          button-text="Facebook"
         />
 
         <SocialButton
-            class="bg-danger-subtle"
-            icon="bi-google"
-            button-text="Google"
+          class="bg-danger-subtle"
+          icon="bi-google"
+          button-text="Google"
         />
       </div>
     </div>
@@ -64,6 +64,15 @@ export default {
 </script>
 
 <style scoped>
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.full-height {
+  min-height: 100vh;
+}
 .background {
   position: relative;
   background-color: #000;
