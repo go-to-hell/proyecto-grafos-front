@@ -26,16 +26,15 @@
         <!-- Buttons Container -->
         <div class="d-sm-flex d-grid gap-3 justify-content-center mb-4">
           <SocialButton
-            class="bg-info-subtle"
-            image-src="facebook.png"
-            image-alt="Facebook Logo"
-            button-text="Facebook"
+              class="bg-info-subtle"
+              icon="bi-facebook"
+              button-text="Facebook"
           />
+
           <SocialButton
-            class="bg-warning-subtle"
-            image-src="google.png"
-            image-alt="Google Logo"
-            button-text="Google"
+              class="bg-danger-subtle"
+              icon="bi-google"
+              button-text="Google"
           />
         </div>
 

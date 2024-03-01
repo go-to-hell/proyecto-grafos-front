@@ -1,20 +1,17 @@
 <template>
     <button :class="buttonClasses">
-        <img :src="getImageSrc()" :alt="imageAlt" class="w-9">
+        <i :class="iconClasses" aria-hidden="true"></i>
+        
         <span :class="textClasses">{{ buttonText }}</span>
     </button>
 </template>
 
 <script>
     import { computed } from 'vue';
-    
+
     export default {
         props: {
-            imageSrc: {
-                type: String,
-                required: true,
-            },
-            imageAlt: {
+            icon: {
                 type: String,
                 required: true,
             },
@@ -23,7 +20,7 @@
                 required: true,
             },
         },
-        
+
         setup(props) {
             const buttonClasses = computed(() =>
                 'd-flex align-items-center justify-content-center py-2 mx-3 border border-secondary rounded shadow-sm'
@@ -31,15 +28,13 @@
 
             const textClasses = computed(() => 'fw-light');
 
-            const getImageSrc = () => {
-                return `../src/assets/${props.imageSrc}`;
-            };
+            const iconClasses = computed(() => `bi ${props.icon} me-1`);
 
             return {
                 buttonClasses,
                 textClasses,
-                getImageSrc,
+                iconClasses,
             };
-        }
+        },
     };
 </script>
