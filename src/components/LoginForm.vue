@@ -6,6 +6,12 @@
       Ingresa a tu cuenta para crear, cargar y descargar grafos.
     </p>
 
+    <!-- Alert -->
+    <div v-if="alertMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ alertMessage }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeAlert"></button>
+    </div>
+
     <div class="form-group">
       <input
         type="text"
@@ -45,6 +51,7 @@ export default {
     // Utilizando ref para los campos del formulario
     const email = ref("");
     const password = ref("");
+    const alertMessage = ref("");
 
     // Computando las clases
     const inputClasses = computed(() => "form-control mb-3");
@@ -64,9 +71,14 @@ export default {
           password.value = "";
           router.push("/dashboard");
         } else {
-          alert("Usuario o contraseña incorrectos");
+          alertMessage.value = "Usuario o contraseña incorrectos";
         }
       }
+    };
+
+    // Método para cerrar la alerta
+    const closeAlert = () => {
+      alertMessage.value = "";
     };
 
     // Retornando las propiedades y métodos
@@ -76,6 +88,8 @@ export default {
       inputClasses,
       buttonClasses,
       submitForm,
+      alertMessage,
+      closeAlert,
     };
   },
 };
