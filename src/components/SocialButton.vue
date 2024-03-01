@@ -32,8 +32,7 @@
             const textClasses = computed(() => 'fw-light');
 
             const getImageSrc = () => {
-                // Concatena el prefijo del path con la propiedad imageSrc
-                return `/src/assets/${props.imageSrc}`;
+                return `../src/assets/${props.imageSrc}`;
             };
 
             return {
