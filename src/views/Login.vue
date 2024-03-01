@@ -21,7 +21,7 @@
         <LoginForm />
 
         <!-- Social Buttons -->
-        <p class="py-3 text-center fw-light">&Oacute; ingresa con...</p>
+        <p class="pt-4 pb-3 text-center fw-light">&Oacute; ingresa con...</p>
 
         <!-- Buttons Container -->
         <div class="d-sm-flex d-grid gap-3 justify-content-center mb-4">
