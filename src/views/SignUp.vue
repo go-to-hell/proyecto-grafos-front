@@ -73,6 +73,7 @@ export default {
   background: #000
     url("https://www.transparenttextures.com/patterns/stardust.png");
   animation: space 120s linear infinite;
+  padding: 2% 0;
 }
 
 @keyframes space {
