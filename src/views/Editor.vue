@@ -3,51 +3,70 @@
     <div class="editor-sidebar">
       <!-- Sidebar Content -->
       <h2 class="text-center mb-3">Funciones</h2>
-      <button class="action-button" @click="addNode">Agregar Nodo</button>
-      <button
+      <!-- <button class="action-button" @click="addNode">Agregar Nodo</button> -->
+      <!-- <button
         class="action-button"
         :disabled="selectedNodes.length === 0"
         @click="removeNode"
       >
         Eliminar Nodos
-      </button>
-      <button
+      </button> -->
+      <!-- <button
         class="action-button"
         :disabled="selectedNodes.length !== 2"
         @click="addEdge"
       >
         Agregar Arista
-      </button>
-      <button
+      </button> -->
+      <!-- <button
         class="action-button"
         :disabled="selectedEdges.length === 0"
         @click="removeEdge"
       >
         Eliminar Aristas
-      </button>
+      </button> -->
 
       <!-- View Controls -->
       <div class="control-buttons">
-        <button @click="panToCenter">Centrar</button>
-        <button @click="fitToContents">Ajustar</button>
-        <button @click="zoomIn">Acercar</button>
-        <button @click="zoomOut">Alejar</button>
+        <div>
+          <button @click="panToCenter">Centrar</button>
+          <button @click="fitToContents">Ajustar</button>
+        </div>
+        <div class="d-flex gap-3">
+          <button class="bi bi-plus-circle-fill" @click="zoomIn"></button>
+          <button class="bi bi-dash-circle-fill" @click="zoomOut"></button>
+        </div>
       </div>
 
       <!-- Configuration checkboxes -->
-      <div class="config-checkboxes">
-        <label>
-          <input type="checkbox" v-model="configs.view.panEnabled" />
-          Pan habilitado
-        </label>
-        <label>
-          <input type="checkbox" v-model="configs.view.zoomEnabled" />
-          Zoom habilitado
-        </label>
-        <label>
-          <input type="checkbox" v-model="configs.node.draggable" />
-          Node arrastrable
-        </label>
+      <div class="py-3">
+        <div class="d-flex gap-4">
+          <input
+            type="checkbox"
+            name="panEnabled"
+            id="panEnabled"
+            v-model="configs.view.panEnabled"
+          />
+          <label for="panEnabled">Pan habilitado</label>
+        </div>
+        <div class="d-flex gap-4">
+          <input
+            type="checkbox"
+            name="zoomEnabled"
+            id="zoomEnabled"
+            v-model="configs.view.zoomEnabled"
+          />
+          <label for="zoomEnabled">Zoom habilitado</label>
+        </div>
+        <div class="d-flex gap-4">
+          <input
+            type="checkbox"
+            name="draggable"
+            id="draggable"
+            v-model="configs.node.draggable"
+          />
+          <label for="draggable">Node arrastrable</label>
+        </div>
       </div>
 
       <!-- Selection Controls -->
@@ -70,7 +89,9 @@
 
       <!-- Save controls -->
       <div class="demo-control-panel">
-        <button class="action-button" @click="saveGraph">Guardar</button>
+        <button class="action-button" @click="saveGraph">
+          Guardar Archivo
+        </button>
       </div>
     </div>
 
@@ -78,6 +99,7 @@
       <div class="editor-content">
         <!-- Editor Content -->
         <v-network-graph
+          tabindex="0"
           ref="graph"
           v-model:zoom-level="zoomLevel"
           v-model:selected-nodes="selectedNodes"
@@ -87,6 +109,9 @@
           :layouts="layouts"
           :configs="configs"
           :event-handlers="eventHandlers"
+          @keyup.delete="handleDeletion"
+          @click="handleNodeAddition"
+          @keydown="handleEdgeAddition"
         >
           <Background pattern-color="#990000" />
         </v-network-graph>
@@ -132,32 +157,51 @@ const selectedEdges = ref<string[]>([]);
 const zoomLevel = ref(1);
 const layouts = reactive(data.layouts);
 
-const addNode = () => {
+const handleNodeAddition = () => {
   const nodeId = `node${nextNodeIndex.value}`;
-  const name = `N${nextNodeIndex.value}`;
-  nodes[nodeId] = { name };
+  const name = `Node ${nextNodeIndex.value}`;
+  nodes[nodeId] = { id: nodeId, name: name };
   nextNodeIndex.value++;
 };
 
-const removeNode = () => {
-  for (const nodeId of selectedNodes.value) {
-    delete nodes[nodeId];
+// const removeNode = () => {
+//   for (const nodeId of selectedNodes.value) {
+//     delete nodes[nodeId];
+//   }
+// };
+
+const handleDeletion = () => {
+  if (selectedNodes.value.length > 0) {
+    const names = selectedNodes.value.map((n) => nodes[n].name).join(", ");
+    console.log(nodes);
+    const confirmed = confirm(`¿Está seguro de querer borrar [${names}]?`);
+    if (confirmed) {
+      selectedNodes.value.forEach((n) => delete nodes[n]);
+    }
+  } else if (selectedEdges.value.length > 0) {
+    const ids = selectedEdges.value.join(", ");
+    const confirmed = confirm(`¿Está seguro de querer borrar [${ids}]?`);
+    if (confirmed) {
+      selectedEdges.value.forEach((e) => delete edges[e]);
+    }
   }
 };
 
-const addEdge = () => {
+const handleEdgeAddition = (event: KeyboardEvent) => {
   if (selectedNodes.value.length !== 2) return;
-  const [source, target] = selectedNodes.value;
-  const edgeId = `edge${nextEdgeIndex.value}`;
-  edges[edgeId] = { source, target };
-  nextEdgeIndex.value++;
-};
-
-const removeEdge = () => {
-  for (const edgeId of selectedEdges.value) {
-    delete edges[edgeId];
+  if (event.shiftKey && event.altKey && event.key.toLowerCase() === "e") {
+    const [source, target] = selectedNodes.value;
+    const edgeId = `edge${nextEdgeIndex.value}`;
+    edges[edgeId] = { source, target };
+    nextEdgeIndex.value++;
   }
 };
+
+// const removeEdge = () => {
+//   for (const edgeId of selectedEdges.value) {
+//     delete edges[edgeId];
+//   }
+// };
 
 const panToCenter = () => graph.value?.panToCenter();
 const fitToContents = () => graph.value?.fitToContents();
@@ -181,6 +225,16 @@ const configs = defineConfigs({
   node: {
     selectable: true,
     draggable: true,
+    label: {
+      visible: true,
+      fontFamily: "Sans serif",
+      fontSize: 12,
+      lineHeight: 1.1,
+      color: "#000000",
+      margin: 4,
+      direction: "south",
+      text: "name",
+    },
   },
   edge: {
     selectable: true,
@@ -234,7 +288,7 @@ const saveGraph = () => {
 .container-all {
   display: grid;
   grid-template-rows: auto;
-  grid-template-columns: 25% 1fr;
+  grid-template-columns: 18% 1fr;
 }
 
 .editor-container {
@@ -244,6 +298,10 @@ const saveGraph = () => {
 
 .editor-content {
   flex: 1;
+  /* cursor: grab; */
+}
+
+.v-network-graph:active {
   cursor: grab;
 }
 
@@ -278,12 +336,11 @@ const saveGraph = () => {
   cursor: pointer;
 }
 
-.zoom-slider {
-  margin-bottom: 10px;
+button:hover {
+  background-color: #5a9bdb;
 }
 
-.config-checkboxes label {
-  display: block;
-  margin-bottom: 5px;
+.zoom-slider {
+  margin-bottom: 10px;
 }
 </style>
