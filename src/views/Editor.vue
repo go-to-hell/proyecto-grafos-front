@@ -219,6 +219,15 @@ const configs = defineConfigs({
   node: {
     selectable: true,
     draggable: true,
+    style: {
+      border: {
+        width: 2,  // Ancho del borde
+        color: "#000000",  // Color del borde (negro en este caso)
+      },
+      background: {
+        color: "#FFFFFF",  // Color del fondo (blanco en este caso)
+      },
+    },
     label: {
       visible: true,
       fontFamily: "Sans serif",

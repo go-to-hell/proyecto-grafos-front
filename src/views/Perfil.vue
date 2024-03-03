@@ -1,5 +1,8 @@
 <template>
   <div class="profile-page container mt-5">
+    <!-- Botón para volver al Dashboard -->
+    <button @click="goDashboard" class="btn btn-primary mb-3">Volver al Dashboard</button>
+
     <div class="row g-5 justify-content-center">
       <div class="col-md-6 mb-5" v-for="(participant, index) in participants.slice(0, 2)" :key="index">
         <div class="card">
@@ -34,6 +37,7 @@ import OscarCampohermoso_photo from "../assets/OscarCampohermoso.jpg";
 import AlejandroCarrasco_photo from "../assets/AlejandroCarrasco.jpg";
 import OscarMenacho_photo from "../assets/OscarMenacho.jpg";
 import SebastianOrias_photo from "../assets/SebastianOrias.jpg";
+import { useRouter } from "vue-router";
 
 export default {
   data() {
@@ -77,6 +81,11 @@ export default {
   methods: {
     handleImageError(event) {
       console.error('Error loading image:', event.target.src);
+    },
+
+    // Método para ir al Dashboard
+    goDashboard() {
+      this.$router.push("/");
     },
   },
 };

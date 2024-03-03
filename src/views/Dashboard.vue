@@ -2,15 +2,9 @@
   <!-- Global Container -->
   <div>
     <!-- NavBar -->
-    <nav
-      class="navbar sticky-top navbar-expand-lg bg-dark"
-      data-bs-theme="dark"
-    >
+    <nav class="navbar sticky-top navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div class="container-fluid">
         <!-- Botón de Retroceso o Cierre de Sesión -->
-        <!-- <button @click="goBack" class="btn btn-primary">
-          <i class="bi bi-arrow-left"></i>
-        </button> -->
         <a class="navbar-brand fw-bold mx-4 mx-md-5" href="#">GRAFOS</a>
         <button
           class="navbar-toggler"
@@ -26,17 +20,12 @@
         <div class="collapse navbar-collapse" id="navbarToggler">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
             <li class="nav-item me-md-3">
-              <a class="nav-link active" aria-current="page" href="#">
-                Dashboard
-              </a>
+              <router-link to="/dashboard" class="nav-link active" aria-current="page">Dashboard</router-link>
             </li>
             <li class="nav-item">
               <!-- Botón de Crear -->
               <button class="nav-link w-100" @click="goEditor">Crear</button>
             </li>
-            <!-- <li class="nav-item"> -->
-            <!-- <a class="nav-link" href="#">Opción</a> -->
-            <!-- </li> -->
           </ul>
           <form class="d-flex" role="search">
             <input
@@ -55,30 +44,22 @@
     <div class="bg-white p-5">
       <h1>Saludos!</h1>
       <p>Bienvenido a nuestra página dedicada a los algoritmos.</p>
-      <!-- Mostrar mensaje de bienvenida si el usuario ha iniciado sesión -->
-      <!-- <div v-if="authStore.currentUser">
-        <h1>Saludos, {{ authStore.currentUser.name }}!</h1>
-        <p>Bienvenido a nuestra página dedicada a los algoritmos.</p>
-      </div> -->
-      <!-- Mostrar mensaje si el usuario no ha iniciado sesión -->
-      <!-- <h1 class="text-center text-danger" v-else>No has iniciado sesión.</h1> -->
-      <!-- Contenido del dashboard -->
     </div>
 
     <div class="rounded-buttons">
       <button @click="openHelp" class="btn btn-primary rounded m-1">
         <i class="bi bi-question-lg"></i>
       </button>
-      <button @click="openSettings" class="btn btn-primary rounded m-1">
+      <router-link to="/perfil" class="btn btn-primary rounded m-1">
         <i class="bi bi-exclamation-lg"></i>
-      </button>
+      </router-link>
     </div>
   </div>
 </template>
+
 <script>
 import { useAuthStore } from "../stores/auth";
 import { useRouter } from "vue-router";
-
 import UserlistService from "../services/userlistService";
 
 export default {
@@ -86,20 +67,14 @@ export default {
     const authStore = useAuthStore();
     const router = useRouter();
 
-    const goBack = () => {
-      authStore.logout();
-      router.go(-1);
-    };
-
     const goEditor = () => {
       router.push("/editor");
     };
 
     return {
       authStore,
-      goBack
       goEditor,
-    };
+    }
   },
 
   mounted() {
