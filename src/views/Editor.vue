@@ -9,15 +9,15 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Rename Node</h5>
+              <h5 class="modal-title">Renombrar nodo</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <input type="text" class="form-control" v-model="newNodeName" placeholder="Enter new name">
+              <input type="text" class="form-control" v-model="newNodeName" placeholder="Ingrese el nuevo nombre del nodo">
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" @click="renameNode">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" @click="renameNode">Guardar cambios</button>
             </div>
           </div>
         </div>
@@ -41,18 +41,78 @@
         </div>
       </div>
 
-      <div class="modal" id="matrixModal">
+      <!-- File name to save -->
+      <div class="modal" tabindex="-1" id="fileNameToSave">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Adjacency Matrix</h5>
+              <h5 class="modal-title">Guardar archivo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <input type="text" class="form-control" v-model="fileNameToSave" placeholder="Ingrese el nombre del archivo a guardar">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" @click="saveGraph">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Help Center Modal -->
+      <div class="modal fade" tabindex="-1" id="helpCenterModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Centro de Ayuda</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>¡Hola! 😄 ¡Bienvenido al increíble mundo de los grafos! 🌐✨ Aquí te dejamos una guía rápida para que domines esta herramienta como un pro:</p>
+              <p>✨ ¡Bienvenido a tu Editor de Grafos Favorito! 🚀</p>
+              <p><strong>Agregar Nodos 🧩</strong><br>
+                ¡Haz clic en el botón "Agregar" y comienza a crear tu obra maestra! Luego, simplemente dale clic en el área de dibujo para soltar esos nodos como si fueran confeti.</p>
+              <p><strong>Eliminar Nodos 🗑️</strong><br>
+                ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar" o simplemente usa la mágica tecla "Delete" en tu teclado.</p>
+              <p><strong>Dirección de Aristas 🚦</strong><br>
+                Selecciona una arista y elige su destino con los botones de dirección. ¡Controla el flujo de la conexión con estilo!</p>
+              <p><strong>Centrar y Ajustar 🔄</strong><br>
+                ¡No más caos desordenado! Utiliza los botones para centrar y ajustar tu grafo y obtener una vista panorámica.</p>
+              <p><strong>Zoom In & Zoom Out 🔍</strong><br>
+                Acércate a la acción con "Zoom In" o toma una vista general con "Zoom Out". ¡Tu grafo, tu perspectiva!</p>
+              <p><strong>Iniciar Selección 🎯</strong><br>
+                ¿Quieres destacar varios nodos a la vez? Activa "Iniciar Selección" y desata tu poder de selección masiva.</p>
+              <p><strong>Renombrar Nodos y Aristas 🏷️</strong><br>
+                Dale a tus nodos y aristas nombres épicos. Haz clic en ellos, edita el nombre y sé el narrador de tu propio grafo.</p>
+              <p><strong>Enlazar Nodos con Ctrl+Alt+e 🌐</strong><br>
+                Selecciona dos nodos y mantén presionadas las teclas Ctrl+Alt+e para enlazarlos con una arista.</p>
+              <p><strong>Guardar y Abrir 📂</strong><br>
+                No dejes que tus obras maestras se pierdan. Guarda y abre archivos localmente para retomar tus épicas creaciones.</p>
+              <p><strong>Matriz de Adyacencia 📊</strong><br>
+                Haz clic en "Matriz de Adyacencia" para explorar la estructura subyacente de tu obra maestra en forma de matriz.</p>
+              <p>¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los grafos con tu creatividad desbordante. ¡Buena suerte, maestro del grafo! 🚀🎨</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Adjacency Matrix -->
+      <div class="modal fade" tabindex="-1" id="adjacencyMatrixModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Matriz de Adyacencia</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
               <pre id="adjacencyMatrix"></pre>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
             </div>
           </div>
         </div>
@@ -70,8 +130,9 @@
         </div>
         <div class="d-flex gap-3 my-3">
           <button class="btn btn-outline-danger bi bi-arrow-right w-100 py-2 mt-1"></button>
+          <button class="btn btn-outline-danger bi bi-arrow-left w-100 py-2 mt-1"></button>
           <button class="btn btn-outline-danger bi bi-arrows w-100 py-2 mt-1"></button>
-          <button class="btn btn-outline-danger bi bi-chevron-compact-up w-100 py-2 mt-1"></button>
+          <button class="btn btn-outline-danger bi bi-dash w-100 py-2 mt-1"></button>
         </div>
         <div class="my-3">
           <button class="btn btn-outline-danger w-100 py-2" @click="panToCenter">Centrar</button>
@@ -96,10 +157,21 @@
           Renombrar Nodo
         </button>
 
-        <button class="btn btn-outline-danger w-100 py-2 mt-2" @click="saveGraph">
+        <button
+          :class="selectedEdges.length === 1 ? 'btn btn-danger w-100 py-2 mt-2' : 'btn btn-outline-danger w-100 py-2 mt-2'"
+          @click="openRenameEdgeModal"
+        >
+          Renombrar Arista
+        </button>
+
+        <button class="btn btn-outline-danger w-100 py-2 mt-2" @click="openFileNameModal">
           Guardar Archivo
         </button>
-        <input type="file" class="my-2 form-control" @change="loadGraph" accept=".json" />
+        <input type="file" class="upload-file my-2 mt-2 form-control" @change="loadGraph" accept=".json" />
+        <button class="btn btn-outline-danger w-100 py-2 mt-2" @click="openGraphFile">Abrir Archivo</button>
+        <p class="alert alert-info alert-dismissible fade show mt-2" v-if="fileNameSaved">Archivo seleccionado: {{ fileNameSaved }}</p>
+
+        <button class="btn btn-outline-danger w-100 py-2 mt-2" @click="openAdjacencyMatrixModal">Matriz de Adyacencia</button>
       </div>
 
       <!-- Bootstrap alert for saveGraph success/error -->
@@ -272,7 +344,7 @@ const handleNodeAddition = () => {
 
 function startAddingNode() {
   isAddingNode.value = !isAddingNode.value;
-}
+};
 
 const mousePosition = ref({ x: 0, y: 0 });
 
@@ -355,10 +427,22 @@ const openRenameModal = () => {
 };
 
 let renameNodeModal = null;
+let nameFileToSaveModal = null;
+let helpCenterModal = null;
+let adjacencyMatrixModal = null;
 
 onMounted(() => {
   const modalElement = document.getElementById('renameNodeModal');
   renameNodeModal = new Modal(modalElement);
+
+  const saveFileModalElement = document.getElementById("fileNameToSave");
+  nameFileToSaveModal = new Modal(saveFileModalElement);
+
+  const helpCenterModalElement = document.getElementById("helpCenterModal");
+  helpCenterModal = new Modal(helpCenterModalElement);
+
+  const adjacencyMatrixModalElement = document.getElementById("adjacencyMatrixModal");
+  adjacencyMatrixModal = new Modal(adjacencyMatrixModalElement);
 });
 
 const newNodeName = ref('');
@@ -374,6 +458,8 @@ const renameNode = () => {
 const saveGraphSuccess = ref(false);
 const saveGraphError = ref(false);
 
+const fileNameToSave = ref("");
+
 const saveGraph = () => {
   try {
     const graphData = {
@@ -388,7 +474,7 @@ const saveGraph = () => {
     // Create a download link
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'graph-data.json';
+    a.download = fileNameToSave.value;
 
     // Append the link to the body and click it to trigger the download
     document.body.appendChild(a);
@@ -398,14 +484,23 @@ const saveGraph = () => {
     document.body.removeChild(a);
 
     saveGraphSuccess.value = true;
+
+    fileNameToSave.value = "";
+    nameFileToSaveModal.hide();
   } catch (error) {
     console.error('Error al guardar el grafo:', error);
     saveGraphError.value = true;
   }
 };
 
+const openFileNameModal = () => {
+  nameFileToSaveModal.show();
+};
+
 const loadGraphSuccess = ref(false);
 const loadGraphError = ref(false);
+
+const fileNameSaved = ref("");
 
 const loadGraph = async () => {
   const inputElement = document.querySelector('input[type="file"]');
@@ -414,6 +509,7 @@ const loadGraph = async () => {
   if (file) {
     try {
       console.log('File:', file);
+      fileNameSaved.value = file.name;
       const fileContent = await file.text();
       console.log('File content:', fileContent);
       const graphData = JSON.parse(fileContent);
@@ -439,6 +535,18 @@ const loadGraph = async () => {
   }
 };
 
+const openGraphFile = () => {
+  const inputElement = document.querySelector('input[type="file"]');
+  (inputElement as HTMLInputElement).click();
+};
+
+const openHelp = () => {
+  helpCenterModal.show();
+};
+
+const openAdjacencyMatrixModal = () => {
+  adjacencyMatrixModal.show();
+};
 </script>
 
 <style scoped>
@@ -477,5 +585,9 @@ const loadGraph = async () => {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+
+.upload-file {
+  display: none;
 }
 </style>
