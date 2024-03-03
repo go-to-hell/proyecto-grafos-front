@@ -23,19 +23,55 @@
         </div>
       </div>
 
+      <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>¿Está seguro de querer borrar el elemento?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" @click="confirmDelete">Confirmar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" id="matrixModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Adjacency Matrix</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <pre id="adjacencyMatrix"></pre>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- View Controls -->
       <div>
         <div class="d-flex gap-3">
           <button 
             :class="isAddingNode === true ? 'btn btn-danger bi bi-plus-lg w-100 py-2 mt-1' : 'btn btn-outline-danger bi bi-plus-lg w-100 py-2 mt-1'" 
             @click="startAddingNode">
+            Agregar
           </button>
-          <button class="btn btn-outline-danger bi bi-trash w-100 py-2 mt-1" @click="zoomOut"></button>
+          <button class="btn btn-outline-danger bi bi-trash w-100 py-2 mt-1" @click="handleDeletion">Eliminar</button>
         </div>
         <div class="d-flex gap-3 my-3">
-          <button class="btn btn-outline-danger bi bi-arrow-right w-100 py-2 mt-1" @click="zoomIn"></button>
-          <button class="btn btn-outline-danger bi bi-arrows w-100 py-2 mt-1" @click="zoomOut"></button>
-          <button class="btn btn-outline-danger bi bi-chevron-compact-up w-100 py-2 mt-1" @click="zoomOut"></button>
+          <button class="btn btn-outline-danger bi bi-arrow-right w-100 py-2 mt-1"></button>
+          <button class="btn btn-outline-danger bi bi-arrows w-100 py-2 mt-1"></button>
+          <button class="btn btn-outline-danger bi bi-chevron-compact-up w-100 py-2 mt-1"></button>
         </div>
         <div class="my-3">
           <button class="btn btn-outline-danger w-100 py-2" @click="panToCenter">Centrar</button>
@@ -63,6 +99,27 @@
         <button class="btn btn-outline-danger w-100 py-2 mt-2" @click="saveGraph">
           Guardar Archivo
         </button>
+        <input type="file" class="my-2 form-control" @change="loadGraph" accept=".json" />
+      </div>
+
+      <!-- Bootstrap alert for saveGraph success/error -->
+      <div v-if="saveGraphSuccess" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+        El grafo ha sido guardado exitosamente.
+        <button type="button" class="btn-close" @click="saveGraphSuccess = false"></button>
+      </div>
+      <div v-if="saveGraphError" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+        Error al guardar el grafo.
+        <button type="button" class="btn-close" @click="saveGraphError = false"></button>
+      </div>
+
+      <!-- Bootstrap alert for loadGraph success/error -->
+      <div v-if="loadGraphSuccess" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+        El grafo ha sido cargado exitosamente.
+        <button type="button" class="btn-close" @click="loadGraphSuccess = false"></button>
+      </div>
+      <div v-if="loadGraphError" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+        Error al cargar el grafo.
+        <button type="button" class="btn-close" @click="loadGraphError = false"></button>
       </div>
     </div>
 
@@ -121,14 +178,56 @@ const goBack = () => {
 };
 
 const graph = ref<VNetworkGraphInstance | null>(null);
-const nodes: Nodes = reactive({ ...data.nodes });
-const edges: Edges = reactive({ ...data.edges });
+let nodes: Nodes = reactive({ ...data.nodes });
+let edges: Edges = reactive({ ...data.edges });
+let layouts = reactive(data.layouts);
+
 const nextNodeIndex = ref(Object.keys(nodes).length + 1);
 const nextEdgeIndex = ref(Object.keys(edges).length + 1);
 const selectedNodes = ref<string[]>([]);
 const selectedEdges = ref<string[]>([]);
 const zoomLevel = ref(1);
-const layouts = reactive(data.layouts);
+
+const panToCenter = () => graph.value?.panToCenter();
+const fitToContents = () => graph.value?.fitToContents();
+const zoomIn = () => graph.value?.zoomIn();
+const zoomOut = () => graph.value?.zoomOut();
+
+const configs = defineConfigs({
+  view: {
+    panEnabled: true,
+    zoomEnabled: true,
+    boxSelectionEnabled: true,
+    selection: {
+      box: {
+        color: "#0000ff20",
+        strokeWidth: 1,
+        strokeColor: "#aaaaff",
+        strokeDasharray: "0",
+      },
+    },
+  },
+  node: {
+    selectable: true,
+    draggable: true,
+    label: {
+      visible: true,
+      fontFamily: "Sans serif",
+      fontSize: 12,
+      lineHeight: 1.1,
+      color: "#000000",
+      margin: 4,
+      direction: "south",
+      text: "name",
+    },
+  },
+  edge: {
+    selectable: true,
+    normal: {
+      width: 3,
+    },
+  },
+});
 
 let isAddingNode = ref(false);
 
@@ -181,28 +280,30 @@ onUnmounted(() => {
   window.removeEventListener('mousemove', updateMousePosition);
 });
 
-// const removeNode = () => {
-//   for (const nodeId of selectedNodes.value) {
-//     delete nodes[nodeId];
-//   }
-// };
+
+const confirmDeleteModal = ref<Modal | null>(null);
+
+onMounted(() => {
+  const modalElement = document.getElementById('confirmDeleteModal');
+  confirmDeleteModal.value = new Modal(modalElement);
+});
+
+const confirmDelete = () => {
+  if (selectedNodes.value.length > 0) {
+    selectedNodes.value.forEach((n) => delete nodes[n]);
+  } else if (selectedEdges.value.length > 0) {
+    selectedEdges.value.forEach((e) => delete edges[e]);
+  }
+
+  confirmDeleteModal.value?.hide();
+};
 
 const handleDeletion = () => {
-  if (selectedNodes.value.length > 0) {
-    const names = selectedNodes.value.map((n) => nodes[n].name).join(", ");
-    console.log(nodes);
-    const confirmed = confirm(`¿Está seguro de querer borrar [${names}]?`);
-    if (confirmed) {
-      selectedNodes.value.forEach((n) => delete nodes[n]);
-    }
-  } else if (selectedEdges.value.length > 0) {
-    const ids = selectedEdges.value.join(", ");
-    const confirmed = confirm(`¿Está seguro de querer borrar [${ids}]?`);
-    if (confirmed) {
-      selectedEdges.value.forEach((e) => delete edges[e]);
-    }
+  if (selectedNodes.value.length > 0 || selectedEdges.value.length > 0) {
+    confirmDeleteModal.value?.show();
   }
 };
+
 
 const handleEdgeAddition = (event: KeyboardEvent) => {
   if (selectedNodes.value.length !== 2) return;
@@ -213,53 +314,6 @@ const handleEdgeAddition = (event: KeyboardEvent) => {
     nextEdgeIndex.value++;
   }
 };
-
-// const removeEdge = () => {
-//   for (const edgeId of selectedEdges.value) {
-//     delete edges[edgeId];
-//   }
-// };
-
-const panToCenter = () => graph.value?.panToCenter();
-const fitToContents = () => graph.value?.fitToContents();
-const zoomIn = () => graph.value?.zoomIn();
-const zoomOut = () => graph.value?.zoomOut();
-
-const configs = defineConfigs({
-  view: {
-    panEnabled: true,
-    zoomEnabled: true,
-    boxSelectionEnabled: true,
-    selection: {
-      box: {
-        color: "#0000ff20",
-        strokeWidth: 1,
-        strokeColor: "#aaaaff",
-        strokeDasharray: "0",
-      },
-    },
-  },
-  node: {
-    selectable: true,
-    draggable: true,
-    label: {
-      visible: true,
-      fontFamily: "Sans serif",
-      fontSize: 12,
-      lineHeight: 1.1,
-      color: "#000000",
-      margin: 4,
-      direction: "south",
-      text: "name",
-    },
-  },
-  edge: {
-    selectable: true,
-    normal: {
-      width: 3,
-    },
-  },
-});
 
 const isBoxSelectionMode = ref(false);
 const eventHandlers: EventHandlers = {
@@ -308,27 +362,74 @@ const renameNode = () => {
   renameNodeModal.hide();
 };
 
+const saveGraphSuccess = ref(false);
+const saveGraphError = ref(false);
+
 const saveGraph = () => {
-  const file_service = new fileService();
-  const graphData = {
-    nodes: nodes,
-    edges: edges,
-    layouts: layouts,
-  };
+  try {
+    const graphData = {
+      nodes: nodes,
+      edges: edges,
+      layouts: layouts,
+    };
 
-  // Upload data to server as JSON file
-  const data_blob = new Blob([JSON.stringify(graphData)], {
-    type: "text/json",
-  });
+    const jsonData = JSON.stringify(graphData, null, 2); // Indentation of 2 spaces
+    const blob = new Blob([jsonData], { type: 'application/json' });
 
-  const response = file_service.upload(data_blob, "graph-data.json");
+    // Create a download link
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'graph-data.json';
 
-  if (response) {
-    alert("El grafo ha sido guardado exitosamente.");
-  } else {
-    alert("Error al guardar el grafo.");
+    // Append the link to the body and click it to trigger the download
+    document.body.appendChild(a);
+    a.click();
+
+    // Remove the link from the body
+    document.body.removeChild(a);
+
+    saveGraphSuccess.value = true;
+  } catch (error) {
+    console.error('Error al guardar el grafo:', error);
+    saveGraphError.value = true;
   }
 };
+
+const loadGraphSuccess = ref(false);
+const loadGraphError = ref(false);
+
+const loadGraph = async () => {
+  const inputElement = document.querySelector('input[type="file"]');
+  const file = (inputElement as HTMLInputElement)?.files?.[0];
+
+  if (file) {
+    try {
+      console.log('File:', file);
+      const fileContent = await file.text();
+      console.log('File content:', fileContent);
+      const graphData = JSON.parse(fileContent);
+
+      // Update nodes, edges, and layouts with loaded data
+      Object.assign(nodes, graphData.nodes);
+      Object.assign(edges, graphData.edges);
+      Object.assign(layouts, graphData.layouts);
+
+      // If a node or an edge does not exist in the JSON but it exists in the canvas, delete it
+      for (const nodeId in nodes) {
+        if (!graphData.nodes[nodeId]) {
+          delete nodes[nodeId];
+          delete layouts.nodes[nodeId];
+        }
+      }
+
+      loadGraphSuccess.value = true;
+    } catch (error) {
+      console.error('Error al cargar el grafo:', error);
+      loadGraphError.value = true;
+    }
+  }
+};
+
 </script>
 
 <style scoped>
@@ -345,7 +446,6 @@ const saveGraph = () => {
 
 .editor-content {
   flex: 1;
-  /* cursor: grab; */
 }
 
 .v-network-graph:active {

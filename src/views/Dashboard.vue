@@ -8,9 +8,9 @@
     >
       <div class="container-fluid">
         <!-- Botón de Retroceso o Cierre de Sesión -->
-        <button @click="goBack" class="btn btn-primary">
+        <!-- <button @click="goBack" class="btn btn-primary">
           <i class="bi bi-arrow-left"></i>
-        </button>
+        </button> -->
         <a class="navbar-brand fw-bold mx-4 mx-md-5" href="#">GRAFOS</a>
         <button
           class="navbar-toggler"
@@ -53,14 +53,25 @@
 
     <!-- Content Container -->
     <div class="bg-white p-5">
+      <h1>Saludos!</h1>
+      <p>Bienvenido a nuestra página dedicada a los algoritmos.</p>
       <!-- Mostrar mensaje de bienvenida si el usuario ha iniciado sesión -->
-      <div v-if="authStore.currentUser">
+      <!-- <div v-if="authStore.currentUser">
         <h1>Saludos, {{ authStore.currentUser.name }}!</h1>
         <p>Bienvenido a nuestra página dedicada a los algoritmos.</p>
-      </div>
+      </div> -->
       <!-- Mostrar mensaje si el usuario no ha iniciado sesión -->
-      <h1 class="text-center text-danger" v-else>No has iniciado sesión.</h1>
+      <!-- <h1 class="text-center text-danger" v-else>No has iniciado sesión.</h1> -->
       <!-- Contenido del dashboard -->
+    </div>
+
+    <div class="rounded-buttons">
+      <button @click="openHelp" class="btn btn-primary rounded m-1">
+        <i class="bi bi-question-lg"></i>
+      </button>
+      <button @click="openSettings" class="btn btn-primary rounded m-1">
+        <i class="bi bi-exclamation-lg"></i>
+      </button>
     </div>
   </div>
 </template>
@@ -104,5 +115,14 @@ export default {
 .nav-item:hover {
   background-color: lightslategray;
   transition: 0.5s;
+}
+
+.rounded-buttons {
+  position: fixed;
+  bottom: 20px;  /* Set to the desired bottom margin */
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 </style>
