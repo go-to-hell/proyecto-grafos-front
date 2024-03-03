@@ -7,16 +7,16 @@ import Perfil from '../views/Perfil.vue';
 
 
 const routes = [
+    // {
+    //     path: '/',
+    //     component: Login,
+    // },
+    // { 
+    //     path: '/signup', 
+    //     component: SignUp 
+    // },
     {
         path: '/',
-        component: Login,
-    },
-    { 
-        path: '/signup', 
-        component: SignUp 
-    },
-    {
-        path: '/dashboard',
         component: Dashboard,
     },
     {
