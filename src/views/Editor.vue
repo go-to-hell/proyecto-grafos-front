@@ -23,6 +23,25 @@
         </div>
       </div>
 
+      <!-- Rename Edge Modal -->
+      <div class="modal" tabindex="-1" id="renameEdgeModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Renombrar arista</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <input type="text" class="form-control" v-model="newEdgeName" placeholder="Ingrese el nuevo nombre de la arista">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" @click="renameEdge">Guardar cambios</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -75,6 +94,10 @@
                 ¡Haz clic en el botón "Agregar" y comienza a crear tu obra maestra! Luego, simplemente dale clic en el área de dibujo para soltar esos nodos como si fueran confeti.</p>
               <p><strong>Eliminar Nodos 🗑️</strong><br>
                 ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar" o simplemente usa la mágica tecla "Delete" en tu teclado.</p>
+              <p><strong>Agregar Aristas ➡️</strong><br>
+                Haz clic en dos nodos y crea una conexión con el botón "Agregar Arista". ¡Conecta tus ideas de manera brillante!</p>
+              <p><strong>Eliminar Aristas 🗡️</strong><br>
+                Selecciona una arista y presiona "Eliminar Arista" o utiliza la tecla "Delete". ¡Desconecta sin esfuerzo tus conexiones menos útiles!</p>
               <p><strong>Dirección de Aristas 🚦</strong><br>
                 Selecciona una arista y elige su destino con los botones de dirección. ¡Controla el flujo de la conexión con estilo!</p>
               <p><strong>Centrar y Ajustar 🔄</strong><br>
@@ -85,8 +108,8 @@
                 ¿Quieres destacar varios nodos a la vez? Activa "Iniciar Selección" y desata tu poder de selección masiva.</p>
               <p><strong>Renombrar Nodos y Aristas 🏷️</strong><br>
                 Dale a tus nodos y aristas nombres épicos. Haz clic en ellos, edita el nombre y sé el narrador de tu propio grafo.</p>
-              <p><strong>Enlazar Nodos con Ctrl+Alt+e 🌐</strong><br>
-                Selecciona dos nodos y mantén presionadas las teclas Ctrl+Alt+e para enlazarlos con una arista.</p>
+              <p><strong>Enlazar Nodos con Shift+Alt+e 🌐</strong><br>
+                Selecciona dos nodos y mantén presionadas las teclas Shift+Alt+e para enlazarlos con una arista.</p>
               <p><strong>Guardar y Abrir 📂</strong><br>
                 No dejes que tus obras maestras se pierdan. Guarda y abre archivos localmente para retomar tus épicas creaciones.</p>
               <p><strong>Matriz de Adyacencia 📊</strong><br>
@@ -124,9 +147,17 @@
           <button 
             :class="isAddingNode === true ? 'btn btn-danger bi bi-plus-lg w-100 py-2 mt-1' : 'btn btn-outline-danger bi bi-plus-lg w-100 py-2 mt-1'" 
             @click="startAddingNode">
-            Agregar
+            Agregar Nodo
           </button>
-          <button class="btn btn-outline-danger bi bi-trash w-100 py-2 mt-1" @click="handleDeletion">Eliminar</button>
+          <button class="bi bi-trash w-100 py-2 mt-1" :class="selectedNodes.length > 0 ? 'btn btn-danger' : 'btn btn-outline-danger'" @click="handleDeletion">Eliminar Nodo</button>
+        </div>
+        <div class="d-flex gap-3">
+          <button class="bi bi-plus-lg w-100 py-2 mt-1"
+            :class="selectedNodes.length === 2 ? 'btn btn-danger' : 'btn btn-outline-danger'" 
+            @click="edgeAdditionButton">
+            Agregar Arista
+          </button>
+          <button class="bi bi-trash w-100 py-2 mt-1" :class="selectedEdges.length > 0 ? 'btn btn-danger' : 'btn btn-outline-danger'" @click="handleDeletion">Eliminar Arista</button>
         </div>
         <div class="d-flex gap-3 my-3">
           <button class="bi bi-arrow-right w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"></button>
@@ -212,8 +243,17 @@
           @keyup.delete="handleDeletion"
           @mousemove="updateMousePosition"
           @click="handleNodeAddition"
-          @keydown="handleEdgeAddition"
+          @keydown="edgeAdditionKey"
         >
+        <template #edge-label="{ edge, hovered, selected, ...slotProps }">
+          <v-edge-label 
+            :class="{ hovered, selected }"
+            :text="edge.label"
+            align="center"
+            vertical-align="above"
+            v-bind="slotProps"
+          />
+        </template>
           <Background />
         </v-network-graph>
       </div>
@@ -300,12 +340,18 @@ const configs = defineConfigs({
       margin: 4,
       direction: "south",
       text: "name",
+      directionAutoAdjustment: true,
     },
   },
   edge: {
     selectable: true,
+    hoverable: true,
     normal: {
       width: 3,
+    },
+    label: {
+      fontSize: 11,
+      color: "#000000",
     },
   },
 });
@@ -315,7 +361,7 @@ let isAddingNode = ref(false);
 const handleNodeAddition = () => {
   if (isAddingNode.value && graph.value) {
     const nodeId = `node${nextNodeIndex.value}`;
-    const name = `Node ${nextNodeIndex.value}`;
+    const name = `Nodo ${nextNodeIndex.value}`;
     
     // Get the mouse position in DOM coordinates
     const domPoint = { x: mousePosition.value.x, y: mousePosition.value.y };
@@ -385,14 +431,23 @@ const handleDeletion = () => {
   }
 };
 
+const edgeAddition = () => {
+  const [source, target] = selectedNodes.value;
+  const edgeId = `edge${nextEdgeIndex.value}`;
+  const label = `Arista ${nextEdgeIndex.value}`;
+  edges[edgeId] = { source, target, label };
+  nextEdgeIndex.value++;
+}
 
-const handleEdgeAddition = (event: KeyboardEvent) => {
+const edgeAdditionButton = () => {
+  if (selectedNodes.value.length !== 2) return;
+  edgeAddition();
+};
+
+const edgeAdditionKey = (event: KeyboardEvent) => {
   if (selectedNodes.value.length !== 2) return;
   if (event.shiftKey && event.altKey && event.key.toLowerCase() === "e") {
-    const [source, target] = selectedNodes.value;
-    const edgeId = `edge${nextEdgeIndex.value}`;
-    edges[edgeId] = { source, target };
-    nextEdgeIndex.value++;
+    edgeAddition();
   }
 };
 
@@ -427,6 +482,7 @@ const openRenameModal = () => {
 };
 
 let renameNodeModal = null;
+let remaneEdgeModal = null;
 let nameFileToSaveModal = null;
 let helpCenterModal = null;
 let adjacencyMatrixModal = null;
@@ -443,9 +499,13 @@ onMounted(() => {
 
   const adjacencyMatrixModalElement = document.getElementById("adjacencyMatrixModal");
   adjacencyMatrixModal = new Modal(adjacencyMatrixModalElement);
+
+  const remaneEdgeModalElement = document.getElementById("renameEdgeModal");
+  remaneEdgeModal = new Modal(remaneEdgeModalElement);
 });
 
 const newNodeName = ref('');
+const newEdgeName = ref("");
 
 const renameNode = () => {
   if (!newNodeName.value) return;
@@ -453,6 +513,19 @@ const renameNode = () => {
   nodes[nodeId].name = newNodeName.value;
   newNodeName.value = '';
   renameNodeModal.hide();
+};
+
+const renameEdge = () => {
+  if (!newEdgeName.value) return;
+  const edgeId = selectedEdges.value[0];
+  edges[edgeId].label = newEdgeName.value;
+  newEdgeName.value = "";
+  remaneEdgeModal.hide();
+};
+
+const openRenameEdgeModal = () => {
+  if (selectedEdges.value.length !== 1) return;
+  remaneEdgeModal.show();
 };
 
 const saveGraphSuccess = ref(false);
@@ -567,6 +640,20 @@ const openAdjacencyMatrixModal = () => {
 
 .v-network-graph:active {
   cursor: grab;
+}
+
+.v-ng-edge-label {
+  transition: fill 0.1s;
+}
+
+.v-ng-edge-label.hovered {
+  fill: #3355bb;
+  font-weight: bold;
+}
+
+.v-ng-edge-label.selected {
+  fill: #dd8800;
+  font-weight: bold;
 }
 
 .editor-sidebar {
