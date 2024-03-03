@@ -118,8 +118,8 @@ export default {
 }
 
 .rounded-buttons {
-  position: fixed;
-  bottom: 20px;  /* Set to the desired bottom margin */
+  position: absolute;
+  bottom: 20px;
   right: 20px;
   display: flex;
   flex-direction: column;

@@ -153,6 +153,15 @@
   >
     <i class="bi bi-arrow-left"></i>
   </button>
+
+  <div class="rounded-buttons">
+    <button @click="openHelp" class="btn btn-primary rounded m-1">
+      <i class="bi bi-question-lg"></i>
+    </button>
+    <button @click="openSettings" class="btn btn-primary rounded m-1">
+      <i class="bi bi-exclamation-lg"></i>
+    </button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -459,5 +468,14 @@ const loadGraph = async () => {
 
 .zoom-slider {
   margin-bottom: 10px;
+}
+
+.rounded-buttons {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 </style>
