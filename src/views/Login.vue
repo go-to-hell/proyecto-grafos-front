@@ -1,10 +1,10 @@
 <template>
-  <div class="row m-0">
+  <div class="row m-0 full-height">
     <!-- Left Side (Custom Design) -->
     <div class="col-md-6 p-0">
       <div class="h-100 w-100 bg-black text-white text-center">
         <!-- stars -->
-        <div class="space-art">
+        <div class="space-art d-flex align-items-center justify-content-center flex-column">
           <div class="fs-1 fw-bold my-3 my-md-5">Proyecto Grafos</div>
           <img
             class="w-75 pb-4"
@@ -15,37 +15,36 @@
       </div>
     </div>
     <!-- Right Side (Form) -->
-    <div class="col-md-6 bg-body-tertiary">
+    <div class="col-md-6 bg-body-tertiary d-flex align-items-center justify-content-center">
       <div class="px-md-5 pb-5">
         <!-- Login Form -->
         <LoginForm />
 
         <!-- Social Buttons -->
-        <p class="py-3 text-center text-muted">O ingresa con...</p>
+        <p class="pt-4 pb-3 text-center fw-light">&Oacute; ingresa con...</p>
 
         <!-- Buttons Container -->
-        <div class="d-sm-flex d-grid gap-3 justify-content-center my-4">
+        <div class="d-sm-flex d-grid gap-3 justify-content-center mb-4">
           <SocialButton
             class="bg-info-subtle"
-            image-src="facebook.png"
-            image-alt="Facebook Logo"
+            icon="bi-facebook"
             button-text="Facebook"
           />
+
           <SocialButton
-            class="bg-warning-subtle"
-            image-src="google.png"
-            image-alt="Google Logo"
+            class="bg-danger-subtle"
+            icon="bi-google"
             button-text="Google"
           />
         </div>
 
-        <p class="py-2 text-center text-muted">
+        <p class="py-2 text-center fw-light">
           Si aún no tienes una cuenta puedes registrarte aquí
         </p>
         <div class="d-flex justify-content-center">
           <button
             @click="signUp"
-            class="btn btn-primary p-3 mx-1 font-weight-bold"
+            class="btn btn-primary p-3 mx-1"
             type="submit"
           >
             <span>Regístrate</span>
@@ -57,6 +56,15 @@
 </template>
 
 <style scoped>
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.full-height {
+  min-height: 100vh;
+}
 .space-art {
   position: relative;
   background-color: #000;
@@ -95,16 +103,6 @@
   );
   opacity: 0.7;
   mix-blend-mode: overlay;
-}
-
-.centered-text {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2em;
-  color: #fff;
-  font-weight: bold;
 }
 
 @keyframes space {

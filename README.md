@@ -38,4 +38,10 @@ npm run dev
 
 Esto iniciará un servidor de desarrollo en `http://localhost:xxxx`. Abre este enlace en tu navegador para ver la aplicación en tiempo real mientras editas el código fuente.
 
+### Modo de Producción
 
+Ahora puedes usar simplemente (si esto solo se usa para producción):
+    
+```bash
+docker-compose up --build
+```
