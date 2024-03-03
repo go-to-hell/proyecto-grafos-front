@@ -3,93 +3,64 @@
     <div class="editor-sidebar">
       <!-- Sidebar Content -->
       <h2 class="text-center mb-3">Funciones</h2>
-      <!-- <button class="action-button" @click="addNode">Agregar Nodo</button> -->
-      <!-- <button
-        class="action-button"
-        :disabled="selectedNodes.length === 0"
-        @click="removeNode"
-      >
-        Eliminar Nodos
-      </button> -->
-      <!-- <button
-        class="action-button"
-        :disabled="selectedNodes.length !== 2"
-        @click="addEdge"
-      >
-        Agregar Arista
-      </button> -->
-      <!-- <button
-        class="action-button"
-        :disabled="selectedEdges.length === 0"
-        @click="removeEdge"
-      >
-        Eliminar Aristas
-      </button> -->
+
+      <!-- Rename Node Modal -->
+      <div class="modal" tabindex="-1" id="renameNodeModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Rename Node</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <input type="text" class="form-control" v-model="newNodeName" placeholder="Enter new name">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" @click="renameNode">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- View Controls -->
-      <div class="control-buttons">
-        <div>
-          <button @click="panToCenter">Centrar</button>
-          <button @click="fitToContents">Ajustar</button>
+      <div>
+        <div class="d-flex gap-3">
+          <button 
+            :class="isAddingNode === true ? 'btn btn-danger bi bi-plus-lg w-100 py-2 mt-1' : 'btn btn-outline-danger bi bi-plus-lg w-100 py-2 mt-1'" 
+            @click="startAddingNode">
+          </button>
+          <button class="btn btn-outline-danger bi bi-trash w-100 py-2 mt-1" @click="zoomOut"></button>
+        </div>
+        <div class="d-flex gap-3 my-3">
+          <button class="btn btn-outline-danger bi bi-arrow-right w-100 py-2 mt-1" @click="zoomIn"></button>
+          <button class="btn btn-outline-danger bi bi-arrows w-100 py-2 mt-1" @click="zoomOut"></button>
+          <button class="btn btn-outline-danger bi bi-chevron-compact-up w-100 py-2 mt-1" @click="zoomOut"></button>
+        </div>
+        <div class="my-3">
+          <button class="btn btn-outline-danger w-100 py-2" @click="panToCenter">Centrar</button>
+          <button class="btn btn-outline-danger w-100 py-2 mt-2" @click="fitToContents">Ajustar</button>
         </div>
         <div class="d-flex gap-3">
-          <button class="bi bi-plus-circle-fill" @click="zoomIn"></button>
-          <button class="bi bi-dash-circle-fill" @click="zoomOut"></button>
+          <button class="btn btn-outline-danger bi bi-plus-circle w-100 py-2 mt-1" @click="zoomIn"></button>
+          <button class="btn btn-outline-danger bi bi-dash-circle w-100 py-2 mt-1" @click="zoomOut"></button>
         </div>
-      </div>
 
-      <!-- Configuration checkboxes -->
-      <div class="py-3">
-        <div class="d-flex gap-4">
-          <input
-            type="checkbox"
-            name="panEnabled"
-            id="panEnabled"
-            v-model="configs.view.panEnabled"
-          />
-          <label for="panEnabled">Pan habilitado</label>
-        </div>
-        <div class="d-flex gap-4">
-          <input
-            type="checkbox"
-            name="zoomEnabled"
-            id="zoomEnabled"
-            v-model="configs.view.zoomEnabled"
-          />
-          <label for="zoomEnabled">Zoom habilitado</label>
-        </div>
-        <div class="d-flex gap-4">
-          <input
-            type="checkbox"
-            name="draggable"
-            id="draggable"
-            v-model="configs.node.draggable"
-          />
-          <label for="draggable">Node arrastrable</label>
-        </div>
-      </div>
-
-      <!-- Selection Controls -->
-      <div class="demo-control-panel">
         <button
-          class="action-button"
-          :disabled="isBoxSelectionMode"
-          @click="startBoxSelection"
+          :class="isBoxSelectionMode ? 'btn btn-danger w-100 py-2 mt-3' : 'btn btn-outline-danger w-100 py-2 mt-3'"
+          @click="toggleBoxSelection"
         >
-          Iniciar selección
+          {{ isBoxSelectionMode ? 'Detener selección' : 'Iniciar selección' }}
         </button>
-        <button
-          class="action-button"
-          :disabled="!isBoxSelectionMode"
-          @click="stopBoxSelection"
-        >
-          Detener selección
-        </button>
-      </div>
 
-      <!-- Save controls -->
-      <div class="demo-control-panel">
-        <button class="action-button" @click="saveGraph">
+        <button
+          :class="selectedNodes.length === 1 ? 'btn btn-danger w-100 py-2 mt-2' : 'btn btn-outline-danger w-100 py-2 mt-2'"
+          @click="openRenameModal"
+        >
+          Renombrar Nodo
+        </button>
+
+        <button class="btn btn-outline-danger w-100 py-2 mt-2" @click="saveGraph">
           Guardar Archivo
         </button>
       </div>
@@ -110,10 +81,11 @@
           :configs="configs"
           :event-handlers="eventHandlers"
           @keyup.delete="handleDeletion"
+          @mousemove="updateMousePosition"
           @click="handleNodeAddition"
           @keydown="handleEdgeAddition"
         >
-          <Background pattern-color="#990000" />
+          <Background />
         </v-network-graph>
       </div>
     </div>
@@ -127,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted, onUnmounted } from "vue";
 import {
   Nodes,
   Edges,
@@ -138,6 +110,7 @@ import {
 import { Background } from "@vue-flow/background";
 import data from "../data/initial-data.js";
 import { useRouter } from "vue-router";
+import { Modal } from 'bootstrap';
 
 import fileService from "../services/fileService.js";
 
@@ -157,12 +130,56 @@ const selectedEdges = ref<string[]>([]);
 const zoomLevel = ref(1);
 const layouts = reactive(data.layouts);
 
+let isAddingNode = ref(false);
+
 const handleNodeAddition = () => {
-  const nodeId = `node${nextNodeIndex.value}`;
-  const name = `Node ${nextNodeIndex.value}`;
-  nodes[nodeId] = { id: nodeId, name: name };
-  nextNodeIndex.value++;
+  if (isAddingNode.value && graph.value) {
+    const nodeId = `node${nextNodeIndex.value}`;
+    const name = `Node ${nextNodeIndex.value}`;
+    
+    // Get the mouse position in DOM coordinates
+    const domPoint = { x: mousePosition.value.x, y: mousePosition.value.y };
+
+    // Get the position of the SVG element in the DOM
+    const svgElement = graph.value.$el;
+    const svgRect = svgElement.getBoundingClientRect();
+
+    // Subtract the SVG element's offset from the mouse coordinates
+    const svgPoint = {
+      x: domPoint.x - svgRect.left,
+      y: domPoint.y - svgRect.top,
+    };
+
+    // Translate the coordinates from SVG to DOM
+    const svgToDomPoint = graph.value.translateFromDomToSvgCoordinates(svgPoint);
+
+    // Add node and its position
+    nodes[nodeId] = { id: nodeId, name, x: svgToDomPoint.x, y: svgToDomPoint.y };
+    layouts.nodes[nodeId] = { x: svgToDomPoint.x, y: svgToDomPoint.y };
+    
+    nextNodeIndex.value++;
+  }
 };
+
+
+function startAddingNode() {
+  isAddingNode.value = !isAddingNode.value;
+}
+
+const mousePosition = ref({ x: 0, y: 0 });
+
+const updateMousePosition = (event) => {
+  mousePosition.value.x = event.clientX;
+  mousePosition.value.y = event.clientY;
+};
+
+onMounted(() => {
+  window.addEventListener('mousemove', updateMousePosition);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('mousemove', updateMousePosition);
+});
 
 // const removeNode = () => {
 //   for (const nodeId of selectedNodes.value) {
@@ -254,12 +271,42 @@ const eventHandlers: EventHandlers = {
 
 const startBoxSelection = () =>
   graph.value?.startBoxSelection({
-    stop: "click", // Trigger to exit box-selection mode
-    type: "append", // Behavior when a node is within a selection rectangle
-    withShiftKey: "invert", // `type` value if the shift key is pressed
+    stop: "click",
+    type: "append",
+    withShiftKey: "invert",
   });
 
 const stopBoxSelection = () => graph.value?.stopBoxSelection();
+
+const toggleBoxSelection = () => {
+  if (isBoxSelectionMode.value) {
+    stopBoxSelection();
+  } else {
+    startBoxSelection();
+  }
+};
+
+const openRenameModal = () => {
+  if (selectedNodes.value.length !== 1) return;
+  renameNodeModal.show();
+};
+
+let renameNodeModal = null;
+
+onMounted(() => {
+  const modalElement = document.getElementById('renameNodeModal');
+  renameNodeModal = new Modal(modalElement);
+});
+
+const newNodeName = ref('');
+
+const renameNode = () => {
+  if (!newNodeName.value) return;
+  const nodeId = selectedNodes.value[0];
+  nodes[nodeId].name = newNodeName.value;
+  newNodeName.value = '';
+  renameNodeModal.hide();
+};
 
 const saveGraph = () => {
   const file_service = new fileService();
@@ -308,36 +355,6 @@ const saveGraph = () => {
 .editor-sidebar {
   padding: 10%;
   background-color: #f3f3f3;
-}
-
-.action-button {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  font-size: 14px;
-  color: #ffffff;
-  background-color: #317dc9;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.control-buttons button {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  font-size: 14px;
-  color: #ffffff;
-  background-color: #317dc9;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #5a9bdb;
 }
 
 .zoom-slider {
