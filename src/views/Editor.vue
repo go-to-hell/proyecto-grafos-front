@@ -129,10 +129,10 @@
           <button class="btn btn-outline-danger bi bi-trash w-100 py-2 mt-1" @click="handleDeletion">Eliminar</button>
         </div>
         <div class="d-flex gap-3 my-3">
-          <button class="btn btn-outline-danger bi bi-arrow-right w-100 py-2 mt-1"></button>
-          <button class="btn btn-outline-danger bi bi-arrow-left w-100 py-2 mt-1"></button>
-          <button class="btn btn-outline-danger bi bi-arrows w-100 py-2 mt-1"></button>
-          <button class="btn btn-outline-danger bi bi-dash w-100 py-2 mt-1"></button>
+          <button class="bi bi-arrow-right w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"></button>
+          <button class="bi bi-arrow-left w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"></button>
+          <button class="bi bi-arrows w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"></button>
+          <button class="bi bi-dash w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"></button>
         </div>
         <div class="my-3">
           <button class="btn btn-outline-danger w-100 py-2" @click="panToCenter">Centrar</button>
