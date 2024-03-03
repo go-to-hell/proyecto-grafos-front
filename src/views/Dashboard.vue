@@ -32,6 +32,13 @@
                 >
                     Crear
                 </button>
+                <!-- Botón del Perfil-->
+                <button
+                    @click="goPerfil"
+                    class="ms-3 btn btn-light"
+                >
+                    Perfil
+                </button>
             </div>
         </nav>
 
@@ -64,12 +71,17 @@
             const goEditor = () => {
                 router.push('/editor');
             };
+            const goPerfil = () => {
+                router.push('/perfil')
+            };
 
             return {
                 authStore,
                 goBack,
                 goEditor,
+                goPerfil,
             };
+            
         },
 
         mounted() {
