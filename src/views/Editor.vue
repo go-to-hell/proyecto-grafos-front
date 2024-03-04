@@ -153,7 +153,7 @@
         </div>
         <div class="d-flex gap-3">
           <button class="bi bi-plus-lg w-100 py-2 mt-1"
-            :class="selectedNodes.length === 1 || selectedNodes.length === 2 ? 'btn btn-danger' : 'btn btn-outline-danger'" 
+            :class="selectedNodes.length === 1 || selectedNodes.length === 2 ? 'btn btn-info' : 'btn btn-outline-info'" 
             @click="edgeAdditionButton">
             Agregar Arista
           </button>
@@ -164,15 +164,15 @@
             :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
             @click="setUnidirectionalRightEdge"
           ></button>
-          <button class="bi bi-arrow-left w-100 py-2 mt-1" 
+          <!-- <button class="bi bi-arrow-left w-100 py-2 mt-1" 
             :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
-          ></button>
+          ></button> -->
           <button class="bi bi-arrows w-100 py-2 mt-1"
-            :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"
+            :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
             @click="setBidirectionalEdge"
           ></button>
           <button class="bi bi-dash w-100 py-2 mt-1"
-            :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"
+            :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
             @click="setUndirectedEdge"
           ></button>
         </div>
