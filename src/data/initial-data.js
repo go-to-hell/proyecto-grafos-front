@@ -1,18 +1,18 @@
 // data.js
 
 const nodes = {
-  node1: { id: "node1", name: "Node 1" },
-  node2: { id: "node2", name: "Node 2" },
-  node3: { id: "node3", name: "Node 3" },
-  node4: { id: "node4", name: "Node 4" },
-  node5: { id: "node5", name: "Node 5" },
+  node1: { id: "node1", name: "Nodo 1" },
+  node2: { id: "node2", name: "Nodo 2" },
+  node3: { id: "node3", name: "Nodo 3" },
+  node4: { id: "node4", name: "Nodo 4" },
+  node5: { id: "node5", name: "Nodo 5" },
 };
 
 const edges = {
-  edge1: { source: "node1", target: "node2" },
-  edge2: { source: "node2", target: "node3" },
-  edge3: { source: "node3", target: "node4" },
-  edge4: { source: "node4", target: "node5" },
+  edge1: { source: "node1", target: "node2", label: "Arista 1" },
+  edge2: { source: "node2", target: "node3", label: "Arista 2" },
+  edge3: { source: "node3", target: "node4", label: "Arista 3" },
+  edge4: { source: "node4", target: "node5", label: "Arista 4" },
 };
 
 const layouts = {
