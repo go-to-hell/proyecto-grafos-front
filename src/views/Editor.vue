@@ -145,69 +145,69 @@
       <div>
         <div class="d-flex gap-3">
           <button 
-            :class="isAddingNode === true ? 'btn btn-danger bi bi-plus-lg w-100 py-2 mt-1' : 'btn btn-outline-danger bi bi-plus-lg w-100 py-2 mt-1'" 
+            :class="isAddingNode === true ? 'btn btn-info bi bi-plus-lg w-100 py-2 mt-1' : 'btn btn-outline-info bi bi-plus-lg w-100 py-2 mt-1'" 
             @click="startAddingNode">
             Agregar Nodo
           </button>
-          <button class="bi bi-trash w-100 py-2 mt-1" :class="selectedNodes.length > 0 ? 'btn btn-danger' : 'btn btn-outline-danger'" @click="handleDeletion">Eliminar Nodo</button>
+          <button class="bi bi-trash w-100 py-2 mt-1" :class="selectedNodes.length > 0 ? 'btn btn-info' : 'btn btn-outline-info'" @click="handleDeletion">Eliminar Nodo</button>
         </div>
         <div class="d-flex gap-3">
           <button class="bi bi-plus-lg w-100 py-2 mt-1"
-            :class="selectedNodes.length === 2 ? 'btn btn-danger' : 'btn btn-outline-danger'" 
+            :class="selectedNodes.length === 2 ? 'btn btn-info' : 'btn btn-outline-info'" 
             @click="edgeAdditionButton">
             Agregar Arista
           </button>
-          <button class="bi bi-trash w-100 py-2 mt-1" :class="selectedEdges.length > 0 ? 'btn btn-danger' : 'btn btn-outline-danger'" @click="handleDeletion">Eliminar Arista</button>
+          <button class="bi bi-trash w-100 py-2 mt-1" :class="selectedEdges.length > 0 ? 'btn btn-info' : 'btn btn-outline-info'" @click="handleDeletion">Eliminar Arista</button>
         </div>
         <div class="d-flex gap-3 my-3">
           <button class="bi bi-arrow-right w-100 py-2 mt-1"
-            :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"
+            :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
             @click="setUnidirectionalRightEdge"
           ></button>
           <button class="bi bi-arrow-left w-100 py-2 mt-1" 
-            :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"
+            :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
           ></button>
-          <button class="bi bi-arrows w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"></button>
-          <button class="bi bi-dash w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"></button>
+          <button class="bi bi-arrows w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"></button>
+          <button class="bi bi-dash w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"></button>
         </div>
         <div class="my-3">
-          <button class="btn btn-outline-danger w-100 py-2" @click="panToCenter">Centrar</button>
-          <button class="btn btn-outline-danger w-100 py-2 mt-2" @click="fitToContents">Ajustar</button>
+          <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">Centrar</button>
+          <button class="btn btn-outline-info w-100 py-2 mt-2" @click="fitToContents">Ajustar</button>
         </div>
         <div class="d-flex gap-3">
-          <button class="btn btn-outline-danger bi bi-plus-circle w-100 py-2 mt-1" @click="zoomIn"></button>
-          <button class="btn btn-outline-danger bi bi-dash-circle w-100 py-2 mt-1" @click="zoomOut"></button>
+          <button class="btn btn-outline-info bi bi-plus-circle w-100 py-2 mt-1" @click="zoomIn"></button>
+          <button class="btn btn-outline-info bi bi-dash-circle w-100 py-2 mt-1" @click="zoomOut"></button>
         </div>
 
         <button
-          :class="isBoxSelectionMode ? 'btn btn-danger w-100 py-2 mt-3' : 'btn btn-outline-danger w-100 py-2 mt-3'"
+          :class="isBoxSelectionMode ? 'btn btn-info w-100 py-2 mt-3' : 'btn btn-outline-info w-100 py-2 mt-3'"
           @click="toggleBoxSelection"
         >
           {{ isBoxSelectionMode ? 'Detener selección' : 'Iniciar selección' }}
         </button>
 
         <button
-          :class="selectedNodes.length === 1 ? 'btn btn-danger w-100 py-2 mt-2' : 'btn btn-outline-danger w-100 py-2 mt-2'"
+          :class="selectedNodes.length === 1 ? 'btn btn-info w-100 py-2 mt-2' : 'btn btn-outline-info w-100 py-2 mt-2'"
           @click="openRenameModal"
         >
           Renombrar Nodo
         </button>
 
         <button
-          :class="selectedEdges.length === 1 ? 'btn btn-danger w-100 py-2 mt-2' : 'btn btn-outline-danger w-100 py-2 mt-2'"
+          :class="selectedEdges.length === 1 ? 'btn btn-info w-100 py-2 mt-2' : 'btn btn-outline-info w-100 py-2 mt-2'"
           @click="openRenameEdgeModal"
         >
           Renombrar Arista
         </button>
 
-        <button class="btn btn-outline-danger w-100 py-2 mt-2" @click="openFileNameModal">
+        <button class="btn btn-outline-info w-100 py-2 mt-2" @click="openFileNameModal">
           Guardar Archivo
         </button>
         <input type="file" class="upload-file my-2 mt-2 form-control" @change="loadGraph" accept=".json" />
-        <button class="btn btn-outline-danger w-100 py-2 mt-2" @click="openGraphFile">Abrir Archivo</button>
+        <button class="btn btn-outline-info w-100 py-2 mt-2" @click="openGraphFile">Abrir Archivo</button>
         <p class="alert alert-info alert-dismissible fade show mt-2" v-if="fileNameSaved">Archivo seleccionado: {{ fileNameSaved }}</p>
 
-        <button class="btn btn-outline-danger w-100 py-2 mt-2" @click="openAdjacencyMatrixModal">Matriz de Adyacencia</button>
+        <button class="btn btn-outline-info w-100 py-2 mt-2" @click="openAdjacencyMatrixModal">Matriz de Adyacencia</button>
       </div>
 
       <!-- Bootstrap alert for saveGraph success/error -->
@@ -215,7 +215,7 @@
         El grafo ha sido guardado exitosamente.
         <button type="button" class="btn-close" @click="saveGraphSuccess = false"></button>
       </div>
-      <div v-if="saveGraphError" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+      <div v-if="saveGraphError" class="alert alert-info alert-dismissible fade show mt-2" role="alert">
         Error al guardar el grafo.
         <button type="button" class="btn-close" @click="saveGraphError = false"></button>
       </div>
@@ -225,7 +225,7 @@
         El grafo ha sido cargado exitosamente.
         <button type="button" class="btn-close" @click="loadGraphSuccess = false"></button>
       </div>
-      <div v-if="loadGraphError" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+      <div v-if="loadGraphError" class="alert alert-info alert-dismissible fade show mt-2" role="alert">
         Error al cargar el grafo.
         <button type="button" class="btn-close" @click="loadGraphError = false"></button>
       </div>
