@@ -5,16 +5,16 @@ import Dashboard from '../views/Dashboard.vue';
 import Editor from '../views/Editor.vue';
 
 const routes = [
+    // {
+    //     path: '/',
+    //     component: Login,
+    // },
+    // { 
+    //     path: '/signup', 
+    //     component: SignUp 
+    // },
     {
         path: '/',
-        component: Login,
-    },
-    { 
-        path: '/signup', 
-        component: SignUp 
-    },
-    {
-        path: '/dashboard',
         component: Dashboard,
     },
     {
