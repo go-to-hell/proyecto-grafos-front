@@ -160,8 +160,13 @@
           <button class="bi bi-trash w-100 py-2 mt-1" :class="selectedEdges.length > 0 ? 'btn btn-danger' : 'btn btn-outline-danger'" @click="handleDeletion">Eliminar Arista</button>
         </div>
         <div class="d-flex gap-3 my-3">
-          <button class="bi bi-arrow-right w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"></button>
-          <button class="bi bi-arrow-left w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"></button>
+          <button class="bi bi-arrow-right w-100 py-2 mt-1"
+            :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"
+            @click="setUnidirectionalRightEdge"
+          ></button>
+          <button class="bi bi-arrow-left w-100 py-2 mt-1" 
+            :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"
+          ></button>
           <button class="bi bi-arrows w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"></button>
           <button class="bi bi-dash w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-danger' : 'btn btn-outline-danger'"></button>
         </div>
@@ -331,16 +336,65 @@ const configs = defineConfigs({
   node: {
     selectable: true,
     draggable: true,
+    normal: {
+      type: "circle",
+      radius: 16,
+      width: 32,
+      height: 32,
+      borderRadius: 4,
+      strokeWidth: 0,
+      strokeColor: "#000000",
+      strokeDasharray: "0",
+      color: "#4466cc",
+    },
+    hover: {
+      type: "circle",
+      radius: 16,
+      width: 32,
+      height: 32,
+      borderRadius: 4,
+      strokeWidth: 0,
+      strokeColor: "#000000",
+      strokeDasharray: "0",
+      color: "#dd2288",
+    },
+    selected: {
+      type: "circle",
+      radius: 16,
+      width: 32,
+      height: 32,
+      borderRadius: 4,
+      strokeWidth: 0,
+      strokeColor: "#000000",
+      strokeDasharray: "0",
+      color: "#4466cc",
+    },
     label: {
       visible: true,
       fontFamily: "Sans serif",
-      fontSize: 12,
+      fontSize: 15,
       lineHeight: 1.1,
       color: "#000000",
       margin: 4,
       direction: "south",
       text: "name",
       directionAutoAdjustment: true,
+      background: {
+        visible: false,
+        color: "#ffffff",
+        padding: {
+          vertical: 1,
+          horizontal: 4,
+        },
+        borderRadius: 2,
+      },
+    },
+    focusring: {
+      visible: true,
+      width: 4,
+      padding: 3,
+      color: "#eebb00",
+      dasharray: "0",
     },
   },
   edge: {
@@ -348,11 +402,57 @@ const configs = defineConfigs({
     hoverable: true,
     normal: {
       width: 3,
+      color: "#4466cc",
+      dasharray: "0",
+      linecap: "butt",
+      animate: false,
+      animationSpeed: 50,
+    },
+    hover: {
+      width: 4,
+      color: "#3355bb",
+      dasharray: "0",
+      linecap: "butt",
+      animate: false,
+      animationSpeed: 50,
+    },
+    selected: {
+      width: 3,
+      color: "#dd8800",
+      dasharray: "6",
+      linecap: "round",
+      animate: false,
+      animationSpeed: 50,
     },
     label: {
-      fontSize: 11,
+      fontSize: 15,
+      fontFamily: "Sans serif",
       color: "#000000",
     },
+    gap: 5,
+    type: "straight",
+    margin: 2,
+    marker: {
+      source: {
+        type: "none",
+        width: 4,
+        height: 4,
+        margin: -1,
+        offset: 0,
+        units: "strokeWidth",
+        color: null,
+      },
+      target: {
+        type: "arrow",
+        width: 4,
+        height: 4,
+        margin: -1,
+        offset: 0,
+        units: "strokeWidth",
+        color: null,
+      },
+    },
+    keepOrder: "horizontal",
   },
 });
 
@@ -528,6 +628,47 @@ const openRenameEdgeModal = () => {
   remaneEdgeModal.show();
 };
 
+const setUnidirectionalRightEdge = () => {
+  const edgeIdToChange = selectedEdges.value[0];
+  if (edgeIdToChange && edges.hasOwnProperty(edgeIdToChange)) {
+    const edgeToChange = { ...edges[edgeIdToChange] };
+    edgeToChange.marker = {
+      source: {
+        type: "none",
+        width: 4,
+        height: 4,
+        margin: -1,
+        offset: 0,
+        units: "strokeWidth",
+        color: null,
+      },
+      target: {
+        type: "none",
+        width: 4,
+        height: 4,
+        margin: -1,
+        offset: 0,
+        units: "strokeWidth",
+        color: null,
+      },
+    };
+    edges[edgeIdToChange] = edgeToChange;
+    console.log(edges[edgeIdToChange]);
+  }
+};
+
+const setUnidirectionalLeftEdge = () => {
+  
+};
+
+const setBidirectionalEdge = () => {
+  
+};
+
+const setUndirectedEdge = () => {
+  
+};
+
 const saveGraphSuccess = ref(false);
 const saveGraphError = ref(false);
 
@@ -640,20 +781,6 @@ const openAdjacencyMatrixModal = () => {
 
 .v-network-graph:active {
   cursor: grab;
-}
-
-.v-ng-edge-label {
-  transition: fill 0.1s;
-}
-
-.v-ng-edge-label.hovered {
-  fill: #3355bb;
-  font-weight: bold;
-}
-
-.v-ng-edge-label.selected {
-  fill: #dd8800;
-  font-weight: bold;
 }
 
 .editor-sidebar {
