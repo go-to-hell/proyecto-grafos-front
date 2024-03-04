@@ -378,6 +378,7 @@ const configs = defineConfigs({
       strokeColor: "#000000",
       strokeDasharray: "0",
       color: "#4466cc",
+>>>>>>> 454a89f63301c1711385a73c1d06be66c0c62799
     },
     label: {
       visible: true,

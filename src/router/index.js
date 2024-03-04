@@ -3,6 +3,8 @@ import Login from '../views/Login.vue';
 import SignUp from '../views/SignUp.vue';
 import Dashboard from '../views/Dashboard.vue';
 import Editor from '../views/Editor.vue';
+import Perfil from '../views/Perfil.vue';
+
 
 const routes = [
     // {
@@ -20,7 +22,11 @@ const routes = [
     {
         path: '/editor',
         component: Editor,
-    }
+    },
+    {
+        path: "/perfil",
+        component: Perfil,
+    },
 ];
 
 const router = createRouter({
