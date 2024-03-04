@@ -452,6 +452,12 @@ const configs = defineConfigs({
         color: null,
       },
     },
+    selfLoop: {
+      radius: 14,
+      offset: 16,
+      angle: 180,
+      isClockwise: true,
+    },
     keepOrder: "horizontal",
   },
 });
