@@ -282,7 +282,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted } from "vue";
+import { ref, reactive, onMounted, onUnmounted, computed } from "vue";
 import {
   Nodes,
   Edges,
@@ -318,6 +318,9 @@ const panToCenter = () => graph.value?.panToCenter();
 const fitToContents = () => graph.value?.fitToContents();
 const zoomIn = () => graph.value?.zoomIn();
 const zoomOut = () => graph.value?.zoomOut();
+
+let sourceEdgeType = null;
+let targetEdgeType = "arrow";
 
 const configs = defineConfigs({
   view: {
@@ -451,6 +454,12 @@ const configs = defineConfigs({
         units: "strokeWidth",
         color: null,
       },
+    },
+    selfLoop: {
+      radius: 14,
+      offset: 16,
+      angle: 180,
+      isClockwise: true,
     },
     keepOrder: "horizontal",
   },
@@ -628,45 +637,22 @@ const openRenameEdgeModal = () => {
   remaneEdgeModal.show();
 };
 
-const setUnidirectionalRightEdge = () => {
-  const edgeIdToChange = selectedEdges.value[0];
-  if (edgeIdToChange && edges.hasOwnProperty(edgeIdToChange)) {
-    const edgeToChange = { ...edges[edgeIdToChange] };
-    edgeToChange.marker = {
-      source: {
-        type: "none",
-        width: 4,
-        height: 4,
-        margin: -1,
-        offset: 0,
-        units: "strokeWidth",
-        color: null,
-      },
-      target: {
-        type: "none",
-        width: 4,
-        height: 4,
-        margin: -1,
-        offset: 0,
-        units: "strokeWidth",
-        color: null,
-      },
-    };
-    edges[edgeIdToChange] = edgeToChange;
-    console.log(edges[edgeIdToChange]);
-  }
-};
-
-const setUnidirectionalLeftEdge = () => {
-  
+const setUnidirectionalEdges = () => {
+  if (selectedEdges.value.length !== 1) return;
+  sourceEdgeType = "none";
+  targetEdgeType = "arrow";
 };
 
 const setBidirectionalEdge = () => {
-  
+  if (selectedEdges.value.length !== 1) return;
+  sourceEdgeType = "none";
+  targetEdgeType = "arrow";
 };
 
 const setUndirectedEdge = () => {
-  
+  if (selectedEdges.value.length !== 1) return;
+  sourceEdgeType = "none";
+  targetEdgeType = "arrow";
 };
 
 const saveGraphSuccess = ref(false);
