@@ -153,7 +153,7 @@
         </div>
         <div class="d-flex gap-3">
           <button class="bi bi-plus-lg w-100 py-2 mt-1"
-            :class="selectedNodes.length === 2 ? 'btn btn-info' : 'btn btn-outline-info'" 
+            :class="selectedNodes.length === 1 || selectedNodes.length === 2 ? 'btn btn-info' : 'btn btn-outline-info'" 
             @click="edgeAdditionButton">
             Agregar Arista
           </button>
@@ -164,11 +164,17 @@
             :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
             @click="setUnidirectionalRightEdge"
           ></button>
-          <button class="bi bi-arrow-left w-100 py-2 mt-1" 
+          <!-- <button class="bi bi-arrow-left w-100 py-2 mt-1" 
             :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
+          ></button> -->
+          <button class="bi bi-arrows w-100 py-2 mt-1"
+            :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
+            @click="setBidirectionalEdge"
           ></button>
-          <button class="bi bi-arrows w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"></button>
-          <button class="bi bi-dash w-100 py-2 mt-1" :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"></button>
+          <button class="bi bi-dash w-100 py-2 mt-1"
+            :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
+            @click="setUndirectedEdge"
+          ></button>
         </div>
         <div class="my-3">
           <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">Centrar</button>
@@ -289,6 +295,7 @@ import {
   VNetworkGraphInstance,
   EventHandlers,
   defineConfigs,
+  Edge,
 } from "v-network-graph";
 import { Background } from "@vue-flow/background";
 import data from "../data/initial-data.js";
@@ -319,8 +326,8 @@ const fitToContents = () => graph.value?.fitToContents();
 const zoomIn = () => graph.value?.zoomIn();
 const zoomOut = () => graph.value?.zoomOut();
 
-let sourceEdgeType = null;
-let targetEdgeType = "arrow";
+let sourceEdgeType = ref("");
+let targetEdgeType = ref("");
 
 const configs = defineConfigs({
   view: {
@@ -540,23 +547,22 @@ const handleDeletion = () => {
   }
 };
 
-const edgeAddition = () => {
-  const [source, target] = selectedNodes.value;
+const edgeAdditionButton = () => {
+  let [source, target] = ["", ""];
+  if (selectedNodes.value.length === 1) {
+    source = target = selectedNodes.value.toString();
+  } else if (selectedNodes.value.length === 2) {
+    [source, target] = selectedNodes.value.map(node => node.toString());
+  } else return;
   const edgeId = `edge${nextEdgeIndex.value}`;
   const label = `Arista ${nextEdgeIndex.value}`;
   edges[edgeId] = { source, target, label };
   nextEdgeIndex.value++;
-}
-
-const edgeAdditionButton = () => {
-  if (selectedNodes.value.length !== 2) return;
-  edgeAddition();
 };
 
 const edgeAdditionKey = (event: KeyboardEvent) => {
-  if (selectedNodes.value.length !== 2) return;
   if (event.shiftKey && event.altKey && event.key.toLowerCase() === "e") {
-    edgeAddition();
+    edgeAdditionButton();
   }
 };
 
@@ -639,20 +645,20 @@ const openRenameEdgeModal = () => {
 
 const setUnidirectionalEdges = () => {
   if (selectedEdges.value.length !== 1) return;
-  sourceEdgeType = "none";
-  targetEdgeType = "arrow";
+  // sourceEdgeType = "none";
+  // targetEdgeType = "arrow";
 };
 
 const setBidirectionalEdge = () => {
   if (selectedEdges.value.length !== 1) return;
-  sourceEdgeType = "none";
-  targetEdgeType = "arrow";
+  // sourceEdgeType = "none";
+  // targetEdgeType = "arrow";
 };
 
 const setUndirectedEdge = () => {
   if (selectedEdges.value.length !== 1) return;
-  sourceEdgeType = "none";
-  targetEdgeType = "arrow";
+  // sourceEdgeType = "none";
+  // targetEdgeType = "arrow";
 };
 
 const saveGraphSuccess = ref(false);
