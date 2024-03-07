@@ -285,18 +285,7 @@
     </div>
 
     <!-- Bootstrap alert for saveGraph success/error -->
-    <div
-      v-if="saveGraphSuccess"
-      class="alert alert-success alert-dismissible fade show mt-2"
-      role="alert"
-    >
-      El grafo ha sido guardado exitosamente.
-      <button
-        type="button"
-        class="btn-close"
-        @click="saveGraphSuccess = false"
-      ></button>
-    </div>
+
     <div
       v-if="saveGraphError"
       class="alert alert-danger alert-dismissible fade show mt-2"
@@ -337,12 +326,19 @@
     </div>
 
     <!-- Bootstrap alert to show File Name Saved -->
-    <p
-      class="alert alert-info alert-dismissible fade show mt-2"
+    <div
       v-if="fileNameSaved"
+      class="alert alert-info alert-dismissible fade show mt-2"
+      role="alert"
     >
       Archivo seleccionado: {{ fileNameSaved }}
-    </p>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
 
     <div class="editor-container">
       <div class="editor-content">
@@ -472,6 +468,7 @@
           ></button>
         </div>
         <button
+          data-bs-dismiss="offcanvas"
           :class="
             isBoxSelectionMode
               ? 'btn btn-info w-100 py-2 mt-3'
@@ -483,6 +480,7 @@
         </button>
         <button
           class="btn btn-outline-info w-100 py-2 mt-2"
+          data-bs-dismiss="offcanvas"
           @click="openFileNameModal"
         >
           Guardar Archivo
@@ -495,6 +493,7 @@
         />
         <button
           class="btn btn-outline-info w-100 py-2 mt-2"
+          data-bs-dismiss="offcanvas"
           @click="openGraphFile"
         >
           Abrir Archivo
@@ -502,6 +501,7 @@
 
         <button
           class="btn btn-outline-info w-100 py-2 mt-2"
+          data-bs-dismiss="offcanvas"
           @click="openAdjacencyMatrixModal"
         >
           Matriz de Adyacencia
