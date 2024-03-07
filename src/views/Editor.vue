@@ -162,6 +162,57 @@
       </div>
     </div>
 
+      <!-- Help Center Modal -->
+      <div class="modal fade" tabindex="-1" id="helpCenterModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Centro de Ayuda</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>¡Hola! 😄 ¡Bienvenido al increíble mundo de los grafos! 🌐✨ Aquí te dejamos una guía rápida para que domines esta herramienta como un pro:</p>
+              <p>✨ ¡Bienvenido a tu Editor de Grafos Favorito! 🚀</p>
+              <img src="../assets/AgregarN" alt="AgregarN" class="img-fluid">
+              <p><strong>Agregar Nodos 🧩</strong><br>
+                ¡Haz clic en el botón "Agregar" y comienza a crear tu obra maestra! Luego, simplemente dale clic en el área de dibujo para soltar esos nodos como si fueran confeti.</p>
+              <img src="../assets/EliminarN" alt="EliminarN" class="img-fluid">
+              <p><strong>Eliminar Nodos 🗑️</strong><br>
+                ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar" o simplemente usa la mágica tecla "Delete" en tu teclado.</p>
+              <img src="../assets/AgrgarA" alt="AgregarA" class="img-fluid">
+              <p><strong>Agregar Aristas ➡️</strong><br>
+                Haz clic en dos nodos y crea una conexión con el botón "Agregar Arista". ¡Conecta tus ideas de manera brillante!</p>
+              <img src="../assets/EliminarA" alt="EliminarA" class="img-fluid">
+              <p><strong>Eliminar Aristas 🗡️</strong><br>  
+                Selecciona una arista y presiona "Eliminar Arista" o utiliza la tecla "Delete". ¡Desconecta sin esfuerzo tus conexiones menos útiles!</p>
+              <img src="../assets/Direccion" alt="Direccion" class="img-fluid">
+              <p><strong>Dirección de Aristas 🚦</strong><br>
+                Selecciona una arista y elige su destino con los botones de dirección. ¡Controla el flujo de la conexión con estilo!</p>
+              <img src="../assets/CyA.jpg" alt="CyA" class="img-fluid">  
+              <p><strong>Centrar y Ajustar 🔄</strong><br>
+                ¡No más caos desordenado! Utiliza los botones para centrar y ajustar tu grafo y obtener una vista panorámica.</p>
+              <img src="../assets/Zoom.jpg" alt="Zoom" class="img-fluid">
+              <p><strong>Zoom In & Zoom Out 🔍</strong><br>
+                Acércate a la acción con "Zoom In" o toma una vista general con "Zoom Out". ¡Tu grafo, tu perspectiva!</p>
+              <img src="../assets/Seleccion.jpg" alt="Seleccion" class="img-fluid">     
+              <p><strong>Iniciar Selección 🎯</strong><br>
+                ¿Quieres destacar varios nodos a la vez? Activa "Iniciar Selección" y desata tu poder de selección masiva.</p>
+              <img src="../assets/Renombrar.jpg" alt="Renombrar" class="img-fluid">
+              <p><strong>Renombrar Nodos y Aristas 🏷️</strong><br>
+                Dale a tus nodos y aristas nombres épicos. Haz clic en ellos, edita el nombre y sé el narrador de tu propio grafo.</p>
+              <p><strong>Enlazar Nodos con Shift+Alt+e 🌐</strong><br>
+                Selecciona dos nodos y mantén presionadas las teclas Shift+Alt+e para enlazarlos con una arista.</p>
+              <img src="../assets/GyA.jpg" alt="GyA" class="img-fluid">
+              <p><strong>Guardar y Abrir 📂</strong><br>
+                No dejes que tus obras maestras se pierdan. Guarda y abre archivos localmente para retomar tus épicas creaciones.</p>
+              <img src="../assests/MatrizAd" alt="Imagen MatrizAd" class="img-fluid">
+              <p><strong>Matriz de Adyacencia 📊</strong><br>
+                Haz clic en "Matriz de Adyacencia" para explorar la estructura subyacente de tu obra maestra en forma de matriz.</p>
+              <p>¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los grafos con tu creatividad desbordante. ¡Buena suerte, maestro del grafo! 🚀🎨</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
     <!-- File name to save -->
     <div class="modal" tabindex="-1" id="fileNameToSave">
       <div class="modal-dialog">
@@ -198,108 +249,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Help Center Modal -->
-    <div class="modal fade" tabindex="-1" id="helpCenterModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Centro de Ayuda</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <p>
-              ¡Hola! 😄 ¡Bienvenido al increíble mundo de los grafos! 🌐✨ Aquí
-              te dejamos una guía rápida para que domines esta herramienta como
-              un pro:
-            </p>
-            <p>✨ ¡Bienvenido a tu Editor de Grafos Favorito! 🚀</p>
-            <p>
-              <strong>Agregar Nodos 🧩</strong><br />
-              ¡Haz clic en el botón "Agregar" y comienza a crear tu obra
-              maestra! Luego, simplemente dale clic en el área de dibujo para
-              soltar esos nodos como si fueran confeti.
-            </p>
-            <p>
-              <strong>Eliminar Nodos 🗑️</strong><br />
-              ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar"
-              o simplemente usa la mágica tecla "Delete" en tu teclado.
-            </p>
-            <p>
-              <strong>Agregar Aristas ➡️</strong><br />
-              Haz clic en dos nodos y crea una conexión con el botón "Agregar
-              Arista". ¡Conecta tus ideas de manera brillante!
-            </p>
-            <p>
-              <strong>Eliminar Aristas 🗡️</strong><br />
-              Selecciona una arista y presiona "Eliminar Arista" o utiliza la
-              tecla "Delete". ¡Desconecta sin esfuerzo tus conexiones menos
-              útiles!
-            </p>
-            <p>
-              <strong>Dirección de Aristas 🚦</strong><br />
-              Selecciona una arista y elige su destino con los botones de
-              dirección. ¡Controla el flujo de la conexión con estilo!
-            </p>
-            <p>
-              <strong>Centrar y Ajustar 🔄</strong><br />
-              ¡No más caos desordenado! Utiliza los botones para centrar y
-              ajustar tu grafo y obtener una vista panorámica.
-            </p>
-            <p>
-              <strong>Zoom In & Zoom Out 🔍</strong><br />
-              Acércate a la acción con "Zoom In" o toma una vista general con
-              "Zoom Out". ¡Tu grafo, tu perspectiva!
-            </p>
-            <p>
-              <strong>Iniciar Selección 🎯</strong><br />
-              ¿Quieres destacar varios nodos a la vez? Activa "Iniciar
-              Selección" y desata tu poder de selección masiva.
-            </p>
-            <p>
-              <strong>Renombrar Nodos y Aristas 🏷️</strong><br />
-              Dale a tus nodos y aristas nombres épicos. Haz clic en ellos,
-              edita el nombre y sé el narrador de tu propio grafo.
-            </p>
-            <p>
-              <strong>Enlazar Nodos con Shift+Alt+e 🌐</strong><br />
-              Selecciona dos nodos y mantén presionadas las teclas Shift+Alt+e
-              para enlazarlos con una arista.
-            </p>
-            <p>
-              <strong>Guardar y Abrir 📂</strong><br />
-              No dejes que tus obras maestras se pierdan. Guarda y abre archivos
-              localmente para retomar tus épicas creaciones.
-            </p>
-            <p>
-              <strong>Matriz de Adyacencia 📊</strong><br />
-              Haz clic en "Matriz de Adyacencia" para explorar la estructura
-              subyacente de tu obra maestra en forma de matriz.
-            </p>
-            <p>
-              ¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los
-              grafos con tu creatividad desbordante. ¡Buena suerte, maestro del
-              grafo! 🚀🎨
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary"
-              data-bs-dismiss="modal"
-            >
-              OK
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Adjacency Matrix -->
     <div class="modal fade" tabindex="-1" id="adjacencyMatrixModal">
       <div class="modal-dialog">
