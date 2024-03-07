@@ -173,13 +173,12 @@
             <div class="modal-body">
               <p>¡Hola! 😄 ¡Bienvenido al increíble mundo de los grafos! 🌐✨ Aquí te dejamos una guía rápida para que domines esta herramienta como un pro:</p>
               <p>✨ ¡Bienvenido a tu Editor de Grafos Favorito! 🚀</p>
-              <img src="../assets/AgregarN,jpg" alt="AgregarN" class="img-fluid">
+              <img src="../assets/AgregarN.jpg" alt="AgregarN" class="img-fluid">
               <p><strong>Agregar Nodos 🧩</strong><br>
                 ¡Haz clic en el botón "Agregar" y comienza a crear tu obra maestra! Luego, simplemente dale clic en el área de dibujo para soltar esos nodos como si fueran confeti.</p>
               <img src="../assets/EliminarN.jpg" alt="EliminarN" class="img-fluid">
               <p><strong>Eliminar Nodos 🗑️</strong><br>
                 ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar" o simplemente usa la mágica tecla "Delete" en tu teclado.</p>
-              <img src="../assets/AgrgarA.jpg" alt="AgregarA" class="img-fluid">
               <p><strong>Agregar Aristas ➡️</strong><br>
                 Haz clic en dos nodos y crea una conexión con el botón "Agregar Arista". ¡Conecta tus ideas de manera brillante!</p>
               <img src="../assets/EliminarA.jpg" alt="EliminarA" class="img-fluid">
@@ -205,7 +204,6 @@
               <img src="../assets/GyA.jpg" alt="GyA" class="img-fluid">
               <p><strong>Guardar y Abrir 📂</strong><br>
                 No dejes que tus obras maestras se pierdan. Guarda y abre archivos localmente para retomar tus épicas creaciones.</p>
-              <img src="../assests/MatrizAd" alt="Imagen MatrizAd" class="img-fluid">
               <p><strong>Matriz de Adyacencia 📊</strong><br>
                 Haz clic en "Matriz de Adyacencia" para explorar la estructura subyacente de tu obra maestra en forma de matriz.</p>
               <p>¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los grafos con tu creatividad desbordante. ¡Buena suerte, maestro del grafo! 🚀🎨</p>
