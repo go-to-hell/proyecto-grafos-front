@@ -1,83 +1,166 @@
 <template>
-  <div class="container-all">
-    <div class="editor-sidebar">
-      <!-- Sidebar Content -->
-      <h2 class="text-center mb-3">Funciones</h2>
-
-      <!-- Rename Node Modal -->
-      <div class="modal" tabindex="-1" id="renameNodeModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Renombrar nodo</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <input type="text" class="form-control" v-model="newNodeName" placeholder="Ingrese el nuevo nombre del nodo">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" @click="renameNode">Guardar cambios</button>
-            </div>
+  <div>
+    <!-- Rename Node Modal -->
+    <div class="modal" tabindex="-1" id="renameNodeModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Renombrar nodo</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input
+              type="text"
+              class="form-control"
+              v-model="newNodeName"
+              placeholder="Ingrese el nuevo nombre del nodo"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-primary" @click="renameNode">
+              Guardar cambios
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Rename Edge Modal -->
-      <div class="modal" tabindex="-1" id="renameEdgeModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Renombrar arista</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <input type="text" class="form-control" v-model="newEdgeName" placeholder="Ingrese el nuevo nombre de la arista">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" @click="renameEdge">Guardar cambios</button>
-            </div>
+    <!-- Rename Edge Modal -->
+    <div class="modal" tabindex="-1" id="renameEdgeModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Renombrar arista</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input
+              type="text"
+              class="form-control"
+              v-model="newEdgeName"
+              placeholder="Ingrese el nuevo nombre de la arista"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-primary" @click="renameEdge">
+              Guardar cambios
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <p>¿Está seguro de querer borrar el elemento?</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" @click="confirmDelete">Confirmar</button>
-            </div>
+    <!-- Delete Modal -->
+    <div
+      class="modal fade"
+      id="confirmDeleteModal"
+      tabindex="-1"
+      aria-labelledby="confirmDeleteModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmDeleteModalLabel">
+              Confirmar Eliminación
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>¿Está seguro de querer borrar el elemento?</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="confirmDelete"
+            >
+              Confirmar
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- File name to save -->
-      <div class="modal" tabindex="-1" id="fileNameToSave">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Guardar archivo</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <input type="text" class="form-control" v-model="fileNameToSave" placeholder="Ingrese el nombre del archivo a guardar">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" @click="saveGraph">Guardar</button>
-            </div>
+    <!-- Clear All Modal -->
+    <div
+      class="modal fade"
+      id="confirmClearAllModal"
+      tabindex="-1"
+      aria-labelledby="confirmClearAllModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmClearAllModalLabel">
+              Confirmar Limpieza
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>¿Está seguro de querer limpiar todo?</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="confirmClearAll"
+            >
+              Confirmar
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
       <!-- Help Center Modal -->
       <div class="modal fade" tabindex="-1" id="helpCenterModal">
@@ -130,121 +213,125 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
             </div>
+    <!-- File name to save -->
+    <div class="modal" tabindex="-1" id="fileNameToSave">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Guardar archivo</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input
+              type="text"
+              class="form-control"
+              v-model="fileNameToSave"
+              placeholder="Ingrese el nombre del archivo a guardar"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-primary" @click="saveGraph">
+              Guardar
+            </button>
           </div>
         </div>
       </div>
-
-      <!-- Adjacency Matrix -->
-      <div class="modal fade" tabindex="-1" id="adjacencyMatrixModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Matriz de Adyacencia</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-              <pre id="adjacencyMatrix"></pre>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
-            </div>
+    </div>
+    <!-- Adjacency Matrix -->
+    <div class="modal fade" tabindex="-1" id="adjacencyMatrixModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Matriz de Adyacencia</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <pre id="adjacencyMatrix"></pre>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- View Controls -->
-      <div>
-        <div class="d-flex gap-3">
-          <button 
-            :class="isAddingNode === true ? 'btn btn-info bi bi-plus-lg w-100 py-2 mt-1' : 'btn btn-outline-info bi bi-plus-lg w-100 py-2 mt-1'" 
-            @click="startAddingNode">
-            Agregar Nodo
-          </button>
-          <button class="bi bi-trash w-100 py-2 mt-1" :class="selectedNodes.length > 0 ? 'btn btn-info' : 'btn btn-outline-info'" @click="handleDeletion">Eliminar Nodo</button>
-        </div>
-        <div class="d-flex gap-3">
-          <button class="bi bi-plus-lg w-100 py-2 mt-1"
-            :class="selectedNodes.length === 1 || selectedNodes.length === 2 ? 'btn btn-info' : 'btn btn-outline-info'" 
-            @click="edgeAdditionButton">
-            Agregar Arista
-          </button>
-          <button class="bi bi-trash w-100 py-2 mt-1" :class="selectedEdges.length > 0 ? 'btn btn-info' : 'btn btn-outline-info'" @click="handleDeletion">Eliminar Arista</button>
-        </div>
-        <div class="d-flex gap-3 my-3">
-          <button class="bi bi-arrow-right w-100 py-2 mt-1"
-            :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
-            @click="setUnidirectionalRightEdge"
-          ></button>
-          <!-- <button class="bi bi-arrow-left w-100 py-2 mt-1" 
-            :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
-          ></button> -->
-          <button class="bi bi-arrows w-100 py-2 mt-1"
-            :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
-            @click="setBidirectionalEdge"
-          ></button>
-          <button class="bi bi-dash w-100 py-2 mt-1"
-            :class="selectedEdges.length === 1 ? 'btn btn-info' : 'btn btn-outline-info'"
-            @click="setUndirectedEdge"
-          ></button>
-        </div>
-        <div class="my-3">
-          <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">Centrar</button>
-          <button class="btn btn-outline-info w-100 py-2 mt-2" @click="fitToContents">Ajustar</button>
-        </div>
-        <div class="d-flex gap-3">
-          <button class="btn btn-outline-info bi bi-plus-circle w-100 py-2 mt-1" @click="zoomIn"></button>
-          <button class="btn btn-outline-info bi bi-dash-circle w-100 py-2 mt-1" @click="zoomOut"></button>
-        </div>
+    <!-- Bootstrap alert for saveGraph success/error -->
 
-        <button
-          :class="isBoxSelectionMode ? 'btn btn-info w-100 py-2 mt-3' : 'btn btn-outline-info w-100 py-2 mt-3'"
-          @click="toggleBoxSelection"
-        >
-          {{ isBoxSelectionMode ? 'Detener selección' : 'Iniciar selección' }}
-        </button>
-
-        <button
-          :class="selectedNodes.length === 1 ? 'btn btn-info w-100 py-2 mt-2' : 'btn btn-outline-info w-100 py-2 mt-2'"
-          @click="openRenameModal"
-        >
-          Renombrar Nodo
-        </button>
-
-        <button
-          :class="selectedEdges.length === 1 ? 'btn btn-info w-100 py-2 mt-2' : 'btn btn-outline-info w-100 py-2 mt-2'"
-          @click="openRenameEdgeModal"
-        >
-          Renombrar Arista
-        </button>
-
-        <button class="btn btn-outline-info w-100 py-2 mt-2" @click="openFileNameModal">
-          Guardar Archivo
-        </button>
-        <input type="file" class="upload-file my-2 mt-2 form-control" @change="loadGraph" accept=".json" />
-        <button class="btn btn-outline-info w-100 py-2 mt-2" @click="openGraphFile">Abrir Archivo</button>
-        <p class="alert alert-info alert-dismissible fade show mt-2" v-if="fileNameSaved">Archivo seleccionado: {{ fileNameSaved }}</p>
-
-        <button class="btn btn-outline-info w-100 py-2 mt-2" @click="openAdjacencyMatrixModal">Matriz de Adyacencia</button>
-      </div>
-
-      <!-- Bootstrap alert for saveGraph success/error -->
-      <div v-if="saveGraphSuccess" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
-        El grafo ha sido guardado exitosamente.
-        <button type="button" class="btn-close" @click="saveGraphSuccess = false"></button>
-      </div>
-      <div v-if="saveGraphError" class="alert alert-info alert-dismissible fade show mt-2" role="alert">
+    <div style="width: fit-content; margin: auto;">
+      <div
+        v-if="saveGraphError"
+        class="alert alert-danger alert-dismissible fade show mt-2"
+        role="alert"
+      >
         Error al guardar el grafo.
-        <button type="button" class="btn-close" @click="saveGraphError = false"></button>
+        <button
+          type="button"
+          class="btn-close"
+          @click="saveGraphError = false"
+        ></button>
       </div>
 
       <!-- Bootstrap alert for loadGraph success/error -->
-      <div v-if="loadGraphSuccess" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+      <div
+        v-if="loadGraphSuccess"
+        class="alert alert-success alert-dismissible fade show mt-2"
+        role="alert"
+      >
         El grafo ha sido cargado exitosamente.
-        <button type="button" class="btn-close" @click="loadGraphSuccess = false"></button>
+        <button
+          type="button"
+          class="btn-close"
+          @click="loadGraphSuccess = false"
+        ></button>
       </div>
-      <div v-if="loadGraphError" class="alert alert-info alert-dismissible fade show mt-2" role="alert">
+      <div
+        v-if="loadGraphError"
+        class="alert alert-danger alert-dismissible fade show mt-2"
+        role="alert"
+      >
         Error al cargar el grafo.
-        <button type="button" class="btn-close" @click="loadGraphError = false"></button>
+        <button
+          type="button"
+          class="btn-close"
+          @click="loadGraphError = false"
+        ></button>
+      </div>
+
+      <!-- Bootstrap alert to show File Name Saved -->
+      <div
+        v-if="fileNameSaved"
+        class="alert alert-info alert-dismissible fade show mt-2"
+        role="alert"
+      >
+        Archivo seleccionado: {{ fileNameSaved }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
       </div>
     </div>
 
@@ -267,34 +354,236 @@
           @click="handleNodeAddition"
           @keydown="edgeAdditionKey"
         >
-        <template #edge-label="{ edge, hovered, selected, ...slotProps }">
-          <v-edge-label 
-            :class="{ hovered, selected }"
-            :text="edge.label"
-            align="center"
-            vertical-align="above"
-            v-bind="slotProps"
-          />
-        </template>
+          <template #edge-label="{ edge, hovered, selected, ...slotProps }">
+            <v-edge-label
+              :class="{ hovered, selected }"
+              :text="edge.label"
+              align="center"
+              vertical-align="above"
+              v-bind="slotProps"
+            />
+          </template>
           <Background />
         </v-network-graph>
       </div>
     </div>
-  </div>
-  <button
-    @click="goBack"
-    class="btn btn-primary position-absolute top-0 end-0 mt-3 me-3"
-  >
-    <i class="bi bi-arrow-left"></i>
-  </button>
 
-  <div class="rounded-buttons">
-    <button @click="openHelp" class="btn btn-primary rounded m-1">
-      <i class="bi bi-question-lg"></i>
+    <!-- More Functions Button -->
+    <button
+      @click="goBack"
+      class="btn btn-primary position-absolute top-0 end-0 m-1"
+    >
+      <i class="bi bi-arrow-left"></i>
     </button>
-    <button @click="openSettings" class="btn btn-primary rounded m-1">
-      <i class="bi bi-exclamation-lg"></i>
-    </button>
+
+    <span
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasRight"
+      aria-controls="offcanvasRight"
+    >
+      <button
+        class="btn btn-primary bi bi-list position-absolute sticky-top top-0 start-0 m-1"        
+        type="button"
+        data-bs-toggle="tooltip"
+        data-bs-placement="left"
+        data-bs-custom-class="custom-tooltip"
+        data-bs-title="Funciones Extra."
+      ></button>
+    </span>
+
+    <div
+      class="offcanvas offcanvas-start"
+      data-bs-backdrop="static"
+      tabindex="-1"
+      id="offcanvasRight"
+      aria-labelledby="offcanvasRightLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title fw-bold" id="offcanvasRightLabel">
+          Funciones Extra...
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <div>Seleccione la función que desee.</div>
+        <div class="my-3">
+          <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">
+            Centrar
+          </button>
+          <button
+            class="btn btn-outline-info w-100 py-2 mt-2"
+            @click="fitToContents"
+          >
+            Ajustar
+          </button>
+        </div>
+        <div class="d-flex gap-3">
+          <button
+            class="btn btn-outline-info bi bi-plus-circle w-100 py-2 mt-1"
+            @click="zoomIn"
+          ></button>
+          <button
+            class="btn btn-outline-info bi bi-dash-circle w-100 py-2 mt-1"
+            @click="zoomOut"
+          ></button>
+        </div>
+        <button
+          data-bs-dismiss="offcanvas"
+          :class="
+            isBoxSelectionMode
+              ? 'btn btn-info w-100 py-2 mt-3'
+              : 'btn btn-outline-info w-100 py-2 mt-3'
+          "
+          @click="toggleBoxSelection"
+        >
+          {{ isBoxSelectionMode ? "Detener selección" : "Iniciar selección" }}
+        </button>
+        <button
+          class="btn btn-outline-info w-100 py-2 mt-2"
+          data-bs-dismiss="offcanvas"
+          @click="openFileNameModal"
+        >
+          Guardar Archivo
+        </button>
+        <input
+          type="file"
+          class="upload-file my-2 mt-2 form-control"
+          @change="loadGraph"
+          accept=".json"
+        />
+        <button
+          class="btn btn-outline-info w-100 py-2 mt-2"
+          data-bs-dismiss="offcanvas"
+          @click="openGraphFile"
+        >
+          Abrir Archivo
+        </button>
+
+        <button
+          class="btn btn-outline-info w-100 py-2 mt-2"
+          data-bs-dismiss="offcanvas"
+          @click="openAdjacencyMatrixModal"
+        >
+          Matriz de Adyacencia
+        </button>
+        <button @click="goBack" class="btn btn-outline-info w-100 py-2 mt-2">
+          Ir a inicio
+        </button>
+      </div>
+    </div>
+
+    <!-- help buttons -->
+    <div class="rounded-buttons position-absolute">
+      <button @click="openHelp" class="btn btn-primary rounded m-1">
+        <i class="bi bi-question-lg"></i>
+      </button>
+      <button @click="openSettings" class="btn btn-primary rounded m-1">
+        <i class="bi bi-exclamation-lg"></i>
+      </button>
+    </div>
+
+    <!-- View Controls -->
+    <div
+      class="d-md-flex d-block gap-5 w-100 justify-content-center position-absolute sticky-bottom bg-info bg-opacity-10 py-3 px-3 py-md-4 px-md-5"
+    >
+      <div class="d-flex gap-2 gap-md-5 mb-2 mb-md-0">
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Agregar Nodo."
+          class="bi bi-node-plus rounded-circle py-3 px-4"
+          :class="
+            isAddingNode === true ? 'btn btn-info' : 'btn btn-outline-info'
+          "
+          @click="startAddingNode"
+        ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Agregar Arista."
+          class="bi bi-arrow-down-right rounded-circle py-3 px-4"
+          :class="
+            selectedNodes.length === 1 || selectedNodes.length === 2
+              ? 'btn btn-info'
+              : 'btn btn-outline-info'
+          "
+          @click="edgeAdditionButton"
+        ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Eliminar."
+          class="bi bi-trash rounded-circle py-3 px-4"
+          :class="
+            selectedEdges.length > 0 || selectedNodes.length > 0
+              ? 'btn btn-info'
+              : 'btn btn-outline-info'
+          "
+          @click="handleDeletion"
+        ></button>
+      </div>
+      <div class="d-flex gap-2 gap-md-5">
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Renombrar."
+          class="bi bi-pencil-square rounded-circle py-3 px-4"
+          v-show="selectedNodes.length === 1"
+          :class="
+            selectedNodes.length === 1 || selectedEdges.length === 1
+              ? 'btn btn-info'
+              : 'btn btn-outline-info'
+          "
+          @click="openRenameModal"
+        ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Renombrar."
+          class="bi bi-pencil-square rounded-circle py-3 px-4"
+          v-show="selectedEdges.length === 1"
+          :class="
+            selectedNodes.length === 1 || selectedEdges.length === 1
+              ? 'btn btn-info'
+              : 'btn btn-outline-info'
+          "
+          @click="openRenameEdgeModal"
+        ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Guardar en Base de Datos."
+          class="btn btn-outline-info bi bi-floppy rounded-circle py-3 px-4"
+          @click="openFileNameModal"
+        ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Limpiar."
+          class="btn btn-outline-info bi bi-file-earmark-x rounded-circle py-3 px-4"
+          @click="handleClearAll"
+        ></button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -311,9 +600,9 @@ import {
 import { Background } from "@vue-flow/background";
 import data from "../data/initial-data.js";
 import { useRouter } from "vue-router";
-import { Modal } from 'bootstrap';
-
-import fileService from "../services/fileService.js";
+import { Modal } from "bootstrap";
+import * as bootstrap from "bootstrap";
+import { isAddingNode, handleNodeAddition, startAddingNode, mousePosition, updateMousePosition } from '../utils/addingNode.ts'
 
 const router = useRouter();
 
@@ -337,9 +626,6 @@ const fitToContents = () => graph.value?.fitToContents();
 const zoomIn = () => graph.value?.zoomIn();
 const zoomOut = () => graph.value?.zoomOut();
 
-let sourceEdgeType = ref("");
-let targetEdgeType = ref("");
-
 const configs = defineConfigs({
   view: {
     panEnabled: true,
@@ -359,40 +645,39 @@ const configs = defineConfigs({
     draggable: true,
     normal: {
       type: "circle",
-      radius: 16,
+      radius: 32,
       width: 32,
       height: 32,
       borderRadius: 4,
-      strokeWidth: 0,
+      strokeWidth: 3,
       strokeColor: "#000000",
       strokeDasharray: "0",
-      color: "#4466cc",
+      color: "#599db9",
     },
     hover: {
       type: "circle",
-      radius: 16,
+      radius: 28,
       width: 32,
       height: 32,
       borderRadius: 4,
-      strokeWidth: 0,
+      strokeWidth: 2,
       strokeColor: "#000000",
       strokeDasharray: "0",
       color: "#dd2288",
     },
     selected: {
       type: "circle",
-      radius: 16,
+      radius: 28,
       width: 32,
       height: 32,
       borderRadius: 4,
-      strokeWidth: 0,
+      strokeWidth: 2,
       strokeColor: "#000000",
       strokeDasharray: "0",
-      color: "#4466cc",
+      color: "#599db9",
     },
     label: {
       visible: true,
-      fontFamily: "Sans serif",
       fontSize: 15,
       lineHeight: 1.1,
       color: "#000000",
@@ -423,7 +708,7 @@ const configs = defineConfigs({
     hoverable: true,
     normal: {
       width: 3,
-      color: "#4466cc",
+      color: "#000000",
       dasharray: "0",
       linecap: "butt",
       animate: false,
@@ -431,7 +716,7 @@ const configs = defineConfigs({
     },
     hover: {
       width: 4,
-      color: "#3355bb",
+      color: "#599db9",
       dasharray: "0",
       linecap: "butt",
       animate: false,
@@ -450,9 +735,9 @@ const configs = defineConfigs({
       fontFamily: "Sans serif",
       color: "#000000",
     },
-    gap: 5,
-    type: "straight",
-    margin: 2,
+    gap: 20,
+    type: "curve",
+    margin: 6,
     marker: {
       source: {
         type: "none",
@@ -474,7 +759,7 @@ const configs = defineConfigs({
       },
     },
     selfLoop: {
-      radius: 14,
+      radius: 24,
       offset: 16,
       angle: 180,
       isClockwise: true,
@@ -483,41 +768,43 @@ const configs = defineConfigs({
   },
 });
 
+
+// Adding Node -------------------------------------------------------------
 let isAddingNode = ref(false);
 
 const handleNodeAddition = () => {
   if (isAddingNode.value && graph.value) {
     const nodeId = `node${nextNodeIndex.value}`;
     const name = `Nodo ${nextNodeIndex.value}`;
-    
-    // Get the mouse position in DOM coordinates
+
     const domPoint = { x: mousePosition.value.x, y: mousePosition.value.y };
 
-    // Get the position of the SVG element in the DOM
     const svgElement = graph.value.$el;
     const svgRect = svgElement.getBoundingClientRect();
 
-    // Subtract the SVG element's offset from the mouse coordinates
     const svgPoint = {
       x: domPoint.x - svgRect.left,
       y: domPoint.y - svgRect.top,
     };
 
-    // Translate the coordinates from SVG to DOM
-    const svgToDomPoint = graph.value.translateFromDomToSvgCoordinates(svgPoint);
+    const svgToDomPoint =
+      graph.value.translateFromDomToSvgCoordinates(svgPoint);
 
-    // Add node and its position
-    nodes[nodeId] = { id: nodeId, name, x: svgToDomPoint.x, y: svgToDomPoint.y };
+    nodes[nodeId] = {
+      id: nodeId,
+      name,
+      x: svgToDomPoint.x,
+      y: svgToDomPoint.y,
+    };
     layouts.nodes[nodeId] = { x: svgToDomPoint.x, y: svgToDomPoint.y };
-    
+
     nextNodeIndex.value++;
   }
 };
 
-
 function startAddingNode() {
   isAddingNode.value = !isAddingNode.value;
-};
+}
 
 const mousePosition = ref({ x: 0, y: 0 });
 
@@ -527,18 +814,19 @@ const updateMousePosition = (event) => {
 };
 
 onMounted(() => {
-  window.addEventListener('mousemove', updateMousePosition);
+  window.addEventListener("mousemove", updateMousePosition);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('mousemove', updateMousePosition);
+  window.removeEventListener("mousemove", updateMousePosition);
 });
 
 
+// Deleting Node -------------------------------------------------------------
 const confirmDeleteModal = ref<Modal | null>(null);
 
 onMounted(() => {
-  const modalElement = document.getElementById('confirmDeleteModal');
+  const modalElement = document.getElementById("confirmDeleteModal");
   confirmDeleteModal.value = new Modal(modalElement);
 });
 
@@ -558,17 +846,20 @@ const handleDeletion = () => {
   }
 };
 
+
+// Adding Edge -------------------------------------------------------------
 const edgeAdditionButton = () => {
   let [source, target] = ["", ""];
   if (selectedNodes.value.length === 1) {
     source = target = selectedNodes.value.toString();
   } else if (selectedNodes.value.length === 2) {
-    [source, target] = selectedNodes.value.map(node => node.toString());
+    [source, target] = selectedNodes.value.map((node) => node.toString());
   } else return;
   const edgeId = `edge${nextEdgeIndex.value}`;
   const label = `Arista ${nextEdgeIndex.value}`;
   edges[edgeId] = { source, target, label };
   nextEdgeIndex.value++;
+  selectedNodes.value = [];
 };
 
 const edgeAdditionKey = (event: KeyboardEvent) => {
@@ -577,10 +868,10 @@ const edgeAdditionKey = (event: KeyboardEvent) => {
   }
 };
 
+// Selection -------------------------------------------------------------
 const isBoxSelectionMode = ref(false);
 const eventHandlers: EventHandlers = {
   "view:mode": (mode) => {
-    // Observa eventos de cambio de modo
     isBoxSelectionMode.value = mode === "box-selection";
   },
 };
@@ -598,23 +889,28 @@ const toggleBoxSelection = () => {
   if (isBoxSelectionMode.value) {
     stopBoxSelection();
   } else {
+    if (isAddingNode.value) {
+      isAddingNode.value = false;
+    }
     startBoxSelection();
   }
 };
 
+// Modals elements -------------------------------------------------------------
 const openRenameModal = () => {
   if (selectedNodes.value.length !== 1) return;
   renameNodeModal.show();
 };
 
-let renameNodeModal = null;
-let remaneEdgeModal = null;
-let nameFileToSaveModal = null;
-let helpCenterModal = null;
-let adjacencyMatrixModal = null;
+let renameNodeModal: Modal | null = null;
+let renameEdgeModal: Modal | null = null;
+let nameFileToSaveModal: Modal | null = null;
+let helpCenterModal: Modal | null = null;
+let adjacencyMatrixModal: Modal | null = null;
+let clearAllModal: Modal | null = null;
 
 onMounted(() => {
-  const modalElement = document.getElementById('renameNodeModal');
+  const modalElement = document.getElementById("renameNodeModal");
   renameNodeModal = new Modal(modalElement);
 
   const saveFileModalElement = document.getElementById("fileNameToSave");
@@ -623,55 +919,83 @@ onMounted(() => {
   const helpCenterModalElement = document.getElementById("helpCenterModal");
   helpCenterModal = new Modal(helpCenterModalElement);
 
-  const adjacencyMatrixModalElement = document.getElementById("adjacencyMatrixModal");
+  const adjacencyMatrixModalElement = document.getElementById(
+    "adjacencyMatrixModal"
+  );
   adjacencyMatrixModal = new Modal(adjacencyMatrixModalElement);
 
-  const remaneEdgeModalElement = document.getElementById("renameEdgeModal");
-  remaneEdgeModal = new Modal(remaneEdgeModalElement);
+  const renameEdgeModalElement = document.getElementById("renameEdgeModal");
+  renameEdgeModal = new Modal(renameEdgeModalElement);
+
+  const clearAllModalElement = document.getElementById("confirmClearAllModal");
+  clearAllModal = new Modal(clearAllModalElement);
+
+  const tooltipTriggerList = document.querySelectorAll(
+    '[data-bs-toggle="tooltip"]'
+  );
+  tooltipTriggerList.forEach((tooltipTriggerEl: Element) => {
+    new bootstrap.Tooltip(tooltipTriggerEl as HTMLElement);
+  });
 });
 
-const newNodeName = ref('');
+// matrix logic ------------------------------------------------------------
+const generateAdjacencyMatrix = (): number[][] => {
+  const adjacencyMatrix: number[][] = [];
+  for (const nodeId in nodes) {
+    const row: number[] = [];
+    for (const edgeId in edges) {
+      const edge = edges[edgeId];
+      if (edge.source === nodeId || edge.target === nodeId) {
+        row.push(1);
+      } else {
+        row.push(0);
+      }
+    }
+    adjacencyMatrix.push(row);
+  }
+  return adjacencyMatrix;
+};
+
+const openAdjacencyMatrixModal = () => {
+  const adjacencyMatrix = generateAdjacencyMatrix();
+  const adjacencyMatrixString = adjacencyMatrix
+    .map((row) => row.join(" "))
+    .join("\n");
+  const adjacencyMatrixElement = document.getElementById("adjacencyMatrix");
+  if (adjacencyMatrixElement) {
+    adjacencyMatrixElement.textContent = adjacencyMatrixString;
+  }
+  adjacencyMatrixModal?.show();
+};
+
+// Rename Node -------------------------------------------------------------
+const newNodeName = ref("");
 const newEdgeName = ref("");
 
 const renameNode = () => {
   if (!newNodeName.value) return;
   const nodeId = selectedNodes.value[0];
   nodes[nodeId].name = newNodeName.value;
-  newNodeName.value = '';
+  newNodeName.value = "";
   renameNodeModal.hide();
 };
 
+
+// Rename Edge -------------------------------------------------------------
 const renameEdge = () => {
   if (!newEdgeName.value) return;
   const edgeId = selectedEdges.value[0];
   edges[edgeId].label = newEdgeName.value;
   newEdgeName.value = "";
-  remaneEdgeModal.hide();
+  renameEdgeModal.hide();
 };
 
 const openRenameEdgeModal = () => {
   if (selectedEdges.value.length !== 1) return;
-  remaneEdgeModal.show();
+  renameEdgeModal.show();
 };
 
-const setUnidirectionalEdges = () => {
-  if (selectedEdges.value.length !== 1) return;
-  // sourceEdgeType = "none";
-  // targetEdgeType = "arrow";
-};
-
-const setBidirectionalEdge = () => {
-  if (selectedEdges.value.length !== 1) return;
-  // sourceEdgeType = "none";
-  // targetEdgeType = "arrow";
-};
-
-const setUndirectedEdge = () => {
-  if (selectedEdges.value.length !== 1) return;
-  // sourceEdgeType = "none";
-  // targetEdgeType = "arrow";
-};
-
+// Save and Load Graph -------------------------------------------------------------
 const saveGraphSuccess = ref(false);
 const saveGraphError = ref(false);
 
@@ -686,10 +1010,10 @@ const saveGraph = () => {
     };
 
     const jsonData = JSON.stringify(graphData, null, 2); // Indentation of 2 spaces
-    const blob = new Blob([jsonData], { type: 'application/json' });
+    const blob = new Blob([jsonData], { type: "application/json" });
 
     // Create a download link
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = fileNameToSave.value;
 
@@ -705,7 +1029,7 @@ const saveGraph = () => {
     fileNameToSave.value = "";
     nameFileToSaveModal.hide();
   } catch (error) {
-    console.error('Error al guardar el grafo:', error);
+    console.error("Error al guardar el grafo:", error);
     saveGraphError.value = true;
   }
 };
@@ -725,10 +1049,10 @@ const loadGraph = async () => {
 
   if (file) {
     try {
-      console.log('File:', file);
+      console.log("File:", file);
       fileNameSaved.value = file.name;
       const fileContent = await file.text();
-      console.log('File content:', fileContent);
+      console.log("File content:", fileContent);
       const graphData = JSON.parse(fileContent);
 
       // Update nodes, edges, and layouts with loaded data
@@ -746,7 +1070,7 @@ const loadGraph = async () => {
 
       loadGraphSuccess.value = true;
     } catch (error) {
-      console.error('Error al cargar el grafo:', error);
+      console.error("Error al cargar el grafo:", error);
       loadGraphError.value = true;
     }
   }
@@ -757,20 +1081,40 @@ const openGraphFile = () => {
   (inputElement as HTMLInputElement).click();
 };
 
+// help modal -------------------------------------------------------------
 const openHelp = () => {
   helpCenterModal.show();
 };
 
-const openAdjacencyMatrixModal = () => {
-  adjacencyMatrixModal.show();
+// Clear All -------------------------------------------------------------
+const confirmClearAll = () => {
+  for (const nodeId in nodes) {
+    delete nodes[nodeId];
+  }
+
+  for (const edgeId in edges) {
+    delete edges[edgeId];
+  }
+
+  nextNodeIndex.value = 1;
+  nextEdgeIndex.value = 1;
+
+  clearAllModal?.hide();
 };
+
+const handleClearAll = () => {
+  if (clearAllModal) {
+    clearAllModal.show();
+  }
+};
+
 </script>
 
 <style scoped>
 .container-all {
   display: grid;
-  grid-template-rows: auto;
-  grid-template-columns: 18% 1fr;
+  grid-template-rows: 18% 1fr;
+  grid-template-columns: auto;
 }
 
 .editor-container {
@@ -791,6 +1135,10 @@ const openAdjacencyMatrixModal = () => {
   background-color: #f3f3f3;
 }
 
+.bi {
+  font-size: 2em;
+}
+
 .zoom-slider {
   margin-bottom: 10px;
 }
@@ -806,5 +1154,11 @@ const openAdjacencyMatrixModal = () => {
 
 .upload-file {
   display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .bi {
+    font-size: 1.5em;
+  }
 }
 </style>
