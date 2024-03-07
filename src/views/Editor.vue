@@ -940,7 +940,9 @@ const toggleBoxSelection = () => {
   if (isBoxSelectionMode.value) {
     stopBoxSelection();
   } else {
-    isAddingNode = false;
+    if (isAddingNode.value) {
+      isAddingNode.value = false;
+    }
     startBoxSelection();
   }
 };
