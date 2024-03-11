@@ -7,6 +7,6 @@ import VNetworkGraph from 'v-network-graph';
 
 import 'v-network-graph/lib/style.css';
 import 'bootswatch/dist/sketchy/bootstrap.min.css';
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-createApp(App).use(bootstrap).use(createPinia()).use(router).use(VNetworkGraph).mount('#app')
+createApp(App).use(createPinia()).use(router).use(VNetworkGraph).mount('#app')

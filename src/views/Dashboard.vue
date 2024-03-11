@@ -3,7 +3,7 @@
     <!-- NavBar -->
     <nav class="navbar sticky-top navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div class="container-fluid">
-        <a class="navbar-brand fw-bold mx-4 mx-md-5" href="#">GRAFOS</a>
+        <a class="navbar-brand fw-bold mx-4 mx-md-5" href="#">Algoritmos</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -18,21 +18,14 @@
         <div class="collapse navbar-collapse" id="navbarToggler">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
             <li class="nav-item me-md-3">
-              <router-link to="/dashboard" class="nav-link active" aria-current="page">Dashboard</router-link>
+              <router-link to="/" class="nav-link active" aria-current="page">Home</router-link>
             </li>
             <li class="nav-item">
-              <button class="nav-link w-100" @click="goEditor">Crear</button>
+              <button class="nav-link w-100" @click="goEditor">Algoritmos</button>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input
-              class="form-control me-2 bg-body-tertiary"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-success" type="submit">Buscar</button>
-          </form>
+            <button class="btn btn-success d-flex mx-2" @click="goLogin">Ingresar</button>
+            <button class="btn btn-info d-flex mx-2" @click="goSignUp">Registrarse</button>
         </div>
       </div>
     </nav>
@@ -58,7 +51,6 @@
           </div>
           <div class="modal-body">
             <p>¡Hola! 😄 ¡Bienvenido al increíble mundo de los grafos! 🌐✨ Aquí te dejamos una guía rápida para que domines esta herramienta como un pro:</p>
-            <!-- Contenido del Centro de Ayuda... (se omite para abreviar) -->
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
@@ -175,10 +167,24 @@
 </template>
 
 <script>
+
+import { ref } from 'vue';
+import { useAuthStore } from "../stores/auth";
+import { useRouter } from "vue-router";
+// import UserlistService from "../services/userlistService";
+
 export default {
   setup() {
     const goEditor = () => {
       router.push("/editor");
+    };
+
+    const goLogin = () => {
+      router.push("/login");
+    };
+
+    const goSignUp = () => {
+      router.push("/signup");
     };
 
     const openHelp = () => {
@@ -190,6 +196,21 @@ export default {
       openHelp
     };
   }
+      goLogin,
+      goSignUp,
+      openHelp,
+      openSettings,
+      helpCenterModal,
+      perfilModal,
+    };
+  },
+
+  // mounted() {
+  //   const userlistService = new UserlistService();
+  //   console.log("Dashboard mounted, Listing users");
+  //   const usr_list = userlistService.getUsers();
+  //   console.log(usr_list);
+  // },
 };
 </script>
 
