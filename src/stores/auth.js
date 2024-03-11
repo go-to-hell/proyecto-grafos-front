@@ -3,26 +3,46 @@ import { defineStore } from 'pinia';
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        users: [
-            { name: 'Admin', lastname: 'Admin', email: 'admin@gmail.com', password: 'admin' },
-            { name: 'John', lastname: 'Doe', email: 'johndoe@gmail.com', password: '123456' },
-            { name: 'Jane', lastname: 'Doe', email: 'janedoe@gmail.com', password: 'password' },
-        ],
+        users: [],
         currentUser: null,
     }),
 
     actions: {
-        addUser(user) {
+        async addUser(user) {
             this.users.push(user);
-        },
-        checkUser(user) {
-            const foundUser = this.users.find(
-                (u) => u.email === user.email && u.password === user.password
-            );
 
-            if (foundUser) {
-                this.currentUser = foundUser;
-                return true;
+            const res = await fetch('http://localhost:8081/users/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            });
+
+            if (res.ok) {
+                console.log('Usuario creado');
+            } else {
+                console.error('Error al crear el usuario');
+            }
+        },
+        async checkUser(user) {
+            const res = await fetch('http://localhost:8081/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            });
+
+            if (res.ok) {
+                const authResponse = await res.json();
+
+                // Comprobar que authResponse tiene un token de acceso
+                if (authResponse && authResponse.access_token) {
+                    this.accessToken = authResponse.access_token;
+                    this.refreshToken = authResponse.refresh_token;
+                    return true;
+                }
             }
 
             return false;
