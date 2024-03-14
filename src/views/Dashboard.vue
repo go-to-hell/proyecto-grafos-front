@@ -193,17 +193,16 @@ export default {
 
     return {
       goEditor,
-      openHelp
-    };
-  }
+      openHelp,
       goLogin,
       goSignUp,
       openHelp,
-      openSettings,
-      helpCenterModal,
-      perfilModal,
+      // openSettings,
+      // helpCenterModal,
+      // perfilModal,
     };
   },
+};
 
   // mounted() {
   //   const userlistService = new UserlistService();
@@ -211,7 +210,6 @@ export default {
   //   const usr_list = userlistService.getUsers();
   //   console.log(usr_list);
   // },
-};
 </script>
 
 <style scoped>
