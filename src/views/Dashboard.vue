@@ -206,7 +206,7 @@ export default {
       goLogin,
       goSignUp,
       openHelp,
-      // openSettings,
+      openSettings,
       // helpCenterModal,
       // perfilModal,
     };
