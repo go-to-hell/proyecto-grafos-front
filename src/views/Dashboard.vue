@@ -167,7 +167,6 @@
 </template>
 
 <script>
-
 import { ref } from 'vue';
 import { useAuthStore } from "../stores/auth";
 import { useRouter } from "vue-router";
@@ -175,6 +174,11 @@ import { useRouter } from "vue-router";
 
 export default {
   setup() {
+    const authStore = useAuthStore();
+    const router = useRouter();
+    const helpCenterModal = ref(null);
+    const perfilModal = ref(null);
+
     const goEditor = () => {
       router.push("/editor");
     };
@@ -191,11 +195,14 @@ export default {
       helpCenterModal.value.toggle();
     };
 
-    return {
-      goEditor,
-      openHelp
+    const openSettings = () => {
+      // Redirige al perfil cuando se abre la configuración
+      router.push("/perfil");
     };
-  }
+
+    return {
+      authStore,
+      goEditor,
       goLogin,
       goSignUp,
       openHelp,
