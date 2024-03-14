@@ -16,8 +16,8 @@
       <input
         type="text"
         :class="inputClasses"
-        placeholder="Ingresa tu dirección email"
-        v-model="email"
+        placeholder="Ingresa tu nombre de usuario"
+        v-model="username"
         autofocus
       />
       <input
@@ -49,7 +49,7 @@ export default {
     const router = useRouter();
 
     // Utilizando ref para los campos del formulario
-    const email = ref("");
+    const username = ref("");
     const password = ref("");
     const alertMessage = ref("");
 
@@ -63,13 +63,14 @@ export default {
     // Método para manejar el envío del formulario
     const submitForm = () => {
       console.log("Enviando formulario...");
-      if (email.value.length > 0 && password.value.length > 0) {
-        const user = { email: email.value, password: password.value };
+      if (username.value.length > 0 && password.value.length > 0) {
+        const user = { username: username.value, password: password.value };
 
         if (authStore.checkUser(user)) {
-          email.value = "";
+          username.value = "";
           password.value = "";
-          router.push("/dashboard");
+          router.push("/");
+          console.log("Usuario autenticado");
         } else {
           alertMessage.value = "Usuario o contraseña incorrectos";
         }
@@ -83,7 +84,7 @@ export default {
 
     // Retornando las propiedades y métodos
     return {
-      email,
+      username,
       password,
       inputClasses,
       buttonClasses,

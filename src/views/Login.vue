@@ -12,6 +12,15 @@
             alt="graph"
           />
         </div>
+        <!-- Go Back Button -->
+        <div>
+          <button
+            @click="goBack"
+            class="btn btn-primary position-absolute top-0 start-0 mt-3 ms-3"
+          >
+            <i class="bi bi-arrow-left"></i>
+          </button>
+        </div>
       </div>
     </div>
     <!-- Right Side (Form) -->
@@ -135,9 +144,14 @@ export default {
       router.push("/signup");
     };
 
+    const goBack = () => {
+      router.go(-1);
+    };
+
     return {
       authStore,
       signUp,
+      goBack,
     };
   },
 };

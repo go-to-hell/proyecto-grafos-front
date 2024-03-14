@@ -101,4 +101,29 @@ export default {
   height: 200px; /* Ajusta el tamaño deseado */
   object-fit: cover; /* O ajusta según tu preferencia */
 }
+
+/* Estilo para las flechas del carrusel */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(0.5) sepia(0%) saturate(0%) hue-rotate(259deg) brightness(107%) contrast(107%);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: transparent;
+  border: none;
+  width: 50px; /* Ajusta el tamaño de las flechas */
+  height: 50px; /* Ajusta el tamaño de las flechas */
+  position: absolute;
+  top: 50%; /* Centra verticalmente */
+  transform: translateY(-50%); /* Centra verticalmente */
+}
+
+.carousel-control-prev {
+  left: 0; /* Ubica a la izquierda */
+}
+
+.carousel-control-next {
+  right: 0; /* Ubica a la derecha */
+}
 </style>

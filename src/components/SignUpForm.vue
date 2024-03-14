@@ -9,16 +9,10 @@
     <form @submit.prevent="submitForm">
       <input
         type="text"
-        placeholder="Ingresa tu nombre"
+        placeholder="Ingresa tu nombre de usuario"
         :class="inputClasses"
-        v-model="name"
+        v-model="username"
         autofocus
-      />
-      <input
-        type="text"
-        placeholder="Ingresa tu apellido"
-        :class="inputClasses"
-        v-model="lastname"
       />
       <input
         type="email"
@@ -55,8 +49,7 @@ export default {
     const authStore = useAuthStore();
     const router = useRouter();
 
-    const name = ref("");
-    const lastname = ref("");
+    const username = ref("");
     const email = ref("");
     const password = ref("");
     const repeatedPassword = ref("");
@@ -72,15 +65,12 @@ export default {
       if (email.value.length > 0 && password.value.length > 0) {
         if (password.value === repeatedPassword.value) {
           authStore.addUser({
-            name: name.value,
-            lastname: lastname.value,
+            username: username.value,
             email: email.value,
             password: password.value,
           });
-          // Lógica adicional, como enviar datos al servidor, etc.
 
-          name.value = "";
-          lastname.value = "";
+          username.value = "";
           email.value = "";
           password.value = "";
           repeatedPassword.value = "";
@@ -94,8 +84,7 @@ export default {
     };
 
     return {
-      name,
-      lastname,
+      username,
       email,
       password,
       repeatedPassword,
