@@ -207,11 +207,10 @@ export default {
       goSignUp,
       openHelp,
       openSettings,
-      // helpCenterModal,
-      // perfilModal,
+      helpCenterModal,
+      perfilModal,
     };
   },
-};
 
   // mounted() {
   //   const userlistService = new UserlistService();
@@ -219,6 +218,7 @@ export default {
   //   const usr_list = userlistService.getUsers();
   //   console.log(usr_list);
   // },
+};
 </script>
 
 <style scoped>
