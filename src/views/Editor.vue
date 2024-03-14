@@ -1062,6 +1062,13 @@ const loadGraph = async () => {
       Object.assign(edges, graphData.edges);
       Object.assign(layouts, graphData.layouts);
 
+      const nodesLength = Object.keys(nodes).length;
+      const edgesLength = Object.keys(edges).length;
+      console.log("Nodes length:", nodesLength);
+      console.log("Edges length:", edgesLength);
+      nextNodeIndex.value = nodesLength + 1;
+      nextEdgeIndex.value = edgesLength + 1;
+
       // If a node or an edge does not exist in the JSON but it exists in the canvas, delete it
       for (const nodeId in nodes) {
         if (!graphData.nodes[nodeId]) {
