@@ -131,19 +131,13 @@
       <h2>Videos Informativos</h2>
       <div class="row">
         <div class="col-md-4 mb-4">
-          <a href="https://www.youtube.com/watch?v=F5Xjpg0-NhM" target="_blank">
-            <img src="../assets/Video1.png" alt="Video 1" class="img-fluid">
-          </a>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/F5Xjpg0-NhM?si=J5ayrGHhmRa1Fm5T" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
         <div class="col-md-4 mb-4">
-          <a href="https://www.youtube.com/watch?v=23pdz9VtIBo" target="_blank">
-            <img src="../assets/Video2.png" alt="Video 2" class="img-fluid">
-          </a>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/23pdz9VtIBo?si=p_O2MEQQXTjwhwj1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
         <div class="col-md-4 mb-4">
-          <a href="https://www.youtube.com/watch?v=vnNFiNVy9KM" target="_blank">
-            <img src="../assets/Video3.png" alt="Video 3" class="img-fluid">
-          </a>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/vnNFiNVy9KM?si=Rp4qmMZN3axEe-21" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
       </div>
     </div>
