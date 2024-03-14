@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- NavBar -->
-    <nav class="navbar sticky-top navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <nav class="navbar sticky-top navbar-expand-lg bg-primary" data-bs-theme="dark">
       <div class="container-fluid">
         <a class="navbar-brand fw-bold mx-4 mx-md-5" href="#">Algoritmos</a>
         <button
@@ -24,138 +24,154 @@
               <button class="nav-link w-100" @click="goEditor">Algoritmos</button>
             </li>
           </ul>
-            <button class="btn btn-success d-flex mx-2" @click="goLogin">Ingresar</button>
-            <button class="btn btn-info d-flex mx-2" @click="goSignUp">Registrarse</button>
+          <button class="btn btn-success d-block d-md-inline-block mx-2 my-2" @click="goLogin">Ingresar</button>
+          <button class="btn btn-info d-block d-md-inline-block mx-2 my-2" @click="goSignUp">Registrarse</button>
         </div>
       </div>
     </nav>
 
-
-    <!-- Rounded Buttons -->
-    <div class="rounded-buttons">
-      <button @click="openHelp" class="btn btn-primary rounded m-1">
-        <i class="bi bi-question-lg"></i>
-      </button>
-      <router-link to="/perfil" class="btn btn-primary rounded m-1">
-        <i class="bi bi-exclamation-lg"></i>
-      </router-link>
-    </div>
-
-    <!-- Help Center Modal -->
-    <div class="modal fade" tabindex="-1" ref="helpCenterModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Centro de Ayuda</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p>¡Hola! 😄 ¡Bienvenido al increíble mundo de los grafos! 🌐✨ Aquí te dejamos una guía rápida para que domines esta herramienta como un pro:</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
-          </div>
-        </div>
+    <!-- Carousel wrapper -->
+    <div id="carouselBasicExample" class="carousel slide carousel-fade d-none d-md-block" data-bs-ride="carousel" data-bs-carousel-init>
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button
+          v-for="(slide, index) in slides"
+          :key="index"
+          type="button"
+          :data-bs-target="'#carouselBasicExample'"
+          :data-bs-slide-to="index"
+          :class="{ 'active': currentSlide === index }"
+          :aria-label="'Slide ' + (index + 1)"
+          @click="currentSlide = index"
+        ></button>
       </div>
-    </div>
 
-    <!-- Perfil Modal -->
-    <div class="modal fade" tabindex="-1" ref="perfilModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Perfil</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <!-- Contenido del perfil aquí -->
-            <p>¡Bienvenido a tu perfil!</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-      <!-- Texto debajo del carrusel -->
-      <div class="bg-white p-5">
-      <h2>Información sobre Grafos y Algoritmos</h2>
-    </div>
-    <!-- Carrusel de Imágenes -->
-    <div id="imageCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+      <!-- Inner -->
       <div class="carousel-inner">
+        <!-- Single item -->
         <div class="carousel-item active">
-          <div class="d-flex">
-            <img src="../assets/Grafos.jpg" class="d-block w-25" alt="Grafos">
-            <div class="ms-3">
-              <h2>¿Qué es un Grafo?</h2>
-              <p>Los grafos son estructuras discretas que constan de vértices y aristas que conectan entre sí esos vértices. Por lo tanto, un grafo G consta de dos partes: 1) Un conjunto V = V(G) cuyos elementos se denominan vértices, puntos o nodos de G.</p>
-            </div>
+          <div class="image-container">
+            <img src="../assets/g2.png" class="d-block w-100" alt="Sunset Over the City"/>
+          </div>
+          <div class="carousel-caption d-none d-md-block">
+            <h5>¿Qué es un Grafo?</h5>
+            <p>Los grafos son estructuras discretas que constan de vértices y aristas que conectan entre sí esos vértices. Por lo tanto, un grafo G consta de dos partes: 1) Un conjunto V = V(G) cuyos elementos se denominan vértices, puntos o nodos de G.</p>
           </div>
         </div>
+
+        <!-- Single item -->
         <div class="carousel-item">
-          <div class="d-flex">
-            <img src="../assets/Algoritmo.jpg" class="d-block w-25" alt="Algoritmos">
-            <div class="ms-3">
-              <h2>¿Qué es un Algoritmo?</h2>
-              <p>Se llaman algoritmos al conjunto de instrucciones sistemáticas y previamente definidas que se utilizan para realizar una determinada tarea. Estas instrucciones están ordenadas y acotadas a manera de pasos a seguir para alcanzar un objetivo.</p>
-            </div>
+          <div class="image-container">
+            <img src="../assets/g1.png" class="d-block w-100" alt="Canyon at Nigh"/>
           </div>
-        </div>
-        <div class="carousel-item">
-          <div class="d-flex">
-            <img src="../assets/AyG.png" class="d-block w-25" alt="AyG">
-            <div class="ms-3">
-              <h2>Relación entre Grafos y Algoritmos</h2>
-              <p>Los algoritmos de grafos son un conjunto de instrucciones que recorren (visitan los nodos de) un grafo. Algunos algoritmos son usados para hallar un nodo específico o el camino entre dos nodos dados. Los grafos son estructuras de datos muy útiles que se usan para modelar varios problemas. Estos algoritmos tienen aplicaciones directas en sitios de redes sociales, modelado de máquinas de estado y más.</p>
-            </div>
+          <div class="carousel-caption d-none d-md-block">
+            <h5>¿Qué es un Algoritmo?</h5>
+            <p>Se llaman algoritmos al conjunto de instrucciones sistemáticas y previamente definidas que se utilizan para realizar una determinada tarea. Estas instrucciones están ordenadas y acotadas a manera de pasos a seguir para alcanzar un objetivo.</p>
           </div>
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+      <!-- Inner -->
+
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselBasicExample" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
+        <span class="visually-hidden">Previous</span>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselBasicExample" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Siguiente</span>
+        <span class="visually-hidden">Next</span>
       </button>
     </div>
+    <!-- Carousel wrapper -->
 
-    
+    <div class="container">
 
-    <!-- Enlaces de videos de YouTube -->
-    <div class="mt-5">
-      <h2>Información extra </h2>
-      <h2>Videos Informativos</h2>
-      <div class="row">
-        <div class="col-md-4 mb-4">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/F5Xjpg0-NhM?si=J5ayrGHhmRa1Fm5T" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+      <div class="container mt-4">
+        <h2>Información extra </h2>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <div class="card mt-4">
+                    <img src="../assets/Grafos.jpg" class="card-img-top" alt="Grafos">
+                    <div class="card-body">
+                        <h5 class="card-title">¿Qué es un Grafo?</h5>
+                        <p class="card-text">Los grafos son estructuras discretas que constan de vértices y aristas que conectan entre sí esos vértices. Por lo tanto, un grafo G consta de dos partes: 1) Un conjunto V = V(G) cuyos elementos se denominan vértices, puntos o nodos de G.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card mt-4">
+                    <img src="../assets/Algoritmo.jpg" class="card-img-top" alt="Algoritmos">
+                    <div class="card-body">
+                        <h5 class="card-title">¿Qué es un Algoritmo?</h5>
+                        <p class="card-text">Se llaman algoritmos al conjunto de instrucciones sistemáticas y previamente definidas que se utilizan para realizar una determinada tarea. Estas instrucciones están ordenadas y acotadas a manera de pasos a seguir para alcanzar un objetivo.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card mt-4">
+                    <img src="../assets/AyG.png" class="card-img-top" alt="AyG">
+                    <div class="card-body">
+                        <h5 class="card-title">Relación entre Grafos y Algoritmos</h5>
+                        <p class="card-text">Los algoritmos de grafos son un conjunto de instrucciones que recorren (visitan los nodos de) un grafo. Algunos algoritmos son usados para hallar un nodo específico o el camino entre dos nodos dados. Los grafos son estructuras de datos muy útiles que se usan para modelar varios problemas. Estos algoritmos tienen aplicaciones directas en sitios de redes sociales, modelado de máquinas de estado y más.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4 mb-4">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/23pdz9VtIBo?si=p_O2MEQQXTjwhwj1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-        <div class="col-md-4 mb-4">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/vnNFiNVy9KM?si=Rp4qmMZN3axEe-21" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-      </div>
     </div>
 
-    <!-- Enlaces a papers de Internet -->
-    <div class="md-4">
-      <h2>Papers Informativos</h2>
-      <div class="row">
-        <div class="col-md-4 mb-6">
-          <a href="http://www.cs.uns.edu.ar/~prf/teaching/AyC17/downloads/Teoria/Grafos-4x1.pdf" target="_blank"><img src="../assets/paper1.png" alt="Paper 1" class="img-fluid"></a>
-        </div>
-        <div class="col-md-4 mb-4">
-          <a href="https://repositorio.cmmedu.uchile.cl/Instructional%20design%20(of%20materiales%20or%20pedagogical%20models)./Herramientas%20para%20la%20formaci%C3%B3n%20de%20profesores%20de%20matem%C3%A1tica/01%20-%20GRAFOS%20Fundamentos%20y%20algoritmos.pdf" target="_blank"><img src="../assets/paper2.png" alt="Paper 2" class="img-fluid"></a>
-        </div>
-        <div class="col-md-4 mb-4">
-          <a href="https://www.dm.uba.ar/materias/investigacion_operativa/2011/2/capit_2.pdf" target="_blank"><img src="../assets/paper3.png" alt="Paper 3" class="img-fluid"></a>
+
+      <!-- Enlaces de videos de YouTube -->
+      <div class="mt-4">
+        <h2>Videos Informativos</h2>
+        <div class="row justify-content-center mt-4">
+          <div class="col-12 col-md-3 col-sm-5 mb-4">
+            <div class="embed-responsive embed-responsive-16by9" style="border-radius: 15px; overflow: hidden;">
+              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/F5Xjpg0-NhM?si=J5ayrGHhmRa1Fm5T" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="col-12 col-md-3 col-sm-5 mb-4">
+            <div class="embed-responsive embed-responsive-16by9" style="border-radius: 15px; overflow: hidden;">
+              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/23pdz9VtIBo?si=p_O2MEQQXTjwhwj1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="col-12 col-md-3 col-sm-5 mb-4">
+            <div class="embed-responsive embed-responsive-16by9" style="border-radius: 15px; overflow: hidden;">
+              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/vnNFiNVy9KM?si=Rp4qmMZN3axEe-21" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+          </div>
         </div>
       </div>
+      
+
+      <!-- Enlaces a papers de Internet -->
+      <div class="md-4">
+        <h2>Papers Informativos</h2>
+        <div class="row">
+          <div class="col-md-4 mb-6">
+            <a href="http://www.cs.uns.edu.ar/~prf/teaching/AyC17/downloads/Teoria/Grafos-4x1.pdf" target="_blank">
+              <div class="paper">
+                <img src="../assets/paper1.png" alt="Paper 1" class="img-fluid">
+              </div>
+            </a>
+          </div>
+          <div class="col-md-4 mb-4">
+            <a href="https://repositorio.cmmedu.uchile.cl/Instructional%20design%20(of%20materiales%20or%20pedagogical%20models)./Herramientas%20para%20la%20formaci%C3%B3n%20de%20profesores%20de%20matem%C3%A1tica/01%20-%20GRAFOS%20Fundamentos%20y%20algoritmos.pdf" target="_blank">
+              <div class="paper">
+                <img src="../assets/paper2.png" alt="Paper 2" class="img-fluid">
+              </div>
+            </a>
+          </div>
+          <div class="col-md-4 mb-4">
+            <a href="https://www.dm.uba.ar/materias/investigacion_operativa/2011/2/capit_2.pdf" target="_blank">
+              <div class="paper">
+                <img src="../assets/paper3.png" alt="Paper 3" class="img-fluid">
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -170,8 +186,8 @@ export default {
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
-    const helpCenterModal = ref(null);
-    const perfilModal = ref(null);
+    // const helpCenterModal = ref(null);
+    // const perfilModal = ref(null);
 
     const goEditor = () => {
       router.push("/editor");
@@ -185,24 +201,23 @@ export default {
       router.push("/signup");
     };
 
-    const openHelp = () => {
-      helpCenterModal.value.toggle();
-    };
+    // const openHelp = () => {
+    //   helpCenterModal.value.toggle();
+    // };
 
-    const openSettings = () => {
-      // Redirige al perfil cuando se abre la configuración
-      router.push("/perfil");
-    };
+    // const openSettings = () => {
+    //   // Redirige al perfil cuando se abre la configuración
+    //   router.push("/perfil");
+    // };
 
     return {
       authStore,
       goEditor,
       goLogin,
       goSignUp,
-      openHelp,
-      openSettings,
-      helpCenterModal,
-      perfilModal,
+      currentSlide: 0,
+      slides: [0, 1]
+      // openSettings,
     };
   },
 
@@ -242,40 +257,40 @@ export default {
     color: black; /* Cambiado a negro */
   }
   
-/* Estilo para las flechas del carrusel */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  filter: invert(0.5) sepia(0%) saturate(0%) hue-rotate(259deg) brightness(107%) contrast(107%);
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-  background-color: transparent;
-  border: none;
-  width: 50px; /* Ajusta el tamaño de las flechas */
-  height: 50px; /* Ajusta el tamaño de las flechas */
-  position: absolute;
-  top: 50%; /* Centra verticalmente */
-  transform: translateY(-50%); /* Centra verticalmente */
-}
-
-.carousel-control-prev {
-  left: 0; /* Ubica a la izquierda */
-}
-
-.carousel-control-next {
-  right: 0; /* Ubica a la derecha */
-}
-/* Estilo para las secciones de videos y papers */
-.video-section,
-  .paper-section {
-    padding: 20px; /* Añade espacio interno */
-    margin-top: 40px; /* Ajusta el tamaño del margen en la parte superior */
-    background-color: #f8f9fa; /* Fondo de color claro para resaltar */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más suave */
-    border-radius: 10px; /* Borde redondeado */
-    border: 2px solid #007bff; /* Borde más grueso y de color azul */
+  /* Estilo para las flechas del carrusel */
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    filter: invert(0.5) sepia(0%) saturate(0%) hue-rotate(259deg) brightness(107%) contrast(107%);
   }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    background-color: transparent;
+    border: none;
+    width: 50px; /* Ajusta el tamaño de las flechas */
+    height: 50px; /* Ajusta el tamaño de las flechas */
+    position: absolute;
+    top: 50%; /* Centra verticalmente */
+    transform: translateY(-50%); /* Centra verticalmente */
+  }
+
+  .carousel-control-prev {
+    left: 0; /* Ubica a la izquierda */
+  }
+
+  .carousel-control-next {
+    right: 0; /* Ubica a la derecha */
+  }
+  /* Estilo para las secciones de videos y papers */
+  .video-section,
+    .paper-section {
+      padding: 20px; /* Añade espacio interno */
+      margin-top: 40px; /* Ajusta el tamaño del margen en la parte superior */
+      background-color: #f8f9fa; /* Fondo de color claro para resaltar */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+      border-radius: 10px; /* Borde redondeado */
+      border: 2px solid #007bff; /* Borde más grueso y de color azul */
+    }
 
   /* Estilo para los enlaces de los videos */
   .video-section a,
@@ -292,5 +307,47 @@ export default {
   .video-section a:hover,
   .paper-section a:hover {
     border-color: #0056b3; /* Borde de color azul más oscuro al pasar el ratón */
+  }
+
+  .image-container {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .image-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Adjust the last value to change the transparency */
+    backdrop-filter: blur(5px); /* Adjust the value to change the blur intensity */
+  }
+
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  
+  .card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+  }
+
+  .paper {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+  }
+  
+  .paper:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   }
 </style>
