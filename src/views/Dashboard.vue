@@ -21,7 +21,7 @@
               <router-link to="/" class="nav-link active" aria-current="page">Home</router-link>
             </li>
             <li class="nav-item">
-              <button class="nav-link w-100" @click="goEditor">Algoritmos</button>
+              <button class="nav-link w-100" @click="goGraphs">Grafos</button>
             </li>
           </ul>
           <button class="btn btn-success d-block d-md-inline-block mx-2 my-2" @click="goLogin">Ingresar</button>
@@ -186,11 +186,13 @@ export default {
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
-    // const helpCenterModal = ref(null);
-    // const perfilModal = ref(null);
 
     const goEditor = () => {
       router.push("/editor");
+    };
+    
+    const goGraphs = () => {
+      router.push("/graphs");
     };
 
     const goLogin = () => {
@@ -201,14 +203,9 @@ export default {
       router.push("/signup");
     };
 
-    // const openHelp = () => {
-    //   helpCenterModal.value.toggle();
-    // };
-
-    // const openSettings = () => {
-    //   // Redirige al perfil cuando se abre la configuración
-    //   router.push("/perfil");
-    // };
+    const goMembers = () => {
+      router.push("/members");
+    };
 
     return {
       authStore,
