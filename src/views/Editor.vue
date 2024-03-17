@@ -683,11 +683,24 @@
         ></button>
       </div>
     </div>
+
+    <!-- Self-loop label -->
+    <div v-if="selectedNodes.length === 1" class="self-loop-label">
+      <span
+        class="label-text"
+        :style="{
+          left: nodePosition.x - 20 + 'px',
+          top: nodePosition.y - 70 + 'px',
+        }"
+      >
+        {{ selectedNodes[0] }}
+      </span>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted, computed } from "vue";
+import { ref, reactive, onMounted, onUnmounted, computed, watch } from "vue";
 import {
   Nodes,
   Edges,
@@ -970,6 +983,18 @@ const edgeAdditionKey = (event: KeyboardEvent) => {
   }
 };
 
+const nodePosition = ref({ x: 0, y: 0 });
+
+watch(selectedNodes, (newNodes) => {
+  if (newNodes.length === 1) {
+    const selectedNodeId = newNodes[0];
+    const position = layouts.nodes[selectedNodeId];
+    if (position) {
+      nodePosition.value = position;
+    }
+  }
+});
+
 // Selection -------------------------------------------------------------
 const isBoxSelectionMode = ref(false);
 const eventHandlers: EventHandlers = {
@@ -1250,14 +1275,17 @@ const handleClearAll = () => {
   margin-bottom: 10px;
 }
 
-/* .rounded-buttons {
+.self-loop-label {
+  font-size: 20px;
   position: absolute;
-  bottom: 100px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-} */
+  width: 100%;
+  top: 50%;
+  left: 50%;
+}
+
+.label-text {
+  position: absolute;
+}
 
 .upload-file {
   display: none;
