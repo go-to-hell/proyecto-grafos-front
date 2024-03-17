@@ -1,37 +1,44 @@
 // Importa las librerías necesarias
 import { defineStore } from 'pinia';
+import { useAuthStore } from './auth';
 import axios from 'axios';
 
-// Define tu tienda
 const useAlgorithmStore = defineStore('algorithm', {
 
   // Estado inicial de la tienda
   state: () => ({
     nodes: {},
     edges: {},
-    layouts: {}
+    layouts: {},
+    adjacencyMatrixData: null, // New state property
   }),
 
   // Acciones de la tienda
   actions: {
     // Función para cargar los datos del algoritmo desde el servidor
-    async loadAlgorithmData() {
+    async loadAdjMatrix() {
+      const authStore = useAuthStore();
+    
+      // Convertir la propiedad 'label' de cada 'edge' a un entero
+      const edgesWithIntLabels = this.edges.map(edge => ({
+        ...edge,
+        label: parseInt(edge.label, 10)
+      }));
+    
       const response = await axios.post('http://localhost:8081/graph/adjMatrix', {
         headers: {
-          'Authorization': 'Bearer your_token_here',
+          'Authorization': `Bearer ${authStore.accessToken}`,
           'Content-Type': 'application/json'
         },
         data: {
           nodes: this.nodes,
-          edges: this.edges,
+          edges: edgesWithIntLabels,
           layouts: this.layouts
         }
       });
-
-      // Actualiza el estado de la tienda con los datos recibidos
-      this.nodes = response.data.nodes;
-      this.edges = response.data.edges;
-      this.layouts = response.data.layouts;
+    
+      // Save the adjacency matrix data to the state
+      this.adjacencyMatrixData = response.data;
     }
   }
 });

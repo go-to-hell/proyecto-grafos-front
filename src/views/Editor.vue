@@ -52,7 +52,7 @@
           </div>
           <div class="modal-body">
             <input
-              type="text"
+              type="number"
               class="form-control"
               v-model="newEdgeName"
               placeholder="Ingrese el nuevo nombre de la arista"
@@ -345,7 +345,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <pre id="adjacencyMatrix"></pre>
+            <div id="adjacencyMatrix"></div>
           </div>
           <div class="modal-footer">
             <button
@@ -461,13 +461,6 @@
       class="btn btn-primary bi bi-arrow-left position-absolute top-0 end-0 m-1"
       @click="goBack"
     ></button>
-
-    <!-- help buttons -->
-    <!-- <div class="rounded-buttons">
-      <button @click="openSettings" class="btn btn-primary rounded m-1">
-        <i class="bi bi-exclamation-lg"></i>
-      </button>
-    </div> -->
 
     <span
       data-bs-toggle="offcanvas"
@@ -659,9 +652,27 @@
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
-          data-bs-title="Guardar en Base de Datos."
+          data-bs-title="Guardar."
           class="btn btn-outline-info bi bi-floppy rounded-circle py-3 px-4"
           @click="openFileNameModal"
+        ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Abrir."
+          class="btn btn-outline-info bi bi-folder2-open rounded-circle py-3 px-4"
+          @click="openGraphFile"
+        ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Matriz de Adyacencia."
+          class="btn btn-outline-info bi bi-table rounded-circle py-3 px-4"
+          @click="openAdjacencyMatrixModal"
         ></button>
         <button
           type="button"
@@ -713,6 +724,8 @@ import { Background } from "@vue-flow/background";
 import data from "../data/initial-data.js";
 import { useRouter } from "vue-router";
 import { Modal } from "bootstrap";
+import { useAlgorithmStore } from "../stores/algorithm";
+import { useFileStore } from "../stores/file.js";
 import * as bootstrap from "bootstrap";
 import {
   isAddingNode,
@@ -964,6 +977,9 @@ const handleDeletion = () => {
 
 // Adding Edge -------------------------------------------------------------
 const edgeAdditionButton = () => {
+  if (isAddingNode.value) {
+      isAddingNode.value = false;
+  }
   let [source, target] = ["", ""];
   if (selectedNodes.value.length === 1) {
     source = target = selectedNodes.value.toString();
@@ -971,7 +987,7 @@ const edgeAdditionButton = () => {
     [source, target] = selectedNodes.value.map((node) => node.toString());
   } else return;
   const edgeId = `edge${nextEdgeIndex.value}`;
-  const label = `Arista ${nextEdgeIndex.value}`;
+  const label = `0`;
   edges[edgeId] = { source, target, label };
   nextEdgeIndex.value++;
   selectedNodes.value = [];
@@ -1067,31 +1083,62 @@ onMounted(() => {
 
 // matrix logic ------------------------------------------------------------
 const generateAdjacencyMatrix = (): number[][] => {
-  const adjacencyMatrix: number[][] = [];
-  for (const nodeId in nodes) {
-    const row: number[] = [];
-    for (const edgeId in edges) {
-      const edge = edges[edgeId];
-      if (edge.source === nodeId || edge.target === nodeId) {
-        row.push(1);
-      } else {
-        row.push(0);
-      }
-    }
-    adjacencyMatrix.push(row);
-  }
+  const algorithmStore = useAlgorithmStore();
+
+  // Get the adjacency matrix data from the store
+  const adjacencyMatrixData = algorithmStore.adjacencyMatrixData;
+
+  // Extract the values from the adjacency matrix data
+  const adjacencyMatrix: number[][] = adjacencyMatrixData.values;
+
   return adjacencyMatrix;
 };
 
-const openAdjacencyMatrixModal = () => {
+const openAdjacencyMatrixModal = async () => {
+  const algorithmStore = useAlgorithmStore();
+
+  // Load the adjacency matrix data from the API
+  await algorithmStore.loadAdjMatrix();
+
+  // Generate the adjacency matrix
+  const adjacencyMatrixData = algorithmStore.adjacencyMatrixData;
   const adjacencyMatrix = generateAdjacencyMatrix();
-  const adjacencyMatrixString = adjacencyMatrix
-    .map((row) => row.join(" "))
-    .join("\n");
+
+  const verticesNames = adjacencyMatrixData.verticesNames;
+  const rowSum = adjacencyMatrixData.rowSum;
+  const colSum = adjacencyMatrixData.colSum;
+  const mtxSum = adjacencyMatrixData.mtxSum;
+
+  let tableString = "<table><tr><th></th>";
+
+  // Add vertices names to the table header
+  for (const name of verticesNames) {
+    tableString += `<th>${name}</th>`;
+  }
+
+  tableString += "<th>Row Sum</th></tr>";
+
+  // Add matrix values and row sums to the table body
+  for (let i = 0; i < adjacencyMatrix.length; i++) {
+    tableString += `<tr><td>${verticesNames[i]}</td>`;
+    for (const value of adjacencyMatrix[i]) {
+      tableString += `<td>${value}</td>`;
+    }
+    tableString += `<td>${rowSum[i]}</td></tr>`;
+  }
+
+  // Add column sums to the table footer
+  tableString += "<tr><td>Col Sum</td>";
+  for (const sum of colSum) {
+    tableString += `<td>${sum}</td>`;
+  }
+  tableString += `<td>${mtxSum}</td></tr></table>`;
+
   const adjacencyMatrixElement = document.getElementById("adjacencyMatrix");
   if (adjacencyMatrixElement) {
-    adjacencyMatrixElement.textContent = adjacencyMatrixString;
+    adjacencyMatrixElement.innerHTML = tableString;
   }
+
   adjacencyMatrixModal?.show();
 };
 
@@ -1169,6 +1216,8 @@ const loadGraphError = ref(false);
 
 const fileNameSaved = ref("");
 
+const fileStore = useFileStore();
+
 const loadGraph = async () => {
   const inputElement = document.querySelector('input[type="file"]');
   const file = (inputElement as HTMLInputElement)?.files?.[0];
@@ -1200,6 +1249,10 @@ const loadGraph = async () => {
           delete layouts.nodes[nodeId];
         }
       }
+
+      // Upload the file
+      const fileResponse = await fileStore.uploadFile(file);
+      console.log("File response:", fileResponse);
 
       loadGraphSuccess.value = true;
     } catch (error) {

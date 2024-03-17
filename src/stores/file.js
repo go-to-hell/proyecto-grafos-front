@@ -29,6 +29,46 @@ export const useFileStore = defineStore('file', {
             }
         },
 
+        async updateFile(fileId, file) {
+            const authStore = useAuthStore();
+            const formData = new FormData();
+            formData.append('file', file);
+            const res = await fetch(`http://localhost:8081/files/${fileId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${authStore.accessToken}`,
+                },
+                body: formData,
+            });
+
+            if (res.ok) {
+                const fileResponse = await res.json();
+                this.files = this.files.map(f => f.id === fileId ? fileResponse : f);
+                return fileResponse;
+            } else {
+                console.error('Error al actualizar el archivo');
+                return null;
+            }
+        },
+
+        async deleteFile(fileId) {
+            const authStore = useAuthStore();
+            const res = await fetch(`http://localhost:8081/files/${fileId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${authStore.accessToken}`,
+                },
+            });
+
+            if (res.ok) {
+                this.files = this.files.filter(f => f.id !== fileId);
+                return true;
+            } else {
+                console.error('Error al borrar el archivo');
+                return false;
+            }
+        },
+
         async downloadFile(id) {
             const authStore = useAuthStore();
             const res = await fetch(`http://localhost:8081/files/download/${id}`, {
