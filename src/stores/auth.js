@@ -7,6 +7,12 @@ export const useAuthStore = defineStore('auth', {
         currentUser: null,
     }),
 
+    getters: {
+        isLoggedIn() {
+            return this.currentUser !== null;
+        },
+    },
+
     actions: {
         async addUser(user) {
             this.users.push(user);
@@ -41,6 +47,7 @@ export const useAuthStore = defineStore('auth', {
                 if (authResponse && authResponse.access_token) {
                     this.accessToken = authResponse.access_token;
                     this.refreshToken = authResponse.refresh_token;
+                    this.currentUser = user; // Establecer currentUser cuando el usuario se loguea
                     return true;
                 }
             }

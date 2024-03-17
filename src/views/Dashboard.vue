@@ -1,34 +1,7 @@
 <template>
   <div>
     <!-- NavBar -->
-    <nav class="navbar sticky-top navbar-expand-lg bg-primary" data-bs-theme="dark">
-      <div class="container-fluid">
-        <a class="navbar-brand fw-bold mx-4 mx-md-5" href="#">Algoritmos</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarToggler"
-          aria-controls="navbarToggler"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarToggler">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
-            <li class="nav-item me-md-3">
-              <router-link to="/" class="nav-link active" aria-current="page">Home</router-link>
-            </li>
-            <li class="nav-item">
-              <button class="nav-link w-100" @click="goGraphs">Grafos</button>
-            </li>
-          </ul>
-          <button class="btn btn-success d-block d-md-inline-block mx-2 my-2" @click="goLogin">Ingresar</button>
-          <button class="btn btn-info d-block d-md-inline-block mx-2 my-2" @click="goSignUp">Registrarse</button>
-        </div>
-      </div>
-    </nav>
+    <NavBar />
 
     <!-- Carousel wrapper -->
     <div id="carouselBasicExample" class="carousel slide carousel-fade d-none d-md-block" data-bs-ride="carousel" data-bs-carousel-init>
@@ -180,38 +153,26 @@
 import { ref } from 'vue';
 import { useAuthStore } from "../stores/auth";
 import { useRouter } from "vue-router";
+import NavBar from '../components/NavBar.vue';
 // import UserlistService from "../services/userlistService";
 
 export default {
+  components: {
+    NavBar,
+  },
+  
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
-
-    const goEditor = () => {
-      router.push("/editor");
-    };
-    
-    const goGraphs = () => {
-      router.push("/graphs");
-    };
-
-    const goLogin = () => {
-      router.push("/login");
-    };
-
-    const goSignUp = () => {
-      router.push("/signup");
-    };
 
     const goMembers = () => {
       router.push("/members");
     };
 
+
     return {
       authStore,
-      goEditor,
-      goLogin,
-      goSignUp,
+      goMembers,
       currentSlide: 0,
       slides: [0, 1]
       // openSettings,
