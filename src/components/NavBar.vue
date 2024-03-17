@@ -19,8 +19,8 @@
                 <li class="nav-item me-md-3">
                 <router-link :class="{'active': $route.path === '/'}" to="/" class="nav-link" aria-current="page">Inicio</router-link>
                 </li>
-                <li class="nav-item">
-                <button :class="{'active': $route.path === '/graphs'}" class="nav-link w-100" @click="goGraphs">Grafos</button>
+                <li class="nav-item" v-if="isLoggedIn">
+                  <button :class="{'active': $route.path === '/graphs'}" class="nav-link w-100" @click="goGraphs">Grafos</button>
                 </li>
             </ul>
             <button v-if="!authStore.isLoggedIn" class="btn btn-success d-block d-md-inline-block mx-2 my-2" @click="goLogin">Ingresar</button>

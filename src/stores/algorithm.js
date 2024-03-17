@@ -1,74 +1,40 @@
-import { defineStore } from 'pinia'
+// Importa las librerías necesarias
+import { defineStore } from 'pinia';
+import axios from 'axios';
 
-export const useAlgorithmStore = defineStore('algoritm', {
+// Define tu tienda
+const useAlgorithmStore = defineStore('algorithm', {
+
+  // Estado inicial de la tienda
   state: () => ({
-    tasks: [],
-    loading: false
+    nodes: {},
+    edges: {},
+    layouts: {}
   }),
-  getters: {
-//     favs() {
-//       return this.tasks.filter(t => t.isFav)
-//     },
-//     favCount() {
-//       return this.tasks.reduce((p, c) => {
-//         return c.isFav ? p + 1 : p
-//       }, 0)
-//     },
-//     totalCount: (state) => {
-//       return state.tasks.length
-//     }
-//   },
+
+  // Acciones de la tienda
   actions: {
-    // async getTasks() {
-    //   this.loading = true
+    // Función para cargar los datos del algoritmo desde el servidor
+    async loadAlgorithmData() {
+      const response = await axios.post('http://localhost:8081/graph/adjMatrix', {
+        headers: {
+          'Authorization': 'Bearer your_token_here',
+          'Content-Type': 'application/json'
+        },
+        data: {
+          nodes: this.nodes,
+          edges: this.edges,
+          layouts: this.layouts
+        }
+      });
 
-    //   // get data from json file using json server
-    //   const res = await fetch('http://localhost:3000/tasks')
-    //   const data = await res.json()
-
-    //   this.tasks = data
-    //   this.loading = false
-    // },
-    // async addTask(task) {
-    //   this.tasks.push(task)
-
-    //   const res = await fetch('http://localhost:3000/tasks', {
-    //     method: 'POST',
-    //     body: JSON.stringify(task),
-    //     headers: {'Content-Type': 'application/json'}
-    //   })
-
-    //   if (res.error) {
-    //     console.log(res.error)
-    //   }
-    // },
-    // async deleteTask(id) {
-    //   this.tasks = this.tasks.filter(t => {
-    //     return t.id !== id
-    //   })
-
-    //   const res = await fetch('http://localhost:3000/tasks/' + id, {
-    //     method: 'DELETE',
-    //   })
-
-    //   if (res.error) {
-    //     console.log(res.error)
-    //   }
-    // },
-    // async toggleFav(id) {
-    //   const task = this.tasks.find(t => t.id === id)
-    //   task.isFav = !task.isFav
-
-    //   const res = await fetch('http://localhost:3000/tasks/' + id, {
-    //     method: 'PATCH',
-    //     body: JSON.stringify({ isFav: task.isFav }),
-    //     headers: {'Content-Type': 'application/json'}
-    //   })
-
-    //   if (res.error) {
-    //     console.log(res.error)
-    //   }
+      // Actualiza el estado de la tienda con los datos recibidos
+      this.nodes = response.data.nodes;
+      this.edges = response.data.edges;
+      this.layouts = response.data.layouts;
     }
   }
-}
-)
+});
+
+// Exporta la tienda para que pueda ser utilizada en tus componentes
+export default useAlgorithmStore;

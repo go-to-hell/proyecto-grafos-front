@@ -5,6 +5,7 @@ export const useAuthStore = defineStore('auth', {
     state: () => ({
         users: [],
         currentUser: null,
+        accessToken: null, // Agregar accessToken al estado
     }),
 
     getters: {
@@ -45,8 +46,7 @@ export const useAuthStore = defineStore('auth', {
 
                 // Comprobar que authResponse tiene un token de acceso
                 if (authResponse && authResponse.access_token) {
-                    this.accessToken = authResponse.access_token;
-                    this.refreshToken = authResponse.refresh_token;
+                    this.accessToken = authResponse.access_token; // Guardar accessToken en el estado
                     this.currentUser = user; // Establecer currentUser cuando el usuario se loguea
                     return true;
                 }
@@ -56,8 +56,9 @@ export const useAuthStore = defineStore('auth', {
         },
 
         logout() {
-            // Lógica para cerrar sesión, por ejemplo, reiniciar currentUser a null
+            // Lógica para cerrar sesión, por ejemplo, reiniciar currentUser y accessToken a null
             this.currentUser = null;
+            this.accessToken = null;
         }
     },
 });
