@@ -162,58 +162,139 @@
       </div>
     </div>
 
-      <!-- Help Center Modal -->
-      <div class="modal fade" tabindex="-1" id="helpCenterModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Centro de Ayuda</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <p>¡Hola! 😄 ¡Bienvenido al increíble mundo de los grafos! 🌐✨ Aquí te dejamos una guía rápida para que domines esta herramienta como un pro:</p>
-              <p>✨ ¡Bienvenido a tu Editor de Grafos Favorito! 🚀</p>
-              <img src="../assets/AgregarN.jpg" alt="AgregarN" class="img-fluid">
-              <p><strong>Agregar Nodos 🧩</strong><br>
-                ¡Haz clic en el botón "Agregar" y comienza a crear tu obra maestra! Luego, simplemente dale clic en el área de dibujo para soltar esos nodos como si fueran confeti.</p>
-              <img src="../assets/EliminarN.jpg" alt="EliminarN" class="img-fluid">
-              <p><strong>Eliminar Nodos 🗑️</strong><br>
-                ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar" o simplemente usa la mágica tecla "Delete" en tu teclado.</p>
-              <p><strong>Agregar Aristas ➡️</strong><br>
-                Haz clic en dos nodos y crea una conexión con el botón "Agregar Arista". ¡Conecta tus ideas de manera brillante!</p>
-              <img src="../assets/EliminarA.jpg" alt="EliminarA" class="img-fluid">
-              <p><strong>Eliminar Aristas 🗡️</strong><br>  
-                Selecciona una arista y presiona "Eliminar Arista" o utiliza la tecla "Delete". ¡Desconecta sin esfuerzo tus conexiones menos útiles!</p>
-              <img src="../assets/Direccion.jpg" alt="Direccion" class="img-fluid">
-              <p><strong>Dirección de Aristas 🚦</strong><br>
-                Selecciona una arista y elige su destino con los botones de dirección. ¡Controla el flujo de la conexión con estilo!</p>
-              <img src="../assets/CyA.jpg" alt="CyA" class="img-fluid">  
-              <p><strong>Centrar y Ajustar 🔄</strong><br>
-                ¡No más caos desordenado! Utiliza los botones para centrar y ajustar tu grafo y obtener una vista panorámica.</p>
-              <img src="../assets/Zoom.jpg" alt="Zoom" class="img-fluid">
-              <p><strong>Zoom In & Zoom Out 🔍</strong><br>
-                Acércate a la acción con "Zoom In" o toma una vista general con "Zoom Out". ¡Tu grafo, tu perspectiva!</p>
-              <img src="../assets/Seleccion.jpg" alt="Seleccion" class="img-fluid">     
-              <p><strong>Iniciar Selección 🎯</strong><br>
-                ¿Quieres destacar varios nodos a la vez? Activa "Iniciar Selección" y desata tu poder de selección masiva.</p>
-              <img src="../assets/Renombrar.jpg" alt="Renombrar" class="img-fluid">
-              <p><strong>Renombrar Nodos y Aristas 🏷️</strong><br>
-                Dale a tus nodos y aristas nombres épicos. Haz clic en ellos, edita el nombre y sé el narrador de tu propio grafo.</p>
-              <p><strong>Enlazar Nodos con Shift+Alt+e 🌐</strong><br>
-                Selecciona dos nodos y mantén presionadas las teclas Shift+Alt+e para enlazarlos con una arista.</p>
-              <img src="../assets/GyA.jpg" alt="GyA" class="img-fluid">
-              <p><strong>Guardar y Abrir 📂</strong><br>
-                No dejes que tus obras maestras se pierdan. Guarda y abre archivos localmente para retomar tus épicas creaciones.</p>
-              <p><strong>Matriz de Adyacencia 📊</strong><br>
-                Haz clic en "Matriz de Adyacencia" para explorar la estructura subyacente de tu obra maestra en forma de matriz.</p>
-              <p>¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los grafos con tu creatividad desbordante. ¡Buena suerte, maestro del grafo! 🚀🎨</p>
-            </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
-              </div>
+    <!-- Help Center Modal -->
+    <div class="modal fade" tabindex="-1" id="helpCenterModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Centro de Ayuda</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              ¡Hola! 😄 ¡Bienvenido al increíble mundo de los grafos! 🌐✨ Aquí
+              te dejamos una guía rápida para que domines esta herramienta como
+              un pro:
+            </p>
+            <p>✨ ¡Bienvenido a tu Editor de Grafos Favorito! 🚀</p>
+            <img
+              src="../assets/AgregarN.jpg"
+              alt="AgregarN"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Agregar Nodos 🧩</strong><br />
+              ¡Haz clic en el botón "Agregar" y comienza a crear tu obra
+              maestra! Luego, simplemente dale clic en el área de dibujo para
+              soltar esos nodos como si fueran confeti.
+            </p>
+            <img
+              src="../assets/EliminarN.jpg"
+              alt="EliminarN"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Eliminar Nodos 🗑️</strong><br />
+              ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar"
+              o simplemente usa la mágica tecla "Delete" en tu teclado.
+            </p>
+            <p>
+              <strong>Agregar Aristas ➡️</strong><br />
+              Haz clic en dos nodos y crea una conexión con el botón "Agregar
+              Arista". ¡Conecta tus ideas de manera brillante!
+            </p>
+            <img
+              src="../assets/EliminarA.jpg"
+              alt="EliminarA"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Eliminar Aristas 🗡️</strong><br />
+              Selecciona una arista y presiona "Eliminar Arista" o utiliza la
+              tecla "Delete". ¡Desconecta sin esfuerzo tus conexiones menos
+              útiles!
+            </p>
+            <img
+              src="../assets/Direccion.jpg"
+              alt="Direccion"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Dirección de Aristas 🚦</strong><br />
+              Selecciona una arista y elige su destino con los botones de
+              dirección. ¡Controla el flujo de la conexión con estilo!
+            </p>
+            <img src="../assets/CyA.jpg" alt="CyA" class="img-fluid" />
+            <p>
+              <strong>Centrar y Ajustar 🔄</strong><br />
+              ¡No más caos desordenado! Utiliza los botones para centrar y
+              ajustar tu grafo y obtener una vista panorámica.
+            </p>
+            <img src="../assets/Zoom.jpg" alt="Zoom" class="img-fluid" />
+            <p>
+              <strong>Zoom In & Zoom Out 🔍</strong><br />
+              Acércate a la acción con "Zoom In" o toma una vista general con
+              "Zoom Out". ¡Tu grafo, tu perspectiva!
+            </p>
+            <img
+              src="../assets/Seleccion.jpg"
+              alt="Seleccion"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Iniciar Selección 🎯</strong><br />
+              ¿Quieres destacar varios nodos a la vez? Activa "Iniciar
+              Selección" y desata tu poder de selección masiva.
+            </p>
+            <img
+              src="../assets/Renombrar.jpg"
+              alt="Renombrar"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Renombrar Nodos y Aristas 🏷️</strong><br />
+              Dale a tus nodos y aristas nombres épicos. Haz clic en ellos,
+              edita el nombre y sé el narrador de tu propio grafo.
+            </p>
+            <p>
+              <strong>Enlazar Nodos con Shift+Alt+e 🌐</strong><br />
+              Selecciona dos nodos y mantén presionadas las teclas Shift+Alt+e
+              para enlazarlos con una arista.
+            </p>
+            <img src="../assets/GyA.jpg" alt="GyA" class="img-fluid" />
+            <p>
+              <strong>Guardar y Abrir 📂</strong><br />
+              No dejes que tus obras maestras se pierdan. Guarda y abre archivos
+              localmente para retomar tus épicas creaciones.
+            </p>
+            <p>
+              <strong>Matriz de Adyacencia 📊</strong><br />
+              Haz clic en "Matriz de Adyacencia" para explorar la estructura
+              subyacente de tu obra maestra en forma de matriz.
+            </p>
+            <p>
+              ¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los
+              grafos con tu creatividad desbordante. ¡Buena suerte, maestro del
+              grafo! 🚀🎨
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
     <!-- File name to save -->
     <div class="modal" tabindex="-1" id="fileNameToSave">
@@ -281,7 +362,7 @@
 
     <!-- Bootstrap alert for saveGraph success/error -->
 
-    <div style="width: fit-content; margin: auto;">
+    <div style="width: fit-content; margin: auto">
       <div
         v-if="saveGraphError"
         class="alert alert-danger alert-dismissible fade show mt-2"
@@ -372,11 +453,21 @@
 
     <!-- More Functions Button -->
     <button
+      type="button"
+      data-bs-toggle="tooltip"
+      data-bs-placement="left"
+      data-bs-custom-class="custom-tooltip"
+      data-bs-title="Ir atrás."
+      class="btn btn-primary bi bi-arrow-left position-absolute top-0 end-0 m-1"
       @click="goBack"
-      class="btn btn-primary position-absolute top-0 end-0 m-1"
-    >
-      <i class="bi bi-arrow-left"></i>
-    </button>
+    ></button>
+
+    <!-- help buttons -->
+    <!-- <div class="rounded-buttons">
+      <button @click="openSettings" class="btn btn-primary rounded m-1">
+        <i class="bi bi-exclamation-lg"></i>
+      </button>
+    </div> -->
 
     <span
       data-bs-toggle="offcanvas"
@@ -384,7 +475,7 @@
       aria-controls="offcanvasRight"
     >
       <button
-        class="btn btn-primary bi bi-list position-absolute sticky-top top-0 start-0 m-1"        
+        class="btn btn-primary bi bi-list position-absolute sticky-top top-0 start-0 m-1"
         type="button"
         data-bs-toggle="tooltip"
         data-bs-placement="left"
@@ -414,6 +505,13 @@
       <div class="offcanvas-body">
         <div>Seleccione la función que desee.</div>
         <div class="my-3">
+          <button
+            @click="openHelp"
+            data-bs-dismiss="offcanvas"
+            class="btn btn-outline-info w-100 py-2 mb-2 d-lg-none"
+          >
+            Centro de Ayuda
+          </button>
           <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">
             Centrar
           </button>
@@ -477,16 +575,6 @@
           Ir a inicio
         </button>
       </div>
-    </div>
-
-    <!-- help buttons -->
-    <div class="rounded-buttons position-absolute">
-      <button @click="openHelp" class="btn btn-primary rounded m-1">
-        <i class="bi bi-question-lg"></i>
-      </button>
-      <button @click="openSettings" class="btn btn-primary rounded m-1">
-        <i class="bi bi-exclamation-lg"></i>
-      </button>
     </div>
 
     <!-- View Controls -->
@@ -584,6 +672,15 @@
           class="btn btn-outline-info bi bi-file-earmark-x rounded-circle py-3 px-4"
           @click="handleClearAll"
         ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Ayuda."
+          class="btn btn-success bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
+          @click="openHelp"
+        ></button>
       </div>
     </div>
   </div>
@@ -604,7 +701,13 @@ import data from "../data/initial-data.js";
 import { useRouter } from "vue-router";
 import { Modal } from "bootstrap";
 import * as bootstrap from "bootstrap";
-import { isAddingNode, handleNodeAddition, startAddingNode, mousePosition, updateMousePosition } from '../utils/addingNode.ts'
+import {
+  isAddingNode,
+  handleNodeAddition,
+  startAddingNode,
+  mousePosition,
+  updateMousePosition,
+} from "../utils/addingNode.ts";
 
 const router = useRouter();
 
@@ -770,7 +873,6 @@ const configs = defineConfigs({
   },
 });
 
-
 // Adding Node -------------------------------------------------------------
 let isAddingNode = ref(false);
 
@@ -823,7 +925,6 @@ onUnmounted(() => {
   window.removeEventListener("mousemove", updateMousePosition);
 });
 
-
 // Deleting Node -------------------------------------------------------------
 const confirmDeleteModal = ref<Modal | null>(null);
 
@@ -847,7 +948,6 @@ const handleDeletion = () => {
     confirmDeleteModal.value?.show();
   }
 };
-
 
 // Adding Edge -------------------------------------------------------------
 const edgeAdditionButton = () => {
@@ -982,7 +1082,6 @@ const renameNode = () => {
   renameNodeModal.hide();
 };
 
-
 // Rename Edge -------------------------------------------------------------
 const renameEdge = () => {
   if (!newEdgeName.value) return;
@@ -1116,7 +1215,6 @@ const handleClearAll = () => {
     clearAllModal.show();
   }
 };
-
 </script>
 
 <style scoped>
@@ -1152,14 +1250,14 @@ const handleClearAll = () => {
   margin-bottom: 10px;
 }
 
-.rounded-buttons {
+/* .rounded-buttons {
   position: absolute;
-  bottom: 20px;
+  bottom: 100px;
   right: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-}
+} */
 
 .upload-file {
   display: none;
