@@ -725,7 +725,7 @@ import data from "../data/initial-data.js";
 import { useRouter } from "vue-router";
 import { Modal } from "bootstrap";
 import { useAlgorithmStore } from "../stores/algorithm";
-import { useFileStore } from "../stores/file.js";
+import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
 import {
   isAddingNode,

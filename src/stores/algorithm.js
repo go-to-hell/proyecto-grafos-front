@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { useAuthStore } from './auth';
 import axios from 'axios';
 
-const useAlgorithmStore = defineStore('algorithm', {
+export const useAlgorithmStore = defineStore('algorithm', {
 
   // Estado inicial de la tienda
   state: () => ({
@@ -42,6 +42,3 @@ const useAlgorithmStore = defineStore('algorithm', {
     }
   }
 });
-
-// Exporta la tienda para que pueda ser utilizada en tus componentes
-export default useAlgorithmStore;

@@ -2,23 +2,27 @@
   <div>
     <NavBar />
     <div class="m-4">
-      <form class="d-flex flex-column flex-md-row align-items-center" role="search">
-        <input
-          class="form-control mb-2 mb-md-0 me-md-3 bg-body-tertiary"
-          type="search"
-          placeholder="Buscar..."
-          aria-label="Buscar"
-        />
-        <button class="btn btn-primary mb-2 mb-md-0 me-md-2" type="submit">
-          <i class="bi bi-search"></i> Buscar
-        </button>
-        <button @click="goEditor" class="btn btn-secondary" type="button">
-          <i class="bi bi-plus-circle"></i> Crear
-        </button>
-        <input type="file" @change="uploadFile" class="form-control mb-2 mb-md-0 me-md-3">
-        <button class="btn btn-primary mb-2 mb-md-0 me-md-2" type="button" @click="submitFile">
-          <i class="bi bi-upload"></i> Subir proyecto
-        </button>
+      <form class="d-flex flex-column align-items-start" role="search">
+        <div class="d-flex align-items-center mb-2 w-100">
+          <input
+            class="form-control me-3 bg-body-tertiary flex-grow-1"
+            type="search"
+            placeholder="Buscar..."
+            aria-label="Buscar"
+          />
+          <button class="btn btn-primary me-2 flex-shrink-0" type="submit">
+            <i class="bi bi-search"></i> Buscar
+          </button>
+          <button @click="goEditor" class="btn btn-secondary flex-shrink-0" type="button">
+            <i class="bi bi-plus-circle"></i> Crear
+          </button>
+        </div>
+        <div class="d-flex align-items-center mt-2 w-100">
+          <input type="file" @change="uploadFile" class="form-control me-3 flex-grow-1">
+          <button class="btn btn-primary flex-shrink-0" type="button" @click="submitFile">
+            <i class="bi bi-upload"></i> Subir proyecto
+          </button>
+        </div>
       </form>
       <p v-if="!authStore.isLoggedIn" class="mt-4">
         Para ver tus grafos guardados, por favor inicia sesión.
