@@ -685,16 +685,25 @@
     </div>
 
     <!-- Self-loop label -->
-    <div v-if="selectedNodes.length === 1" class="self-loop-label">
-      <span
-        class="label-text"
-        :style="{
-          left: nodePosition.x - 20 + 'px',
-          top: nodePosition.y - 70 + 'px',
-        }"
-      >
-        {{ selectedNodes[0] }}
-      </span>
+    <div>
+      <div v-for="(node, nodeId) in nodes" :key="nodeId">
+        <div v-for="(edge, edgeId) in edges" :key="edgeId">
+          <div
+            v-if="edge.source === nodeId && edge.target === nodeId"
+            class="self-loop-label"
+          >
+            <span
+              class="label-text"
+              :style="{
+                left: layouts.nodes[nodeId].x - 130 + 'px',
+                top: layouts.nodes[nodeId].y - 5 + 'px',
+              }"
+            >
+              {{ edge.label }}
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -879,7 +888,7 @@ const configs = defineConfigs({
     selfLoop: {
       radius: 24,
       offset: 16,
-      angle: 180,
+      angle: 270,
       isClockwise: true,
     },
     keepOrder: "horizontal",
@@ -963,10 +972,13 @@ const handleDeletion = () => {
 };
 
 // Adding Edge -------------------------------------------------------------
+var selfLoopEdgeLabel = ref(false);
+
 const edgeAdditionButton = () => {
   let [source, target] = ["", ""];
   if (selectedNodes.value.length === 1) {
     source = target = selectedNodes.value.toString();
+    // selfLoopEdgeLabel.value = !selfLoopEdgeLabel.value;
   } else if (selectedNodes.value.length === 2) {
     [source, target] = selectedNodes.value.map((node) => node.toString());
   } else return;
