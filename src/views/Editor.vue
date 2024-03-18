@@ -696,7 +696,7 @@
               class="label-text"
               :style="{
                 left: layouts.nodes[nodeId].x - 130 + 'px',
-                top: layouts.nodes[nodeId].y - 5 + 'px',
+                top: layouts.nodes[nodeId].y - 10 + 'px',
               }"
             >
               {{ edge.label }}
@@ -755,8 +755,8 @@ const zoomOut = () => graph.value?.zoomOut();
 
 const configs = defineConfigs({
   view: {
-    panEnabled: true,
-    zoomEnabled: true,
+    panEnabled: false,
+    zoomEnabled: false,
     boxSelectionEnabled: true,
     selection: {
       box: {
@@ -1278,7 +1278,6 @@ const handleClearAll = () => {
 .self-loop-label {
   font-size: 20px;
   position: absolute;
-  width: 100%;
   top: 50%;
   left: 50%;
 }
