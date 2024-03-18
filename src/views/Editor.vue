@@ -995,18 +995,6 @@ const edgeAdditionKey = (event: KeyboardEvent) => {
   }
 };
 
-const nodePosition = ref({ x: 0, y: 0 });
-
-watch(selectedNodes, (newNodes) => {
-  if (newNodes.length === 1) {
-    const selectedNodeId = newNodes[0];
-    const position = layouts.nodes[selectedNodeId];
-    if (position) {
-      nodePosition.value = position;
-    }
-  }
-});
-
 // Selection -------------------------------------------------------------
 const isBoxSelectionMode = ref(false);
 const eventHandlers: EventHandlers = {
