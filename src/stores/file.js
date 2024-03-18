@@ -8,19 +8,18 @@ export const useFileStore = defineStore('file', {
     }),
 
     actions: {
-        async uploadFile(file) {
+        async uploadFile(formData) {
             const authStore = useAuthStore();
             const res = await fetch('http://localhost:8081/files', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${authStore.accessToken}`,
-                    'Content-Type': 'application/json',
                 },
-                body: file,
+                body: formData,
             });
 
             if (res.ok) {
-                const fileResponse = await res.json();
+                const fileResponse = await res.text();
                 this.files.push(fileResponse);
                 return fileResponse;
             } else {

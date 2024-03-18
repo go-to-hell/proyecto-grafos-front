@@ -10,39 +10,27 @@ export const useAlgorithmStore = defineStore('algorithm', {
     nodes: {},
     edges: {},
     layouts: {},
-    adjacencyMatrixData: null, // New state property
+    adjacencyMatrixDataOutput: null, // New state property
   }),
 
   // Acciones de la tienda
   actions: {
     // Función para cargar los datos del algoritmo desde el servidor
-    async loadAdjMatrix() {
+    async loadAdjMatrix(adjacencyMatrixDataInput) {
       const authStore = useAuthStore();
     
-      // Convertir la propiedad 'label' de cada 'edge' a un entero
-      /* const edgesWithIntLabels = this.edges.map(edge => ({
-        ...edge,
-        label: parseInt(edge.label, 10)
-      })); */
-      const body = {
-        nodes: this.nodes,
-        edges: this.edges,
-        layouts: this.layouts
-      };
-
-      console.log('body', JSON.stringify(body));
-    
-      const response = await fetch('http://localhost:8081/graph/adjMatrix', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${authStore.accessToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      });
+      const response = await axios.post('http://localhost:8081/graph/adjMatrix', 
+        adjacencyMatrixDataInput,
+        {
+          headers: {
+            'Authorization': `Bearer ${authStore.accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
     
       // Save the adjacency matrix data to the state
-      this.adjacencyMatrixData = response.data;
+      this.adjacencyMatrixDataOutput = response.data;
     }
   }
 });

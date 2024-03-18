@@ -1086,7 +1086,7 @@ const generateAdjacencyMatrix = (): number[][] => {
   const algorithmStore = useAlgorithmStore();
 
   // Get the adjacency matrix data from the store
-  const adjacencyMatrixData = algorithmStore.adjacencyMatrixData;
+  const adjacencyMatrixData = algorithmStore.adjacencyMatrixDataOutput;
 
   // Extract the values from the adjacency matrix data
   const adjacencyMatrix: number[][] = adjacencyMatrixData.values;
@@ -1098,10 +1098,17 @@ const openAdjacencyMatrixModal = async () => {
   const algorithmStore = useAlgorithmStore();
 
   // Load the adjacency matrix data from the API
-  await algorithmStore.loadAdjMatrix();
+  const graphData = {
+      nodes: nodes,
+      edges: edges,
+      layouts: layouts,
+    };
+
+  const jsonData = JSON.stringify(graphData, null, 2); // Indentation of 2 spaces
+  await algorithmStore.loadAdjMatrix(jsonData);
 
   // Generate the adjacency matrix
-  const adjacencyMatrixData = algorithmStore.adjacencyMatrixData;
+  const adjacencyMatrixData = algorithmStore.adjacencyMatrixDataOutput;
   const adjacencyMatrix = generateAdjacencyMatrix();
 
   const verticesNames = adjacencyMatrixData.verticesNames;
@@ -1109,30 +1116,31 @@ const openAdjacencyMatrixModal = async () => {
   const colSum = adjacencyMatrixData.colSum;
   const mtxSum = adjacencyMatrixData.mtxSum;
 
-  let tableString = "<table><tr><th></th>";
+  let tableString = "<table>\n  <tr>\n    <th></th>";
 
   // Add vertices names to the table header
   for (const name of verticesNames) {
-    tableString += `<th>${name}</th>`;
+    tableString += `\n    <th>${name}</th>`;
   }
 
-  tableString += "<th>Row Sum</th></tr>";
+  tableString += "\n    <th>Row Sum</th>\n  </tr>";
 
   // Add matrix values and row sums to the table body
   for (let i = 0; i < adjacencyMatrix.length; i++) {
-    tableString += `<tr><td>${verticesNames[i]}</td>`;
+    tableString += `\n  <tr>\n    <td>${verticesNames[i]}</td>`;
     for (const value of adjacencyMatrix[i]) {
-      tableString += `<td>${value}</td>`;
+      tableString += `\n    <td>${value}</td>`;
     }
-    tableString += `<td>${rowSum[i]}</td></tr>`;
+    tableString += `\n    <td>${rowSum[i]}</td>\n  </tr>`;
   }
 
   // Add column sums to the table footer
-  tableString += "<tr><td>Col Sum</td>";
+  tableString += "\n  <tr>\n    <td>Col Sum</td>";
   for (const sum of colSum) {
-    tableString += `<td>${sum}</td>`;
+    tableString += `\n    <td>${sum}</td>`;
   }
-  tableString += `<td>${mtxSum}</td></tr></table>`;
+  tableString += `\n    <td>${mtxSum}</td>\n  </tr>\n</table>`;
+
 
   const adjacencyMatrixElement = document.getElementById("adjacencyMatrix");
   if (adjacencyMatrixElement) {

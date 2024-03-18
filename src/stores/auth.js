@@ -1,11 +1,10 @@
-// src/store/modules/form.js
 import { defineStore } from 'pinia';
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         users: [],
-        currentUser: null,
-        accessToken: null, // Agregar accessToken al estado
+        currentUser: JSON.parse(localStorage.getItem('currentUser')) || null,
+        accessToken: localStorage.getItem('accessToken') || null,
     }),
 
     getters: {
@@ -44,10 +43,11 @@ export const useAuthStore = defineStore('auth', {
             if (res.ok) {
                 const authResponse = await res.json();
 
-                // Comprobar que authResponse tiene un token de acceso
                 if (authResponse && authResponse.access_token) {
-                    this.accessToken = authResponse.access_token; // Guardar accessToken en el estado
-                    this.currentUser = user; // Establecer currentUser cuando el usuario se loguea
+                    this.accessToken = authResponse.access_token;
+                    this.currentUser = user;
+                    localStorage.setItem('accessToken', this.accessToken);
+                    localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
                     return true;
                 }
             }
@@ -56,9 +56,10 @@ export const useAuthStore = defineStore('auth', {
         },
 
         logout() {
-            // Lógica para cerrar sesión, por ejemplo, reiniciar currentUser y accessToken a null
             this.currentUser = null;
             this.accessToken = null;
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('currentUser');
         }
     },
 });

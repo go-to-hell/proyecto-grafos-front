@@ -28,7 +28,7 @@
         Para ver tus grafos guardados, por favor inicia sesión.
       </p>
       <div class="row">
-        <div class="col-md-4" v-for="file in fileStore.files" :key="file.fileId">
+        <div class="col-md-4 mt-4" v-for="file in fileStore.files" :key="file.fileId">
           <div class="card">
             <img class="card-img-top" src="../assets/Grafos.jpg" alt="Card image cap">
             <div class="card-body">
@@ -67,11 +67,14 @@ export default {
 
     const uploadFile = (event) => {
       fileToUpload.value = event.target.files[0];
+      fileStore.listFiles();
     };
 
     const submitFile = async () => {
       if (fileToUpload.value) {
-        await fileStore.uploadFile(fileToUpload.value);
+        const formData = new FormData();
+        formData.append('file', fileToUpload.value);
+        await fileStore.uploadFile(formData);
         fileStore.listFiles();
       }
     };
