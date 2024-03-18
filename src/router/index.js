@@ -3,7 +3,8 @@ import Login from '../views/Login.vue';
 import SignUp from '../views/SignUp.vue';
 import Dashboard from '../views/Dashboard.vue';
 import Editor from '../views/Editor.vue';
-import Perfil from '../views/Perfil.vue';
+import Members from '../views/Members.vue';
+import Graphs from '../views/Graphs.vue';
 
 
 const routes = [
@@ -16,8 +17,8 @@ const routes = [
         component: Editor,
     },
     {
-        path: "/perfil",
-        component: Perfil,
+        path: "/members",
+        component: Members,
     },
     {
         path: '/login',
@@ -26,6 +27,10 @@ const routes = [
     { 
         path: '/signup', 
         component: SignUp 
+    },
+    {
+        path: '/graphs',
+        component: Graphs,
     },
 ];
 

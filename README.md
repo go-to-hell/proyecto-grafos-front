@@ -45,3 +45,9 @@ Ahora puedes usar simplemente (si esto solo se usa para producción):
 ```bash
 docker-compose up --build
 ```
+
+Corre esto si tienes problemas con vite
+    
+```bash
+npm update rollup vite    
+```

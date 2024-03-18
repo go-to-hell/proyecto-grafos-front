@@ -52,7 +52,7 @@
           </div>
           <div class="modal-body">
             <input
-              type="text"
+              type="number"
               class="form-control"
               v-model="newEdgeName"
               placeholder="Ingrese el nuevo nombre de la arista"
@@ -162,58 +162,139 @@
       </div>
     </div>
 
-      <!-- Help Center Modal -->
-      <div class="modal fade" tabindex="-1" id="helpCenterModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Centro de Ayuda</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <p>¡Hola! 😄 ¡Bienvenido al increíble mundo de los grafos! 🌐✨ Aquí te dejamos una guía rápida para que domines esta herramienta como un pro:</p>
-              <p>✨ ¡Bienvenido a tu Editor de Grafos Favorito! 🚀</p>
-              <img src="../assets/AgregarN.jpg" alt="AgregarN" class="img-fluid">
-              <p><strong>Agregar Nodos 🧩</strong><br>
-                ¡Haz clic en el botón "Agregar" y comienza a crear tu obra maestra! Luego, simplemente dale clic en el área de dibujo para soltar esos nodos como si fueran confeti.</p>
-              <img src="../assets/EliminarN.jpg" alt="EliminarN" class="img-fluid">
-              <p><strong>Eliminar Nodos 🗑️</strong><br>
-                ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar" o simplemente usa la mágica tecla "Delete" en tu teclado.</p>
-              <p><strong>Agregar Aristas ➡️</strong><br>
-                Haz clic en dos nodos y crea una conexión con el botón "Agregar Arista". ¡Conecta tus ideas de manera brillante!</p>
-              <img src="../assets/EliminarA.jpg" alt="EliminarA" class="img-fluid">
-              <p><strong>Eliminar Aristas 🗡️</strong><br>  
-                Selecciona una arista y presiona "Eliminar Arista" o utiliza la tecla "Delete". ¡Desconecta sin esfuerzo tus conexiones menos útiles!</p>
-              <img src="../assets/Direccion.jpg" alt="Direccion" class="img-fluid">
-              <p><strong>Dirección de Aristas 🚦</strong><br>
-                Selecciona una arista y elige su destino con los botones de dirección. ¡Controla el flujo de la conexión con estilo!</p>
-              <img src="../assets/CyA.jpg" alt="CyA" class="img-fluid">  
-              <p><strong>Centrar y Ajustar 🔄</strong><br>
-                ¡No más caos desordenado! Utiliza los botones para centrar y ajustar tu grafo y obtener una vista panorámica.</p>
-              <img src="../assets/Zoom.jpg" alt="Zoom" class="img-fluid">
-              <p><strong>Zoom In & Zoom Out 🔍</strong><br>
-                Acércate a la acción con "Zoom In" o toma una vista general con "Zoom Out". ¡Tu grafo, tu perspectiva!</p>
-              <img src="../assets/Seleccion.jpg" alt="Seleccion" class="img-fluid">     
-              <p><strong>Iniciar Selección 🎯</strong><br>
-                ¿Quieres destacar varios nodos a la vez? Activa "Iniciar Selección" y desata tu poder de selección masiva.</p>
-              <img src="../assets/Renombrar.jpg" alt="Renombrar" class="img-fluid">
-              <p><strong>Renombrar Nodos y Aristas 🏷️</strong><br>
-                Dale a tus nodos y aristas nombres épicos. Haz clic en ellos, edita el nombre y sé el narrador de tu propio grafo.</p>
-              <p><strong>Enlazar Nodos con Shift+Alt+e 🌐</strong><br>
-                Selecciona dos nodos y mantén presionadas las teclas Shift+Alt+e para enlazarlos con una arista.</p>
-              <img src="../assets/GyA.jpg" alt="GyA" class="img-fluid">
-              <p><strong>Guardar y Abrir 📂</strong><br>
-                No dejes que tus obras maestras se pierdan. Guarda y abre archivos localmente para retomar tus épicas creaciones.</p>
-              <p><strong>Matriz de Adyacencia 📊</strong><br>
-                Haz clic en "Matriz de Adyacencia" para explorar la estructura subyacente de tu obra maestra en forma de matriz.</p>
-              <p>¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los grafos con tu creatividad desbordante. ¡Buena suerte, maestro del grafo! 🚀🎨</p>
-            </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
-              </div>
+    <!-- Help Center Modal -->
+    <div class="modal fade" tabindex="-1" id="helpCenterModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Centro de Ayuda</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              ¡Hola! 😄 ¡Bienvenido al increíble mundo de los grafos! 🌐✨ Aquí
+              te dejamos una guía rápida para que domines esta herramienta como
+              un pro:
+            </p>
+            <p>✨ ¡Bienvenido a tu Editor de Grafos Favorito! 🚀</p>
+            <img
+              src="../assets/AgregarN.jpg"
+              alt="AgregarN"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Agregar Nodos 🧩</strong><br />
+              ¡Haz clic en el botón "Agregar" y comienza a crear tu obra
+              maestra! Luego, simplemente dale clic en el área de dibujo para
+              soltar esos nodos como si fueran confeti.
+            </p>
+            <img
+              src="../assets/EliminarN.jpg"
+              alt="EliminarN"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Eliminar Nodos 🗑️</strong><br />
+              ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar"
+              o simplemente usa la mágica tecla "Delete" en tu teclado.
+            </p>
+            <p>
+              <strong>Agregar Aristas ➡️</strong><br />
+              Haz clic en dos nodos y crea una conexión con el botón "Agregar
+              Arista". ¡Conecta tus ideas de manera brillante!
+            </p>
+            <img
+              src="../assets/EliminarA.jpg"
+              alt="EliminarA"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Eliminar Aristas 🗡️</strong><br />
+              Selecciona una arista y presiona "Eliminar Arista" o utiliza la
+              tecla "Delete". ¡Desconecta sin esfuerzo tus conexiones menos
+              útiles!
+            </p>
+            <img
+              src="../assets/Direccion.jpg"
+              alt="Direccion"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Dirección de Aristas 🚦</strong><br />
+              Selecciona una arista y elige su destino con los botones de
+              dirección. ¡Controla el flujo de la conexión con estilo!
+            </p>
+            <img src="../assets/CyA.jpg" alt="CyA" class="img-fluid" />
+            <p>
+              <strong>Centrar y Ajustar 🔄</strong><br />
+              ¡No más caos desordenado! Utiliza los botones para centrar y
+              ajustar tu grafo y obtener una vista panorámica.
+            </p>
+            <img src="../assets/Zoom.jpg" alt="Zoom" class="img-fluid" />
+            <p>
+              <strong>Zoom In & Zoom Out 🔍</strong><br />
+              Acércate a la acción con "Zoom In" o toma una vista general con
+              "Zoom Out". ¡Tu grafo, tu perspectiva!
+            </p>
+            <img
+              src="../assets/Seleccion.jpg"
+              alt="Seleccion"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Iniciar Selección 🎯</strong><br />
+              ¿Quieres destacar varios nodos a la vez? Activa "Iniciar
+              Selección" y desata tu poder de selección masiva.
+            </p>
+            <img
+              src="../assets/Renombrar.jpg"
+              alt="Renombrar"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Renombrar Nodos y Aristas 🏷️</strong><br />
+              Dale a tus nodos y aristas nombres épicos. Haz clic en ellos,
+              edita el nombre y sé el narrador de tu propio grafo.
+            </p>
+            <p>
+              <strong>Enlazar Nodos con Shift+Alt+e 🌐</strong><br />
+              Selecciona dos nodos y mantén presionadas las teclas Shift+Alt+e
+              para enlazarlos con una arista.
+            </p>
+            <img src="../assets/GyA.jpg" alt="GyA" class="img-fluid" />
+            <p>
+              <strong>Guardar y Abrir 📂</strong><br />
+              No dejes que tus obras maestras se pierdan. Guarda y abre archivos
+              localmente para retomar tus épicas creaciones.
+            </p>
+            <p>
+              <strong>Matriz de Adyacencia 📊</strong><br />
+              Haz clic en "Matriz de Adyacencia" para explorar la estructura
+              subyacente de tu obra maestra en forma de matriz.
+            </p>
+            <p>
+              ¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los
+              grafos con tu creatividad desbordante. ¡Buena suerte, maestro del
+              grafo! 🚀🎨
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
     <!-- File name to save -->
     <div class="modal" tabindex="-1" id="fileNameToSave">
@@ -264,7 +345,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <pre id="adjacencyMatrix"></pre>
+            <div id="adjacencyMatrix"></div>
           </div>
           <div class="modal-footer">
             <button
@@ -281,7 +362,7 @@
 
     <!-- Bootstrap alert for saveGraph success/error -->
 
-    <div style="width: fit-content; margin: auto;">
+    <div style="width: fit-content; margin: auto">
       <div
         v-if="saveGraphError"
         class="alert alert-danger alert-dismissible fade show mt-2"
@@ -372,11 +453,14 @@
 
     <!-- More Functions Button -->
     <button
+      type="button"
+      data-bs-toggle="tooltip"
+      data-bs-placement="left"
+      data-bs-custom-class="custom-tooltip"
+      data-bs-title="Ir atrás."
+      class="btn btn-primary bi bi-arrow-left position-absolute top-0 end-0 m-1"
       @click="goBack"
-      class="btn btn-primary position-absolute top-0 end-0 m-1"
-    >
-      <i class="bi bi-arrow-left"></i>
-    </button>
+    ></button>
 
     <span
       data-bs-toggle="offcanvas"
@@ -384,7 +468,7 @@
       aria-controls="offcanvasRight"
     >
       <button
-        class="btn btn-primary bi bi-list position-absolute sticky-top top-0 start-0 m-1"        
+        class="btn btn-primary bi bi-list position-absolute sticky-top top-0 start-0 m-1"
         type="button"
         data-bs-toggle="tooltip"
         data-bs-placement="left"
@@ -414,6 +498,13 @@
       <div class="offcanvas-body">
         <div>Seleccione la función que desee.</div>
         <div class="my-3">
+          <button
+            @click="openHelp"
+            data-bs-dismiss="offcanvas"
+            class="btn btn-outline-info w-100 py-2 mb-2 d-lg-none"
+          >
+            Centro de Ayuda
+          </button>
           <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">
             Centrar
           </button>
@@ -477,16 +568,6 @@
           Ir a inicio
         </button>
       </div>
-    </div>
-
-    <!-- help buttons -->
-    <div class="rounded-buttons position-absolute">
-      <button @click="openHelp" class="btn btn-primary rounded m-1">
-        <i class="bi bi-question-lg"></i>
-      </button>
-      <button @click="openSettings" class="btn btn-primary rounded m-1">
-        <i class="bi bi-exclamation-lg"></i>
-      </button>
     </div>
 
     <!-- View Controls -->
@@ -571,9 +652,27 @@
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
-          data-bs-title="Guardar en Base de Datos."
+          data-bs-title="Guardar."
           class="btn btn-outline-info bi bi-floppy rounded-circle py-3 px-4"
           @click="openFileNameModal"
+        ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Abrir."
+          class="btn btn-outline-info bi bi-folder2-open rounded-circle py-3 px-4"
+          @click="openGraphFile"
+        ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Matriz de Adyacencia."
+          class="btn btn-outline-info bi bi-table rounded-circle py-3 px-4"
+          @click="openAdjacencyMatrixModal"
         ></button>
         <button
           type="button"
@@ -584,13 +683,44 @@
           class="btn btn-outline-info bi bi-file-earmark-x rounded-circle py-3 px-4"
           @click="handleClearAll"
         ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Ayuda."
+          class="btn btn-success bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
+          @click="openHelp"
+        ></button>
+      </div>
+    </div>
+
+    <!-- Self-loop label -->
+    <div>
+      <div v-for="(node, nodeId) in nodes" :key="nodeId">
+        <div v-for="(edge, edgeId) in edges" :key="edgeId">
+          <div
+            v-if="edge.source === nodeId && edge.target === nodeId"
+            class="self-loop-label"
+          >
+            <span
+              class="label-text"
+              :style="{
+                left: layouts.nodes[nodeId].x - 130 + 'px',
+                top: layouts.nodes[nodeId].y - 10 + 'px',
+              }"
+            >
+              {{ edge.label }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted, computed } from "vue";
+import { ref, reactive, onMounted, onUnmounted, computed, watch } from "vue";
 import {
   Nodes,
   Edges,
@@ -603,8 +733,16 @@ import { Background } from "@vue-flow/background";
 import data from "../data/initial-data.js";
 import { useRouter } from "vue-router";
 import { Modal } from "bootstrap";
+import { useAlgorithmStore } from "../stores/algorithm";
+import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
-import { isAddingNode, handleNodeAddition, startAddingNode, mousePosition, updateMousePosition } from '../utils/addingNode.ts'
+import {
+  isAddingNode,
+  handleNodeAddition,
+  startAddingNode,
+  mousePosition,
+  updateMousePosition,
+} from "../utils/addingNode.ts";
 
 const router = useRouter();
 
@@ -630,8 +768,8 @@ const zoomOut = () => graph.value?.zoomOut();
 
 const configs = defineConfigs({
   view: {
-    panEnabled: true,
-    zoomEnabled: true,
+    panEnabled: false,
+    zoomEnabled: false,
     boxSelectionEnabled: true,
     selection: {
       box: {
@@ -763,13 +901,12 @@ const configs = defineConfigs({
     selfLoop: {
       radius: 24,
       offset: 16,
-      angle: 180,
+      angle: 270,
       isClockwise: true,
     },
     keepOrder: "horizontal",
   },
 });
-
 
 // Adding Node -------------------------------------------------------------
 let isAddingNode = ref(false);
@@ -823,7 +960,6 @@ onUnmounted(() => {
   window.removeEventListener("mousemove", updateMousePosition);
 });
 
-
 // Deleting Node -------------------------------------------------------------
 const confirmDeleteModal = ref<Modal | null>(null);
 
@@ -848,17 +984,22 @@ const handleDeletion = () => {
   }
 };
 
-
 // Adding Edge -------------------------------------------------------------
+var selfLoopEdgeLabel = ref(false);
+
 const edgeAdditionButton = () => {
+  if (isAddingNode.value) {
+      isAddingNode.value = false;
+  }
   let [source, target] = ["", ""];
   if (selectedNodes.value.length === 1) {
     source = target = selectedNodes.value.toString();
+    // selfLoopEdgeLabel.value = !selfLoopEdgeLabel.value;
   } else if (selectedNodes.value.length === 2) {
     [source, target] = selectedNodes.value.map((node) => node.toString());
   } else return;
   const edgeId = `edge${nextEdgeIndex.value}`;
-  const label = `Arista ${nextEdgeIndex.value}`;
+  const label = `0`;
   edges[edgeId] = { source, target, label };
   nextEdgeIndex.value++;
   selectedNodes.value = [];
@@ -942,31 +1083,70 @@ onMounted(() => {
 
 // matrix logic ------------------------------------------------------------
 const generateAdjacencyMatrix = (): number[][] => {
-  const adjacencyMatrix: number[][] = [];
-  for (const nodeId in nodes) {
-    const row: number[] = [];
-    for (const edgeId in edges) {
-      const edge = edges[edgeId];
-      if (edge.source === nodeId || edge.target === nodeId) {
-        row.push(1);
-      } else {
-        row.push(0);
-      }
-    }
-    adjacencyMatrix.push(row);
-  }
+  const algorithmStore = useAlgorithmStore();
+
+  // Get the adjacency matrix data from the store
+  const adjacencyMatrixData = algorithmStore.adjacencyMatrixDataOutput;
+
+  // Extract the values from the adjacency matrix data
+  const adjacencyMatrix: number[][] = adjacencyMatrixData.values;
+
   return adjacencyMatrix;
 };
 
-const openAdjacencyMatrixModal = () => {
+const openAdjacencyMatrixModal = async () => {
+  const algorithmStore = useAlgorithmStore();
+
+  // Load the adjacency matrix data from the API
+  const graphData = {
+      nodes: nodes,
+      edges: edges,
+      layouts: layouts,
+    };
+
+  const jsonData = JSON.stringify(graphData, null, 2); // Indentation of 2 spaces
+  await algorithmStore.loadAdjMatrix(jsonData);
+
+  // Generate the adjacency matrix
+  const adjacencyMatrixData = algorithmStore.adjacencyMatrixDataOutput;
   const adjacencyMatrix = generateAdjacencyMatrix();
-  const adjacencyMatrixString = adjacencyMatrix
-    .map((row) => row.join(" "))
-    .join("\n");
+
+  const verticesNames = adjacencyMatrixData.verticesNames;
+  const rowSum = adjacencyMatrixData.rowSum;
+  const colSum = adjacencyMatrixData.colSum;
+  const mtxSum = adjacencyMatrixData.mtxSum;
+
+  let tableString = "<table>\n  <tr>\n    <th></th>";
+
+  // Add vertices names to the table header
+  for (const name of verticesNames) {
+    tableString += `\n    <th>${name}</th>`;
+  }
+
+  tableString += "\n    <th>Row Sum</th>\n  </tr>";
+
+  // Add matrix values and row sums to the table body
+  for (let i = 0; i < adjacencyMatrix.length; i++) {
+    tableString += `\n  <tr>\n    <td>${verticesNames[i]}</td>`;
+    for (const value of adjacencyMatrix[i]) {
+      tableString += `\n    <td>${value}</td>`;
+    }
+    tableString += `\n    <td>${rowSum[i]}</td>\n  </tr>`;
+  }
+
+  // Add column sums to the table footer
+  tableString += "\n  <tr>\n    <td>Col Sum</td>";
+  for (const sum of colSum) {
+    tableString += `\n    <td>${sum}</td>`;
+  }
+  tableString += `\n    <td>${mtxSum}</td>\n  </tr>\n</table>`;
+
+
   const adjacencyMatrixElement = document.getElementById("adjacencyMatrix");
   if (adjacencyMatrixElement) {
-    adjacencyMatrixElement.textContent = adjacencyMatrixString;
+    adjacencyMatrixElement.innerHTML = tableString;
   }
+
   adjacencyMatrixModal?.show();
 };
 
@@ -981,7 +1161,6 @@ const renameNode = () => {
   newNodeName.value = "";
   renameNodeModal.hide();
 };
-
 
 // Rename Edge -------------------------------------------------------------
 const renameEdge = () => {
@@ -1045,6 +1224,8 @@ const loadGraphError = ref(false);
 
 const fileNameSaved = ref("");
 
+const fileStore = useFileStore();
+
 const loadGraph = async () => {
   const inputElement = document.querySelector('input[type="file"]');
   const file = (inputElement as HTMLInputElement)?.files?.[0];
@@ -1076,6 +1257,10 @@ const loadGraph = async () => {
           delete layouts.nodes[nodeId];
         }
       }
+
+      // Upload the file
+      const fileResponse = await fileStore.uploadFile(file);
+      console.log("File response:", fileResponse);
 
       loadGraphSuccess.value = true;
     } catch (error) {
@@ -1116,7 +1301,6 @@ const handleClearAll = () => {
     clearAllModal.show();
   }
 };
-
 </script>
 
 <style scoped>
@@ -1152,13 +1336,15 @@ const handleClearAll = () => {
   margin-bottom: 10px;
 }
 
-.rounded-buttons {
+.self-loop-label {
+  font-size: 20px;
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  top: 50%;
+  left: 50%;
+}
+
+.label-text {
+  position: absolute;
 }
 
 .upload-file {
