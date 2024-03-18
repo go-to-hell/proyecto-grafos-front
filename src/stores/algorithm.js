@@ -20,21 +20,25 @@ export const useAlgorithmStore = defineStore('algorithm', {
       const authStore = useAuthStore();
     
       // Convertir la propiedad 'label' de cada 'edge' a un entero
-      const edgesWithIntLabels = this.edges.map(edge => ({
+      /* const edgesWithIntLabels = this.edges.map(edge => ({
         ...edge,
         label: parseInt(edge.label, 10)
-      }));
+      })); */
+      const body = {
+        nodes: this.nodes,
+        edges: this.edges,
+        layouts: this.layouts
+      };
+
+      console.log('body', JSON.stringify(body));
     
-      const response = await axios.post('http://localhost:8081/graph/adjMatrix', {
+      const response = await fetch('http://localhost:8081/graph/adjMatrix', {
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${authStore.accessToken}`,
           'Content-Type': 'application/json'
         },
-        data: {
-          nodes: this.nodes,
-          edges: edgesWithIntLabels,
-          layouts: this.layouts
-        }
+        body: JSON.stringify(body)
       });
     
       // Save the adjacency matrix data to the state
