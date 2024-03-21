@@ -18,5 +18,8 @@ COPY . .
 # construir aplicación para producción minificada
 RUN npm run build
 
+# Aactualizar e instalar vite rollup
+RUN npm update rollup vite
+
 EXPOSE 8008
 CMD [ "http-server", "dist", "--port", "8008" ]
