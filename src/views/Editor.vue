@@ -745,15 +745,16 @@ import {
 } from "../utils/addingNode.ts";
 
 const router = useRouter();
+const fileStore = useFileStore();
 
 const goBack = () => {
   router.go(-1);
 };
 
 const graph = ref<VNetworkGraphInstance | null>(null);
-let nodes: Nodes = reactive({ ...data.nodes });
-let edges: Edges = reactive({ ...data.edges });
-let layouts = reactive(data.layouts);
+let nodes: Nodes = reactive({ ...fileStore.graphData.nodes });
+let edges: Edges = reactive({ ...fileStore.graphData.edges });
+let layouts = reactive(fileStore.graphData.layouts);
 
 const nextNodeIndex = ref(Object.keys(nodes).length + 1);
 const nextEdgeIndex = ref(Object.keys(edges).length + 1);
@@ -1224,8 +1225,6 @@ const loadGraphError = ref(false);
 
 const fileNameSaved = ref("");
 
-const fileStore = useFileStore();
-
 const loadGraph = async () => {
   const inputElement = document.querySelector('input[type="file"]');
   const file = (inputElement as HTMLInputElement)?.files?.[0];
@@ -1274,6 +1273,8 @@ const openGraphFile = () => {
   const inputElement = document.querySelector('input[type="file"]');
   (inputElement as HTMLInputElement).click();
 };
+
+
 
 // help modal -------------------------------------------------------------
 const openHelp = () => {

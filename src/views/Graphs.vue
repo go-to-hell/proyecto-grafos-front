@@ -35,7 +35,8 @@
               <h5 class="card-title">{{ file.filename }}</h5>
               <p class="card-text">Uploaded by: {{ file.uploader.username }}</p>
               <p class="card-text">Upload date: {{ file.uploadDate }}</p>
-              <a :href="file.fileUrl" class="btn btn-primary">Download</a>
+              <a @click="fileStore.downloadFile(file.fileId, file.filename)" class="btn btn-primary">Download</a>
+              <a @click="loadGraph(file.fileId)" class="btn btn-secondary">Cargar gráfico</a>
             </div>
           </div>
         </div>
@@ -70,6 +71,11 @@ export default {
       fileStore.listFiles();
     };
 
+    const loadGraph = async (fileId) => {
+      await fileStore.justTheJSON(fileId);
+      router.push('/editor');
+    };
+
     const submitFile = async () => {
       if (fileToUpload.value) {
         const formData = new FormData();
@@ -85,6 +91,7 @@ export default {
       authStore,
       fileStore,
       goEditor,
+      loadGraph,
       uploadFile,
       submitFile,
     };
