@@ -19,7 +19,8 @@
     "popper.js": "^1.16.1",
     "v-network-graph": "^0.9.15",
     "vue": "^3.3.11",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.2",

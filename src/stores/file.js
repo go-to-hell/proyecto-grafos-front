@@ -5,6 +5,7 @@ import { useAuthStore } from './auth';
 export const useFileStore = defineStore('file', {
     state: () => ({
         files: [],
+        graphData: null,
     }),
 
     actions: {
@@ -68,7 +69,7 @@ export const useFileStore = defineStore('file', {
             }
         },
 
-        async downloadFile(id) {
+        async downloadFile(id, filename) {
             const authStore = useAuthStore();
             console.log(authStore.accessToken)
             const res = await fetch(`http://localhost:8081/files/download/${id}`, {
@@ -77,9 +78,39 @@ export const useFileStore = defineStore('file', {
                     'Authorization': `Bearer ${authStore.accessToken}`,
                 },
             });
-
+        
             if (res.ok) {
                 const fileResponse = await res.blob();
+                const url = window.URL.createObjectURL(fileResponse);
+                const link = document.createElement('a');
+                link.href = url;
+                // Asegurarse de que el archivo tiene la extensión .json
+                if (!filename.endsWith('.json')) {
+                    filename += '.json';
+                }
+                link.download = filename;
+                link.click();
+                window.URL.revokeObjectURL(url);
+            } else {
+                console.error('Error al descargar el archivo');
+                return null;
+            }
+        },
+
+        async justTheJSON(id) {
+            const authStore = useAuthStore();
+            console.log(authStore.accessToken)
+            const res = await fetch(`http://localhost:8081/files/download/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${authStore.accessToken}`,
+                },
+            });
+        
+            if (res.ok) {
+                const fileResponse = await res.text();
+                // Parsea el contenido del archivo a JSON y almacénalo en graphData
+                this.graphData = JSON.parse(fileResponse);
                 return fileResponse;
             } else {
                 console.error('Error al descargar el archivo');
