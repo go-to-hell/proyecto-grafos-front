@@ -99,7 +99,7 @@ export const useFileStore = defineStore('file', {
 
         async justTheJSON(id) {
             const authStore = useAuthStore();
-            console.log(authStore.accessToken)
+            
             const res = await fetch(`http://localhost:8081/files/download/${id}`, {
                 method: 'GET',
                 headers: {

@@ -1,6 +1,7 @@
 // Importa las librerías necesarias
 import { defineStore } from 'pinia';
 import { useAuthStore } from './auth';
+import axios from 'axios';
 
 export const useAlgorithmStore = defineStore('algorithm', {
 
@@ -18,16 +19,15 @@ export const useAlgorithmStore = defineStore('algorithm', {
     async loadAdjMatrix(adjacencyMatrixDataInput) {
       const authStore = useAuthStore();
     
-      const response = await fetch('http://localhost:8081/graph/adjMatrix', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${authStore.accessToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(adjacencyMatrixDataInput)
-      });
-
-      this.adjacencyMatrixDataOutput = await response.json();
+      const response = await axios.post('http://localhost:8081/graph/adjMatrix', 
+        adjacencyMatrixDataInput,
+        {
+          headers: {
+            'Authorization': `Bearer ${authStore.accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
     
       // Save the adjacency matrix data to the state
       this.adjacencyMatrixDataOutput = response.data;
