@@ -136,5 +136,8 @@ export const useFileStore = defineStore('file', {
                 return null;
             }
         },
+        clearGraphData() {
+            this.graphData = null;
+        },
     },
 });

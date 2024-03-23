@@ -752,9 +752,19 @@ const goBack = () => {
 };
 
 const graph = ref<VNetworkGraphInstance | null>(null);
-let nodes: Nodes = reactive({ ...fileStore.graphData.nodes });
-let edges: Edges = reactive({ ...fileStore.graphData.edges });
-let layouts = reactive(fileStore.graphData.layouts);
+let nodes: Nodes;
+let edges: Edges;
+let layouts;
+
+if (fileStore.graphData) {
+  nodes = reactive({ ...fileStore.graphData.nodes });
+  edges = reactive({ ...fileStore.graphData.edges });
+  layouts = reactive(fileStore.graphData.layouts);
+} else {
+  nodes = reactive({ ...data.nodes });
+  edges = reactive({ ...data.edges });
+  layouts = reactive(data.layouts);
+}
 
 const nextNodeIndex = ref(Object.keys(nodes).length + 1);
 const nextEdgeIndex = ref(Object.keys(edges).length + 1);
@@ -1117,31 +1127,30 @@ const openAdjacencyMatrixModal = async () => {
   const colSum = adjacencyMatrixData.colSum;
   const mtxSum = adjacencyMatrixData.mtxSum;
 
-  let tableString = "<table>\n  <tr>\n    <th></th>";
+  let tableString = "<table style='width: 100%; border-collapse: collapse;'>\n  <tr>\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'></th>";
 
   // Add vertices names to the table header
   for (const name of verticesNames) {
-    tableString += `\n    <th>${name}</th>`;
+    tableString += `\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'>${name}</th>`;
   }
 
-  tableString += "\n    <th>Row Sum</th>\n  </tr>";
+  tableString += "\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'>Row Sum</th>\n  </tr>";
 
   // Add matrix values and row sums to the table body
   for (let i = 0; i < adjacencyMatrix.length; i++) {
-    tableString += `\n  <tr>\n    <td>${verticesNames[i]}</td>`;
+    tableString += `\n  <tr style='${i % 2 === 0 ? "background-color: #599db9;" : ""}'>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${verticesNames[i]}</td>`;
     for (const value of adjacencyMatrix[i]) {
-      tableString += `\n    <td>${value}</td>`;
+      tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${value}</td>`;
     }
-    tableString += `\n    <td>${rowSum[i]}</td>\n  </tr>`;
+    tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${rowSum[i]}</td>\n  </tr>`;
   }
 
   // Add column sums to the table footer
-  tableString += "\n  <tr>\n    <td>Col Sum</td>";
+  tableString += "\n  <tr>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>Col Sum</td>";
   for (const sum of colSum) {
-    tableString += `\n    <td>${sum}</td>`;
+    tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${sum}</td>`;
   }
-  tableString += `\n    <td>${mtxSum}</td>\n  </tr>\n</table>`;
-
+  tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${mtxSum}</td>\n  </tr>\n</table>`;
 
   const adjacencyMatrixElement = document.getElementById("adjacencyMatrix");
   if (adjacencyMatrixElement) {
