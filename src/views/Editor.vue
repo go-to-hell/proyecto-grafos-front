@@ -448,6 +448,16 @@
           </template>
           <Background />
         </v-network-graph>
+        <div class="event-logs">
+          <div
+            v-for="[timestamp, type, log] in eventLogs"
+            :key="`${timestamp}/${type}/${log}`"
+          >
+            {{ timestamp }}
+            <span class="event-type">{{ type }}</span>
+            {{ log }}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -703,15 +713,7 @@
             v-if="edge.source === nodeId && edge.target === nodeId"
             class="self-loop-label"
           >
-            <span
-              class="label-text"
-              :style="{
-                left: layouts.nodes[nodeId].x - 130 + 'px',
-                top: layouts.nodes[nodeId].y - 10 + 'px',
-              }"
-            >
-              {{ edge.label }}
-            </span>
+            <span class="self-loop-label-text">{{ edge.label }}</span>
           </div>
         </div>
       </div>
@@ -735,6 +737,7 @@ import { useRouter } from "vue-router";
 import { Modal } from "bootstrap";
 import { useAlgorithmStore } from "../stores/algorithm";
 import { useFileStore } from "../stores/file";
+// import format from "date";
 import * as bootstrap from "bootstrap";
 import {
   isAddingNode,
@@ -769,8 +772,8 @@ const zoomOut = () => graph.value?.zoomOut();
 
 const configs = defineConfigs({
   view: {
-    panEnabled: false,
-    zoomEnabled: false,
+    panEnabled: true,
+    zoomEnabled: true,
     boxSelectionEnabled: true,
     selection: {
       box: {
@@ -986,16 +989,13 @@ const handleDeletion = () => {
 };
 
 // Adding Edge -------------------------------------------------------------
-var selfLoopEdgeLabel = ref(false);
-
 const edgeAdditionButton = () => {
   if (isAddingNode.value) {
-      isAddingNode.value = false;
+    isAddingNode.value = false;
   }
   let [source, target] = ["", ""];
   if (selectedNodes.value.length === 1) {
     source = target = selectedNodes.value.toString();
-    // selfLoopEdgeLabel.value = !selfLoopEdgeLabel.value;
   } else if (selectedNodes.value.length === 2) {
     [source, target] = selectedNodes.value.map((node) => node.toString());
   } else return;
@@ -1012,12 +1012,94 @@ const edgeAdditionKey = (event: KeyboardEvent) => {
   }
 };
 
-// Selection -------------------------------------------------------------
+// Event Handling -------------------------------------------------------------
+const EVENTS_COUNT = 6;
+
+const eventLogs = reactive<[string, string, string][]>([]);
+
+var selfLoopEdgeLabel = document.getElementsByClassName(
+  "self-loop-label-text"
+) as HTMLCollectionOf<HTMLElement>;
+
 const isBoxSelectionMode = ref(false);
 const eventHandlers: EventHandlers = {
   "view:mode": (mode) => {
     isBoxSelectionMode.value = mode === "box-selection";
   },
+  // Wildcard: capture all events -----------------------------------------
+  "*": (type, event) => {
+    const timestamp = new Date().toISOString();
+    if (eventLogs.length > EVENTS_COUNT) {
+      eventLogs.splice(EVENTS_COUNT, eventLogs.length - EVENTS_COUNT);
+    }
+    if (event instanceof Object && "event" in event) {
+      Object.assign(event, { event: "(...)" });
+    }
+    eventLogs.unshift([timestamp, type, JSON.stringify(event)]);
+  },
+  // ----------------------------------------------------------------------
+  "view:zoom": () => {
+    for (var nodeId in nodes) {
+      for (var edgeId in edges) {
+        if (
+          edges[edgeId].source === nodeId &&
+          edges[edgeId].target === nodeId
+        ) {
+          locateSelLoopEdgeLabel(
+            layouts.nodes[nodeId].x / zoomLevel.value - 110 + "px",
+            layouts.nodes[nodeId].y / zoomLevel.value + 50 + "px"
+          );
+        }
+      }
+    }
+  },
+  "view:pan": (event) => {
+    if (eventLogs.length > 1) {
+      for (var nodeId in nodes) {
+        for (var edgeId in edges) {
+          if (
+            edges[edgeId].source === nodeId &&
+            edges[edgeId].target === nodeId
+          ) {
+            locateSelLoopEdgeLabel(
+              layouts.nodes[nodeId].x + event.x / 2 + "px",
+              layouts.nodes[nodeId].y + event.y / 2 + "px"
+            );
+          }
+        }
+      }
+    }
+  },
+  "node:pointermove": () => {
+    for (var nodeId in nodes) {
+      for (var edgeId in edges) {
+        if (
+          edges[edgeId].source === nodeId &&
+          edges[edgeId].target === nodeId
+        ) {
+          initialLocationSelLoopEdgeLabel();
+        }
+      }
+    }
+  },
+};
+
+const initialLocationSelLoopEdgeLabel = () => {
+  for (var nodeId in nodes) {
+    for (var edgeId in edges) {
+      if (edges[edgeId].source === nodeId && edges[edgeId].target === nodeId) {
+        locateSelLoopEdgeLabel(
+          layouts.nodes[nodeId].x - 110 + "px",
+          layouts.nodes[nodeId].y + 50 + "px"
+        );
+      }
+    }
+  }
+};
+
+const locateSelLoopEdgeLabel = (left: string, top: string) => {
+  selfLoopEdgeLabel[0].style.left = left;
+  selfLoopEdgeLabel[0].style.top = top;
 };
 
 const startBoxSelection = () =>
@@ -1080,6 +1162,8 @@ onMounted(() => {
   tooltipTriggerList.forEach((tooltipTriggerEl: Element) => {
     new bootstrap.Tooltip(tooltipTriggerEl as HTMLElement);
   });
+
+  initialLocationSelLoopEdgeLabel();
 });
 
 // matrix logic ------------------------------------------------------------
@@ -1100,10 +1184,10 @@ const openAdjacencyMatrixModal = async () => {
 
   // Load the adjacency matrix data from the API
   const graphData = {
-      nodes: nodes,
-      edges: edges,
-      layouts: layouts,
-    };
+    nodes: nodes,
+    edges: edges,
+    layouts: layouts,
+  };
 
   const jsonData = JSON.stringify(graphData, null, 2); // Indentation of 2 spaces
   await algorithmStore.loadAdjMatrix(jsonData);
@@ -1141,7 +1225,6 @@ const openAdjacencyMatrixModal = async () => {
     tableString += `\n    <td>${sum}</td>`;
   }
   tableString += `\n    <td>${mtxSum}</td>\n  </tr>\n</table>`;
-
 
   const adjacencyMatrixElement = document.getElementById("adjacencyMatrix");
   if (adjacencyMatrixElement) {
@@ -1274,8 +1357,6 @@ const openGraphFile = () => {
   (inputElement as HTMLInputElement).click();
 };
 
-
-
 // help modal -------------------------------------------------------------
 const openHelp = () => {
   helpCenterModal.show();
@@ -1344,12 +1425,32 @@ const handleClearAll = () => {
   left: 50%;
 }
 
-.label-text {
+.self-loop-label-text {
   position: absolute;
 }
 
 .upload-file {
   display: none;
+}
+
+.event-logs {
+  position: absolute;
+  inset: auto 10px 10px auto;
+  margin-left: 10px;
+  margin-bottom: 150px;
+  padding: 10px;
+  background: #ffff0044;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: monospace;
+  line-height: 11px;
+  pointer-events: none;
+}
+.event-logs div {
+  word-break: break-all;
+}
+.event-type {
+  font-weight: bold;
 }
 
 @media screen and (max-width: 600px) {
