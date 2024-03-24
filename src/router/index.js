@@ -5,7 +5,8 @@ import Dashboard from '../views/Dashboard.vue';
 import Editor from '../views/Editor.vue';
 import Members from '../views/Members.vue';
 import Graphs from '../views/Graphs.vue';
-
+import Johnson from '../views/Johnson.vue';
+import EditorJohnson from '../views/EditorJohnson.vue';
 
 const routes = [
     {
@@ -31,6 +32,14 @@ const routes = [
     {
         path: '/graphs',
         component: Graphs,
+    },
+    {
+        path: '/johnson',
+        component: Johnson,
+    },
+    {
+        path: '/editorjohnson',
+        component: EditorJohnson,
     },
 ];
 
