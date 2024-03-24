@@ -63,6 +63,7 @@ export default {
     const fileToUpload = ref(null);
 
     const goEditor = () => {
+      fileStore.clearGraphData();
       router.push("/editor");
     };
 
