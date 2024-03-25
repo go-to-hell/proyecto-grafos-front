@@ -22,6 +22,9 @@
                 <li class="nav-item" v-if="authStore.isLoggedIn">
                   <button :class="{'active': $route.path === '/graphs'}" class="nav-link w-100" @click="goGraphs">Grafos</button>
                 </li>
+                <li class="nav-item" v-if="authStore.isLoggedIn">
+                  <button :class="{'active': $route.path === '/johnson'}" class="nav-link w-100" @click="goJohnson">Johnson</button>
+                </li>
             </ul>
             <button v-if="!authStore.isLoggedIn" class="btn btn-success d-block d-md-inline-block mx-2 my-2" @click="goLogin">Ingresar</button>
             <button v-if="!authStore.isLoggedIn" class="btn btn-info d-block d-md-inline-block mx-2 my-2" @click="goSignUp">Registrarse</button>
@@ -46,8 +49,13 @@ export default {
     const router = useRouter();
 
     const goGraphs = async () => {
-      fileStore.listFiles(); // Llama a listFiles antes de redirigir
+      fileStore.listFiles();
       router.push("/graphs");
+    };
+
+    const goJohnson = async () => {
+      fileStore.listFiles();
+      router.push("/johnson");
     };
 
     const goLogin = () => {
@@ -67,6 +75,7 @@ export default {
       goGraphs,
       goLogin,
       goSignUp,
+      goJohnson,
       logout,
       authStore
     };
