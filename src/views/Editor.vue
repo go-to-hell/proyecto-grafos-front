@@ -737,7 +737,6 @@ import { useRouter } from "vue-router";
 import { Modal } from "bootstrap";
 import { useAlgorithmStore } from "../stores/algorithm";
 import { useFileStore } from "../stores/file";
-// import format from "date";
 import * as bootstrap from "bootstrap";
 import {
   isAddingNode,
@@ -1211,18 +1210,24 @@ const openAdjacencyMatrixModal = async () => {
   const colSum = adjacencyMatrixData.colSum;
   const mtxSum = adjacencyMatrixData.mtxSum;
 
-  let tableString = "<table style='width: 100%; border-collapse: collapse;'>\n  <tr>\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'></th>";
+  let tableString =
+    "<table style='width: 100%; border-collapse: collapse;'>\n  <tr>\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'></th>";
 
   // Add vertices names to the table header
   for (const name of verticesNames) {
     tableString += `\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'>${name}</th>`;
   }
 
-  tableString += "\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'>Row Sum</th>\n  </tr>";
+  tableString +=
+    "\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'>Row Sum</th>\n  </tr>";
 
   // Add matrix values and row sums to the table body
   for (let i = 0; i < adjacencyMatrix.length; i++) {
-    tableString += `\n  <tr style='${i % 2 === 0 ? "background-color: #599db9;" : ""}'>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${verticesNames[i]}</td>`;
+    tableString += `\n  <tr style='${
+      i % 2 === 0 ? "background-color: #599db9;" : ""
+    }'>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${
+      verticesNames[i]
+    }</td>`;
     for (const value of adjacencyMatrix[i]) {
       tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${value}</td>`;
     }
@@ -1230,7 +1235,8 @@ const openAdjacencyMatrixModal = async () => {
   }
 
   // Add column sums to the table footer
-  tableString += "\n  <tr>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>Col Sum</td>";
+  tableString +=
+    "\n  <tr>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>Col Sum</td>";
   for (const sum of colSum) {
     tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${sum}</td>`;
   }
