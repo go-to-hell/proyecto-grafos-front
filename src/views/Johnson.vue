@@ -51,6 +51,7 @@ import { useAuthStore } from "../stores/auth";
 import { useFileStore } from "../stores/file";
 import { useRouter } from "vue-router";
 import NavBar from '../components/NavBar.vue';
+import { useLoaderStore } from '../stores/common/loaderStore';
 
 export default {
     components: {
@@ -61,6 +62,7 @@ export default {
     const fileStore = useFileStore();
     const router = useRouter();
     const fileToUpload = ref(null);
+    const loaderStore = useLoaderStore();
 
     const goEditorJohnson = () => {
         fileStore.clearGraphData();
@@ -86,7 +88,9 @@ export default {
         }
     };
 
+    loaderStore.pageIsLoading();
     fileStore.listFiles();
+    loaderStore.pageIsLoaded();
 
     return {
         authStore,

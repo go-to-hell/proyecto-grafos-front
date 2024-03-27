@@ -26,8 +26,8 @@
                   <button :class="{'active': $route.path === '/johnson'}" class="nav-link w-100" @click="goJohnson">Johnson</button>
                 </li>
             </ul>
-            <button v-if="!authStore.isLoggedIn" class="btn btn-success d-block d-md-inline-block mx-2 my-2" @click="goLogin">Ingresar</button>
-            <button v-if="!authStore.isLoggedIn" class="btn btn-info d-block d-md-inline-block mx-2 my-2" @click="goSignUp">Registrarse</button>
+            <button v-if="!authStore.isLoggedIn" class="btn btn-success mx-auto d-block d-md-inline-block mx-md-2 my-2" @click="goLogin">Ingresar</button>
+            <button v-if="!authStore.isLoggedIn" class="btn btn-info mx-auto d-block d-md-inline-block mx-md-2 me-md-4 my-2" @click="goSignUp">Registrarse</button>
             <button v-if="authStore.isLoggedIn" class="btn btn-danger mx-auto d-block d-md-inline-block mx-md-4 my-2" @click="logout">Cerrar sesión</button>
             </div>
             
