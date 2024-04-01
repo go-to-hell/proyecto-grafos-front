@@ -36,6 +36,22 @@
         buttonText="Ir a North West"
         @button_clicked="goNorthWest"
       />
+      <Card
+        imageSource=""
+        imageAlt="Algoritmos de Ordenamiento"
+        cardTitle="Algoritmos de Ordenamiento"
+        cardText="Algoritmos de Ordenamiento"
+        buttonText="Ir a Sorts"
+        @button_clicked="goSorts"
+      />
+      <Card
+        imageSource=""
+        imageAlt="Algoritmo Árboles Binarios"
+        cardTitle="Algoritmo Árboles Binarios"
+        cardText="Algoritmo Árboles Binarios"
+        buttonText="Ir a Árboles Binarios"
+        @button_clicked="goBinaryTrees"
+      />
     </div>
   </div>
 </template>
@@ -66,6 +82,12 @@ export default {
       this.router.push("/assignation");
     },
     goNorthWest() {
+      this.router.push("/");
+    },
+    goSorts() {
+      this.router.push("/");
+    },
+    goBinaryTrees() {
       this.router.push("/");
     },
   },
