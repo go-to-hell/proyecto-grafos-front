@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../views/Login.vue';
 import SignUp from '../views/SignUp.vue';
 import Dashboard from '../views/Dashboard.vue';
+import GraphsHome from "../views/GraphsHome.vue";
 import Editor from '../views/Editor.vue';
 import Members from '../views/Members.vue';
 import Graphs from '../views/Graphs.vue';
@@ -28,6 +29,10 @@ const routes = [
     { 
         path: '/signup', 
         component: SignUp 
+    },
+    {
+        path: "/graphs_home",
+        component: GraphsHome,
     },
     {
         path: '/graphs',
