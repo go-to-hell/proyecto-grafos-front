@@ -21,20 +21,20 @@
         @button_clicked="goJohnson"
       />
       <Card
-        imageSource=""
-        imageAlt=""
-        cardTitle=""
-        cardText=""
+        imageSource="https://i.stack.imgur.com/paL7Z.png"
+        imageAlt="Algoritmo de Asignación"
+        cardTitle="Algoritmo de Asignación"
+        cardText="El algoritmo de asignación es un método para asignar recursos a tareas de manera óptima, maximizando un criterio específico. Se utiliza comúnmente en situaciones donde hay recursos limitados y tareas que deben ser completadas. Se basa en crear una matriz de costos o beneficios y encontrar la asignación que minimice o maximice este valor total. Es una herramienta clave para optimizar la eficiencia en la asignación de recursos."
         buttonText="Ir a Asignación"
-        @button_clicked="goGraphsEditor"
+        @button_clicked="goAssignation"
       />
       <Card
         imageSource=""
-        imageAlt=""
-        cardTitle=""
-        cardText=""
+        imageAlt="Algoritmo North West"
+        cardTitle="Algoritmo North West"
+        cardText="Algoritmo North West"
         buttonText="Ir a North West"
-        @button_clicked="goGraphsEditor"
+        @button_clicked="goNorthWest"
       />
     </div>
   </div>
@@ -61,6 +61,12 @@ export default {
     },
     goJohnson() {
       this.router.push("/johnson");
+    },
+    goAssignation() {
+      this.router.push("/assignation");
+    },
+    goNorthWest() {
+      this.router.push("/");
     },
   },
 };
