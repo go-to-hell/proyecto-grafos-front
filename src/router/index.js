@@ -8,8 +8,8 @@ import Members from "../views/Members.vue";
 import Graphs from "../views/Graphs.vue";
 import Johnson from "../views/Johnson.vue";
 import EditorJohnson from "../views/EditorJohnson.vue";
-import Assignation from "../views/Assignation.vue";
-import EditorAssignation from "../views/EditorAssignation.vue";
+import Assignment from "../views/Assignment.vue";
+import EditorAssignment from "../views/EditorAssignment.vue";
 
 const routes = [
   {
@@ -49,12 +49,12 @@ const routes = [
     component: EditorJohnson,
   },
   {
-    path: "/assignation",
-    component: Assignation,
+    path: "/assignment",
+    component: Assignment,
   },
   {
-    path: "/editor_assignation",
-    component: EditorAssignation,
+    path: "/editor_assignment",
+    component: EditorAssignment,
   },
 ];
 
