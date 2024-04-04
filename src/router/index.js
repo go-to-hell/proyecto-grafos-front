@@ -10,6 +10,8 @@ import Johnson from "../views/Johnson.vue";
 import EditorJohnson from "../views/EditorJohnson.vue";
 import Assignment from "../views/Assignment.vue";
 import EditorAssignment from "../views/EditorAssignment.vue";
+import NorthWest from "../views/NorthWest.vue";
+import EditorNorthWest from "../views/EditorNorthWest.vue";
 
 const routes = [
   {
@@ -45,7 +47,7 @@ const routes = [
     component: Johnson,
   },
   {
-    path: "/editorjohnson",
+    path: "/editor_johnson",
     component: EditorJohnson,
   },
   {
@@ -56,6 +58,14 @@ const routes = [
     path: "/editor_assignment",
     component: EditorAssignment,
   },
+  {
+    path: "/north_west",
+    component: NorthWest,
+  },
+  {
+    path: "/editor_north_west",
+    component: EditorNorthWest,
+  }
 ];
 
 const router = createRouter({

@@ -9,7 +9,9 @@ export const useAlgorithmStore = defineStore("algorithm", {
     layouts: {},
     adjacencyMatrixDataOutput: null,
     johnsonCriticalPathDataOutput: null,
+    criticalNodes: [],
     criticalEdges: [],
+    edgeSlackList: [],
     assignmentDataOutput: null,
   }),
 
@@ -46,17 +48,53 @@ export const useAlgorithmStore = defineStore("algorithm", {
 
       this.johnsonCriticalPathDataOutput = response.data;
 
+      // Actualiza los nodos en el estado
+      this.nodes = {};
+      response.data.forEach((edge) => {
+        if (!this.nodes[edge.originNodeName]) {
+          this.nodes[edge.originNodeName] = {
+            name: edge.originNodeName,
+            critical: edge.critical,
+          };
+        }
+      });
+
+      // Guarda los nodos críticos en el estado
+      this.criticalNodes = Object.values(this.nodes)
+        .filter((node) => node.critical)
+        .map((node) => node.name)
+        .sort(); // Ordena los nodos críticos
+
       // Guarda los bordes críticos en el estado
       this.criticalEdges = response.data
         .filter((edge) => edge.critical)
-        .map((edge) => edge.edgeId);
+        .map((edge) => edge.edgeId)
+        .sort(); // Ordena los bordes críticos
+
+      // Guarda la información de slack y edgeId en una lista
+      this.edgeSlackList = response.data.map((edge) => {
+        return {
+          edgeId: edge.edgeId,
+          slack: edge.slack,
+        };
+      });
     },
 
     getCriticalPath() {
       // Devuelve la ruta crítica como una cadena de texto
-      return this.criticalEdges.join(" -> ");
+      return this.criticalNodes.join(" -> ");
     },
 
+    getCriticalEdges() {
+      // Devuelve los bordes críticos como un array
+      return this.criticalEdges;
+    },
+
+    getEdgeSlackList() {
+      // Devuelve la lista de slack y edgeId
+      return this.edgeSlackList;
+    },
+    
     async loadAssignmentAlgorithm(assignmentDataOutput, maximize) {
       const authStore = useAuthStore();
       const response = await axios.post(

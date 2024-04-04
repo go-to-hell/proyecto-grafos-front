@@ -405,7 +405,7 @@
         <!-- Bootstrap alert to show File Name Saved -->
         <div
         v-if="fileNameSaved"
-        class="alert alert-info alert-dismissible fade show mt-2"
+        class="alert alert-warning alert-dismissible fade show mt-2"
         role="alert"
         >
         Archivo seleccionado: {{ fileNameSaved }}
@@ -455,7 +455,12 @@
     <div id="criticalPath" class="mt-2 position-absolute top-0 start-50 translate-middle-x p-3 bg-white border rounded shadow">
         <h2>Ruta Crítica</h2>
         <!-- Muestra la ruta crítica -->
-        <p v-if="algorithmStore.getCriticalPath()">{{ algorithmStore.getCriticalPath() }}</p>
+        <div v-if="algorithmStore.getCriticalPath()">
+            <span v-for="(part, index) in algorithmStore.getCriticalPath().split('->')" :key="index">
+                <span v-if="index !== 0" class="arrow">-></span>
+                <span>{{ part }}</span>
+            </span>
+        </div>
         <p v-else>No se ha calculado la ruta crítica aún.</p>
     </div>
 
@@ -519,15 +524,15 @@
             <button
             @click="openHelp"
             data-bs-dismiss="offcanvas"
-            class="btn btn-outline-info w-100 py-2 mb-2 d-lg-none"
+            class="btn btn-outline-warning w-100 py-2 mb-2 d-lg-none"
             >
             Centro de Ayuda
             </button>
-            <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">
+            <button class="btn btn-outline-warning w-100 py-2" @click="panToCenter">
             Centrar
             </button>
             <button
-            class="btn btn-outline-info w-100 py-2 mt-2"
+            class="btn btn-outline-warning w-100 py-2 mt-2"
             @click="fitToContents"
             >
             Ajustar
@@ -535,11 +540,11 @@
         </div>
         <div class="d-flex gap-3">
             <button
-            class="btn btn-outline-info bi bi-plus-circle w-100 py-2 mt-1"
+            class="btn btn-outline-warning bi bi-plus-circle w-100 py-2 mt-1"
             @click="zoomIn"
             ></button>
             <button
-            class="btn btn-outline-info bi bi-dash-circle w-100 py-2 mt-1"
+            class="btn btn-outline-warning bi bi-dash-circle w-100 py-2 mt-1"
             @click="zoomOut"
             ></button>
         </div>
@@ -547,15 +552,15 @@
             data-bs-dismiss="offcanvas"
             :class="
             isBoxSelectionMode
-                ? 'btn btn-info w-100 py-2 mt-3'
-                : 'btn btn-outline-info w-100 py-2 mt-3'
+                ? 'btn btn-warning w-100 py-2 mt-3'
+                : 'btn btn-outline-warning w-100 py-2 mt-3'
             "
             @click="toggleBoxSelection"
         >
             {{ isBoxSelectionMode ? "Detener selección" : "Iniciar selección" }}
         </button>
         <button
-            class="btn btn-outline-info w-100 py-2 mt-2"
+            class="btn btn-outline-warning w-100 py-2 mt-2"
             data-bs-dismiss="offcanvas"
             @click="openFileNameModal"
         >
@@ -568,21 +573,13 @@
             accept=".json"
         />
         <button
-            class="btn btn-outline-info w-100 py-2 mt-2"
+            class="btn btn-outline-warning w-100 py-2 mt-2"
             data-bs-dismiss="offcanvas"
             @click="openGraphFile"
         >
             Abrir Archivo
         </button>
-
-        <button
-            class="btn btn-outline-info w-100 py-2 mt-2"
-            data-bs-dismiss="offcanvas"
-            @click="openAdjacencyMatrixModal"
-        >
-            Matriz de Adyacencia
-        </button>
-        <button @click="goBack" class="btn btn-outline-info w-100 py-2 mt-2">
+        <button @click="goBack" class="btn btn-outline-warning w-100 py-2 mt-2">
             Ir a inicio
         </button>
         </div>
@@ -590,7 +587,7 @@
 
     <!-- View Controls -->
     <div
-        class="d-md-flex d-block gap-5 w-100 justify-content-center position-absolute sticky-bottom bg-info bg-opacity-10 py-3 px-3 py-md-4 px-md-5"
+        class="d-md-flex d-block gap-5 w-100 justify-content-center position-absolute sticky-bottom bg-warning bg-opacity-10 py-3 px-3 py-md-4 px-md-5"
     >
         <div class="d-flex gap-2 gap-md-5 mb-2 mb-md-0">
         <button
@@ -601,7 +598,7 @@
             data-bs-title="Agregar Nodo."
             class="bi bi-node-plus rounded-circle py-3 px-4"
             :class="
-            isAddingNode === true ? 'btn btn-info' : 'btn btn-outline-info'
+            isAddingNode === true ? 'btn btn-warning' : 'btn btn-outline-warning'
             "
             @click="startAddingNode"
         ></button>
@@ -614,8 +611,8 @@
             class="bi bi-arrow-down-right rounded-circle py-3 px-4"
             :class="
             selectedNodes.length === 1 || selectedNodes.length === 2
-                ? 'btn btn-info'
-                : 'btn btn-outline-info'
+                ? 'btn btn-warning'
+                : 'btn btn-outline-warning'
             "
             @click="edgeAdditionButton"
         ></button>
@@ -628,8 +625,8 @@
             class="bi bi-trash rounded-circle py-3 px-4"
             :class="
             selectedEdges.length > 0 || selectedNodes.length > 0
-                ? 'btn btn-info'
-                : 'btn btn-outline-info'
+                ? 'btn btn-warning'
+                : 'btn btn-outline-warning'
             "
             @click="handleDeletion"
         ></button>
@@ -645,8 +642,8 @@
             v-show="selectedNodes.length === 1"
             :class="
             selectedNodes.length === 1 || selectedEdges.length === 1
-                ? 'btn btn-info'
-                : 'btn btn-outline-info'
+                ? 'btn btn-warning'
+                : 'btn btn-outline-warning'
             "
             @click="openRenameModal"
         ></button>
@@ -660,8 +657,8 @@
             v-show="selectedEdges.length === 1"
             :class="
             selectedNodes.length === 1 || selectedEdges.length === 1
-                ? 'btn btn-info'
-                : 'btn btn-outline-info'
+                ? 'btn btn-warning'
+                : 'btn btn-outline-warning'
             "
             @click="openRenameEdgeModal"
         ></button>
@@ -671,7 +668,7 @@
             data-bs-placement="top"
             data-bs-custom-class="custom-tooltip"
             data-bs-title="Guardar."
-            class="btn btn-outline-info bi bi-floppy rounded-circle py-3 px-4"
+            class="btn btn-outline-warning bi bi-floppy rounded-circle py-3 px-4"
             @click="openFileNameModal"
         ></button>
         <button
@@ -680,7 +677,7 @@
             data-bs-placement="top"
             data-bs-custom-class="custom-tooltip"
             data-bs-title="Abrir."
-            class="btn btn-outline-info bi bi-folder2-open rounded-circle py-3 px-4"
+            class="btn btn-outline-warning bi bi-folder2-open rounded-circle py-3 px-4"
             @click="openGraphFile"
         ></button>
         <button
@@ -688,17 +685,8 @@
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             data-bs-custom-class="custom-tooltip"
-            data-bs-title="Matriz de Adyacencia."
-            class="btn btn-outline-info bi bi-table rounded-circle py-3 px-4"
-            @click="openAdjacencyMatrixModal"
-        ></button>
-        <button
-            type="button"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            data-bs-custom-class="custom-tooltip"
             data-bs-title="Limpiar."
-            class="btn btn-outline-info bi bi-file-earmark-x rounded-circle py-3 px-4"
+            class="btn btn-outline-warning bi bi-file-earmark-x rounded-circle py-3 px-4"
             @click="handleClearAll"
         ></button>
         <button
@@ -738,7 +726,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted, computed, watch } from "vue";
+import { ref, reactive, onMounted, onUnmounted, computed, watch, toRaw } from "vue";
 import {
 Nodes,
 Edges,
@@ -754,18 +742,13 @@ import { Modal } from "bootstrap";
 import { useAlgorithmStore } from "../stores/algorithm";
 import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
-import {
-isAddingNode,
-handleNodeAddition,
-startAddingNode,
-mousePosition,
-updateMousePosition,
-} from "../utils/addingNode.ts";
 import * as vNG from "v-network-graph"
 
 const router = useRouter();
 const fileStore = useFileStore();
 const algorithmStore = useAlgorithmStore();
+const paths = ref<vNG.Paths>({});
+
 
 const goBack = () => {
 router.go(-1);
@@ -777,13 +760,13 @@ let edges: Edges;
 let layouts;
 
 if (fileStore.graphData) {
-nodes = reactive({ ...fileStore.graphData.nodes });
-edges = reactive({ ...fileStore.graphData.edges });
-layouts = reactive(fileStore.graphData.layouts);
+    nodes = reactive({ ...fileStore.graphData.nodes });
+    edges = reactive({ ...fileStore.graphData.edges });
+    layouts = reactive(fileStore.graphData.layouts);
 } else {
-nodes = reactive({ ...data.nodes });
-edges = reactive({ ...data.edges });
-layouts = reactive(data.layouts);
+    nodes = reactive({ ...data.nodes });
+    edges = reactive({ ...data.edges });
+    layouts = reactive(data.layouts);
 }
 
 const nextNodeIndex = ref(Object.keys(nodes).length + 1);
@@ -823,7 +806,7 @@ node: {
     strokeWidth: 3,
     strokeColor: "#000000",
     strokeDasharray: "0",
-    color: "#ba735a",
+    color: "#e1a433",
     },
     hover: {
     type: "circle",
@@ -845,7 +828,7 @@ node: {
     strokeWidth: 2,
     strokeColor: "#000000",
     strokeDasharray: "0",
-    color: "#ba735a",
+    color: "#e1a433",
     },
     label: {
     visible: true,
@@ -887,7 +870,7 @@ edge: {
     },
     hover: {
     width: 4,
-    color: "#ba735a",
+    color: "#e1a433",
     dasharray: "0",
     linecap: "butt",
     animate: false,
@@ -936,6 +919,15 @@ edge: {
     isClockwise: true,
     },
     keepOrder: "horizontal",
+},
+path: {
+		visible: true,
+		normal: {
+			width: 15,
+            dasharray: "10 16",
+            animate: true,
+            animationSpeed: 10,
+		},
 },
 });
 
@@ -1112,73 +1104,7 @@ tooltipTriggerList.forEach((tooltipTriggerEl: Element) => {
 });
 });
 
-// matrix logic ------------------------------------------------------------
-const generateAdjacencyMatrix = (): number[][] => {
-const algorithmStore = useAlgorithmStore();
 
-// Get the adjacency matrix data from the store
-const adjacencyMatrixData = algorithmStore.adjacencyMatrixDataOutput;
-
-// Extract the values from the adjacency matrix data
-const adjacencyMatrix: number[][] = adjacencyMatrixData.values;
-
-return adjacencyMatrix;
-};
-
-const openAdjacencyMatrixModal = async () => {
-const algorithmStore = useAlgorithmStore();
-
-// Load the adjacency matrix data from the API
-const graphData = {
-    nodes: nodes,
-    edges: edges,
-    layouts: layouts,
-    };
-
-const jsonData = JSON.stringify(graphData, null, 2); // Indentation of 2 spaces
-await algorithmStore.loadAdjMatrix(jsonData);
-
-// Generate the adjacency matrix
-const adjacencyMatrixData = algorithmStore.adjacencyMatrixDataOutput;
-const adjacencyMatrix = generateAdjacencyMatrix();
-
-const verticesNames = adjacencyMatrixData.verticesNames;
-const rowSum = adjacencyMatrixData.rowSum;
-const colSum = adjacencyMatrixData.colSum;
-const mtxSum = adjacencyMatrixData.mtxSum;
-
-let tableString = "<table style='width: 100%; border-collapse: collapse;'>\n  <tr>\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #ba735a; color: white;'></th>";
-
-// Add vertices names to the table header
-for (const name of verticesNames) {
-    tableString += `\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #ba735a; color: white;'>${name}</th>`;
-}
-
-tableString += "\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #ba735a; color: white;'>Row Sum</th>\n  </tr>";
-
-// Add matrix values and row sums to the table body
-for (let i = 0; i < adjacencyMatrix.length; i++) {
-    tableString += `\n  <tr style='${i % 2 === 0 ? "background-color: #ba735a;" : ""}'>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${verticesNames[i]}</td>`;
-    for (const value of adjacencyMatrix[i]) {
-    tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${value}</td>`;
-    }
-    tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${rowSum[i]}</td>\n  </tr>`;
-}
-
-// Add column sums to the table footer
-tableString += "\n  <tr>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>Col Sum</td>";
-for (const sum of colSum) {
-    tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${sum}</td>`;
-}
-tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${mtxSum}</td>\n  </tr>\n</table>`;
-
-const adjacencyMatrixElement = document.getElementById("adjacencyMatrix");
-if (adjacencyMatrixElement) {
-    adjacencyMatrixElement.innerHTML = tableString;
-}
-
-adjacencyMatrixModal?.show();
-};
 
 // Johnson's Algorithm -------------------------------------------------------------
 const solveJohnson = async () => {
@@ -1191,17 +1117,30 @@ const solveJohnson = async () => {
         layouts: layouts,
     };
 
-    const jsonData = JSON.stringify(graphData, null, 2); // Indentation of 2 spaces
-    console.log("Graph data:", jsonData);
+    const jsonData = JSON.stringify(graphData, null, 2); // Indentación de 2 espacios
     await algorithmStore.loadJohnsonCriticalPath(jsonData);
 
-    // Construye la estructura `paths` para vNG
-    const paths: vNG.Paths ={
-        criticalPath: { edges: algorithmStore.criticalEdges },
+    // Actualiza los bordes en el path
+    paths.value = {
+        path1: { edges: toRaw(algorithmStore.criticalEdges) },
     };
 
-    // Actualiza el valor de `paths` en el componente
-    paths.value = paths;
+    // Define un tipo para los elementos en edgeSlackList
+    type EdgeSlack = {
+        edgeId: string;
+        slack: number;
+    };
+
+    const edgeSlackList: EdgeSlack[] = algorithmStore.getEdgeSlackList();
+
+    // Agrega el valor de slack a la etiqueta del borde
+    edgeSlackList.forEach((edgeSlack: EdgeSlack) => {
+        if (edges[edgeSlack.edgeId]) {
+            edges[edgeSlack.edgeId].label += `\n h= ${edgeSlack.slack}`;
+        }
+    });
+
+    console.log("Critical Edges:", algorithmStore.criticalEdges);
 };
 
 // Rename Node -------------------------------------------------------------
@@ -1409,5 +1348,10 @@ display: none;
 .bi {
     font-size: 1.5em;
 }
+}
+
+.arrow {
+    color: #f00;
+    font-weight: bold;
 }
 </style>

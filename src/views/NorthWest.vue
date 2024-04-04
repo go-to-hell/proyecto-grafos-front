@@ -58,7 +58,7 @@ export default {
     NavBar,
     },
     setup() {
-    let classValue = 2;
+    let classValue = 3;
     const authStore = useAuthStore();
     const fileStore = useFileStore();
     const router = useRouter();
@@ -67,7 +67,7 @@ export default {
 
     const goEditorJohnson = () => {
         fileStore.clearGraphData();
-        router.push("/editor_johnson");
+        router.push("/editor_north_west");
     };
 
     const uploadFile = (event) => {
@@ -77,7 +77,7 @@ export default {
 
     const loadGraph = async (fileId) => {
         await fileStore.justTheJSON(fileId);
-        router.push("/editor_johnson");
+        router.push("/editor_north_west");
     };
 
     const submitFile = async () => {

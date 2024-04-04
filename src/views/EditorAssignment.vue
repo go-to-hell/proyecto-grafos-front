@@ -849,13 +849,6 @@ import { Modal } from "bootstrap";
 import { useAlgorithmStore } from "../stores/algorithm";
 import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
-import {
-  isAddingNode,
-  handleNodeAddition,
-  startAddingNode,
-  mousePosition,
-  updateMousePosition,
-} from "../utils/addingNode.ts";
 
 const router = useRouter();
 const fileStore = useFileStore();

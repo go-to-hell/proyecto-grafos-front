@@ -9,8 +9,9 @@ export const useFileStore = defineStore('file', {
     }),
 
     actions: {
-        async uploadFile(formData) {
+        async uploadFile(formData, classValue) {
             const authStore = useAuthStore();
+            formData.append('class', classValue);
             const res = await fetch('http://localhost:8081/files', {
                 method: 'POST',
                 headers: {
@@ -118,9 +119,9 @@ export const useFileStore = defineStore('file', {
             }
         },
 
-        async listFiles() {
+        async listFiles(classValue) {
             const authStore = useAuthStore();
-            const res = await fetch('http://localhost:8081/files/list', {
+            const res = await fetch('http://localhost:8081/files/list?fileClass=' + classValue, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${authStore.accessToken}`,

@@ -85,6 +85,7 @@ export default {
     NavBar,
   },
   setup() {
+    let classValue = 3;
     const authStore = useAuthStore();
     const fileStore = useFileStore();
     const router = useRouter();
@@ -98,7 +99,7 @@ export default {
 
     const uploadFile = (event) => {
       fileToUpload.value = event.target.files[0];
-      fileStore.listFiles();
+      fileStore.listFiles(classValue);
     };
 
     const loadGraph = async (fileId) => {
@@ -110,13 +111,13 @@ export default {
       if (fileToUpload.value) {
         const formData = new FormData();
         formData.append("file", fileToUpload.value);
-        await fileStore.uploadFile(formData);
-        fileStore.listFiles();
+        await fileStore.uploadFile(formData, classValue);
+        fileStore.listFiles(classValue);
       }
     };
 
     loaderStore.pageIsLoading();
-    fileStore.listFiles();
+    fileStore.listFiles(classValue);
     loaderStore.pageIsLoaded();
 
     return {

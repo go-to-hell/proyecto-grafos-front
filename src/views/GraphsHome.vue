@@ -82,7 +82,7 @@ export default {
       this.router.push("/assignment");
     },
     goNorthWest() {
-      this.router.push("/");
+      this.router.push("/north_west");
     },
     goSorts() {
       this.router.push("/");
