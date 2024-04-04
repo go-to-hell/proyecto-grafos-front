@@ -448,8 +448,6 @@
           </template>
           <Background />
         </v-network-graph>
-        <div class="event-logs">
-        </div>
       </div>
     </div>
 
