@@ -7,9 +7,19 @@
     </p>
 
     <!-- Alert -->
-    <div v-if="alertMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div
+      v-if="alertMessage"
+      class="alert alert-danger alert-dismissible fade show"
+      role="alert"
+    >
       {{ alertMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeAlert"></button>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+        @click="closeAlert"
+      ></button>
     </div>
 
     <div class="form-group">
@@ -42,11 +52,13 @@
 import { ref, computed } from "vue";
 import { useAuthStore } from "../stores/auth";
 import { useRouter } from "vue-router";
+import { useLoaderStore } from "../stores/common/loaderStore";
 
 export default {
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
+    const loaderStore = useLoaderStore();
 
     // Utilizando ref para los campos del formulario
     const username = ref("");
@@ -62,19 +74,21 @@ export default {
 
     // Método para manejar el envío del formulario
     const submitForm = () => {
-      console.log("Enviando formulario...");
-      if (username.value.length > 0 && password.value.length > 0) {
-        const user = { username: username.value, password: password.value };
-
-        if (authStore.checkUser(user)) {
-          username.value = "";
-          password.value = "";
-          router.push("/");
-          console.log("Usuario autenticado");
-        } else {
-          alertMessage.value = "Usuario o contraseña incorrectos";
-        }
+      if (!username.value || !password.value) {
+        alertMessage.value =
+          "Por favor ingresa tu nombre de usuario y contraseña";
+        return;
       }
+      loaderStore.pageIsLoading();
+      const user = { username: username.value, password: password.value };
+      if (authStore.checkUser(user)) {
+        username.value = "";
+        password.value = "";
+        router.push("/");
+      } else {
+        alertMessage.value = "Usuario o contraseña incorrectos";
+      }
+      loaderStore.pageIsLoaded();
     };
 
     // Método para cerrar la alerta

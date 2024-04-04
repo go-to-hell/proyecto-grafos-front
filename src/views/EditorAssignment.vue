@@ -448,7 +448,7 @@
           </template>
           <Background />
         </v-network-graph>
-        <div class="event-logs">
+        <!-- <div class="event-logs">
           <div
             v-for="[timestamp, type, log] in eventLogs"
             :key="`${timestamp}/${type}/${log}`"
@@ -457,20 +457,131 @@
             <span class="event-type">{{ type }}</span>
             {{ log }}
           </div>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- Assignment Modal -->
+    <div
+      class="modal fade"
+      id="AssignmentModal"
+      tabindex="-1"
+      aria-labelledby="AssignmentModal"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="AssignmentModal">ASIGNACIONES</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div v-if="algorithmStore.assignmentDataOutput">
+              <div class="d-flex gap-3">
+                Optimización: 
+                <p v-if="algorithmStore.assignmentDataOutput.optmization === 'max'">Maximización</p>
+                <p v-if="algorithmStore.assignmentDataOutput.optmization === 'min'">Minimización</p>
+              </div>
+              <div>
+                Asignaciones:
+                <p 
+                  class="text-center" 
+                  v-for="(assignmentTarget, assignmentSource) in algorithmStore.assignmentDataOutput.assignations" :key="assignmentSource"
+                >
+                  {{ assignmentSource + " -> " + assignmentTarget }}
+                </p>
+              </div>
+              <p>Costo: {{ algorithmStore.assignmentDataOutput.cost }}</p>
+            </div>
+            <p v-else>No se ha calculado ninguna asignación aún.</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-success"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- More Functions Button -->
-    <button
-      type="button"
-      data-bs-toggle="tooltip"
-      data-bs-placement="left"
-      data-bs-custom-class="custom-tooltip"
-      data-bs-title="Ir atrás."
-      class="btn btn-primary bi bi-arrow-left position-absolute top-0 end-0 m-1"
-      @click="goBack"
-    ></button>
+    <div class="position-absolute top-0 end-0 m-1 text-center">
+      <button
+        type="button"
+        data-bs-toggle="tooltip"
+        data-bs-placement="left"
+        data-bs-custom-class="custom-tooltip"
+        data-bs-title="Ir atrás."
+        class="btn btn-primary bi bi-arrow-left mb-3"
+        @click="goBack"
+      ></button>
+      <div>
+        <input
+          type="radio"
+          class="btn-check"
+          name="options-outlined"
+          id="maximize-assignment"
+          autocomplete="off"
+          value="maximize"
+          v-model="maximizeOrMinimize"
+        />
+        <label
+          class="btn btn-outline-success me-3"
+          for="maximize-assignment"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Maximizar."
+        >
+          Maximizar
+        </label>
+        <input
+          type="radio"
+          class="btn-check"
+          name="options-outlined"
+          id="minimize-assignment"
+          autocomplete="off"
+          value="minimize"
+          v-model="maximizeOrMinimize"
+        />
+        <label
+          class="btn btn-outline-danger me-3"
+          for="minimize-assignment"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Minimizar."
+        >
+          Minimizar
+        </label>
+      </div>
+      <div class="mt-3" v-if="maximizeOrMinimize">
+        <span data-bs-toggle="modal" data-bs-target="#AssignmentModal"
+          ><button
+            type="button"
+            data-bs-toggle="tooltip"
+            data-bs-placement="left"
+            data-bs-custom-class="custom-tooltip"
+            data-bs-title="Resolver."
+            class="btn btn-info"
+            @click="resolveAssignmentAlgorithm"
+          >
+            Resolver asignación
+          </button>
+        </span>
+      </div>
+    </div>
 
     <span
       data-bs-toggle="offcanvas"
@@ -748,6 +859,7 @@ import {
 
 const router = useRouter();
 const fileStore = useFileStore();
+const algorithmStore = useAlgorithmStore();
 
 const goBack = () => {
   router.go(-1);
@@ -1248,6 +1360,25 @@ const openAdjacencyMatrixModal = async () => {
   }
 
   adjacencyMatrixModal?.show();
+};
+
+// Assignment Algorithm ---------------------------------------------------
+var maximizeOrMinimize = ref("");
+var maximize = ref(true);
+
+const resolveAssignmentAlgorithm = async () => {
+  if (maximizeOrMinimize.value === "minimize") {
+    maximize.value = false;
+  } else maximize.value = true;
+  const graphData = {
+    nodes: nodes,
+    edges: edges,
+    layouts: layouts,
+  };
+  const jsonData = JSON.stringify(graphData, null, 2);
+  console.log("Graph data:", jsonData);
+  await algorithmStore.loadAssignmentAlgorithm(jsonData, maximize.value);
+  console.log("Assignment data:", algorithmStore.assignmentDataOutput);
 };
 
 // Rename Node -------------------------------------------------------------

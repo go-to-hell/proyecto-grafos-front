@@ -14,7 +14,7 @@
             <i class="bi bi-search"></i> Buscar
           </button>
           <button
-            @click="goEditor"
+            @click="goEditorAssignment"
             class="btn btn-secondary flex-shrink-0"
             type="button"
           >
@@ -58,11 +58,12 @@
               <a
                 @click="fileStore.downloadFile(file.fileId, file.filename)"
                 class="btn btn-primary"
-                >Download</a
               >
-              <a @click="loadGraph(file.fileId)" class="btn btn-secondary"
-                >Cargar gráfico</a
-              >
+                Download
+              </a>
+              <a @click="loadGraph(file.fileId)" class="btn btn-secondary">
+                Cargar gráfico
+              </a>
             </div>
           </div>
         </div>
@@ -90,9 +91,9 @@ export default {
     const fileToUpload = ref(null);
     const loaderStore = useLoaderStore();
 
-    const goEditor = () => {
+    const goEditorAssignment = () => {
       fileStore.clearGraphData();
-      router.push("/editor");
+      router.push("/editor_assignment");
     };
 
     const uploadFile = (event) => {
@@ -102,7 +103,7 @@ export default {
 
     const loadGraph = async (fileId) => {
       await fileStore.justTheJSON(fileId);
-      router.push("/editor");
+      router.push("/editor_assignment");
     };
 
     const submitFile = async () => {
@@ -121,7 +122,7 @@ export default {
     return {
       authStore,
       fileStore,
-      goEditor,
+      goEditorAssignment,
       loadGraph,
       uploadFile,
       submitFile,
