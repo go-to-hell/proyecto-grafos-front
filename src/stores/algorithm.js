@@ -13,6 +13,7 @@ export const useAlgorithmStore = defineStore("algorithm", {
     criticalEdges: [],
     edgeSlackList: [],
     assignmentDataOutput: null,
+    northWestDataOutput: null,
   }),
 
   actions: {
@@ -108,6 +109,21 @@ export const useAlgorithmStore = defineStore("algorithm", {
         }
       );
       this.assignmentDataOutput = response.data;
+    },
+
+    async loadNorthWestAlgorithm(northWestDataInput, maximize) {
+      const authStore = useAuthStore();
+      const response = await axios.post(
+        `http://localhost:8000/transportation/?maximize=${maximize}`,
+        northWestDataInput,
+        {
+          headers: {
+            Authorization: `Bearer ${authStore.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      this.northWestDataOutput = response.data;
     },
   },
 });
