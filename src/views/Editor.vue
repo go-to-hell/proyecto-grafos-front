@@ -1348,7 +1348,7 @@ const loadGraph = async () => {
       loadGraphSuccess.value = true;
     } catch (error) {
       console.error("Error al cargar el grafo:", error);
-      loadGraphError.value = true;
+      loadGraphSuccess.value = false;
     }
   }
 };
