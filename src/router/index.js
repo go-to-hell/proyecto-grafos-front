@@ -12,6 +12,7 @@ import Assignment from "../views/Assignment.vue";
 import EditorAssignment from "../views/EditorAssignment.vue";
 import NorthWest from "../views/NorthWest.vue";
 import EditorNorthWest from "../views/EditorNorthWest.vue";
+import Sorts from "../views/Sorts.vue";
 
 const routes = [
   {
@@ -65,6 +66,10 @@ const routes = [
   {
     path: "/editor_north_west",
     component: EditorNorthWest,
+  },
+  {
+  path:"/sorts",
+  component: Sorts,
   }
 ];
 
