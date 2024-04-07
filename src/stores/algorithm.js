@@ -64,13 +64,13 @@ export const useAlgorithmStore = defineStore("algorithm", {
       this.criticalNodes = Object.values(this.nodes)
         .filter((node) => node.critical)
         .map((node) => node.name)
-        .sort(); // Ordena los nodos críticos
+        .sort();
 
       // Guarda los bordes críticos en el estado
       this.criticalEdges = response.data
         .filter((edge) => edge.critical)
         .map((edge) => edge.edgeId)
-        .sort(); // Ordena los bordes críticos
+        .sort();
 
       // Guarda la información de slack y edgeId en una lista
       this.edgeSlackList = response.data.map((edge) => {
