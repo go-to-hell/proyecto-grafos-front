@@ -448,16 +448,6 @@
           </template>
           <Background />
         </v-network-graph>
-        <div class="event-logs">
-          <div
-            v-for="[timestamp, type, log] in eventLogs"
-            :key="`${timestamp}/${type}/${log}`"
-          >
-            {{ timestamp }}
-            <span class="event-type">{{ type }}</span>
-            {{ log }}
-          </div>
-        </div>
       </div>
     </div>
 
@@ -1356,7 +1346,7 @@ const loadGraph = async () => {
       loadGraphSuccess.value = true;
     } catch (error) {
       console.error("Error al cargar el grafo:", error);
-      loadGraphError.value = true;
+      loadGraphSuccess.value = false;
     }
   }
 };

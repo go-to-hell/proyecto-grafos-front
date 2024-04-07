@@ -1483,11 +1483,10 @@ const loadGraph = async () => {
       // Upload the file
       const fileResponse = await fileStore.uploadFile(file);
       console.log("File response:", fileResponse);
-
       loadGraphSuccess.value = true;
-    } catch (error) {
+      }catch (error) {
       console.error("Error al cargar el grafo:", error);
-      loadGraphError.value = true;
+      loadGraphSuccess.value = false;
     }
   }
 };
