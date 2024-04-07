@@ -446,6 +446,50 @@
                 vertical-align="above"
                 v-bind="slotProps"
             />
+            <!-- Early start values -->
+            <v-edge-label 
+                :class="{ hovered, selected }"
+                :text="edge.earlyStart"
+                align="source"
+                vertical-align="above"
+                v-bind="slotProps"
+                fill="#ff5500"
+                :font-size="12 * scale"
+                v-if="edge.earlyStart || edge.earlyStart === 0"
+            />
+            <!-- Early finish values -->
+            <v-edge-label
+                :class="{ hovered, selected }"
+                :text="edge.earlyFinish"
+                align="target"
+                vertical-align="above"
+                v-bind="slotProps"
+                fill="#ff5500"
+                :font-size="12 * scale"
+                v-if="edge.earlyFinish || edge.earlyFinish === 0"
+            />
+            <!-- Late start values -->
+            <v-edge-label 
+                :class="{ hovered, selected }"
+                :text="edge.lateStart"
+                align="source"
+                vertical-align="below"
+                v-bind="slotProps"
+                fill="#fc03be"
+                :font-size="12 * scale"
+                v-if="edge.lateStart || edge.lateStart === 0"
+            />
+            <!-- Late finish values -->
+            <v-edge-label
+                :class="{ hovered, selected }"
+                :text="edge.lateFinish"
+                align="target"
+                vertical-align="below"
+                v-bind="slotProps"
+                fill="#fc03be"
+                :font-size="12 * scale"
+                v-if="edge.lateFinish || edge.lateFinish === 0"
+            />
             </template>
             <Background />
         </v-network-graph>
@@ -1129,6 +1173,10 @@ const solveJohnson = async () => {
     type EdgeSlack = {
         edgeId: string;
         slack: number;
+        earlyStart: number;
+        earlyFinish: number;
+        lateStart: number;
+        lateFinish: number;
     };
 
     const edgeSlackList: EdgeSlack[] = algorithmStore.getEdgeSlackList();
@@ -1137,6 +1185,22 @@ const solveJohnson = async () => {
     edgeSlackList.forEach((edgeSlack: EdgeSlack) => {
         if (edges[edgeSlack.edgeId]) {
             edges[edgeSlack.edgeId].label += `\n h= ${edgeSlack.slack}`;
+        }
+    });
+
+    // Agrega el valor de earlyStart y earlyFinish a la etiqueta del borde
+    edgeSlackList.forEach((edgeSlack: EdgeSlack) => {
+        if (edges[edgeSlack.edgeId]) {
+            edges[edgeSlack.edgeId].earlyStart = edgeSlack.earlyStart;
+            edges[edgeSlack.edgeId].earlyFinish = edgeSlack.earlyFinish;
+        }
+    });
+
+    // Agrega el valor de lateStart y lateFinish a la etiqueta del borde
+    edgeSlackList.forEach((edgeSlack: EdgeSlack) => {
+        if (edges[edgeSlack.edgeId]) {
+            edges[edgeSlack.edgeId].lateStart = edgeSlack.lateStart;
+            edges[edgeSlack.edgeId].lateFinish = edgeSlack.lateFinish;
         }
     });
 
