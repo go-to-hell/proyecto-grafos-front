@@ -88,7 +88,7 @@ export default {
       this.router.push("/");
     },
     goBinaryTrees() {
-      this.router.push("/");
+      this.router.push("/binary_trees");
     },
   },
 };
