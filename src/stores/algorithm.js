@@ -51,7 +51,7 @@ export const useAlgorithmStore = defineStore("algorithm", {
 
       // Actualiza los nodos en el estado
       this.nodes = {};
-      response.data.forEach((edge) => {
+      response.data.activities.forEach((edge) => {
         if (!this.nodes[edge.originNodeName]) {
           this.nodes[edge.originNodeName] = {
             name: edge.originNodeName,
@@ -60,25 +60,40 @@ export const useAlgorithmStore = defineStore("algorithm", {
         }
       });
 
+      // Obtiene nodos críticos de la respuesta
+      this.criticalNodes = response.data.criticalPathNodes;
+
       // Guarda los nodos críticos en el estado
-      this.criticalNodes = Object.values(this.nodes)
+      /* this.criticalNodes = Object.values(this.nodes)
         .filter((node) => node.critical)
         .map((node) => node.name)
-        .sort();
+        .sort(); // Ordena los nodos críticos */
+
+      // Obtiene los bordes críticos de la respuesta
+      this.criticalEdges = response.data.criticalPathEdges;
 
       // Guarda los bordes críticos en el estado
-      this.criticalEdges = response.data
+      /* this.criticalEdges = response.data
         .filter((edge) => edge.critical)
         .map((edge) => edge.edgeId)
-        .sort();
+        .sort(); // Ordena los bordes críticos */
+
+      console.log(this.criticalNodes);
+      console.log(this.criticalEdges);
 
       // Guarda la información de slack y edgeId en una lista
-      this.edgeSlackList = response.data.map((edge) => {
+      this.edgeSlackList = response.data.activities.map((edge) => {
         return {
           edgeId: edge.edgeId,
           slack: edge.slack,
+          earlyStart: edge.earlyStart,
+          earlyFinish: edge.earlyFinish,
+          lateStart: edge.lateStart,
+          lateFinish: edge.lateFinish,
         };
       });
+
+      console.log(this.edgeSlackList);
     },
 
     getCriticalPath() {
