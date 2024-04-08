@@ -113,32 +113,42 @@
     </div>
     <button class="btn btn-primary me-4" @click="addRow">Añadir Fila</button>
     <button class="btn btn-secondary" @click="addColumn">Añadir Columna</button>
-    <table
-      class="table table-striped table-bordered"
+    <div
+      class="table-responsive mt-4 mt-md-5"
       v-if="algorithmStore.northWestDataOutput"
     >
-      <tr>
-        <th></th>
-        <th
-          v-for="(value, key) in algorithmStore.northWestDataOutput.solution.A"
-          :key="key"
-        >
-          {{ key }}
-        </th>
-      </tr>
-      <tr
-        v-for="(row, rowIndex) in algorithmStore.northWestDataOutput.solution"
-        :key="`solution-row-${rowIndex}`"
+      <h1>Solución</h1>
+      <div class="text-center">
+        <h4>Estado: {{ algorithmStore.northWestDataOutput.status }}</h4>
+        <h4>Objetivo: {{ algorithmStore.northWestDataOutput.objective }}</h4>
+      </div>
+      <table
+        class="table table-striped table-bordered border-info align-middle text-center"
       >
-        <th>{{ rowIndex }}</th>
-        <td
-          v-for="(cell, cellIndex) in row"
-          :key="`solution-cell-${cellIndex}`"
+        <tr>
+          <th></th>
+          <th
+            v-for="(value, key) in algorithmStore.northWestDataOutput.solution
+              .A"
+            :key="key"
+          >
+            {{ key + value }}
+          </th>
+        </tr>
+        <tr
+          v-for="(row, rowIndex) in algorithmStore.northWestDataOutput.solution"
+          :key="`solution-row-${rowIndex}`"
         >
-          {{ cell }}
-        </td>
-      </tr>
-    </table>
+          <th>{{ rowIndex }}</th>
+          <td
+            v-for="(cell, cellIndex) in row"
+            :key="`solution-cell-${cellIndex}`"
+          >
+            {{ cell }}
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -166,7 +176,7 @@ export default {
       router.go(-1);
     };
 
-    const solveNorthWest = () => {
+    const solveNorthWest = async () => {
       const targets = state.tableData[0].slice(1, -1);
       const origins = state.tableData.slice(1, -1).map((row) => row[0]);
       const costs = state.tableData.slice(1, -1).map((row) => row.slice(1, -1));
@@ -198,8 +208,14 @@ export default {
       };
 
       // Pass "northWestDataInput" to the function "loadNorthWestAlgorithm"
-      algorithmStore.loadNorthWestAlgorithm(northWestDataInput, state.maximize);
-      console.log(algorithmStore.northWestDataOutput);
+      await algorithmStore.loadNorthWestAlgorithm(
+        northWestDataInput,
+        state.maximize
+      );
+      console.log(
+        "North West Data Output:",
+        algorithmStore.northWestDataOutput
+      );
     };
 
     const addRow = () => {
