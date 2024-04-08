@@ -52,7 +52,7 @@
         buttonText="Ir a Árboles Binarios"
         @button_clicked="goBinaryTrees"
       />
-    </div>
+  </div>
   </div>
 </template>
 
@@ -85,7 +85,7 @@ export default {
       this.router.push("/north_west");
     },
     goSorts() {
-      this.router.push("/");
+      this.router.push("/sorts");
     },
     goBinaryTrees() {
       this.router.push("/binary_trees");
