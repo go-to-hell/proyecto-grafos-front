@@ -9,15 +9,18 @@
     <h2>Algoritmos de Ordenamiento</h2>
 
     <div class="input-container">
-      <label for="inputNumbers">Ingrese los números (separados por coma):</label>
+      <label for="inputNumbers">Ingrese hasta 30 números (separados por coma) o genere aleatorio:</label>
       <input type="text" id="inputNumbers" v-model="inputNumbers">
+      <button @click="saveArray">Guardar Arreglo</button>
+      <button @click="loadArray">Cargar Arreglo</button>
+      <button @click="generateRandomArray">Generar Aleatorio</button>
     </div>
 
     <div class="buttons-container">
-      <button @click="runSort('selectionSort')">Selection Sort</button>
-      <button @click="runSort('insertionSort')">Insertion Sort</button>
-      <button @click="runSort('mergeSort')">Merge Sort</button>
-      <button @click="runSort('shellSort')">Shell Sort</button>
+      <button @click="runSort('selectionSort')" :disabled="isLoading">Selection Sort</button>
+      <button @click="runSort('insertionSort')" :disabled="isLoading">Insertion Sort</button>
+      <button @click="runSort('mergeSort')" :disabled="isLoading">Merge Sort</button>
+      <button @click="runSort('shellSort')" :disabled="isLoading">Shell Sort</button>
     </div>
 
     <div v-if="sortedArray.length > 0" class="result-container">
@@ -29,9 +32,28 @@
           class="number-container"
         >
           <div class="bar-container">
-            <div class="bar" :style="{ height: `${value * 10}px` }"></div>
+            <div class="bar" :style="{ height: `${calculateBarHeight(value)}px` }"></div>
           </div>
-          <div class="box" :style="{ backgroundColor: comparingColor(index) }">
+          <div :class="['box', comparingColor(index)]">
+            <span>{{ value }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección para mostrar el arreglo original -->
+    <div v-if="originalArray.length > 0" class="original-container">
+      <h3>Arreglo Original</h3>
+      <div class="numbers-container">
+        <div
+          v-for="(value, index) in originalArray"
+          :key="index"
+          class="number-container"
+        >
+          <div class="bar-container">
+            <div class="bar" :style="{ height: `${calculateBarHeight(value)}px` }"></div>
+          </div>
+          <div class="box">
             <span>{{ value }}</span>
           </div>
         </div>
@@ -46,28 +68,36 @@ export default {
     return {
       inputNumbers: '',
       sortedArray: [],
+      originalArray: [],
       sortType: '',
       currentIndex: -1,
-      comparingIndices: []
+      comparingIndices: [],
+      isLoading: false
     };
   },
   methods: {
     async runSort(type) {
-      if (!this.inputNumbers) {
-        alert('Ingrese al menos un número.');
+      if (this.isLoading) return;
+
+      if (!this.inputNumbers && !this.originalArray.length) {
+        alert('Ingrese al menos un número o cargue un arreglo.');
         return;
       }
 
       const numbersArray = this.inputNumbers.split(',').map(num => parseInt(num.trim()));
+      const arrayToSort = numbersArray.length ? numbersArray : this.originalArray.slice();
 
-      if (!numbersArray.every(num => !isNaN(num))) {
+      if (!arrayToSort.every(num => !isNaN(num))) {
         alert('Ingrese números válidos separados por coma.');
         return;
       }
 
+      this.isLoading = true;
       this.sortType = type;
-      this.sortedArray = [...numbersArray]; // Reset the array
+      this.sortedArray = [...arrayToSort]; // Reset the array
+      this.originalArray = [...arrayToSort.slice(0, 30)]; // Store original array with up to 30 numbers
       await this.animateSort(type, this.sortedArray);
+      this.isLoading = false;
     },
     async animateSort(type, arr) {
       const n = arr.length;
@@ -91,43 +121,6 @@ export default {
           break;
       }
     },
-    async selectionSort(arr) {
-      for (let i = 0; i < arr.length - 1; i++) {
-        let minIndex = i;
-        this.currentIndex = i;
-        await this.sleep(500); // Adjust delay as needed
-        for (let j = i + 1; j < arr.length; j++) {
-          this.comparingIndices = [i, j];
-          await this.sleep(200); // Adjust delay as needed
-          if (arr[j] < arr[minIndex]) {
-            minIndex = j;
-          }
-        }
-        this.comparingIndices = [];
-        if (minIndex !== i) {
-          this.swap(arr, i, minIndex);
-          await this.sleep(500); // Adjust delay as needed
-        }
-      }
-      this.currentIndex = -1;
-    },
-    async insertionSort(arr) {
-      for (let i = 1; i < arr.length; i++) {
-        let current = arr[i];
-        let j = i - 1;
-        this.currentIndex = i;
-        await this.sleep(500); // Adjust delay as needed
-        while (j >= 0 && arr[j] > current) {
-          this.comparingIndices = [j, j + 1];
-          await this.sleep(200); // Adjust delay as needed
-          arr[j + 1] = arr[j];
-          j--;
-        }
-        arr[j + 1] = current;
-        await this.sleep(500); // Adjust delay as needed
-      }
-      this.currentIndex = -1;
-    },
     async mergeSort(arr, l, r) {
       if (l < r) {
         const mid = Math.floor((l + r) / 2);
@@ -145,24 +138,67 @@ export default {
 
       while (i < left.length && j < right.length) {
         this.comparingIndices = [k, l + i];
-        await this.sleep(500); // Adjust delay as needed
+        await this.sleep(200); // Adjust delay as needed
         if (left[i] <= right[j]) {
           arr[k++] = left[i++];
         } else {
           arr[k++] = right[j++];
         }
-        await this.sleep(500); // Adjust delay as needed
+        this.sortedArray = [...arr]; // Update sorted array for visualization
+        await this.sleep(200); // Adjust delay as needed
       }
 
-      // Append remaining elements from left or right subarray
       while (i < left.length) {
         arr[k++] = left[i++];
-        await this.sleep(500); // Adjust delay as needed
+        this.sortedArray = [...arr]; // Update sorted array for visualization
+        await this.sleep(200); // Adjust delay as needed
       }
+
       while (j < right.length) {
         arr[k++] = right[j++];
-        await this.sleep(500); // Adjust delay as needed
+        this.sortedArray = [...arr]; // Update sorted array for visualization
+        await this.sleep(200); // Adjust delay as needed
       }
+
+      this.comparingIndices = [];
+      this.currentIndex = -1;
+    },
+    async selectionSort(arr) {
+      for (let i = 0; i < arr.length - 1; i++) {
+        let minIndex = i;
+        this.currentIndex = i;
+        await this.sleep(200); // Adjust delay as needed
+        for (let j = i + 1; j < arr.length; j++) {
+          this.comparingIndices = [i, j];
+          await this.sleep(200); // Adjust delay as needed
+          if (arr[j] < arr[minIndex]) {
+            minIndex = j;
+          }
+        }
+        this.comparingIndices = [];
+        if (minIndex !== i) {
+          this.swap(arr, i, minIndex);
+          await this.sleep(200); // Adjust delay as needed
+        }
+      }
+      this.currentIndex = -1;
+    },
+    async insertionSort(arr) {
+      for (let i = 1; i < arr.length; i++) {
+        let current = arr[i];
+        let j = i - 1;
+        this.currentIndex = i;
+        await this.sleep(200); // Adjust delay as needed
+        while (j >= 0 && arr[j] > current) {
+          this.comparingIndices = [j, j + 1];
+          await this.sleep(200); // Adjust delay as needed
+          arr[j + 1] = arr[j];
+          j--;
+        }
+        arr[j + 1] = current;
+        await this.sleep(200); // Adjust delay as needed
+      }
+      this.currentIndex = -1;
     },
     async shellSort(arr) {
       const n = arr.length;
@@ -171,14 +207,14 @@ export default {
           const temp = arr[i];
           let j = i;
           this.currentIndex = i;
-          await this.sleep(500); // Adjust delay as needed
+          await this.sleep(200); // Adjust delay as needed
           while (j >= gap && arr[j - gap] > temp) {
             arr[j] = arr[j - gap];
             j -= gap;
-            await this.sleep(500); // Adjust delay as needed
+            await this.sleep(200); // Adjust delay as needed
           }
           arr[j] = temp;
-          await this.sleep(500); // Adjust delay as needed
+          await this.sleep(200); // Adjust delay as needed
         }
       }
       this.currentIndex = -1;
@@ -187,7 +223,6 @@ export default {
       const temp = arr[i];
       arr[i] = arr[j];
       arr[j] = temp;
-      this.sortedArray = [...arr]; // Update the sorted array for visualization
     },
     sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
@@ -203,6 +238,67 @@ export default {
       } else {
         return 'lightblue'; // Default color
       }
+    },
+    generateRandomArray() {
+      const maxLimit = 30;
+      const numberOfElements = parseInt(prompt(`Ingrese la cantidad de elementos aleatorios (máximo ${maxLimit}):`, '10'));
+
+      if (!isNaN(numberOfElements) && numberOfElements > 0 && numberOfElements <= maxLimit) {
+        const randomArray = [];
+        for (let i = 0; i < numberOfElements; i++) {
+          randomArray.push(Math.floor(Math.random() * 100)); // Genera números aleatorios entre 0 y 99
+        }
+        this.inputNumbers = randomArray.join(', '); // Actualiza el campo de entrada con el array aleatorio generado
+      } else {
+        alert(`Ingrese un número válido entre 1 y ${maxLimit} para generar un array aleatorio.`);
+      }
+    },
+    calculateBarHeight(value) {
+      const maxValue = Math.max(...this.sortedArray);
+      return (value / maxValue) * 200; // Ajustar la altura máxima de la barra
+    },
+    saveArray() {
+      const numbersArray = this.inputNumbers.split(',').map(num => parseInt(num.trim()));
+      if (!numbersArray.every(num => !isNaN(num))) {
+        alert('Ingrese números válidos separados por coma.');
+        return;
+      }
+
+      const content = numbersArray.join(', ');
+      const blob = new Blob([content], { type: 'text/plain' });
+
+      // Solicitar al usuario que ingrese el nombre del archivo
+      const fileName = prompt('Ingrese el nombre del archivo:', 'arrayData.txt');
+      if (!fileName) {
+        alert('Nombre de archivo no válido.');
+        return;
+      }
+
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = fileName;
+      a.click();
+
+      URL.revokeObjectURL(a.href);
+    },
+    loadArray() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'text/plain';
+      input.onchange = async (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+          const content = event.target.result;
+          const array = content.split(',').map(num => parseInt(num.trim()));
+          this.sortedArray = [...array.slice(0, 30)]; // Limit to 30 elements
+          this.originalArray = [...array.slice(0, 30)]; // Almacenar el arreglo original también
+          this.inputNumbers = this.sortedArray.join(', '); // Actualizar el campo de entrada con el arreglo cargado
+          this.$forceUpdate(); // Forzar la actualización de la vista
+        };
+        reader.readAsText(file);
+      };
+      input.click();
     }
   }
 };
@@ -219,12 +315,14 @@ export default {
 
 .input-container,
 .buttons-container,
-.result-container {
+.result-container,
+.original-container {
   margin-bottom: 20px;
 }
 
 .input-container label,
-.result-container h3 {
+.result-container h3,
+.original-container h3 {
   display: block;
   margin-bottom: 10px;
 }
@@ -293,6 +391,17 @@ export default {
   border-radius: 5px;
   padding: 10px 20px;
   font-size: 16px;
-  cursor: pointer;
+}
+
+.red {
+  background-color: red;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.lightblue {
+  background-color: lightblue;
 }
 </style>
