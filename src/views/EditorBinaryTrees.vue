@@ -393,9 +393,7 @@
     </div>
 
     <div class="editor-container">
-      <div
-        class="container editor-content bg-success bg-opacity-10 border border-5"
-      >
+      <div class="container editor-content border border-5">
         <!-- Editor Content -->
         <v-network-graph
           tabindex="0"
@@ -428,12 +426,12 @@
             <text
               x="0"
               y="0"
-              :font-size="18 * scale"
+              :font-size="20 * scale"
               text-anchor="middle"
               dominant-baseline="central"
               fill="#ffffff"
-              >{{ text }}</text
-            >
+              >{{ text }}
+            </text>
             <!-- <text
               x="0"
               y="0"
@@ -669,6 +667,8 @@ import { Modal } from "bootstrap";
 import { useAlgorithmStore } from "../stores/algorithm";
 import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
+import TreeNode from "../data/BinaryTrees/treeNode.js";
+import BinaryTree from "../data/BinaryTrees/BinaryTree.js";
 
 const router = useRouter();
 const fileStore = useFileStore();
@@ -727,9 +727,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 3,
-      strokeColor: "#000000",
+      strokeColor: "#63C867",
       strokeDasharray: "0",
-      color: "#599db9",
+      color: "#5CE562",
     },
     hover: {
       type: "circle",
@@ -738,9 +738,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 2,
-      strokeColor: "#000000",
+      strokeColor: "#6FFF75",
       strokeDasharray: "0",
-      color: "#dd2288",
+      color: "#73D279",
     },
     selected: {
       type: "circle",
@@ -749,9 +749,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 2,
-      strokeColor: "#000000",
+      strokeColor: "#73D2A7",
       strokeDasharray: "0",
-      color: "#599db9",
+      color: "#33DE90",
     },
     label: {
       visible: true,
@@ -785,7 +785,7 @@ const configs = defineConfigs({
     hoverable: true,
     normal: {
       width: 3,
-      color: "#000000",
+      color: "#9F8747",
       dasharray: "0",
       linecap: "butt",
       animate: false,
@@ -793,7 +793,7 @@ const configs = defineConfigs({
     },
     hover: {
       width: 4,
-      color: "#599db9",
+      color: "#FFD950",
       dasharray: "0",
       linecap: "butt",
       animate: false,
@@ -856,9 +856,16 @@ const validateUserInput = () => {
 let isAddingNode = ref(true);
 
 const handleNodeAddition = () => {
-  if (isAddingNode.value && graph.value) {
+  if (isAddingNode.value && graph.value && userLeafInput.value !== "") {
+    const binaryTree = new BinaryTree(
+      new TreeNode(parseInt(userLeafInput.value), null, null)
+    );
+    console.log(binaryTree.root);
+    // if (binaryTree.root !== null) {
+    //   binaryTree.insert(parseInt(userLeafInput.value), binaryTree.root);
+    // }
     const nodeId = `node${nextNodeIndex.value}`;
-    const name = `Nodo ${nextNodeIndex.value}`;
+    const name = userLeafInput.value;
 
     const domPoint = { x: mousePosition.value.x, y: mousePosition.value.y };
 

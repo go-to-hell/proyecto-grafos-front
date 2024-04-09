@@ -117,8 +117,8 @@
       class="table-responsive mt-4 mt-md-5"
       v-if="algorithmStore.northWestDataOutput"
     >
-      <h1>Solución</h1>
-      <div class="text-center">
+      <h1>Solución:</h1>
+      <div class="mb-4">
         <h4>Estado: {{ algorithmStore.northWestDataOutput.status }}</h4>
         <h4>Objetivo: {{ algorithmStore.northWestDataOutput.objective }}</h4>
       </div>
