@@ -48,7 +48,7 @@
             />
             <p
               v-else-if="cellIndex === tableData[rowIndex].length - 1"
-              class="text-center my-auto"
+              class="text-center my-auto bg-warning-subtle"
               v-text="tableData[rowIndex][cellIndex]"
             ></p>
             <input
@@ -61,7 +61,7 @@
             />
             <p
               v-else-if="rowIndex === tableData.length - 1"
-              class="text-center my-auto"
+              class="text-center my-auto bg-warning-subtle"
               v-text="tableData[rowIndex][cellIndex]"
             ></p>
             <input
@@ -82,7 +82,7 @@
             <input
               v-else
               type="text"
-              class="form-control text-center"
+              class="form-control text-center bg-success-subtle"
               v-model="tableData[rowIndex][cellIndex]"
             />
           </td>
@@ -129,17 +129,18 @@
           <th></th>
           <th
             v-for="(value, key) in algorithmStore.northWestDataOutput.solution
-              .A"
+              .a"
             :key="key"
+            class="bg-warning-subtle"
           >
-            {{ key + value }}
+            {{ key }}
           </th>
         </tr>
         <tr
           v-for="(row, rowIndex) in algorithmStore.northWestDataOutput.solution"
           :key="`solution-row-${rowIndex}`"
         >
-          <th>{{ rowIndex }}</th>
+          <th class="bg-warning-subtle">{{ rowIndex }}</th>
           <td
             v-for="(cell, cellIndex) in row"
             :key="`solution-cell-${cellIndex}`"

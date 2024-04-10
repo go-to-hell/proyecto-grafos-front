@@ -1,7 +1,9 @@
 <template>
   <NavBar />
   <div class="container">
-    <h1 class="mt-4 mb-4">¡Bienvenid@ a los grafos!</h1>
+    <h1 class="mt-4 mb-4">
+      ¡{{ authStore.users[0].username }}, bienvenid@ al mundo de los grafos!
+    </h1>
     <h5 class="mb-4">Seleccione el algoritmo que desee desarrollar:</h5>
     <div class="bg-info-subtle py-3">
       <Card
@@ -52,7 +54,7 @@
         buttonText="Ir a Árboles Binarios"
         @button_clicked="goBinaryTrees"
       />
-  </div>
+    </div>
   </div>
 </template>
 
@@ -60,6 +62,7 @@
 import NavBar from "../components/NavBar.vue";
 import Card from "../components/Card.vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "../stores/auth";
 
 export default {
   components: {
@@ -69,6 +72,7 @@ export default {
   data() {
     return {
       router: useRouter(),
+      authStore: useAuthStore(),
     };
   },
   methods: {
