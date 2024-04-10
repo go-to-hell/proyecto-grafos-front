@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Rename Node Modal -->
-    <div class="modal" tabindex="-1" id="renameNodeModal">
+    <!-- <div class="modal" tabindex="-1" id="renameNodeModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -35,10 +35,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Rename Edge Modal -->
-    <div class="modal" tabindex="-1" id="renameEdgeModal">
+    <!-- <div class="modal" tabindex="-1" id="renameEdgeModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -72,10 +72,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Delete Modal -->
-    <div
+    <!-- <div
       class="modal fade"
       id="confirmDeleteModal"
       tabindex="-1"
@@ -116,7 +116,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Clear All Modal -->
     <div
@@ -405,17 +405,7 @@
           :layouts="layouts"
           :configs="configs"
           :event-handlers="eventHandlers"
-          @keyup.delete="handleDeletion"
         >
-          <template #edge-label="{ edge, hovered, selected, ...slotProps }">
-            <v-edge-label
-              :class="{ hovered, selected }"
-              :text="edge.label"
-              align="center"
-              vertical-align="above"
-              v-bind="slotProps"
-            />
-          </template>
           <Background />
         </v-network-graph>
       </div>
@@ -532,6 +522,18 @@
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
+          data-bs-title="Agregar Nodo."
+          class="bi bi-node-plus rounded-circle py-3 px-4"
+          :class="
+            isAddingNode === true ? 'btn btn-info' : 'btn btn-outline-info'
+          "
+          @click="startAddingNode"
+        ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
           data-bs-title="Guardar."
           class="btn btn-outline-info bi bi-floppy rounded-circle py-3 px-4"
           @click="openFileNameModal"
@@ -582,8 +584,8 @@ import { Background } from "@vue-flow/background";
 import data from "../data/initial-data.js";
 import { useRouter } from "vue-router";
 import { Modal } from "bootstrap";
-import { useAlgorithmStore } from "../stores/algorithm.js";
 import { useFileStore } from "../stores/file.js";
+import { useTreeStore } from "../stores/tree.js";
 import * as bootstrap from "bootstrap";
 
 const router = useRouter();
@@ -598,15 +600,11 @@ let nodes: Nodes;
 let edges: Edges;
 let layouts;
 
-if (fileStore.graphData) {
-  nodes = reactive({ ...fileStore.graphData.nodes });
-  edges = reactive({ ...fileStore.graphData.edges });
-  layouts = reactive(fileStore.graphData.layouts);
-} else {
-  nodes = reactive({ ...data.nodes });
-  edges = reactive({ ...data.edges });
-  layouts = reactive(data.layouts);
-}
+
+nodes = reactive({ ...data.nodes });
+edges = reactive({ ...data.edges });
+layouts = reactive(data.layouts);
+
 
 const nextNodeIndex = ref(Object.keys(nodes).length + 1);
 const nextEdgeIndex = ref(Object.keys(edges).length + 1);
@@ -619,11 +617,15 @@ const fitToContents = () => graph.value?.fitToContents();
 const zoomIn = () => graph.value?.zoomIn();
 const zoomOut = () => graph.value?.zoomOut();
 
+//  //Use the tree store to store the tree disposition of the graph
+const treeStore = useTreeStore();
+const lastAddedNodeid = ref("");
+
 const configs = defineConfigs({
   view: {
     panEnabled: true,
     zoomEnabled: true,
-    boxSelectionEnabled: true,
+    boxSelectionEnabled: false,
     selection: {
       box: {
         color: "#0000ff20",
@@ -634,8 +636,8 @@ const configs = defineConfigs({
     },
   },
   node: {
-    selectable: true,
-    draggable: true,
+    selectable: false,
+    draggable: false,
     normal: {
       type: "circle",
       radius: 32,
@@ -645,7 +647,7 @@ const configs = defineConfigs({
       strokeWidth: 3,
       strokeColor: "#000000",
       strokeDasharray: "0",
-      color: "#599db9",
+      color: "#5ac926",
     },
     hover: {
       type: "circle",
@@ -656,7 +658,7 @@ const configs = defineConfigs({
       strokeWidth: 2,
       strokeColor: "#000000",
       strokeDasharray: "0",
-      color: "#dd2288",
+      color: "#d15817",
     },
     selected: {
       type: "circle",
@@ -675,7 +677,7 @@ const configs = defineConfigs({
       lineHeight: 1.1,
       color: "#000000",
       margin: 4,
-      direction: "south",
+      direction: "center",
       text: "name",
       directionAutoAdjustment: true,
       background: {
@@ -697,13 +699,13 @@ const configs = defineConfigs({
     },
   },
   edge: {
-    selectable: true,
+    selectable: false,
     hoverable: true,
     normal: {
       width: 3,
       color: "#000000",
       dasharray: "0",
-      linecap: "butt",
+      linecap: "round",
       animate: false,
       animationSpeed: 50,
     },
@@ -711,7 +713,7 @@ const configs = defineConfigs({
       width: 4,
       color: "#599db9",
       dasharray: "0",
-      linecap: "butt",
+      linecap: "round",
       animate: false,
       animationSpeed: 50,
     },
@@ -764,38 +766,63 @@ const configs = defineConfigs({
 // Adding Node -------------------------------------------------------------
 let isAddingNode = ref(false);
 
-const handleNodeAddition = () => {
-  if (isAddingNode.value && graph.value) {
+const handleNodeAddition = async (number) => {
+  if(graph.value){
+    const locationData = await treeStore.insertNode(number);
+    console.log("Position:", locationData);
+    const position = locationData.split(",");
     const nodeId = `node${nextNodeIndex.value}`;
     const name = `Nodo ${nextNodeIndex.value}`;
 
-    const domPoint = { x: mousePosition.value.x, y: mousePosition.value.y };
+    // calculate x, y coordinates from treeStore position
+    let nodeX = 0;
+    let nodeY = -400;
+    let horizontalspace = 250
+    for(let el in position){
+      if(el === 'l')
+        nodeX -= horizontalspace;
+      else
+        nodeX += horizontalspace;
+      nodeY += 50;
+      horizontalspace /= 2;
+    }
+
+  
 
     const svgElement = graph.value.$el;
     const svgRect = svgElement.getBoundingClientRect();
 
-    const svgPoint = {
-      x: domPoint.x - svgRect.left,
-      y: domPoint.y - svgRect.top,
+    const svgPoint = { //TODO adjust svg position from dom
+      x: nodeX,
+      y: nodeY,
     };
-
+    
     const svgToDomPoint =
       graph.value.translateFromDomToSvgCoordinates(svgPoint);
 
     nodes[nodeId] = {
       id: nodeId,
-      name,
+      name: number.toString(),
       x: svgToDomPoint.x,
       y: svgToDomPoint.y,
     };
     layouts.nodes[nodeId] = { x: svgToDomPoint.x, y: svgToDomPoint.y };
 
     nextNodeIndex.value++;
+
+    fitToContents(); // FIXME fix visual displays
+
+    //TODO join nodes with edges
   }
 };
 
-function startAddingNode() {
+async function startAddingNode() {
   isAddingNode.value = !isAddingNode.value;
+  const number = parseInt(prompt("Enter a number:") as string);
+  if (number && !isNaN(number)) {
+    handleNodeAddition(number);
+  }
+  await treeStore.consolelogtree();
 }
 
 const mousePosition = ref({ x: 0, y: 0 });
@@ -813,29 +840,6 @@ onUnmounted(() => {
   window.removeEventListener("mousemove", updateMousePosition);
 });
 
-// Deleting Node -------------------------------------------------------------
-const confirmDeleteModal = ref<typeof Modal | null>(null);
-
-onMounted(() => {
-  const modalElement = document.getElementById("confirmDeleteModal");
-  confirmDeleteModal.value = new Modal(modalElement);
-});
-
-const confirmDelete = () => {
-  if (selectedNodes.value.length > 0) {
-    selectedNodes.value.forEach((n) => delete nodes[n]);
-  } else if (selectedEdges.value.length > 0) {
-    selectedEdges.value.forEach((e) => delete edges[e]);
-  }
-
-  confirmDeleteModal.value?.hide();
-};
-
-const handleDeletion = () => {
-  if (selectedNodes.value.length > 0 || selectedEdges.value.length > 0) {
-    confirmDeleteModal.value?.show();
-  }
-};
 
 // Adding Edge -------------------------------------------------------------
 const edgeAdditionButton = () => {
@@ -855,11 +859,9 @@ const edgeAdditionButton = () => {
   selectedNodes.value = [];
 };
 
-const edgeAdditionKey = (event: KeyboardEvent) => {
-  if (event.shiftKey && event.altKey && event.key.toLowerCase() === "e") {
-    edgeAdditionButton();
-  }
-};
+// Tree Layout -------------------------------------------------------------
+// Adding nodes
+
 
 // Event Handling -------------------------------------------------------------
 const EVENTS_COUNT = 6;
@@ -972,35 +974,17 @@ const toggleBoxSelection = () => {
 };
 
 // Modals elements -------------------------------------------------------------
-const openRenameModal = () => {
-  if (selectedNodes.value.length !== 1) return;
-  renameNodeModal.show();
-};
-
-let renameNodeModal: Modal | null = null;
-let renameEdgeModal: Modal | null = null;
 let nameFileToSaveModal: Modal | null = null;
 let helpCenterModal: Modal | null = null;
-let adjacencyMatrixModal: Modal | null = null;
 let clearAllModal: Modal | null = null;
 
 onMounted(() => {
-  const modalElement = document.getElementById("renameNodeModal");
-  renameNodeModal = new Modal(modalElement);
 
   const saveFileModalElement = document.getElementById("fileNameToSave");
   nameFileToSaveModal = new Modal(saveFileModalElement);
 
   const helpCenterModalElement = document.getElementById("helpCenterModal");
   helpCenterModal = new Modal(helpCenterModalElement);
-
-  const adjacencyMatrixModalElement = document.getElementById(
-    "adjacencyMatrixModal"
-  );
-  adjacencyMatrixModal = new Modal(adjacencyMatrixModalElement);
-
-  const renameEdgeModalElement = document.getElementById("renameEdgeModal");
-  renameEdgeModal = new Modal(renameEdgeModalElement);
 
   const clearAllModalElement = document.getElementById("confirmClearAllModal");
   clearAllModal = new Modal(clearAllModalElement);
@@ -1012,109 +996,8 @@ onMounted(() => {
     new bootstrap.Tooltip(tooltipTriggerEl as HTMLElement);
   });
 
-  initialLocationSelLoopEdgeLabel();
+  //initialLocationSelLoopEdgeLabel();
 });
-
-// matrix logic ------------------------------------------------------------
-const generateAdjacencyMatrix = (): number[][] => {
-  const algorithmStore = useAlgorithmStore();
-
-  // Get the adjacency matrix data from the store
-  const adjacencyMatrixData = algorithmStore.adjacencyMatrixDataOutput;
-
-  // Extract the values from the adjacency matrix data
-  const adjacencyMatrix: number[][] = adjacencyMatrixData.values;
-
-  return adjacencyMatrix;
-};
-
-const openAdjacencyMatrixModal = async () => {
-  const algorithmStore = useAlgorithmStore();
-
-  // Load the adjacency matrix data from the API
-  const graphData = {
-    nodes: nodes,
-    edges: edges,
-    layouts: layouts,
-  };
-
-  const jsonData = JSON.stringify(graphData, null, 2); // Indentation of 2 spaces
-  await algorithmStore.loadAdjMatrix(jsonData);
-
-  // Generate the adjacency matrix
-  const adjacencyMatrixData = algorithmStore.adjacencyMatrixDataOutput;
-  const adjacencyMatrix = generateAdjacencyMatrix();
-
-  const verticesNames = adjacencyMatrixData.verticesNames;
-  const rowSum = adjacencyMatrixData.rowSum;
-  const colSum = adjacencyMatrixData.colSum;
-  const mtxSum = adjacencyMatrixData.mtxSum;
-
-  let tableString =
-    "<table style='width: 100%; border-collapse: collapse;'>\n  <tr>\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'></th>";
-
-  // Add vertices names to the table header
-  for (const name of verticesNames) {
-    tableString += `\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'>${name}</th>`;
-  }
-
-  tableString +=
-    "\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'>Row Sum</th>\n  </tr>";
-
-  // Add matrix values and row sums to the table body
-  for (let i = 0; i < adjacencyMatrix.length; i++) {
-    tableString += `\n  <tr style='${
-      i % 2 === 0 ? "background-color: #599db9;" : ""
-    }'>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${
-      verticesNames[i]
-    }</td>`;
-    for (const value of adjacencyMatrix[i]) {
-      tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${value}</td>`;
-    }
-    tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${rowSum[i]}</td>\n  </tr>`;
-  }
-
-  // Add column sums to the table footer
-  tableString +=
-    "\n  <tr>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>Col Sum</td>";
-  for (const sum of colSum) {
-    tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${sum}</td>`;
-  }
-  tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${mtxSum}</td>\n  </tr>\n</table>`;
-
-  const adjacencyMatrixElement = document.getElementById("adjacencyMatrix");
-  if (adjacencyMatrixElement) {
-    adjacencyMatrixElement.innerHTML = tableString;
-  }
-
-  adjacencyMatrixModal?.show();
-};
-
-// Rename Node -------------------------------------------------------------
-const newNodeName = ref("");
-const newEdgeName = ref("");
-
-const renameNode = () => {
-  if (!newNodeName.value) return;
-  const nodeId = selectedNodes.value[0];
-  nodes[nodeId].name = newNodeName.value;
-  newNodeName.value = "";
-  renameNodeModal.hide();
-};
-
-// Rename Edge -------------------------------------------------------------
-const renameEdge = () => {
-  if (!newEdgeName.value) return;
-  const edgeId = selectedEdges.value[0];
-  edges[edgeId].label = newEdgeName.value;
-  newEdgeName.value = "";
-  renameEdgeModal.hide();
-};
-
-const openRenameEdgeModal = () => {
-  if (selectedEdges.value.length !== 1) return;
-  renameEdgeModal.show();
-};
 
 // Save and Load Graph -------------------------------------------------------------
 const saveGraphSuccess = ref(false);
@@ -1231,6 +1114,9 @@ const confirmClearAll = () => {
   nextNodeIndex.value = 1;
   nextEdgeIndex.value = 1;
 
+  maxYvalue = 0;
+  middleXvalue = 0;
+
   clearAllModal?.hide();
 };
 
@@ -1314,4 +1200,4 @@ const handleClearAll = () => {
     font-size: 1.5em;
   }
 }
-</style>
+</style>()()()
