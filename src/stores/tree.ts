@@ -2,11 +2,13 @@ import { defineStore } from "pinia";
 
 class TreeNode {
     value: number;
+    nodeid: string;
     left: TreeNode | null;
     right: TreeNode | null;
 
-    constructor(value: number) {
+    constructor(value: number, nodeid: string) {
         this.value = value;
+        this.nodeid = nodeid;
         this.left = null;
         this.right = null;
     }
@@ -15,14 +17,14 @@ class TreeNode {
         if (node.value < this.value) {
             if (this.left === null) {
                 this.left = node;
-                return "l,";
+                return "l,"+this.nodeid;
             } else {
                 return "l," + this.left.addNode(node);
             }
         } else {
             if (this.right === null) {
                 this.right = node;
-                return "r,";
+                return "r,"+this.nodeid;
             } else {
                 return "r," + this.right.addNode(node);
             }
@@ -42,12 +44,12 @@ export const useTreeStore = defineStore("trees", {
     }),
 
     actions: {
-        async insertNode(node: number) {
+        async insertNode(node: number, nodeid: string) {
             if (this.tree.root === null) {
-                this.tree.root = new TreeNode(node);
+                this.tree.root = new TreeNode(node, nodeid);
                 return "";
             } else {
-                return this.tree.root.addNode(new TreeNode(node));
+                return this.tree.root.addNode(new TreeNode(node, nodeid));
             }
         },
 

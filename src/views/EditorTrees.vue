@@ -587,6 +587,7 @@ import { Modal } from "bootstrap";
 import { useFileStore } from "../stores/file.js";
 import { useTreeStore } from "../stores/tree.js";
 import * as bootstrap from "bootstrap";
+import dagre from "dagre/dist/dagre.min.js"
 
 const router = useRouter();
 const fileStore = useFileStore();
@@ -768,11 +769,12 @@ let isAddingNode = ref(false);
 
 const handleNodeAddition = async (number) => {
   if(graph.value){
-    const locationData = await treeStore.insertNode(number);
+    const locationData = await treeStore.insertNode(number, `node${nextNodeIndex.value}`);
     console.log("Position:", locationData);
-    const position = locationData.split(",");
+    const position = locationData.split(",").slice(0, -1)
+    const parentId = locationData.split(",").slice(-1)[0]
+    console.log("Position:", position, "Parent:", parentId)
     const nodeId = `node${nextNodeIndex.value}`;
-    const name = `Nodo ${nextNodeIndex.value}`;
 
     // calculate x, y coordinates from treeStore position
     let nodeX = 0;
@@ -810,9 +812,9 @@ const handleNodeAddition = async (number) => {
 
     nextNodeIndex.value++;
 
-    fitToContents(); // FIXME fix visual displays
-
-    //TODO join nodes with edges
+    //fitToContents(); // FIXME fix visual displays
+    if(parentId !== null)
+      connectToLastAddedNode(nodeId, parentId);
   }
 };
 
@@ -823,6 +825,7 @@ async function startAddingNode() {
     handleNodeAddition(number);
   }
   await treeStore.consolelogtree();
+  //dagre.layout(graph);
 }
 
 const mousePosition = ref({ x: 0, y: 0 });
@@ -842,18 +845,12 @@ onUnmounted(() => {
 
 
 // Adding Edge -------------------------------------------------------------
-const edgeAdditionButton = () => {
-  if (isAddingNode.value) {
-    isAddingNode.value = false;
-  }
-  let [source, target] = ["", ""];
-  if (selectedNodes.value.length === 1) {
-    source = target = selectedNodes.value.toString();
-  } else if (selectedNodes.value.length === 2) {
-    [source, target] = selectedNodes.value.map((node) => node.toString());
-  } else return;
+const connectToLastAddedNode = (nodeId, parentId) => {
+  // Auto join parent to child node
+  console.log("Parent:", parentId, "Child:", nodeId);
+  let [source, target] = [parentId, nodeId];
   const edgeId = `edge${nextEdgeIndex.value}`;
-  const label = `0`;
+  const label = ``;
   edges[edgeId] = { source, target, label };
   nextEdgeIndex.value++;
   selectedNodes.value = [];
