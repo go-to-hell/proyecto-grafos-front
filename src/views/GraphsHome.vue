@@ -1,10 +1,7 @@
 <template>
   <NavBar />
   <div class="container">
-    <h1 class="mt-4 mb-4">
-      ¡{{ authStore.users[0].username }}, bienvenid@ al mundo de los grafos!
-    </h1>
-    <h5 class="mb-4">Seleccione el algoritmo que desee desarrollar:</h5>
+    <h5 class="mb-4 mt-3">Seleccione el algoritmo que desee desarrollar:</h5>
     <div class="bg-info-subtle py-3">
       <Card
         :imageSource="0"
