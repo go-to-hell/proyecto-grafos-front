@@ -826,8 +826,8 @@ const zoomOut = () => graph.value?.zoomOut();
 
 const configs = defineConfigs({
 view: {
-    panEnabled: false,
-    zoomEnabled: false,
+    panEnabled: true,
+    zoomEnabled: true,
     boxSelectionEnabled: true,
     selection: {
     box: {
@@ -1320,7 +1320,7 @@ if (file) {
     loadGraphSuccess.value = true;
     } catch (error) {
     console.error("Error al cargar el grafo:", error);
-    loadGraphError.value = true;
+    loadGraphSuccess.value = false;
     }
 }
 };

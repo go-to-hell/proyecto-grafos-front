@@ -485,15 +485,29 @@
           <div class="modal-body">
             <div v-if="algorithmStore.assignmentDataOutput">
               <div class="d-flex gap-3">
-                Optimización: 
-                <p v-if="algorithmStore.assignmentDataOutput.optmization === 'max'">Maximización</p>
-                <p v-if="algorithmStore.assignmentDataOutput.optmization === 'min'">Minimización</p>
+                Optimización:
+                <p
+                  v-if="
+                    algorithmStore.assignmentDataOutput.optmization === 'max'
+                  "
+                >
+                  Maximización
+                </p>
+                <p
+                  v-if="
+                    algorithmStore.assignmentDataOutput.optmization === 'min'
+                  "
+                >
+                  Minimización
+                </p>
               </div>
               <div>
                 Asignaciones:
-                <p 
-                  class="text-center" 
-                  v-for="(assignmentTarget, assignmentSource) in algorithmStore.assignmentDataOutput.assignations" :key="assignmentSource"
+                <p
+                  class="text-center"
+                  v-for="(assignmentTarget, assignmentSource) in algorithmStore
+                    .assignmentDataOutput.assignations"
+                  :key="assignmentSource"
                 >
                   {{ assignmentSource + " -> " + assignmentTarget }}
                 </p>
@@ -523,7 +537,7 @@
         data-bs-placement="left"
         data-bs-custom-class="custom-tooltip"
         data-bs-title="Ir atrás."
-        class="btn btn-primary bi bi-arrow-left mb-3"
+        class="btn btn-warning bi bi-arrow-left mb-3"
         @click="goBack"
       ></button>
       <div>
@@ -589,7 +603,7 @@
       aria-controls="offcanvasRight"
     >
       <button
-        class="btn btn-primary bi bi-list position-absolute sticky-top top-0 start-0 m-1"
+        class="btn btn-warning bi bi-list position-absolute sticky-top top-0 start-0 m-1"
         type="button"
         data-bs-toggle="tooltip"
         data-bs-placement="left"
@@ -622,15 +636,18 @@
           <button
             @click="openHelp"
             data-bs-dismiss="offcanvas"
-            class="btn btn-outline-info w-100 py-2 mb-2 d-lg-none"
+            class="btn btn-outline-success w-100 py-2 mb-2 d-lg-none"
           >
             Centro de Ayuda
           </button>
-          <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">
+          <button
+            class="btn btn-outline-success w-100 py-2"
+            @click="panToCenter"
+          >
             Centrar
           </button>
           <button
-            class="btn btn-outline-info w-100 py-2 mt-2"
+            class="btn btn-outline-success w-100 py-2 mt-2"
             @click="fitToContents"
           >
             Ajustar
@@ -638,11 +655,11 @@
         </div>
         <div class="d-flex gap-3">
           <button
-            class="btn btn-outline-info bi bi-plus-circle w-100 py-2 mt-1"
+            class="btn btn-outline-success bi bi-plus-circle w-100 py-2 mt-1"
             @click="zoomIn"
           ></button>
           <button
-            class="btn btn-outline-info bi bi-dash-circle w-100 py-2 mt-1"
+            class="btn btn-outline-success bi bi-dash-circle w-100 py-2 mt-1"
             @click="zoomOut"
           ></button>
         </div>
@@ -650,15 +667,15 @@
           data-bs-dismiss="offcanvas"
           :class="
             isBoxSelectionMode
-              ? 'btn btn-info w-100 py-2 mt-3'
-              : 'btn btn-outline-info w-100 py-2 mt-3'
+              ? 'btn btn-success w-100 py-2 mt-3'
+              : 'btn btn-outline-success w-100 py-2 mt-3'
           "
           @click="toggleBoxSelection"
         >
           {{ isBoxSelectionMode ? "Detener selección" : "Iniciar selección" }}
         </button>
         <button
-          class="btn btn-outline-info w-100 py-2 mt-2"
+          class="btn btn-outline-success w-100 py-2 mt-2"
           data-bs-dismiss="offcanvas"
           @click="openFileNameModal"
         >
@@ -671,7 +688,7 @@
           accept=".json"
         />
         <button
-          class="btn btn-outline-info w-100 py-2 mt-2"
+          class="btn btn-outline-success w-100 py-2 mt-2"
           data-bs-dismiss="offcanvas"
           @click="openGraphFile"
         >
@@ -679,13 +696,13 @@
         </button>
 
         <button
-          class="btn btn-outline-info w-100 py-2 mt-2"
+          class="btn btn-outline-success w-100 py-2 mt-2"
           data-bs-dismiss="offcanvas"
           @click="openAdjacencyMatrixModal"
         >
           Matriz de Adyacencia
         </button>
-        <button @click="goBack" class="btn btn-outline-info w-100 py-2 mt-2">
+        <button @click="goBack" class="btn btn-outline-success w-100 py-2 mt-2">
           Ir a inicio
         </button>
       </div>
@@ -693,7 +710,7 @@
 
     <!-- View Controls -->
     <div
-      class="d-md-flex d-block gap-5 w-100 justify-content-center position-absolute sticky-bottom bg-info bg-opacity-10 py-3 px-3 py-md-4 px-md-5"
+      class="d-md-flex d-block gap-5 w-100 justify-content-center position-absolute sticky-bottom bg-success bg-opacity-10 py-3 px-3 py-md-4 px-md-5"
     >
       <div class="d-flex gap-2 gap-md-5 mb-2 mb-md-0">
         <button
@@ -704,7 +721,9 @@
           data-bs-title="Agregar Nodo."
           class="bi bi-node-plus rounded-circle py-3 px-4"
           :class="
-            isAddingNode === true ? 'btn btn-info' : 'btn btn-outline-info'
+            isAddingNode === true
+              ? 'btn btn-success'
+              : 'btn btn-outline-success'
           "
           @click="startAddingNode"
         ></button>
@@ -717,8 +736,8 @@
           class="bi bi-arrow-down-right rounded-circle py-3 px-4"
           :class="
             selectedNodes.length === 1 || selectedNodes.length === 2
-              ? 'btn btn-info'
-              : 'btn btn-outline-info'
+              ? 'btn btn-success'
+              : 'btn btn-outline-success'
           "
           @click="edgeAdditionButton"
         ></button>
@@ -731,8 +750,8 @@
           class="bi bi-trash rounded-circle py-3 px-4"
           :class="
             selectedEdges.length > 0 || selectedNodes.length > 0
-              ? 'btn btn-info'
-              : 'btn btn-outline-info'
+              ? 'btn btn-success'
+              : 'btn btn-outline-success'
           "
           @click="handleDeletion"
         ></button>
@@ -748,8 +767,8 @@
           v-show="selectedNodes.length === 1"
           :class="
             selectedNodes.length === 1 || selectedEdges.length === 1
-              ? 'btn btn-info'
-              : 'btn btn-outline-info'
+              ? 'btn btn-success'
+              : 'btn btn-outline-success'
           "
           @click="openRenameModal"
         ></button>
@@ -763,8 +782,8 @@
           v-show="selectedEdges.length === 1"
           :class="
             selectedNodes.length === 1 || selectedEdges.length === 1
-              ? 'btn btn-info'
-              : 'btn btn-outline-info'
+              ? 'btn btn-success'
+              : 'btn btn-outline-success'
           "
           @click="openRenameEdgeModal"
         ></button>
@@ -774,7 +793,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Guardar."
-          class="btn btn-outline-info bi bi-floppy rounded-circle py-3 px-4"
+          class="btn btn-outline-success bi bi-floppy rounded-circle py-3 px-4"
           @click="openFileNameModal"
         ></button>
         <button
@@ -783,7 +802,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Abrir."
-          class="btn btn-outline-info bi bi-folder2-open rounded-circle py-3 px-4"
+          class="btn btn-outline-success bi bi-folder2-open rounded-circle py-3 px-4"
           @click="openGraphFile"
         ></button>
         <button
@@ -792,7 +811,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Matriz de Adyacencia."
-          class="btn btn-outline-info bi bi-table rounded-circle py-3 px-4"
+          class="btn btn-outline-success bi bi-table rounded-circle py-3 px-4"
           @click="openAdjacencyMatrixModal"
         ></button>
         <button
@@ -801,7 +820,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Limpiar."
-          class="btn btn-outline-info bi bi-file-earmark-x rounded-circle py-3 px-4"
+          class="btn btn-outline-success bi bi-file-earmark-x rounded-circle py-3 px-4"
           @click="handleClearAll"
         ></button>
         <button
@@ -908,9 +927,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 3,
-      strokeColor: "#000000",
+      strokeColor: "#45FFF1",
       strokeDasharray: "0",
-      color: "#599db9",
+      color: "#47E7B1",
     },
     hover: {
       type: "circle",
@@ -919,9 +938,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 2,
-      strokeColor: "#000000",
+      strokeColor: "#FF767A",
       strokeDasharray: "0",
-      color: "#dd2288",
+      color: "#DD9FFF",
     },
     selected: {
       type: "circle",
@@ -930,9 +949,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 2,
-      strokeColor: "#000000",
+      strokeColor: "#45FFF1",
       strokeDasharray: "0",
-      color: "#599db9",
+      color: "#47E7B1",
     },
     label: {
       visible: true,
@@ -1484,7 +1503,7 @@ const loadGraph = async () => {
       const fileResponse = await fileStore.uploadFile(file);
       console.log("File response:", fileResponse);
       loadGraphSuccess.value = true;
-      }catch (error) {
+    } catch (error) {
       console.error("Error al cargar el grafo:", error);
       loadGraphSuccess.value = false;
     }
