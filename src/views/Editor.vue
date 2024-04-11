@@ -203,6 +203,11 @@
               ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar"
               o simplemente usa la mágica tecla "Delete" en tu teclado.
             </p>
+            <img
+              src="../assets/AgregarA.jpg"
+              alt="AgregarA"
+              class="img-fluid"
+            />
             <p>
               <strong>Agregar Aristas ➡️</strong><br />
               Haz clic en dos nodos y crea una conexión con el botón "Agregar
@@ -218,16 +223,6 @@
               Selecciona una arista y presiona "Eliminar Arista" o utiliza la
               tecla "Delete". ¡Desconecta sin esfuerzo tus conexiones menos
               útiles!
-            </p>
-            <img
-              src="../assets/Direccion.jpg"
-              alt="Direccion"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Dirección de Aristas 🚦</strong><br />
-              Selecciona una arista y elige su destino con los botones de
-              dirección. ¡Controla el flujo de la conexión con estilo!
             </p>
             <img src="../assets/CyA.jpg" alt="CyA" class="img-fluid" />
             <p>
@@ -272,6 +267,11 @@
               No dejes que tus obras maestras se pierdan. Guarda y abre archivos
               localmente para retomar tus épicas creaciones.
             </p>
+            <img
+              src="../assets/MatrizAd.jpg"
+              alt="MatrizAd"
+              class="img-fluid"
+            />
             <p>
               <strong>Matriz de Adyacencia 📊</strong><br />
               Haz clic en "Matriz de Adyacencia" para explorar la estructura

@@ -35,16 +35,16 @@
           :style="{ width: `${calculateElementWidth()}%` }"
         >
           <div class="bar-container">
-            <div class="bar" :style="{ height: `${calculateBarHeight(value)}px` }"></div>
+            <div class="bar" :style="{ height: `${calculateBarHeight(value)}px`, backgroundColor: 'red' }"></div>
           </div>
           <div :class="['box', comparingColor(index)]">
-            <span>{{ value }}</span>
+            <span style="color: darkred;">{{ value }}</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Sección para mostrar el arreglo original -->
+    <!-- Show original array -->
     <div v-if="originalArray.length > 0" class="original-container">
       <h3>Arreglo Original</h3>
       <div class="numbers-container">
@@ -55,16 +55,16 @@
           :style="{ width: `${calculateElementWidth()}%` }"
         >
           <div class="bar-container">
-            <div class="bar" :style="{ height: `${calculateBarHeight(value)}px` }"></div>
+            <div class="bar" :style="{ height: `${calculateBarHeight(value)}px`, backgroundColor: 'red' }"></div>
           </div>
           <div class="box">
-            <span>{{ value }}</span>
+            <span style="color: darkred;">{{ value }}</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Modal para generar arreglo aleatorio -->
+    <!-- Modal to generate a random array-->
     <div class="modal" :class="{ 'd-block': randomArrayModal }">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -83,7 +83,7 @@
       </div>
     </div>
 
-    <!-- Modal para guardar arreglo -->
+    <!-- Modal for saving the array -->
     <div class="modal" :class="{ 'd-block': fileNameModal }">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -102,7 +102,7 @@
       </div>
     </div>
 
-    <!-- Modal para mostrar mensajes de error -->
+    <!-- Modal pfor show an error message -->
     <div class="modal" :class="{ 'd-block': errorModal }">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -166,16 +166,17 @@ export default {
 
       this.stepCount = 0;
       this.sortType = type;
-      this.sortedArray = [...arrayToSort]; // Resetear el arreglo
-      this.originalArray = [...arrayToSort]; // Almacenar el arreglo original
+      this.sortedArray = [...arrayToSort]; // Reset array
+      this.originalArray = [...arrayToSort]; // Save Original array
       await this.animateSort(type, this.sortedArray);
-      this.isSorting = false; // Marcar que el sort ha terminado
+      this.isSorting = false; // Set the sort to finished
       this.isLoading = false;
     },
     async stopSort() {
       this.isSorting = false;
-      this.sortedArray = [...this.originalArray]; // Restaurar el arreglo original
-      this.isLoading = false; // Desactivar el estado de carga
+      this.sortedArray = [...this.originalArray]; // Restore original array
+      this.isLoading = false; // Deactivate loading state
+      this.stepCount = -1; // Restart counter
     },
     async animateSort(type, arr) {
       const n = arr.length;
@@ -323,11 +324,11 @@ export default {
     },
     comparingColor(index) {
       if (this.comparingIndices.includes(index)) {
-        return 'yellow'; // Color for comparing elements
+        return 'salmon'; // Color for comparing elements
       } else if (this.currentIndex === index) {
-        return 'red'; // Color for current element
+        return 'dark-red'; // Color for current element
       } else {
-        return 'lightblue'; // Default color
+        return 'light-red'; // Default color
       }
     },
     openRandomArrayModal() {
@@ -355,9 +356,9 @@ export default {
       if (!isNaN(numberOfElements) && numberOfElements > 0) {
         const randomArray = [];
         for (let i = 0; i < numberOfElements; i++) {
-          randomArray.push(Math.floor(Math.random() * 100)); // Genera números aleatorios entre 0 y 99
+          randomArray.push(Math.floor(Math.random() * 100)); // Generates Random numbers between 0 an 99
         }
-        this.inputNumbers = randomArray.join(', '); // Actualiza el campo de entrada con el array aleatorio generado
+        this.inputNumbers = randomArray.join(', '); // Update the arrays input bar with the random generated array
         this.closeRandomArrayModal();
       } else {
         this.showErrorModal(`Ingrese un número válido para generar un array aleatorio.`);
@@ -373,7 +374,7 @@ export default {
       const content = numbersArray.join(', ');
       const blob = new Blob([content], { type: 'text/plain' });
 
-      // Solicitar al usuario que ingrese el nombre del archivo
+      // Asks the user to introduce the file name
       if (!this.fileName) {
         this.showErrorModal('Nombre de archivo no válido.');
         return;
@@ -397,10 +398,10 @@ export default {
         reader.onload = async (event) => {
           const content = event.target.result;
           const array = content.split(',').map(num => parseInt(num.trim()));
-          this.sortedArray = [...array]; // No hay límite en el tamaño del array
-          this.originalArray = [...array]; // Almacenar el arreglo original también
-          this.inputNumbers = this.sortedArray.join(', '); // Actualizar el campo de entrada con el arreglo cargado
-          this.$forceUpdate(); // Forzar la actualización de la vista
+          this.sortedArray = [...array]; 
+          this.originalArray = [...array]; 
+          this.inputNumbers = this.sortedArray.join(', '); //Updates the input bar with the loaded array
+          this.$forceUpdate(); 
         };
         reader.readAsText(file);
       };
@@ -408,7 +409,7 @@ export default {
     },
     calculateBarHeight(value) {
       const maxValue = Math.max(...this.sortedArray);
-      return (value / maxValue) * 200; // Ajustar la altura máxima de la barra
+      return (value / maxValue) * 200;
     },
     calculateElementWidth() {
       const totalElements = this.sortedArray.length || this.originalArray.length || 1;
@@ -422,7 +423,7 @@ export default {
 .sorts-container {
   margin-top: 20px;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid darkred;
   border-radius: 5px;
   position: relative;
 }
@@ -457,6 +458,7 @@ export default {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  color: darkred;
 }
 
 .numbers-container {
@@ -475,7 +477,7 @@ export default {
 .box {
   padding: 8px;
   margin: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid darkred;
   border-radius: 3px;
   font-size: 16px;
   display: flex;
@@ -486,12 +488,12 @@ export default {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  height: 200px; /* Ajustar la altura máxima de la barra */
+  height: 200px; 
 }
 
 .bar {
   width: 30px;
-  background-color: #007bff;
+  background-color: red;
   transition: height 0.3s ease-in-out;
 }
 
@@ -499,7 +501,7 @@ export default {
   position: absolute;
   top: 20px;
   right: 20px;
-  background-color: black;
+  background-color: darkred;
   color: white;
   border: none;
   border-radius: 5px;
@@ -507,15 +509,15 @@ export default {
   font-size: 16px;
 }
 
-.red {
-  background-color: red;
+.dark-red {
+  color: darkred;
 }
 
-.yellow {
-  background-color: yellow;
+.light-red {
+  color: lightcoral;
 }
 
-.lightblue {
-  background-color: lightblue;
+.salmon {
+  background-color: salmon;
 }
 </style>
