@@ -1,79 +1,81 @@
 <template>
-  <div>
-    <!-- Rename Node Modal -->
-    <div class="modal" tabindex="-1" id="renameNodeModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Renombrar nodo</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <input
-              type="text"
-              class="form-control"
-              v-model="newNodeName"
-              placeholder="Ingrese el nuevo nombre del nodo"
-            />
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cancelar
-            </button>
-            <button type="button" class="btn btn-primary" @click="renameNode">
-              Guardar cambios
-            </button>
-          </div>
-        </div>
+  <div class="my-4">
+    <div class="position-absolute top-0 start-0 m-1">
+      <button
+        type="button"
+        data-bs-toggle="tooltip"
+        data-bs-placement="right"
+        data-bs-custom-class="custom-tooltip"
+        data-bs-title="Ir atrás."
+        class="btn btn-primary bi bi-arrow-left mb-1"
+        @click="goBack"
+      ></button>
+    </div>
+    <div class="container d-flex justify-content-between mb-4 mt-5 mt-md-0">
+      <div>
+        <h1>Árboles Binarios</h1>
+        <h5>Ingrese números para ir armando su árbol binario:</h5>
+      </div>
+      <div class="my-auto">
+        <input
+          type="radio"
+          class="btn-check"
+          name="options-outlined"
+          id="binary-tree-preOrder"
+          autocomplete="off"
+          value="preorder"
+          v-model="binaryTreeOrder"
+        />
+        <label
+          class="btn btn-outline-success me-3"
+          for="binary-tree-preOrder"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="PreOrden."
+        >
+          PreOrden
+        </label>
+        <input
+          type="radio"
+          class="btn-check"
+          name="options-outlined"
+          id="binary-tree-inOrder"
+          autocomplete="off"
+          value="inorder"
+          v-model="binaryTreeOrder"
+        />
+        <label
+          class="btn btn-outline-warning me-3"
+          for="binary-tree-inOrder"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="InOrden."
+        >
+          InOrden
+        </label>
+        <input
+          type="radio"
+          class="btn-check"
+          name="options-outlined"
+          id="binary-tree-postOrder"
+          autocomplete="off"
+          value="postorder"
+          v-model="binaryTreeOrder"
+        />
+        <label
+          class="btn btn-outline-danger me-3"
+          for="binary-tree-postOrder"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="PostOrden."
+        >
+          PostOrden
+        </label>
       </div>
     </div>
-
-    <!-- Rename Edge Modal -->
-    <div class="modal" tabindex="-1" id="renameEdgeModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Renombrar arista</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <input
-              type="number"
-              class="form-control"
-              v-model="newEdgeName"
-              placeholder="Ingrese el nuevo nombre de la arista"
-            />
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cancelar
-            </button>
-            <button type="button" class="btn btn-primary" @click="renameEdge">
-              Guardar cambios
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Delete Modal -->
     <div
       class="modal fade"
@@ -332,36 +334,8 @@
         </div>
       </div>
     </div>
-    <!-- Adjacency Matrix -->
-    <div class="modal fade" tabindex="-1" id="adjacencyMatrixModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Matriz de Adyacencia</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div id="adjacencyMatrix"></div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              OK
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Bootstrap alert for saveGraph success/error -->
-
     <div style="width: fit-content; margin: auto">
       <div
         v-if="saveGraphError"
@@ -419,7 +393,7 @@
     </div>
 
     <div class="editor-container">
-      <div class="editor-content">
+      <div class="container editor-content border border-5">
         <!-- Editor Content -->
         <v-network-graph
           tabindex="0"
@@ -437,165 +411,62 @@
           @click="handleNodeAddition"
           @keydown="edgeAdditionKey"
         >
-          <template #edge-label="{ edge, hovered, selected, ...slotProps }">
-            <v-edge-label
-              :class="{ hovered, selected }"
-              :text="edge.label"
-              align="center"
-              vertical-align="above"
-              v-bind="slotProps"
-            />
+          <template
+            #override-node-label="{
+              //   nodeId,
+              scale,
+              text,
+              //   x,
+              //   y,
+              //   config,
+              //   textAnchor,
+              //   dominantBaseline,
+            }"
+          >
+            <text
+              x="0"
+              y="0"
+              :font-size="20 * scale"
+              text-anchor="middle"
+              dominant-baseline="central"
+              fill="#ffffff"
+              >{{ text }}
+            </text>
+            <!-- <text
+              x="0"
+              y="0"
+              :font-size="config.fontSize * scale"
+              :text-anchor="textAnchor"
+              :dominant-baseline="dominantBaseline"
+              :fill="config.color"
+              :transform="`translate(${x} ${y})`"
+              >{{ nodeId }}</text
+            > -->
           </template>
+          <!-- <template #edge-label="{ edge, hovered, selected, ...slotProps }">
+              <v-edge-label
+                :class="{ hovered, selected }"
+                :text="edge.label"
+                align="center"
+                vertical-align="above"
+                v-bind="slotProps"
+              />
+            </template> -->
           <Background />
         </v-network-graph>
-        <!-- <div class="event-logs">
-          <div
-            v-for="[timestamp, type, log] in eventLogs"
-            :key="`${timestamp}/${type}/${log}`"
-          >
-            {{ timestamp }}
-            <span class="event-type">{{ type }}</span>
-            {{ log }}
-          </div>
-        </div> -->
-      </div>
-    </div>
-
-    <!-- Assignment Modal -->
-    <div
-      class="modal fade"
-      id="AssignmentModal"
-      tabindex="-1"
-      aria-labelledby="AssignmentModal"
-      aria-hidden="true"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="AssignmentModal">ASIGNACIONES</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div v-if="algorithmStore.assignmentDataOutput">
-              <div class="d-flex gap-3">
-                Optimización:
-                <p
-                  v-if="
-                    algorithmStore.assignmentDataOutput.optmization === 'max'
-                  "
-                >
-                  Maximización
-                </p>
-                <p
-                  v-if="
-                    algorithmStore.assignmentDataOutput.optmization === 'min'
-                  "
-                >
-                  Minimización
-                </p>
-              </div>
-              <div>
-                Asignaciones:
-                <p
-                  class="text-center"
-                  v-for="(assignmentTarget, assignmentSource) in algorithmStore
-                    .assignmentDataOutput.assignations"
-                  :key="assignmentSource"
-                >
-                  {{ assignmentSource + " -> " + assignmentTarget }}
-                </p>
-              </div>
-              <p>Costo: {{ algorithmStore.assignmentDataOutput.cost }}</p>
-            </div>
-            <p v-else>No se ha calculado ninguna asignación aún.</p>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-success"
-              data-bs-dismiss="modal"
-            >
-              OK
-            </button>
-          </div>
-        </div>
       </div>
     </div>
 
     <!-- More Functions Button -->
-    <div class="position-absolute top-0 end-0 m-1 text-center">
-      <button
-        type="button"
-        data-bs-toggle="tooltip"
-        data-bs-placement="left"
-        data-bs-custom-class="custom-tooltip"
-        data-bs-title="Ir atrás."
-        class="btn btn-warning bi bi-arrow-left mb-3"
-        @click="goBack"
-      ></button>
-      <div>
-        <input
-          type="radio"
-          class="btn-check"
-          name="options-outlined"
-          id="maximize-assignment"
-          autocomplete="off"
-          value="maximize"
-          v-model="maximizeOrMinimize"
-        />
-        <label
-          class="btn btn-outline-success me-3"
-          for="maximize-assignment"
-          data-bs-toggle="tooltip"
-          data-bs-placement="bottom"
-          data-bs-custom-class="custom-tooltip"
-          data-bs-title="Maximizar."
-        >
-          Maximizar
-        </label>
-        <input
-          type="radio"
-          class="btn-check"
-          name="options-outlined"
-          id="minimize-assignment"
-          autocomplete="off"
-          value="minimize"
-          v-model="maximizeOrMinimize"
-        />
-        <label
-          class="btn btn-outline-danger me-3"
-          for="minimize-assignment"
-          data-bs-toggle="tooltip"
-          data-bs-placement="bottom"
-          data-bs-custom-class="custom-tooltip"
-          data-bs-title="Minimizar."
-        >
-          Minimizar
-        </label>
-      </div>
-      <div class="mt-3" v-if="maximizeOrMinimize">
-        <span data-bs-toggle="modal" data-bs-target="#AssignmentModal"
-          ><button
-            type="button"
-            data-bs-toggle="tooltip"
-            data-bs-placement="left"
-            data-bs-custom-class="custom-tooltip"
-            data-bs-title="Resolver."
-            class="btn btn-info"
-            @click="resolveAssignmentAlgorithm"
-          >
-            Resolver asignación
-          </button>
-        </span>
-      </div>
-    </div>
+    <button
+      type="button"
+      data-bs-toggle="tooltip"
+      data-bs-placement="left"
+      data-bs-custom-class="custom-tooltip"
+      data-bs-title="Ir atrás."
+      class="btn btn-primary bi bi-arrow-left position-absolute top-0 end-0 m-1"
+      @click="goBack"
+    ></button>
 
     <span
       data-bs-toggle="offcanvas"
@@ -603,7 +474,7 @@
       aria-controls="offcanvasRight"
     >
       <button
-        class="btn btn-warning bi bi-list position-absolute sticky-top top-0 start-0 m-1"
+        class="btn btn-primary bi bi-list position-absolute sticky-top top-0 start-0 m-1"
         type="button"
         data-bs-toggle="tooltip"
         data-bs-placement="left"
@@ -636,18 +507,18 @@
           <button
             @click="openHelp"
             data-bs-dismiss="offcanvas"
-            class="btn btn-outline-success w-100 py-2 mb-2 d-lg-none"
+            class="btn btn-outline-warning w-100 py-2 mb-2 d-lg-none"
           >
             Centro de Ayuda
           </button>
           <button
-            class="btn btn-outline-success w-100 py-2"
+            class="btn btn-outline-warning w-100 py-2"
             @click="panToCenter"
           >
             Centrar
           </button>
           <button
-            class="btn btn-outline-success w-100 py-2 mt-2"
+            class="btn btn-outline-warning w-100 py-2 mt-2"
             @click="fitToContents"
           >
             Ajustar
@@ -655,11 +526,11 @@
         </div>
         <div class="d-flex gap-3">
           <button
-            class="btn btn-outline-success bi bi-plus-circle w-100 py-2 mt-1"
+            class="btn btn-outline-warning bi bi-plus-circle w-100 py-2 mt-1"
             @click="zoomIn"
           ></button>
           <button
-            class="btn btn-outline-success bi bi-dash-circle w-100 py-2 mt-1"
+            class="btn btn-outline-warning bi bi-dash-circle w-100 py-2 mt-1"
             @click="zoomOut"
           ></button>
         </div>
@@ -667,15 +538,15 @@
           data-bs-dismiss="offcanvas"
           :class="
             isBoxSelectionMode
-              ? 'btn btn-success w-100 py-2 mt-3'
-              : 'btn btn-outline-success w-100 py-2 mt-3'
+              ? 'btn btn-warning w-100 py-2 mt-3'
+              : 'btn btn-outline-warning w-100 py-2 mt-3'
           "
           @click="toggleBoxSelection"
         >
           {{ isBoxSelectionMode ? "Detener selección" : "Iniciar selección" }}
         </button>
         <button
-          class="btn btn-outline-success w-100 py-2 mt-2"
+          class="btn btn-outline-warning w-100 py-2 mt-2"
           data-bs-dismiss="offcanvas"
           @click="openFileNameModal"
         >
@@ -688,21 +559,13 @@
           accept=".json"
         />
         <button
-          class="btn btn-outline-success w-100 py-2 mt-2"
+          class="btn btn-outline-warning w-100 py-2 mt-2"
           data-bs-dismiss="offcanvas"
           @click="openGraphFile"
         >
           Abrir Archivo
         </button>
-
-        <button
-          class="btn btn-outline-success w-100 py-2 mt-2"
-          data-bs-dismiss="offcanvas"
-          @click="openAdjacencyMatrixModal"
-        >
-          Matriz de Adyacencia
-        </button>
-        <button @click="goBack" class="btn btn-outline-success w-100 py-2 mt-2">
+        <button @click="goBack" class="btn btn-outline-warning w-100 py-2 mt-2">
           Ir a inicio
         </button>
       </div>
@@ -710,37 +573,26 @@
 
     <!-- View Controls -->
     <div
-      class="d-md-flex d-block gap-5 w-100 justify-content-center position-absolute sticky-bottom bg-success bg-opacity-10 py-3 px-3 py-md-4 px-md-5"
+      class="d-md-flex d-block gap-5 w-100 justify-content-center position-absolute sticky-bottom bg-warning bg-opacity-10 py-3 px-3 py-md-4 px-md-5"
     >
+      <div
+        class="w-25 mb-2 mb-md-0"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        data-bs-custom-class="custom-tooltip"
+        data-bs-title="Ingrese la hoja del árbol binario y presione Enter."
+      >
+        <label for="binaryTreeLeaf" class="form-label">Hoja del árbol:</label>
+        <input
+          type="text"
+          id="binaryTreeLeaf"
+          class="form-control"
+          v-model="userLeafInput"
+          @input="validateUserInput"
+          placeholder="Hoja del árbol binario"
+        />
+      </div>
       <div class="d-flex gap-2 gap-md-5 mb-2 mb-md-0">
-        <button
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-custom-class="custom-tooltip"
-          data-bs-title="Agregar Nodo."
-          class="bi bi-node-plus rounded-circle py-3 px-4"
-          :class="
-            isAddingNode === true
-              ? 'btn btn-success'
-              : 'btn btn-outline-success'
-          "
-          @click="startAddingNode"
-        ></button>
-        <button
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-custom-class="custom-tooltip"
-          data-bs-title="Agregar Arista."
-          class="bi bi-arrow-down-right rounded-circle py-3 px-4"
-          :class="
-            selectedNodes.length === 1 || selectedNodes.length === 2
-              ? 'btn btn-success'
-              : 'btn btn-outline-success'
-          "
-          @click="edgeAdditionButton"
-        ></button>
         <button
           type="button"
           data-bs-toggle="tooltip"
@@ -750,8 +602,8 @@
           class="bi bi-trash rounded-circle py-3 px-4"
           :class="
             selectedEdges.length > 0 || selectedNodes.length > 0
-              ? 'btn btn-success'
-              : 'btn btn-outline-success'
+              ? 'btn btn-warning'
+              : 'btn btn-outline-warning'
           "
           @click="handleDeletion"
         ></button>
@@ -762,38 +614,8 @@
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
-          data-bs-title="Renombrar."
-          class="bi bi-pencil-square rounded-circle py-3 px-4"
-          v-show="selectedNodes.length === 1"
-          :class="
-            selectedNodes.length === 1 || selectedEdges.length === 1
-              ? 'btn btn-success'
-              : 'btn btn-outline-success'
-          "
-          @click="openRenameModal"
-        ></button>
-        <button
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-custom-class="custom-tooltip"
-          data-bs-title="Renombrar."
-          class="bi bi-pencil-square rounded-circle py-3 px-4"
-          v-show="selectedEdges.length === 1"
-          :class="
-            selectedNodes.length === 1 || selectedEdges.length === 1
-              ? 'btn btn-success'
-              : 'btn btn-outline-success'
-          "
-          @click="openRenameEdgeModal"
-        ></button>
-        <button
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-custom-class="custom-tooltip"
           data-bs-title="Guardar."
-          class="btn btn-outline-success bi bi-floppy rounded-circle py-3 px-4"
+          class="btn btn-outline-warning bi bi-floppy rounded-circle py-3 px-4"
           @click="openFileNameModal"
         ></button>
         <button
@@ -802,7 +624,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Abrir."
-          class="btn btn-outline-success bi bi-folder2-open rounded-circle py-3 px-4"
+          class="btn btn-outline-warning bi bi-folder2-open rounded-circle py-3 px-4"
           @click="openGraphFile"
         ></button>
         <button
@@ -810,17 +632,8 @@
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
-          data-bs-title="Matriz de Adyacencia."
-          class="btn btn-outline-success bi bi-table rounded-circle py-3 px-4"
-          @click="openAdjacencyMatrixModal"
-        ></button>
-        <button
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-custom-class="custom-tooltip"
           data-bs-title="Limpiar."
-          class="btn btn-outline-success bi bi-file-earmark-x rounded-circle py-3 px-4"
+          class="btn btn-outline-warning bi bi-file-earmark-x rounded-circle py-3 px-4"
           @click="handleClearAll"
         ></button>
         <button
@@ -832,20 +645,6 @@
           class="btn btn-success bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
           @click="openHelp"
         ></button>
-      </div>
-    </div>
-
-    <!-- Self-loop label -->
-    <div>
-      <div v-for="(node, nodeId) in nodes" :key="nodeId">
-        <div v-for="(edge, edgeId) in edges" :key="edgeId">
-          <div
-            v-if="edge.source === nodeId && edge.target === nodeId"
-            class="self-loop-label"
-          >
-            <span class="self-loop-label-text">{{ edge.label }}</span>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -868,10 +667,11 @@ import { Modal } from "bootstrap";
 import { useAlgorithmStore } from "../stores/algorithm";
 import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
+import TreeNode from "../data/BinaryTrees/treeNode.js";
+import BinaryTree from "../data/BinaryTrees/BinaryTree.js";
 
 const router = useRouter();
 const fileStore = useFileStore();
-const algorithmStore = useAlgorithmStore();
 
 const goBack = () => {
   router.go(-1);
@@ -927,9 +727,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 3,
-      strokeColor: "#45FFF1",
+      strokeColor: "#63C867",
       strokeDasharray: "0",
-      color: "#47E7B1",
+      color: "#5CE562",
     },
     hover: {
       type: "circle",
@@ -938,9 +738,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 2,
-      strokeColor: "#FF767A",
+      strokeColor: "#6FFF75",
       strokeDasharray: "0",
-      color: "#DD9FFF",
+      color: "#73D279",
     },
     selected: {
       type: "circle",
@@ -949,9 +749,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 2,
-      strokeColor: "#45FFF1",
+      strokeColor: "#73D2A7",
       strokeDasharray: "0",
-      color: "#47E7B1",
+      color: "#33DE90",
     },
     label: {
       visible: true,
@@ -985,7 +785,7 @@ const configs = defineConfigs({
     hoverable: true,
     normal: {
       width: 3,
-      color: "#000000",
+      color: "#9F8747",
       dasharray: "0",
       linecap: "butt",
       animate: false,
@@ -993,7 +793,7 @@ const configs = defineConfigs({
     },
     hover: {
       width: 4,
-      color: "#599db9",
+      color: "#FFD950",
       dasharray: "0",
       linecap: "butt",
       animate: false,
@@ -1045,13 +845,27 @@ const configs = defineConfigs({
   },
 });
 
+var userLeafInput = ref("");
+
+// Validate User Input ----------------------------------------------------
+const validateUserInput = () => {
+  userLeafInput.value = userLeafInput.value.replace(/[^0-9]/g, "");
+};
+
 // Adding Node -------------------------------------------------------------
-let isAddingNode = ref(false);
+let isAddingNode = ref(true);
 
 const handleNodeAddition = () => {
-  if (isAddingNode.value && graph.value) {
+  if (isAddingNode.value && graph.value && userLeafInput.value !== "") {
+    const binaryTree = new BinaryTree(
+      new TreeNode(parseInt(userLeafInput.value), null, null)
+    );
+    console.log(binaryTree.root);
+    // if (binaryTree.root !== null) {
+    //   binaryTree.insert(parseInt(userLeafInput.value), binaryTree.root);
+    // }
     const nodeId = `node${nextNodeIndex.value}`;
-    const name = `Nodo ${nextNodeIndex.value}`;
+    const name = userLeafInput.value;
 
     const domPoint = { x: mousePosition.value.x, y: mousePosition.value.y };
 
@@ -1098,7 +912,7 @@ onUnmounted(() => {
 });
 
 // Deleting Node -------------------------------------------------------------
-const confirmDeleteModal = ref<Modal | null>(null);
+const confirmDeleteModal = ref<typeof Modal | null>(null);
 
 onMounted(() => {
   const modalElement = document.getElementById("confirmDeleteModal");
@@ -1146,93 +960,11 @@ const edgeAdditionKey = (event: KeyboardEvent) => {
 };
 
 // Event Handling -------------------------------------------------------------
-const EVENTS_COUNT = 6;
-
-const eventLogs = reactive<[string, string, string][]>([]);
-
-var selfLoopEdgeLabel = document.getElementsByClassName(
-  "self-loop-label-text"
-) as HTMLCollectionOf<HTMLElement>;
-
 const isBoxSelectionMode = ref(false);
 const eventHandlers: EventHandlers = {
   "view:mode": (mode) => {
     isBoxSelectionMode.value = mode === "box-selection";
   },
-  // Wildcard: capture all events -----------------------------------------
-  "*": (type, event) => {
-    const timestamp = new Date().toISOString();
-    if (eventLogs.length > EVENTS_COUNT) {
-      eventLogs.splice(EVENTS_COUNT, eventLogs.length - EVENTS_COUNT);
-    }
-    if (event instanceof Object && "event" in event) {
-      Object.assign(event, { event: "(...)" });
-    }
-    eventLogs.unshift([timestamp, type, JSON.stringify(event)]);
-  },
-  // ----------------------------------------------------------------------
-  "view:zoom": () => {
-    for (var nodeId in nodes) {
-      for (var edgeId in edges) {
-        if (
-          edges[edgeId].source === nodeId &&
-          edges[edgeId].target === nodeId
-        ) {
-          locateSelLoopEdgeLabel(
-            layouts.nodes[nodeId].x / zoomLevel.value - 110 + "px",
-            layouts.nodes[nodeId].y / zoomLevel.value + 50 + "px"
-          );
-        }
-      }
-    }
-  },
-  "view:pan": (event) => {
-    if (eventLogs.length > 1) {
-      for (var nodeId in nodes) {
-        for (var edgeId in edges) {
-          if (
-            edges[edgeId].source === nodeId &&
-            edges[edgeId].target === nodeId
-          ) {
-            locateSelLoopEdgeLabel(
-              layouts.nodes[nodeId].x + event.x / 2 + "px",
-              layouts.nodes[nodeId].y + event.y / 2 + "px"
-            );
-          }
-        }
-      }
-    }
-  },
-  "node:pointermove": () => {
-    for (var nodeId in nodes) {
-      for (var edgeId in edges) {
-        if (
-          edges[edgeId].source === nodeId &&
-          edges[edgeId].target === nodeId
-        ) {
-          initialLocationSelLoopEdgeLabel();
-        }
-      }
-    }
-  },
-};
-
-const initialLocationSelLoopEdgeLabel = () => {
-  for (var nodeId in nodes) {
-    for (var edgeId in edges) {
-      if (edges[edgeId].source === nodeId && edges[edgeId].target === nodeId) {
-        locateSelLoopEdgeLabel(
-          layouts.nodes[nodeId].x - 110 + "px",
-          layouts.nodes[nodeId].y + 50 + "px"
-        );
-      }
-    }
-  }
-};
-
-const locateSelLoopEdgeLabel = (left: string, top: string) => {
-  selfLoopEdgeLabel[0].style.left = left;
-  selfLoopEdgeLabel[0].style.top = top;
 };
 
 const startBoxSelection = () =>
@@ -1255,36 +987,16 @@ const toggleBoxSelection = () => {
   }
 };
 
-// Modals elements -------------------------------------------------------------
-const openRenameModal = () => {
-  if (selectedNodes.value.length !== 1) return;
-  renameNodeModal.show();
-};
-
-let renameNodeModal: Modal | null = null;
-let renameEdgeModal: Modal | null = null;
 let nameFileToSaveModal: Modal | null = null;
 let helpCenterModal: Modal | null = null;
-let adjacencyMatrixModal: Modal | null = null;
 let clearAllModal: Modal | null = null;
 
 onMounted(() => {
-  const modalElement = document.getElementById("renameNodeModal");
-  renameNodeModal = new Modal(modalElement);
-
   const saveFileModalElement = document.getElementById("fileNameToSave");
   nameFileToSaveModal = new Modal(saveFileModalElement);
 
   const helpCenterModalElement = document.getElementById("helpCenterModal");
   helpCenterModal = new Modal(helpCenterModalElement);
-
-  const adjacencyMatrixModalElement = document.getElementById(
-    "adjacencyMatrixModal"
-  );
-  adjacencyMatrixModal = new Modal(adjacencyMatrixModalElement);
-
-  const renameEdgeModalElement = document.getElementById("renameEdgeModal");
-  renameEdgeModal = new Modal(renameEdgeModalElement);
 
   const clearAllModalElement = document.getElementById("confirmClearAllModal");
   clearAllModal = new Modal(clearAllModalElement);
@@ -1295,129 +1007,7 @@ onMounted(() => {
   tooltipTriggerList.forEach((tooltipTriggerEl: Element) => {
     new bootstrap.Tooltip(tooltipTriggerEl as HTMLElement);
   });
-
-  initialLocationSelLoopEdgeLabel();
 });
-
-// matrix logic ------------------------------------------------------------
-const generateAdjacencyMatrix = (): number[][] => {
-  const algorithmStore = useAlgorithmStore();
-
-  // Get the adjacency matrix data from the store
-  const adjacencyMatrixData = algorithmStore.adjacencyMatrixDataOutput;
-
-  // Extract the values from the adjacency matrix data
-  const adjacencyMatrix: number[][] = adjacencyMatrixData.values;
-
-  return adjacencyMatrix;
-};
-
-const openAdjacencyMatrixModal = async () => {
-  const algorithmStore = useAlgorithmStore();
-
-  // Load the adjacency matrix data from the API
-  const graphData = {
-    nodes: nodes,
-    edges: edges,
-    layouts: layouts,
-  };
-
-  const jsonData = JSON.stringify(graphData, null, 2); // Indentation of 2 spaces
-  await algorithmStore.loadAdjMatrix(jsonData);
-
-  // Generate the adjacency matrix
-  const adjacencyMatrixData = algorithmStore.adjacencyMatrixDataOutput;
-  const adjacencyMatrix = generateAdjacencyMatrix();
-
-  const verticesNames = adjacencyMatrixData.verticesNames;
-  const rowSum = adjacencyMatrixData.rowSum;
-  const colSum = adjacencyMatrixData.colSum;
-  const mtxSum = adjacencyMatrixData.mtxSum;
-
-  let tableString =
-    "<table style='width: 100%; border-collapse: collapse;'>\n  <tr>\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'></th>";
-
-  // Add vertices names to the table header
-  for (const name of verticesNames) {
-    tableString += `\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'>${name}</th>`;
-  }
-
-  tableString +=
-    "\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'>Row Sum</th>\n  </tr>";
-
-  // Add matrix values and row sums to the table body
-  for (let i = 0; i < adjacencyMatrix.length; i++) {
-    tableString += `\n  <tr style='${
-      i % 2 === 0 ? "background-color: #599db9;" : ""
-    }'>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${
-      verticesNames[i]
-    }</td>`;
-    for (const value of adjacencyMatrix[i]) {
-      tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${value}</td>`;
-    }
-    tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${rowSum[i]}</td>\n  </tr>`;
-  }
-
-  // Add column sums to the table footer
-  tableString +=
-    "\n  <tr>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>Col Sum</td>";
-  for (const sum of colSum) {
-    tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${sum}</td>`;
-  }
-  tableString += `\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${mtxSum}</td>\n  </tr>\n</table>`;
-
-  const adjacencyMatrixElement = document.getElementById("adjacencyMatrix");
-  if (adjacencyMatrixElement) {
-    adjacencyMatrixElement.innerHTML = tableString;
-  }
-
-  adjacencyMatrixModal?.show();
-};
-
-// Assignment Algorithm ---------------------------------------------------
-var maximizeOrMinimize = ref("");
-var maximize = ref(true);
-
-const resolveAssignmentAlgorithm = async () => {
-  if (maximizeOrMinimize.value === "minimize") {
-    maximize.value = false;
-  } else maximize.value = true;
-  const graphData = {
-    nodes: nodes,
-    edges: edges,
-    layouts: layouts,
-  };
-  const jsonData = JSON.stringify(graphData, null, 2);
-  console.log("Graph data:", jsonData);
-  await algorithmStore.loadAssignmentAlgorithm(jsonData, maximize.value);
-  console.log("Assignment data:", algorithmStore.assignmentDataOutput);
-};
-
-// Rename Node -------------------------------------------------------------
-const newNodeName = ref("");
-const newEdgeName = ref("");
-
-const renameNode = () => {
-  if (!newNodeName.value) return;
-  const nodeId = selectedNodes.value[0];
-  nodes[nodeId].name = newNodeName.value;
-  newNodeName.value = "";
-  renameNodeModal.hide();
-};
-
-// Rename Edge -------------------------------------------------------------
-const renameEdge = () => {
-  if (!newEdgeName.value) return;
-  const edgeId = selectedEdges.value[0];
-  edges[edgeId].label = newEdgeName.value;
-  newEdgeName.value = "";
-  renameEdgeModal.hide();
-};
-
-const openRenameEdgeModal = () => {
-  if (selectedEdges.value.length !== 1) return;
-  renameEdgeModal.show();
-};
 
 // Save and Load Graph -------------------------------------------------------------
 const saveGraphSuccess = ref(false);
@@ -1502,6 +1092,7 @@ const loadGraph = async () => {
       // Upload the file
       const fileResponse = await fileStore.uploadFile(file);
       console.log("File response:", fileResponse);
+
       loadGraphSuccess.value = true;
     } catch (error) {
       console.error("Error al cargar el grafo:", error);
@@ -1544,19 +1135,9 @@ const handleClearAll = () => {
 </script>
 
 <style scoped>
-.container-all {
-  display: grid;
-  grid-template-rows: 18% 1fr;
-  grid-template-columns: auto;
-}
-
 .editor-container {
   display: flex;
-  height: 100vh;
-}
-
-.editor-content {
-  flex: 1;
+  height: 30em;
 }
 
 .v-network-graph:active {
@@ -1576,44 +1157,16 @@ const handleClearAll = () => {
   margin-bottom: 10px;
 }
 
-.self-loop-label {
-  font-size: 20px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-
-.self-loop-label-text {
-  position: absolute;
-}
-
 .upload-file {
   display: none;
-}
-
-.event-logs {
-  position: absolute;
-  inset: auto 10px 10px auto;
-  margin-left: 10px;
-  margin-bottom: 150px;
-  padding: 10px;
-  background: #ffff0044;
-  border-radius: 4px;
-  font-size: 11px;
-  font-family: monospace;
-  line-height: 11px;
-  pointer-events: none;
-}
-.event-logs div {
-  word-break: break-all;
-}
-.event-type {
-  font-weight: bold;
 }
 
 @media screen and (max-width: 600px) {
   .bi {
     font-size: 1.5em;
+  }
+  .editor-container {
+    height: 15em;
   }
 }
 </style>

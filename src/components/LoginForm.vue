@@ -1,27 +1,9 @@
 <template>
   <form @submit.prevent="submitForm" class="container mt-5">
-    <!-- Top Content -->
     <h2 class="mb-4 mb-md-5 fs-1 fw-light">Iniciar Sesión</h2>
     <p class="mb-4 fw-light">
       Ingresa a tu cuenta para crear, cargar y descargar grafos.
     </p>
-
-    <!-- Alert -->
-    <div
-      v-if="alertMessage"
-      class="alert alert-danger alert-dismissible fade show"
-      role="alert"
-    >
-      {{ alertMessage }}
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="alert"
-        aria-label="Close"
-        @click="closeAlert"
-      ></button>
-    </div>
-
     <div class="form-group">
       <input
         type="text"
@@ -37,8 +19,6 @@
         v-model="password"
       />
     </div>
-
-    <!-- Middle Content -->
     <div class="d-flex flex-column mt-4 mt-md-2">
       <a class="text-danger mt-1 mb-4 text-end" href="/">
         ¿Olvidaste tu contraseña?
@@ -53,6 +33,7 @@ import { ref, computed } from "vue";
 import { useAuthStore } from "../stores/auth";
 import { useRouter } from "vue-router";
 import { useLoaderStore } from "../stores/common/loaderStore";
+import SweetAlert from "sweetalert2";
 
 export default {
   setup() {
@@ -63,7 +44,6 @@ export default {
     // Utilizando ref para los campos del formulario
     const username = ref("");
     const password = ref("");
-    const alertMessage = ref("");
 
     // Computando las clases
     const inputClasses = computed(() => "form-control mb-3");
@@ -73,27 +53,80 @@ export default {
     );
 
     // Método para manejar el envío del formulario
-    const submitForm = () => {
+    const submitForm = async () => {
       if (!username.value || !password.value) {
-        alertMessage.value =
-          "Por favor ingresa tu nombre de usuario y contraseña";
-        return;
-      }
-      loaderStore.pageIsLoading();
-      const user = { username: username.value, password: password.value };
-      if (authStore.checkUser(user)) {
-        username.value = "";
-        password.value = "";
-        router.push("/");
+        showSimpleAlert(
+          "Error",
+          "Por favor ingrese sus credenciales completas.",
+          "error"
+        );
       } else {
-        alertMessage.value = "Usuario o contraseña incorrectos";
+        const user = { username: username.value, password: password.value };
+        loaderStore.pageIsLoading();
+        if (await authStore.checkUser(user)) {
+          username.value = "";
+          password.value = "";
+          showConfirmAlert(
+            "Éxito!",
+            "Inicio de sesión exitoso.",
+            "success",
+            false,
+            2500
+          );
+          router.push("/");
+        } else {
+          showSimpleAlert(
+            "Error",
+            "Usuario o contraseña incorrectos.",
+            "error"
+          );
+        }
+        loaderStore.pageIsLoaded();
       }
-      loaderStore.pageIsLoaded();
     };
 
-    // Método para cerrar la alerta
-    const closeAlert = () => {
-      alertMessage.value = "";
+    const showSimpleAlert = (alertTitle, alertText, alertIcon) => {
+      SweetAlert.fire({
+        title: alertTitle,
+        text: alertText,
+        icon: alertIcon,
+        showClass: {
+          popup: `
+          animate__animated
+          animate__fadeInDown`,
+        },
+        hideClass: {
+          popup: `
+          animate__animated
+          animate__fadeOutDown`,
+        },
+      });
+    };
+
+    const showConfirmAlert = (
+      alertTitle,
+      alertText,
+      alertIcon,
+      showConfButton,
+      timer
+    ) => {
+      SweetAlert.fire({
+        title: alertTitle,
+        text: alertText,
+        icon: alertIcon,
+        showConfirmButton: showConfButton,
+        timer: timer,
+        showClass: {
+          popup: `
+          animate__animated
+          animate__flipInX`,
+        },
+        hideClass: {
+          popup: `
+          animate__animated
+          animate__flipOutX`,
+        },
+      });
     };
 
     // Retornando las propiedades y métodos
@@ -103,8 +136,8 @@ export default {
       inputClasses,
       buttonClasses,
       submitForm,
-      alertMessage,
-      closeAlert,
+      showSimpleAlert,
+      showConfirmAlert,
     };
   },
 };
