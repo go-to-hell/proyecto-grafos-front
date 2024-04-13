@@ -529,6 +529,7 @@
           "
           @click="startAddingNode"
         ></button>
+        <!-- CHANGES -->
         <button
           type="button"
           data-bs-toggle="tooltip"
@@ -597,9 +598,9 @@ import data from "../data/initial-data.js";
 import { useRouter } from "vue-router";
 import { Modal } from "bootstrap";
 import { useFileStore } from "../stores/file.js";
-import { useTreeStore } from "../stores/tree.js";
+import { useTreeStore } from "../stores/tree.js"; // CHANGES import the tree store
 import * as bootstrap from "bootstrap";
-import dagre from "dagre/dist/dagre.min.js"
+import dagre from "dagre/dist/dagre.min.js" // CHANGES import dagre library
 
 const router = useRouter();
 const fileStore = useFileStore();
@@ -630,9 +631,9 @@ const fitToContents = () => graph.value?.fitToContents();
 const zoomIn = () => graph.value?.zoomIn();
 const zoomOut = () => graph.value?.zoomOut();
 
-//  //Use the tree store to store the tree disposition of the graph
+// CHANGES  //Use the tree store to store the tree disposition of the graph
 const treeStore = useTreeStore();
-const nodeSize = 50
+const nodeSize = 50 // dagre uses this later
 
 const configs = defineConfigs({
   view: {
@@ -778,7 +779,7 @@ const configs = defineConfigs({
 
 // Adding Node -------------------------------------------------------------
 let isAddingNode = ref(false);
-
+// CHANGES
 const handleNodeAddition = async (number) => {
   if(graph.value){
     const locationData = await treeStore.insertNode(number, `node${nextNodeIndex.value}`);
@@ -788,7 +789,7 @@ const handleNodeAddition = async (number) => {
     console.log("Position:", position, "Parent:", parentId)
     const nodeId = `node${nextNodeIndex.value}`;
 
-    const svgPoint = { //TODO adjust svg position from dom
+    const svgPoint = {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
     };
@@ -806,7 +807,6 @@ const handleNodeAddition = async (number) => {
 
     nextNodeIndex.value++;
 
-    //fitToContents(); // FIXME fix visual displays
     if(parentId !== ""){
       console.log("attaching to parent" + parentId)
       connectToLastAddedNode(nodeId, parentId);
@@ -814,6 +814,8 @@ const handleNodeAddition = async (number) => {
   }
 };
 
+// CHANGES new function to adapt the layout of the tree
+// install dagre library `npm install dagre`
 function treelayout() {
   if(nodes.length) return;
   if(!edges) return;
@@ -864,6 +866,7 @@ function treelayout() {
   fitToContents()
 }
 
+// CHANGES
 async function startAddingNode() {
   isAddingNode.value = !isAddingNode.value;
   const number = parseInt(prompt("Enter a number:") as string);
@@ -894,6 +897,7 @@ onUnmounted(() => {
 
 
 // Adding Edge -------------------------------------------------------------
+// CHANGES deleted previous function created a new one
 const connectToLastAddedNode = (nodeId, parentId) => {
   // Auto join parent to child node
   console.log("Parent:", parentId, "Child:", nodeId);
@@ -906,6 +910,7 @@ const connectToLastAddedNode = (nodeId, parentId) => {
 };
 
 // Tree BFS -------------------------------------------------------------
+// CHANGES created a new function to show the BFS of the tree
 const showBFS = async () => {
   const preorder = (await treeStore.preOrderTraversal()).join(" ");
   const inorder = (await treeStore.inOrderTraversal()).join(" ");
