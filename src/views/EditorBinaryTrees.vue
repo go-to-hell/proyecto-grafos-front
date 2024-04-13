@@ -17,67 +17,44 @@
         <h5>Ingrese números para ir armando su árbol binario:</h5>
       </div>
       <div class="my-auto">
-        <input
-          type="radio"
-          class="btn-check"
-          name="options-outlined"
-          id="binary-tree-preOrder"
-          autocomplete="off"
-          value="preorder"
-          v-model="binaryTreeOrder"
-        />
-        <label
-          class="btn btn-outline-success me-3"
-          for="binary-tree-preOrder"
+        <button
+          type="button"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="PreOrden."
+          class="btn btn-success me-3"
+          @click="printPreOrder"
         >
           PreOrden
-        </label>
-        <input
-          type="radio"
-          class="btn-check"
-          name="options-outlined"
-          id="binary-tree-inOrder"
-          autocomplete="off"
-          value="inorder"
-          v-model="binaryTreeOrder"
-        />
-        <label
-          class="btn btn-outline-warning me-3"
-          for="binary-tree-inOrder"
+        </button>
+        <button
+          type="button"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="InOrden."
+          class="btn btn-warning me-3"
+          @click="printInOrder"
         >
           InOrden
-        </label>
-        <input
-          type="radio"
-          class="btn-check"
-          name="options-outlined"
-          id="binary-tree-postOrder"
-          autocomplete="off"
-          value="postorder"
-          v-model="binaryTreeOrder"
-        />
-        <label
-          class="btn btn-outline-danger me-3"
-          for="binary-tree-postOrder"
+        </button>
+        <button
+          type="button"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="PostOrden."
+          class="btn btn-danger me-3"
+          @click="printPostOrder"
         >
           PostOrden
-        </label>
+        </button>
       </div>
     </div>
+
     <!-- Delete Modal -->
-    <div
+    <!-- <div
       class="modal fade"
       id="confirmDeleteModal"
       tabindex="-1"
@@ -118,7 +95,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Clear All Modal -->
     <div
@@ -405,11 +382,6 @@
           :edges="edges"
           :layouts="layouts"
           :configs="configs"
-          :event-handlers="eventHandlers"
-          @keyup.delete="handleDeletion"
-          @mousemove="updateMousePosition"
-          @click="handleNodeAddition"
-          @keydown="edgeAdditionKey"
         >
           <template
             #override-node-label="{
@@ -535,17 +507,6 @@
           ></button>
         </div>
         <button
-          data-bs-dismiss="offcanvas"
-          :class="
-            isBoxSelectionMode
-              ? 'btn btn-warning w-100 py-2 mt-3'
-              : 'btn btn-outline-warning w-100 py-2 mt-3'
-          "
-          @click="toggleBoxSelection"
-        >
-          {{ isBoxSelectionMode ? "Detener selección" : "Iniciar selección" }}
-        </button>
-        <button
           class="btn btn-outline-warning w-100 py-2 mt-2"
           data-bs-dismiss="offcanvas"
           @click="openFileNameModal"
@@ -578,19 +539,30 @@
       <div
         class="w-25 mb-2 mb-md-0"
         data-bs-toggle="tooltip"
-        data-bs-placement="top"
+        data-bs-placement="left"
         data-bs-custom-class="custom-tooltip"
-        data-bs-title="Ingrese la hoja del árbol binario y presione Enter."
+        data-bs-title="Ingrese la hoja del árbol binario y presione el botón."
       >
         <label for="binaryTreeLeaf" class="form-label">Hoja del árbol:</label>
-        <input
-          type="text"
-          id="binaryTreeLeaf"
-          class="form-control"
-          v-model="userLeafInput"
-          @input="validateUserInput"
-          placeholder="Hoja del árbol binario"
-        />
+        <div class="input-group">
+          <input
+            type="text"
+            id="binaryTreeLeaf"
+            class="form-control"
+            v-model="userLeafInput"
+            @input="validateUserInput"
+            placeholder="Hoja del árbol binario"
+            aria-label="Hoja del árbol binario"
+            aria-describedby="button-addNode"
+          />
+          <button
+            class="btn btn-success bi bi-arrow-up-circle"
+            style="font-size: 1.3em"
+            type="button"
+            id="button-addNode"
+            @click="startAddingNode"
+          ></button>
+        </div>
       </div>
       <div class="d-flex gap-2 gap-md-5 mb-2 mb-md-0">
         <button
@@ -598,14 +570,12 @@
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
-          data-bs-title="Eliminar."
-          class="bi bi-trash rounded-circle py-3 px-4"
+          data-bs-title="Mostrar BFS."
+          class="bi bi-123 rounded-circle py-3 px-4"
           :class="
-            selectedEdges.length > 0 || selectedNodes.length > 0
-              ? 'btn btn-warning'
-              : 'btn btn-outline-warning'
+            treeStore.tree.root ? 'btn btn-warning' : 'btn btn-outline-warning'
           "
-          @click="handleDeletion"
+          @click="showBFS"
         ></button>
       </div>
       <div class="d-flex gap-2 gap-md-5">
@@ -664,11 +634,11 @@ import { Background } from "@vue-flow/background";
 import data from "../data/initial-data.js";
 import { useRouter } from "vue-router";
 import { Modal } from "bootstrap";
-import { useAlgorithmStore } from "../stores/algorithm";
-import { useFileStore } from "../stores/file";
+import { useFileStore } from "../stores/file.js";
+import { useTreeStore } from "../stores/tree.js"; // import the tree store
 import * as bootstrap from "bootstrap";
-import TreeNode from "../data/BinaryTrees/treeNode.js";
-import BinaryTree from "../data/BinaryTrees/BinaryTree.js";
+import SweetAlert from "sweetalert2";
+import dagre from "dagre/dist/dagre.min.js"; // import dagre library
 
 const router = useRouter();
 const fileStore = useFileStore();
@@ -703,6 +673,10 @@ const fitToContents = () => graph.value?.fitToContents();
 const zoomIn = () => graph.value?.zoomIn();
 const zoomOut = () => graph.value?.zoomOut();
 
+// Use the tree store to store the tree disposition of the graph
+const treeStore = useTreeStore();
+const nodeSize = 50; // dagre uses this later
+
 const configs = defineConfigs({
   view: {
     panEnabled: true,
@@ -718,8 +692,8 @@ const configs = defineConfigs({
     },
   },
   node: {
-    selectable: true,
-    draggable: true,
+    selectable: false,
+    draggable: false,
     normal: {
       type: "circle",
       radius: 32,
@@ -781,7 +755,7 @@ const configs = defineConfigs({
     },
   },
   edge: {
-    selectable: true,
+    selectable: false,
     hoverable: true,
     normal: {
       width: 3,
@@ -853,28 +827,21 @@ const validateUserInput = () => {
 };
 
 // Adding Node -------------------------------------------------------------
-let isAddingNode = ref(true);
-
-const handleNodeAddition = () => {
-  if (isAddingNode.value && graph.value && userLeafInput.value !== "") {
-    const binaryTree = new BinaryTree(
-      new TreeNode(parseInt(userLeafInput.value), null, null)
+const handleNodeAddition = async (number) => {
+  if (graph.value) {
+    const locationData = await treeStore.insertNode(
+      number,
+      `node${nextNodeIndex.value}`
     );
-    console.log(binaryTree.root);
-    // if (binaryTree.root !== null) {
-    //   binaryTree.insert(parseInt(userLeafInput.value), binaryTree.root);
-    // }
+    console.log("Position:", locationData);
+    const position = locationData.split(",").slice(0, -1);
+    const parentId = locationData.split(",").slice(-1)[0];
+    console.log("Position:", position, "Parent:", parentId);
     const nodeId = `node${nextNodeIndex.value}`;
-    const name = userLeafInput.value;
-
-    const domPoint = { x: mousePosition.value.x, y: mousePosition.value.y };
-
-    const svgElement = graph.value.$el;
-    const svgRect = svgElement.getBoundingClientRect();
 
     const svgPoint = {
-      x: domPoint.x - svgRect.left,
-      y: domPoint.y - svgRect.top,
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
     };
 
     const svgToDomPoint =
@@ -882,19 +849,86 @@ const handleNodeAddition = () => {
 
     nodes[nodeId] = {
       id: nodeId,
-      name,
+      name: number.toString(),
       x: svgToDomPoint.x,
       y: svgToDomPoint.y,
     };
     layouts.nodes[nodeId] = { x: svgToDomPoint.x, y: svgToDomPoint.y };
 
     nextNodeIndex.value++;
-  }
+
+    if (parentId !== "") {
+      console.log("attaching to parent" + parentId);
+      connectToLastAddedNode(nodeId, parentId);
+    }
+  } else return;
 };
 
-function startAddingNode() {
-  isAddingNode.value = !isAddingNode.value;
+// New function to adapt the layout of the tree
+// install dagre library `npm install dagre`
+function treelayout() {
+  if (nodes.length) return;
+  if (!edges) return;
+  // convert graph
+  // ref: https://github.com/dagrejs/dagre/wiki
+  const g = new dagre.graphlib.Graph();
+  // Set an object for the graph label
+  g.setGraph({
+    rankdir: "TB",
+    nodesep: nodeSize * 2,
+    edgesep: nodeSize,
+    ranksep: nodeSize * 2,
+  });
+
+  // Default to assigning a new object as a label for each new edge.
+  g.setDefaultEdgeLabel(() => ({ weight: 1 })); // Add a 'weight' property to the default edge label
+
+  // Add nodes to the graph. The first argument is the node id. The second is
+  // metadata about the node. In this case we're going to add labels to each of
+  // our nodes.
+  console.log("nodes:", nodes);
+
+  Object.entries(nodes).forEach(([nodeId, node]) => {
+    g.setNode(nodeId, { label: node.name, width: nodeSize, height: nodeSize });
+  });
+
+  console.log("g:", g);
+
+  console.log("edges:", edges);
+  // Add edges to the graph.
+  Object.values(edges).forEach((edge) => {
+    g.setEdge(edge.source, edge.target);
+  });
+
+  console.log("g:", g);
+
+  dagre.layout(g);
+
+  g.nodes().forEach((nodeId: string) => {
+    // update node position
+    const x = g.node(nodeId).x;
+    const y = g.node(nodeId).y;
+    layouts.nodes[nodeId] = { x, y };
+  });
+
+  //fit to contents
+  fitToContents();
 }
+
+async function startAddingNode() {
+  const number = parseInt(userLeafInput.value);
+  if (number && !isNaN(number)) {
+    handleNodeAddition(number);
+  }
+  await treeStore.consolelogtree();
+  // if there is more than one node adapt the layout
+  if (Object.keys(nodes).length > 1) {
+    treelayout();
+  }
+  userLeafInput.value = "";
+}
+
+// ------------------------------------------------------------------------
 
 const mousePosition = ref({ x: 0, y: 0 });
 
@@ -911,82 +945,180 @@ onUnmounted(() => {
   window.removeEventListener("mousemove", updateMousePosition);
 });
 
-// Deleting Node -------------------------------------------------------------
-const confirmDeleteModal = ref<typeof Modal | null>(null);
-
-onMounted(() => {
-  const modalElement = document.getElementById("confirmDeleteModal");
-  confirmDeleteModal.value = new Modal(modalElement);
-});
-
-const confirmDelete = () => {
-  if (selectedNodes.value.length > 0) {
-    selectedNodes.value.forEach((n) => delete nodes[n]);
-  } else if (selectedEdges.value.length > 0) {
-    selectedEdges.value.forEach((e) => delete edges[e]);
-  }
-
-  confirmDeleteModal.value?.hide();
-};
-
-const handleDeletion = () => {
-  if (selectedNodes.value.length > 0 || selectedEdges.value.length > 0) {
-    confirmDeleteModal.value?.show();
-  }
-};
-
 // Adding Edge -------------------------------------------------------------
-const edgeAdditionButton = () => {
-  if (isAddingNode.value) {
-    isAddingNode.value = false;
-  }
-  let [source, target] = ["", ""];
-  if (selectedNodes.value.length === 1) {
-    source = target = selectedNodes.value.toString();
-  } else if (selectedNodes.value.length === 2) {
-    [source, target] = selectedNodes.value.map((node) => node.toString());
-  } else return;
+// Deleted previous function created a new one
+const connectToLastAddedNode = (nodeId, parentId) => {
+  // Auto join parent to child node
+  console.log("Parent:", parentId, "Child:", nodeId);
+  let [source, target] = [parentId, nodeId];
   const edgeId = `edge${nextEdgeIndex.value}`;
-  const label = `0`;
+  const label = ``;
   edges[edgeId] = { source, target, label };
   nextEdgeIndex.value++;
   selectedNodes.value = [];
 };
 
-const edgeAdditionKey = (event: KeyboardEvent) => {
-  if (event.shiftKey && event.altKey && event.key.toLowerCase() === "e") {
-    edgeAdditionButton();
+// Tree BFS -------------------------------------------------------------
+// Created a new function to show the BFS of the tree
+const showBFS = async () => {
+  if (treeStore.tree.root) {
+    const preorder = (await treeStore.preOrderTraversal()).join(", ");
+    const inorder = (await treeStore.inOrderTraversal()).join(", ");
+    const postorder = (await treeStore.postOrderTraversal()).join(", ");
+    SweetAlert.fire({
+      title: `Preorder: ${preorder} \nInorder: ${inorder} \nPostorder: ${postorder}`,
+      showClass: {
+        popup: `
+        animate__animated
+        animate__fadeInDown`,
+      },
+      hideClass: {
+        popup: `
+        animate__animated
+        animate__fadeOutDown`,
+      },
+    });
+  } else {
+    showSimpleAlert("Error", "No se encontró ningún árbol binario", "error");
   }
+};
+
+const printPreOrder = async () => {
+  if (treeStore.tree.root) {
+    const preorder = (await treeStore.preOrderTraversal()).join(", ");
+    SweetAlert.fire({
+      title: `Preorder: ${preorder}`,
+      showClass: {
+        popup: `
+        animate__animated
+        animate__fadeInDown`,
+      },
+      hideClass: {
+        popup: `
+        animate__animated
+        animate__fadeOutDown`,
+      },
+    });
+  } else {
+    showSimpleAlert("Error", "No se encontró ningún árbol binario", "error");
+  }
+};
+
+const printInOrder = async () => {
+  if (treeStore.tree.root) {
+    const inorder = (await treeStore.inOrderTraversal()).join(", ");
+    SweetAlert.fire({
+      title: `Inorder: ${inorder}`,
+      showClass: {
+        popup: `
+        animate__animated
+        animate__fadeInDown`,
+      },
+      hideClass: {
+        popup: `
+        animate__animated
+        animate__fadeOutDown`,
+      },
+    });
+  } else {
+    showSimpleAlert("Error", "No se encontró ningún árbol binario", "error");
+  }
+};
+
+const printPostOrder = async () => {
+  if (treeStore.tree.root) {
+    const postorder = (await treeStore.postOrderTraversal()).join(", ");
+    SweetAlert.fire({
+      title: `Postorder: ${postorder}`,
+      showClass: {
+        popup: `
+        animate__animated
+        animate__fadeInDown`,
+      },
+      hideClass: {
+        popup: `
+        animate__animated
+        animate__fadeOutDown`,
+      },
+    });
+  } else {
+    showSimpleAlert("Error", "No se encontró ningún árbol binario", "error");
+  }
+};
+
+const showSimpleAlert = (alertTitle, alertText, alertIcon) => {
+  SweetAlert.fire({
+    title: alertTitle,
+    text: alertText,
+    icon: alertIcon,
+    showClass: {
+      popup: `
+        animate__animated
+        animate__fadeInDown`,
+    },
+    hideClass: {
+      popup: `
+        animate__animated
+        animate__fadeOutDown`,
+    },
+  });
+};
+
+const showConfirmAlert = (
+  alertTitle,
+  alertText,
+  alertIcon,
+  showConfButton,
+  timer
+) => {
+  SweetAlert.fire({
+    title: alertTitle,
+    text: alertText,
+    icon: alertIcon,
+    showConfirmButton: showConfButton,
+    timer: timer,
+    showClass: {
+      popup: `
+      animate__animated
+      animate__flipInX`,
+    },
+    hideClass: {
+      popup: `
+      animate__animated
+      animate__flipOutX`,
+    },
+  });
 };
 
 // Event Handling -------------------------------------------------------------
-const isBoxSelectionMode = ref(false);
-const eventHandlers: EventHandlers = {
-  "view:mode": (mode) => {
-    isBoxSelectionMode.value = mode === "box-selection";
-  },
-};
+// const isBoxSelectionMode = ref(false);
+// const eventHandlers: EventHandlers = {
+//   "view:mode": (mode) => {
+//     isBoxSelectionMode.value = mode === "box-selection";
+//   },
+// };
 
-const startBoxSelection = () =>
-  graph.value?.startBoxSelection({
-    stop: "click",
-    type: "append",
-    withShiftKey: "invert",
-  });
+// const startBoxSelection = () =>
+//   graph.value?.startBoxSelection({
+//     stop: "click",
+//     type: "append",
+//     withShiftKey: "invert",
+//   });
 
-const stopBoxSelection = () => graph.value?.stopBoxSelection();
+// const stopBoxSelection = () => graph.value?.stopBoxSelection();
 
-const toggleBoxSelection = () => {
-  if (isBoxSelectionMode.value) {
-    stopBoxSelection();
-  } else {
-    if (isAddingNode.value) {
-      isAddingNode.value = false;
-    }
-    startBoxSelection();
-  }
-};
+// const toggleBoxSelection = () => {
+//   if (isBoxSelectionMode.value) {
+//     stopBoxSelection();
+//   } else {
+//     if (isAddingNode.value) {
+//       isAddingNode.value = false;
+//     }
+//     startBoxSelection();
+//   }
+// };
 
+// Modals elements -------------------------------------------------------------
 let nameFileToSaveModal: Modal | null = null;
 let helpCenterModal: Modal | null = null;
 let clearAllModal: Modal | null = null;
@@ -1022,9 +1154,14 @@ const saveGraph = () => {
       edges: edges,
       layouts: layouts,
     };
+    const binaryTree = treeStore.tree;
+    const JsonData = {
+      graphData: graphData,
+      binaryTree: binaryTree,
+    };
 
-    const jsonData = JSON.stringify(graphData, null, 2); // Indentation of 2 spaces
-    const blob = new Blob([jsonData], { type: "application/json" });
+    const Json = JSON.stringify(JsonData, null, 2);
+    const blob = new Blob([Json], { type: "application/json" });
 
     // Create a download link
     const a = document.createElement("a");
@@ -1040,11 +1177,26 @@ const saveGraph = () => {
 
     saveGraphSuccess.value = true;
 
-    fileNameToSave.value = "";
     nameFileToSaveModal.hide();
+
+    showConfirmAlert(
+      "Éxito!",
+      `Archivo ${fileNameToSave.value} guardado correctamente.`,
+      "success",
+      false,
+      2400
+    );
+    fileNameToSave.value = "";
   } catch (error) {
     console.error("Error al guardar el grafo:", error);
     saveGraphError.value = true;
+    showConfirmAlert(
+      "Error",
+      `Error al guardar el archivo ${fileNameToSave.value}.`,
+      "error",
+      false,
+      2400
+    );
   }
 };
 
@@ -1069,10 +1221,11 @@ const loadGraph = async () => {
       console.log("File content:", fileContent);
       const graphData = JSON.parse(fileContent);
 
-      // Update nodes, edges, and layouts with loaded data
-      Object.assign(nodes, graphData.nodes);
-      Object.assign(edges, graphData.edges);
-      Object.assign(layouts, graphData.layouts);
+      // Update nodes, edges, layouts and Binary Tree with loaded data
+      Object.assign(nodes, graphData.graphData.nodes);
+      Object.assign(edges, graphData.graphData.edges);
+      Object.assign(layouts, graphData.graphData.layouts);
+      Object.assign(treeStore.tree, graphData.binaryTree);
 
       const nodesLength = Object.keys(nodes).length;
       const edgesLength = Object.keys(edges).length;
@@ -1081,9 +1234,13 @@ const loadGraph = async () => {
       nextNodeIndex.value = nodesLength + 1;
       nextEdgeIndex.value = edgesLength + 1;
 
+      console.log("NODES", nodes);
+      console.log("EDGES", edges);
+      console.log("BINARY TREE", treeStore.tree);
+
       // If a node or an edge does not exist in the JSON but it exists in the canvas, delete it
       for (const nodeId in nodes) {
-        if (!graphData.nodes[nodeId]) {
+        if (!graphData.graphData.nodes[nodeId]) {
           delete nodes[nodeId];
           delete layouts.nodes[nodeId];
         }
@@ -1094,9 +1251,23 @@ const loadGraph = async () => {
       console.log("File response:", fileResponse);
 
       loadGraphSuccess.value = true;
+      // showConfirmAlert(
+      //   "Éxito!",
+      //   `Archivo ${fileNameSaved.value} recuperado correctamente.`,
+      //   "success",
+      //   false,
+      //   2400
+      // );
     } catch (error) {
       console.error("Error al cargar el grafo:", error);
       loadGraphSuccess.value = false;
+      // showConfirmAlert(
+      //   "Error",
+      //   `Error al recuperar el archivo ${fileNameSaved.value}.`,
+      //   "error",
+      //   false,
+      //   2400
+      // );
     }
   }
 };
@@ -1120,6 +1291,8 @@ const confirmClearAll = () => {
   for (const edgeId in edges) {
     delete edges[edgeId];
   }
+
+  treeStore.clearTree();
 
   nextNodeIndex.value = 1;
   nextEdgeIndex.value = 1;

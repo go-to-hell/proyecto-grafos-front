@@ -912,10 +912,14 @@ const connectToLastAddedNode = (nodeId, parentId) => {
 // Tree BFS -------------------------------------------------------------
 // CHANGES created a new function to show the BFS of the tree
 const showBFS = async () => {
+  if (treeStore.tree.root) {
   const preorder = (await treeStore.preOrderTraversal()).join(" ");
   const inorder = (await treeStore.inOrderTraversal()).join(" ");
   const postorder = (await treeStore.postOrderTraversal()).join(" ");
   alert(`Preorder: ${preorder} \nInorder: ${inorder} \nPostorder: ${postorder}`);
+  } else {
+    alert("No se encontró ningún árbol");
+  }
 };
 
 
