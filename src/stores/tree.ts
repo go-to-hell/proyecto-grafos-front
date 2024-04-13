@@ -17,14 +17,14 @@ class TreeNode {
         if (node.value < this.value) {
             if (this.left === null) {
                 this.left = node;
-                return "l,"+this.nodeid;
+                return "l," + this.nodeid;
             } else {
                 return "l," + this.left.addNode(node);
             }
         } else {
             if (this.right === null) {
                 this.right = node;
-                return "r,"+this.nodeid;
+                return "r," + this.nodeid;
             } else {
                 return "r," + this.right.addNode(node);
             }
@@ -62,11 +62,17 @@ export const useTreeStore = defineStore("trees", {
             const traverse = (node: TreeNode | null) => {
                 if (node !== null) {
                     result.push(node.value);
-                    traverse(node.left);
-                    traverse(node.right);
+                    if (node.left !== undefined) {
+                        traverse(node.left);
+                    }
+                    if (node.right !== undefined) {
+                        traverse(node.right);
+                    }
                 }
             };
-            traverse(this.tree);
+            if (this.tree !== undefined) {
+                traverse(this.tree.root);
+            }
             return result;
         },
 
@@ -74,12 +80,18 @@ export const useTreeStore = defineStore("trees", {
             const result: number[] = [];
             const traverse = (node: TreeNode | null) => {
                 if (node !== null) {
-                    traverse(node.left);
+                    if (node.left !== undefined) {
+                        traverse(node.left);
+                    }
                     result.push(node.value);
-                    traverse(node.right);
+                    if (node.right !== undefined) {
+                        traverse(node.right);
+                    }
                 }
             };
-            traverse(this.tree);
+            if (this.tree !== undefined) {
+                traverse(this.tree.root);
+            }
             return result;
         },
 
@@ -87,12 +99,18 @@ export const useTreeStore = defineStore("trees", {
             const result: number[] = [];
             const traverse = (node: TreeNode | null) => {
                 if (node !== null) {
-                    traverse(node.left);
-                    traverse(node.right);
+                    if (node.left !== undefined) {
+                        traverse(node.left);
+                    }
+                    if (node.right !== undefined) {
+                        traverse(node.right);
+                    }
                     result.push(node.value);
                 }
             };
-            traverse(this.tree);
+            if (this.tree !== undefined) {
+                traverse(this.tree.root);
+            }
             return result;
         },
 

@@ -534,6 +534,18 @@
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
+          data-bs-title="Mostrar DFS."
+          class="bi bi-p-circle rounded-circle py-3 px-4"
+          :class="
+            isAddingNode === true ? 'btn btn-info' : 'btn btn-outline-info'
+          "
+          @click="showBFS"
+        ></button>
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
           data-bs-title="Guardar."
           class="btn btn-outline-info bi bi-floppy rounded-circle py-3 px-4"
           @click="openFileNameModal"
@@ -620,7 +632,7 @@ const zoomOut = () => graph.value?.zoomOut();
 
 //  //Use the tree store to store the tree disposition of the graph
 const treeStore = useTreeStore();
-const lastAddedNodeid = ref("");
+const nodeSize = 50
 
 const configs = defineConfigs({
   view: {
@@ -776,27 +788,9 @@ const handleNodeAddition = async (number) => {
     console.log("Position:", position, "Parent:", parentId)
     const nodeId = `node${nextNodeIndex.value}`;
 
-    // calculate x, y coordinates from treeStore position
-    let nodeX = 0;
-    let nodeY = -400;
-    let horizontalspace = 250
-    for(let el in position){
-      if(el === 'l')
-        nodeX -= horizontalspace;
-      else
-        nodeX += horizontalspace;
-      nodeY += 50;
-      horizontalspace /= 2;
-    }
-
-  
-
-    const svgElement = graph.value.$el;
-    const svgRect = svgElement.getBoundingClientRect();
-
     const svgPoint = { //TODO adjust svg position from dom
-      x: nodeX,
-      y: nodeY,
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
     };
     
     const svgToDomPoint =
@@ -813,10 +807,62 @@ const handleNodeAddition = async (number) => {
     nextNodeIndex.value++;
 
     //fitToContents(); // FIXME fix visual displays
-    if(parentId !== null)
+    if(parentId !== ""){
+      console.log("attaching to parent" + parentId)
       connectToLastAddedNode(nodeId, parentId);
+    }
   }
 };
+
+function treelayout() {
+  if(nodes.length) return;
+  if(!edges) return;
+  // convert graph
+  // ref: https://github.com/dagrejs/dagre/wiki
+  const g = new dagre.graphlib.Graph()
+  // Set an object for the graph label
+  g.setGraph({
+    rankdir: "TB",
+    nodesep: nodeSize * 2,
+    edgesep: nodeSize,
+    ranksep: nodeSize * 2,
+  })
+
+  // Default to assigning a new object as a label for each new edge.
+  g.setDefaultEdgeLabel(() => ({ weight: 1 })) // Add a 'weight' property to the default edge label
+
+  // Add nodes to the graph. The first argument is the node id. The second is
+  // metadata about the node. In this case we're going to add labels to each of
+  // our nodes.
+  console.log("nodes:", nodes)
+
+  Object.entries(nodes).forEach(([nodeId, node]) => {
+    g.setNode(nodeId, { label: node.name, width: nodeSize, height: nodeSize })
+  })
+
+  console.log("g:", g)
+
+
+  console.log("edges:", edges)
+  // Add edges to the graph.
+  Object.values(edges).forEach(edge => {
+    g.setEdge(edge.source, edge.target)
+  })
+
+  console.log("g:", g)
+
+  dagre.layout(g)
+
+  g.nodes().forEach((nodeId: string) => {
+    // update node position
+    const x = g.node(nodeId).x
+    const y = g.node(nodeId).y
+    layouts.nodes[nodeId] = { x, y }
+  })
+
+  //fit to contents
+  fitToContents()
+}
 
 async function startAddingNode() {
   isAddingNode.value = !isAddingNode.value;
@@ -825,7 +871,10 @@ async function startAddingNode() {
     handleNodeAddition(number);
   }
   await treeStore.consolelogtree();
-  //dagre.layout(graph);
+  // if there is more than one node adapt the layout
+  if (Object.keys(nodes).length > 1) {
+    treelayout();
+  }
 }
 
 const mousePosition = ref({ x: 0, y: 0 });
@@ -856,8 +905,13 @@ const connectToLastAddedNode = (nodeId, parentId) => {
   selectedNodes.value = [];
 };
 
-// Tree Layout -------------------------------------------------------------
-// Adding nodes
+// Tree BFS -------------------------------------------------------------
+const showBFS = async () => {
+  const preorder = (await treeStore.preOrderTraversal()).join(" ");
+  const inorder = (await treeStore.inOrderTraversal()).join(" ");
+  const postorder = (await treeStore.postOrderTraversal()).join(" ");
+  alert(`Preorder: ${preorder} \nInorder: ${inorder} \nPostorder: ${postorder}`);
+};
 
 
 // Event Handling -------------------------------------------------------------
