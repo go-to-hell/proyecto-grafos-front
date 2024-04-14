@@ -837,8 +837,8 @@ const zoomOut = () => graph.value?.zoomOut();
 
 const configs = defineConfigs({
 view: {
-    panEnabled: false,
-    zoomEnabled: false,
+    panEnabled: true,
+    zoomEnabled: true,
     boxSelectionEnabled: true,
     selection: {
     box: {
