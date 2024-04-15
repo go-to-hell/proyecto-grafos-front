@@ -108,16 +108,16 @@
               <thead class="table-info">
                 <tr>
                   <th></th>
-                  <th v-for="(value, key) in algorithmStore.northWestDataOutput.solution" :key="key">
-                    {{ key }}
+                  <th v-for="target in algorithmStore.northWestDataOutput.targets" :key="target">
+                    {{ target }}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(row, rowIndex) in algorithmStore.northWestDataOutput.solution" :key="`solution-row-${rowIndex}`">
-                  <th class="table-warning">{{ rowIndex }}</th>
-                  <td v-for="(cell, cellIndex) in row" :key="`solution-cell-${cellIndex}`">
-                    {{ cell }}
+                <tr v-for="origin in algorithmStore.northWestDataOutput.origins" :key="`solution-row-${origin}`">
+                  <th class="table-warning">{{ origin }}</th>
+                  <td v-for="target in algorithmStore.northWestDataOutput.targets" :key="`solution-cell-${target}`">
+                    {{ algorithmStore.northWestDataOutput.solution[origin][target] }}
                   </td>
                 </tr>
               </tbody>
@@ -179,7 +179,10 @@ export default {
       });
 
       // Crear la fila de "Demanda"
-      const demandRow = ["Demanda", ...new Array(tableData[0].length - 1).fill("")];
+      let demandRow = [];
+      if (tableData.length > 0) {
+        demandRow = ["Demanda", ...new Array(tableData[0].length - 1).fill("")];
+      }
 
       state.tableData = [
         ["", ...Array.from(columnNodes), "Oferta"],

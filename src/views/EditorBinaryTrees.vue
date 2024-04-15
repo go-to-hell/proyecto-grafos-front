@@ -1,19 +1,9 @@
 <template>
-  <div class="my-4">
-    <div class="position-absolute top-0 start-0 m-1">
-      <button
-        type="button"
-        data-bs-toggle="tooltip"
-        data-bs-placement="right"
-        data-bs-custom-class="custom-tooltip"
-        data-bs-title="Ir atrás."
-        class="btn btn-primary bi bi-arrow-left mb-1"
-        @click="goBack"
-      ></button>
-    </div>
-    <div class="container d-flex justify-content-between mb-4 mt-5 mt-md-0">
+  <div class="my-3">
+
+    <div class="container d-flex justify-content-between mb-4 mt-5">
       <div>
-        <h1>Árboles Binarios</h1>
+        <h1 class="mt-4">Árboles Binarios</h1>
         <h5>Ingrese números para ir armando su árbol binario:</h5>
       </div>
       <div class="my-auto">
