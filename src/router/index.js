@@ -15,6 +15,7 @@ import EditorNorthWestGraph from "../views/EditorNorthWestGraph.vue";
 import BinaryTrees from "../views/BinaryTrees.vue";
 import EditorBinaryTrees from "../views/EditorBinaryTrees.vue";
 import Sorts from "../views/Sorts.vue";
+import EditorTrees from "../views/EditorTrees.vue";
 
 const routes = [
   {
@@ -70,17 +71,20 @@ const routes = [
     component: EditorNorthWestGraph,
   },
   {
+    path:"/sorts",
+    component: Sorts,
+  },
+  {
+    path: "/editor_trees",
+    component: EditorTrees,
+  },{
     path: "/binary_trees",
     component: BinaryTrees,
   },
   {
     path: "/editor_binary_trees",
     component: EditorBinaryTrees,
-  },
-  {
-    path: "/sorts",
-    component: Sorts,
-  },
+  }
 ];
 
 const router = createRouter({
