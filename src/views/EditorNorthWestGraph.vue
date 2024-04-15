@@ -203,11 +203,6 @@
               ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar"
               o simplemente usa la mágica tecla "Delete" en tu teclado.
             </p>
-            <img
-              src="../assets/AgregarA.jpg"
-              alt="AgregarA"
-              class="img-fluid"
-            />
             <p>
               <strong>Agregar Aristas ➡️</strong><br />
               Haz clic en dos nodos y crea una conexión con el botón "Agregar
@@ -223,6 +218,16 @@
               Selecciona una arista y presiona "Eliminar Arista" o utiliza la
               tecla "Delete". ¡Desconecta sin esfuerzo tus conexiones menos
               útiles!
+            </p>
+            <img
+              src="../assets/Direccion.jpg"
+              alt="Direccion"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Dirección de Aristas 🚦</strong><br />
+              Selecciona una arista y elige su destino con los botones de
+              dirección. ¡Controla el flujo de la conexión con estilo!
             </p>
             <img src="../assets/CyA.jpg" alt="CyA" class="img-fluid" />
             <p>
@@ -267,11 +272,6 @@
               No dejes que tus obras maestras se pierdan. Guarda y abre archivos
               localmente para retomar tus épicas creaciones.
             </p>
-            <img
-              src="../assets/MatrizAd.jpg"
-              alt="MatrizAd"
-              class="img-fluid"
-            />
             <p>
               <strong>Matriz de Adyacencia 📊</strong><br />
               Haz clic en "Matriz de Adyacencia" para explorar la estructura
@@ -360,7 +360,40 @@
       </div>
     </div>
 
-    <!-- Bootstrap alert for saveGraph success/error -->
+
+    <!-- North West Modal -->
+    <div class="modal fade" tabindex="-1" id="NorthWestModal">
+      <div class="modal-dialog modal-lg"> <!-- Agrega la clase modal-lg aquí -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">North West</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <EditorNorthWest 
+              v-model:nodes="nodes"
+              v-model:edges="edges"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Bootstrap alert for saveGraph dark/error -->
 
     <div style="width: fit-content; margin: auto">
       <div
@@ -376,10 +409,10 @@
         ></button>
       </div>
 
-      <!-- Bootstrap alert for loadGraph success/error -->
+      <!-- Bootstrap alert for loadGraph dark/error -->
       <div
         v-if="loadGraphSuccess"
-        class="alert alert-success alert-dismissible fade show mt-2"
+        class="alert alert-dark alert-dismissible fade show mt-2"
         role="alert"
       >
         El grafo ha sido cargado exitosamente.
@@ -405,7 +438,7 @@
       <!-- Bootstrap alert to show File Name Saved -->
       <div
         v-if="fileNameSaved"
-        class="alert alert-info alert-dismissible fade show mt-2"
+        class="alert alert-dark alert-dismissible fade show mt-2"
         role="alert"
       >
         Archivo seleccionado: {{ fileNameSaved }}
@@ -452,23 +485,39 @@
     </div>
 
     <!-- More Functions Button -->
-    <button
-      type="button"
-      data-bs-toggle="tooltip"
-      data-bs-placement="left"
-      data-bs-custom-class="custom-tooltip"
-      data-bs-title="Ir atrás."
-      class="btn btn-primary bi bi-arrow-left position-absolute top-0 end-0 m-1"
-      @click="goBack"
-    ></button>
-
+    <div class="position-absolute top-0 end-0 m-1 text-center">
+      <button
+        type="button"
+        data-bs-toggle="tooltip"
+        data-bs-placement="left"
+        data-bs-custom-class="custom-tooltip"
+        data-bs-title="Ir atrás."
+        class="btn btn-danger bi bi-arrow-left mb-3"
+        @click="goBack"
+      ></button>
+      <div class="mt-3 me-2">
+        <span data-bs-toggle="modal" data-bs-target="#NorthWestModal"
+          ><button
+            type="button"
+            data-bs-toggle="tooltip"
+            data-bs-placement="left"
+            data-bs-custom-class="custom-tooltip"
+            data-bs-title="NORTH WEST ALGORITHM."
+            class="btn btn-danger"
+            @click="updateNodeEdgeValues"
+          >
+            NORTH WEST
+          </button>
+        </span>
+      </div>
+    </div>
     <span
       data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasRight"
       aria-controls="offcanvasRight"
     >
       <button
-        class="btn btn-primary bi bi-list position-absolute sticky-top top-0 start-0 m-1"
+        class="btn btn-danger bi bi-list position-absolute sticky-top top-0 start-0 m-1"
         type="button"
         data-bs-toggle="tooltip"
         data-bs-placement="left"
@@ -501,15 +550,18 @@
           <button
             @click="openHelp"
             data-bs-dismiss="offcanvas"
-            class="btn btn-outline-info w-100 py-2 mb-2 d-lg-none"
+            class="btn btn-outline-dark w-100 py-2 mb-2 d-lg-none"
           >
             Centro de Ayuda
           </button>
-          <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">
+          <button
+            class="btn btn-outline-dark w-100 py-2"
+            @click="panToCenter"
+          >
             Centrar
           </button>
           <button
-            class="btn btn-outline-info w-100 py-2 mt-2"
+            class="btn btn-outline-dark w-100 py-2 mt-2"
             @click="fitToContents"
           >
             Ajustar
@@ -517,11 +569,11 @@
         </div>
         <div class="d-flex gap-3">
           <button
-            class="btn btn-outline-info bi bi-plus-circle w-100 py-2 mt-1"
+            class="btn btn-outline-dark bi bi-plus-circle w-100 py-2 mt-1"
             @click="zoomIn"
           ></button>
           <button
-            class="btn btn-outline-info bi bi-dash-circle w-100 py-2 mt-1"
+            class="btn btn-outline-dark bi bi-dash-circle w-100 py-2 mt-1"
             @click="zoomOut"
           ></button>
         </div>
@@ -529,15 +581,15 @@
           data-bs-dismiss="offcanvas"
           :class="
             isBoxSelectionMode
-              ? 'btn btn-info w-100 py-2 mt-3'
-              : 'btn btn-outline-info w-100 py-2 mt-3'
+              ? 'btn btn-dark w-100 py-2 mt-3'
+              : 'btn btn-outline-dark w-100 py-2 mt-3'
           "
           @click="toggleBoxSelection"
         >
           {{ isBoxSelectionMode ? "Detener selección" : "Iniciar selección" }}
         </button>
         <button
-          class="btn btn-outline-info w-100 py-2 mt-2"
+          class="btn btn-outline-dark w-100 py-2 mt-2"
           data-bs-dismiss="offcanvas"
           @click="openFileNameModal"
         >
@@ -550,7 +602,7 @@
           accept=".json"
         />
         <button
-          class="btn btn-outline-info w-100 py-2 mt-2"
+          class="btn btn-outline-dark w-100 py-2 mt-2"
           data-bs-dismiss="offcanvas"
           @click="openGraphFile"
         >
@@ -558,13 +610,13 @@
         </button>
 
         <button
-          class="btn btn-outline-info w-100 py-2 mt-2"
+          class="btn btn-outline-dark w-100 py-2 mt-2"
           data-bs-dismiss="offcanvas"
           @click="openAdjacencyMatrixModal"
         >
           Matriz de Adyacencia
         </button>
-        <button @click="goBack" class="btn btn-outline-info w-100 py-2 mt-2">
+        <button @click="goBack" class="btn btn-outline-dark w-100 py-2 mt-2">
           Ir a inicio
         </button>
       </div>
@@ -572,7 +624,7 @@
 
     <!-- View Controls -->
     <div
-      class="d-md-flex d-block gap-5 w-100 justify-content-center position-absolute sticky-bottom bg-info bg-opacity-10 py-3 px-3 py-md-4 px-md-5"
+      class="d-md-flex d-block gap-5 w-100 justify-content-center position-absolute sticky-bottom bg-dark bg-opacity-10 py-3 px-3 py-md-4 px-md-5"
     >
       <div class="d-flex gap-2 gap-md-5 mb-2 mb-md-0">
         <button
@@ -583,7 +635,9 @@
           data-bs-title="Agregar Nodo."
           class="bi bi-node-plus rounded-circle py-3 px-4"
           :class="
-            isAddingNode === true ? 'btn btn-info' : 'btn btn-outline-info'
+            isAddingNode === true
+              ? 'btn btn-dark'
+              : 'btn btn-outline-dark'
           "
           @click="startAddingNode"
         ></button>
@@ -596,8 +650,8 @@
           class="bi bi-arrow-down-right rounded-circle py-3 px-4"
           :class="
             selectedNodes.length === 1 || selectedNodes.length === 2
-              ? 'btn btn-info'
-              : 'btn btn-outline-info'
+              ? 'btn btn-dark'
+              : 'btn btn-outline-dark'
           "
           @click="edgeAdditionButton"
         ></button>
@@ -610,8 +664,8 @@
           class="bi bi-trash rounded-circle py-3 px-4"
           :class="
             selectedEdges.length > 0 || selectedNodes.length > 0
-              ? 'btn btn-info'
-              : 'btn btn-outline-info'
+              ? 'btn btn-dark'
+              : 'btn btn-outline-dark'
           "
           @click="handleDeletion"
         ></button>
@@ -627,8 +681,8 @@
           v-show="selectedNodes.length === 1"
           :class="
             selectedNodes.length === 1 || selectedEdges.length === 1
-              ? 'btn btn-info'
-              : 'btn btn-outline-info'
+              ? 'btn btn-dark'
+              : 'btn btn-outline-dark'
           "
           @click="openRenameModal"
         ></button>
@@ -642,8 +696,8 @@
           v-show="selectedEdges.length === 1"
           :class="
             selectedNodes.length === 1 || selectedEdges.length === 1
-              ? 'btn btn-info'
-              : 'btn btn-outline-info'
+              ? 'btn btn-dark'
+              : 'btn btn-outline-dark'
           "
           @click="openRenameEdgeModal"
         ></button>
@@ -653,7 +707,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Guardar."
-          class="btn btn-outline-info bi bi-floppy rounded-circle py-3 px-4"
+          class="btn btn-outline-dark bi bi-floppy rounded-circle py-3 px-4"
           @click="openFileNameModal"
         ></button>
         <button
@@ -662,7 +716,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Abrir."
-          class="btn btn-outline-info bi bi-folder2-open rounded-circle py-3 px-4"
+          class="btn btn-outline-dark bi bi-folder2-open rounded-circle py-3 px-4"
           @click="openGraphFile"
         ></button>
         <button
@@ -671,7 +725,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Matriz de Adyacencia."
-          class="btn btn-outline-info bi bi-table rounded-circle py-3 px-4"
+          class="btn btn-outline-dark bi bi-table rounded-circle py-3 px-4"
           @click="openAdjacencyMatrixModal"
         ></button>
         <button
@@ -680,7 +734,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Limpiar."
-          class="btn btn-outline-info bi bi-file-earmark-x rounded-circle py-3 px-4"
+          class="btn btn-outline-dark bi bi-file-earmark-x rounded-circle py-3 px-4"
           @click="handleClearAll"
         ></button>
         <button
@@ -689,7 +743,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Ayuda."
-          class="btn btn-success bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
+          class="btn btn-dark bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
           @click="openHelp"
         ></button>
       </div>
@@ -712,13 +766,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted, computed, watch } from "vue";
+import { ref, reactive, onMounted, onUnmounted, computed, watch, defineComponent } from "vue";
 import {
   Nodes,
   Edges,
   VNetworkGraphInstance,
   EventHandlers,
   defineConfigs,
+  Edge,
 } from "v-network-graph";
 import { Background } from "@vue-flow/background";
 import data from "../data/initial-data.js";
@@ -727,9 +782,13 @@ import { Modal } from "bootstrap";
 import { useAlgorithmStore } from "../stores/algorithm";
 import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
+import EditorNorthWest from "../components/EditorNorthWest.vue"
+
 
 const router = useRouter();
 const fileStore = useFileStore();
+const algorithmStore = useAlgorithmStore();
+
 
 const goBack = () => {
   router.go(-1);
@@ -785,9 +844,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 3,
-      strokeColor: "#000000",
+      strokeColor: "#fa5f5f",
       strokeDasharray: "0",
-      color: "#599db9",
+      color: "#1c1b1b",
     },
     hover: {
       type: "circle",
@@ -796,9 +855,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 2,
-      strokeColor: "#000000",
+      strokeColor: "#FF767A",
       strokeDasharray: "0",
-      color: "#dd2288",
+      color: "#DD9FFF",
     },
     selected: {
       type: "circle",
@@ -807,9 +866,9 @@ const configs = defineConfigs({
       height: 32,
       borderRadius: 4,
       strokeWidth: 2,
-      strokeColor: "#000000",
+      strokeColor: "#fa5f5f",
       strokeDasharray: "0",
-      color: "#599db9",
+      color: "#1c1b1b",
     },
     label: {
       visible: true,
@@ -851,7 +910,7 @@ const configs = defineConfigs({
     },
     hover: {
       width: 4,
-      color: "#599db9",
+      color: "#eb4034",
       dasharray: "0",
       linecap: "butt",
       animate: false,
@@ -902,6 +961,7 @@ const configs = defineConfigs({
     keepOrder: "horizontal",
   },
 });
+
 
 // Adding Node -------------------------------------------------------------
 let isAddingNode = ref(false);
@@ -956,7 +1016,7 @@ onUnmounted(() => {
 });
 
 // Deleting Node -------------------------------------------------------------
-const confirmDeleteModal = ref<typeof Modal | null>(null);
+const confirmDeleteModal = ref<Modal | null>(null);
 
 onMounted(() => {
   const modalElement = document.getElementById("confirmDeleteModal");
@@ -1170,6 +1230,7 @@ const generateAdjacencyMatrix = (): number[][] => {
   return adjacencyMatrix;
 };
 
+
 const openAdjacencyMatrixModal = async () => {
   const algorithmStore = useAlgorithmStore();
 
@@ -1193,20 +1254,20 @@ const openAdjacencyMatrixModal = async () => {
   const mtxSum = adjacencyMatrixData.mtxSum;
 
   let tableString =
-    "<table style='width: 100%; border-collapse: collapse;'>\n  <tr>\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'></th>";
+    "<table style='width: 100%; border-collapse: collapse;'>\n  <tr>\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #eb4034; color: white;'></th>";
 
   // Add vertices names to the table header
   for (const name of verticesNames) {
-    tableString += `\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'>${name}</th>`;
+    tableString += `\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #eb4034; color: white;'>${name}</th>`;
   }
 
   tableString +=
-    "\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #599db9; color: white;'>Row Sum</th>\n  </tr>";
+    "\n    <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd; background-color: #eb4034; color: white;'>Row Sum</th>\n  </tr>";
 
   // Add matrix values and row sums to the table body
   for (let i = 0; i < adjacencyMatrix.length; i++) {
     tableString += `\n  <tr style='${
-      i % 2 === 0 ? "background-color: #599db9;" : ""
+      i % 2 === 0 ? "background-color: #eb4034;" : ""
     }'>\n    <td style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>${
       verticesNames[i]
     }</td>`;
@@ -1341,7 +1402,6 @@ const loadGraph = async () => {
       // Upload the file
       const fileResponse = await fileStore.uploadFile(file);
       console.log("File response:", fileResponse);
-
       loadGraphSuccess.value = true;
     } catch (error) {
       console.error("Error al cargar el grafo:", error);

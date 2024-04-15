@@ -67,7 +67,7 @@ export default {
 
     const goEditorJohnson = () => {
         fileStore.clearGraphData();
-        router.push("/editor_north_west");
+        router.push("/north_west_graph");
     };
 
     const uploadFile = (event) => {
@@ -77,7 +77,7 @@ export default {
 
     const loadGraph = async (fileId) => {
         await fileStore.justTheJSON(fileId);
-        router.push("/editor_north_west");
+        router.push("/north_west_graph");
     };
 
     const submitFile = async () => {

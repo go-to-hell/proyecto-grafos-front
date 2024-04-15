@@ -475,7 +475,7 @@
                 align="source"
                 vertical-align="below"
                 v-bind="slotProps"
-                fill="#fc03be"
+                fill="#21618C"
                 :font-size="12 * scale"
                 v-if="edge.lateStart || edge.lateStart === 0"
             />
@@ -486,7 +486,7 @@
                 align="target"
                 vertical-align="below"
                 v-bind="slotProps"
-                fill="#fc03be"
+                fill="#21618C"
                 :font-size="12 * scale"
                 v-if="edge.lateFinish || edge.lateFinish === 0"
             />
