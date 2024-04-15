@@ -1,523 +1,106 @@
 <template>
-  <div class="sorts-container">
-    <!-- Botón de retorno -->
-    <button class="back-button" @click="goBack">
-      <span style="font-size: 20px; color: white;">&#8592;</span>
-      Volver
-    </button>
-
-    <h2>Algoritmos de Ordenamiento</h2>
-
-    <div class="input-container">
-      <label for="inputNumbers">Ingrese los números (separados por coma) o genere aleatorio:</label>
-      <input type="text" id="inputNumbers" v-model="inputNumbers">
-      <button @click="openRandomArrayModal">Generar Aleatorio</button>
-      <button @click="openFileNameModal">Guardar Arreglo</button>
-      <button @click="loadArray">Cargar Arreglo</button>
-    </div>
-
-    <div class="buttons-container">
-      <button @click="runSort('selectionSort')" :disabled="isSorting || isLoading">Selection Sort</button>
-      <button @click="runSort('insertionSort')" :disabled="isSorting || isLoading">Insertion Sort</button>
-      <button @click="runSort('mergeSort')" :disabled="isSorting || isLoading">Merge Sort</button>
-      <button @click="runSort('shellSort')" :disabled="isSorting || isLoading">Shell Sort</button>
-      <button @click="stopSort" :disabled="!isSorting">Detener</button>
-    </div>
-
-    <div v-if="sortedArray.length > 0" class="result-container">
-      <h3 v-if="sortType">Resultado de {{ sortType }}</h3>
-      <p>Pasos realizados: {{ stepCount }}</p>
-      <div class="numbers-container">
-        <div
-          v-for="(value, index) in sortedArray"
-          :key="index"
-          class="number-container"
-          :style="{ width: `${calculateElementWidth()}%` }"
-        >
-          <div class="bar-container">
-            <div class="bar" :style="{ height: `${calculateBarHeight(value)}px`, backgroundColor: 'red' }"></div>
-          </div>
-          <div :class="['box', comparingColor(index)]">
-            <span style="color: darkred;">{{ value }}</span>
-          </div>
+    <div>
+    <NavBar />
+    <div class="m-4">
+        <form class="d-flex flex-column align-items-start" role="search">
+        <div class="d-flex align-items-center mb-2 w-100">
+            <input
+            class="form-control me-3 bg-body-tertiary flex-grow-1"
+            type="search"
+            placeholder="Buscar..."
+            aria-label="Buscar"
+            />
+            <button class="btn btn-primary me-2 flex-shrink-0" type="submit">
+            <i class="bi bi-search"></i> Buscar
+            </button>
+            <button @click="goEditorJohnson" class="btn btn-secondary flex-shrink-0" type="button">
+            <i class="bi bi-plus-circle"></i> Crear
+            </button>
         </div>
-      </div>
-    </div>
-
-    <!-- Show original array -->
-    <div v-if="originalArray.length > 0" class="original-container">
-      <h3>Arreglo Original</h3>
-      <div class="numbers-container">
-        <div
-          v-for="(value, index) in originalArray"
-          :key="index"
-          class="number-container"
-          :style="{ width: `${calculateElementWidth()}%` }"
-        >
-          <div class="bar-container">
-            <div class="bar" :style="{ height: `${calculateBarHeight(value)}px`, backgroundColor: 'red' }"></div>
-          </div>
-          <div class="box">
-            <span style="color: darkred;">{{ value }}</span>
-          </div>
+        <div class="d-flex align-items-center mt-2 w-100">
+            <input type="file" @change="uploadFile" class="form-control me-3 flex-grow-1">
+            <button class="btn btn-primary flex-shrink-0" type="button" @click="submitFile">
+            <i class="bi bi-upload"></i> Subir proyecto
+            </button>
         </div>
-      </div>
-    </div>
-
-    <!-- Modal to generate a random array-->
-    <div class="modal" :class="{ 'd-block': randomArrayModal }">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Generar Arreglo Aleatorio</h5>
-            <button type="button" class="btn-close" @click="closeRandomArrayModal"></button>
-          </div>
-          <div class="modal-body">
-            <label>Ingrese la cantidad de elementos aleatorios:</label>
-            <input type="number" v-model.number="randomArraySize" min="1">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" @click="generateRandomArray">Generar</button>
-          </div>
+        </form>
+        <p v-if="!authStore.isLoggedIn" class="mt-4">
+        Para ver tus grafos guardados, por favor inicia sesión.
+        </p>
+        <div class="row">
+        <div class="col-md-4 mt-4" v-for="file in fileStore.files" :key="file.fileId">
+            <div class="card">
+            <img class="card-img-top" src="../assets/Sorts.png" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ file.filename }}</h5>
+                <p class="card-text">Uploaded by: {{ file.uploader.username }}</p>
+                <p class="card-text">Upload date: {{ file.uploadDate }}</p>
+                <a @click="fileStore.downloadFile(file.fileId, file.filename)" class="btn btn-primary">Download</a>
+                <a @click="loadGraph(file.fileId)" class="btn btn-secondary">Cargar gráfico</a>
+            </div>
+            </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Modal for saving the array -->
-    <div class="modal" :class="{ 'd-block': fileNameModal }">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Guardar Arreglo</h5>
-            <button type="button" class="btn-close" @click="closeFileNameModal"></button>
-          </div>
-          <div class="modal-body">
-            <label>Ingrese el nombre del archivo:</label>
-            <input type="text" v-model="fileName">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" @click="saveArray">Guardar</button>
-          </div>
         </div>
-      </div>
     </div>
-
-    <!-- Modal pfor show an error message -->
-    <div class="modal" :class="{ 'd-block': errorModal }">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Error</h5>
-            <button type="button" class="btn-close" @click="closeErrorModal"></button>
-          </div>
-          <div class="modal-body">
-            <p>{{ errorMessage }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
 </template>
 
 <script>
+import { ref } from 'vue';
+import { useAuthStore } from "../stores/auth";
+import { useFileStore } from "../stores/file";
+import { useRouter } from "vue-router";
+import NavBar from '../components/NavBar.vue';
+import { useLoaderStore } from '../stores/common/loaderStore';
+
 export default {
-  data() {
-    return {
-      inputNumbers: '',
-      sortedArray: [],
-      originalArray: [],
-      sortType: '',
-      currentIndex: -1,
-      comparingIndices: [],
-      isLoading: false,
-      isSorting: false,
-      stepCount: 0,
-      randomArrayModal: false,
-      randomArraySize: 10,
-      fileNameModal: false,
-      fileName: 'arrayData.txt',
-      errorModal: false,
-      errorMessage: ''
+    components: {
+    NavBar,
+    },
+    setup() {
+    let classValue = 4;
+    const authStore = useAuthStore();
+    const fileStore = useFileStore();
+    const router = useRouter();
+    const fileToUpload = ref(null);
+    const loaderStore = useLoaderStore();
+
+    const goEditorJohnson = () => {
+        fileStore.clearGraphData();
+        router.push("/editor_Sorts");
     };
-  },
-  methods: {
-    async runSort(type) {
-      if (this.isSorting || this.isLoading) return;
 
-      this.isSorting = true;
-      this.isLoading = true;
+    const uploadFile = (event) => {
+        fileToUpload.value = event.target.files[0];
+        fileStore.listFiles(classValue);
+    };
 
-      if (!this.inputNumbers && !this.originalArray.length) {
-        this.showErrorModal('Ingrese al menos un número o cargue un arreglo.');
-        this.isSorting = false;
-        this.isLoading = false;
-        return;
-      }
+    const loadGraph = async (fileId) => {
+        await fileStore.justTheJSON(fileId);
+        router.push("/editor_sorts");
+    };
 
-      const numbersArray = this.inputNumbers.split(',').map(num => parseInt(num.trim()));
-      const arrayToSort = numbersArray.length ? numbersArray : this.originalArray.slice();
-
-      if (!arrayToSort.every(num => !isNaN(num))) {
-        this.showErrorModal('Ingrese números válidos separados por coma.');
-        this.isSorting = false;
-        this.isLoading = false;
-        return;
-      }
-
-      this.stepCount = 0;
-      this.sortType = type;
-      this.sortedArray = [...arrayToSort]; // Reset array
-      this.originalArray = [...arrayToSort]; // Save Original array
-      await this.animateSort(type, this.sortedArray);
-      this.isSorting = false; // Set the sort to finished
-      this.isLoading = false;
-    },
-    async stopSort() {
-      this.isSorting = false;
-      this.sortedArray = [...this.originalArray]; // Restore original array
-      this.isLoading = false; // Deactivate loading state
-      this.stepCount = -1; // Restart counter
-    },
-    async animateSort(type, arr) {
-      const n = arr.length;
-      this.currentIndex = -1;
-      this.comparingIndices = [];
-
-      switch (type) {
-        case 'selectionSort':
-          await this.selectionSort(arr);
-          break;
-        case 'insertionSort':
-          await this.insertionSort(arr);
-          break;
-        case 'mergeSort':
-          await this.mergeSort(arr, 0, n - 1);
-          break;
-        case 'shellSort':
-          await this.shellSort(arr);
-          break;
-        default:
-          break;
-      }
-    },
-    async mergeSort(arr, l, r) {
-      if (l < r && this.isSorting) {
-        const mid = Math.floor((l + r) / 2);
-        await this.mergeSort(arr, l, mid);
-        await this.mergeSort(arr, mid + 1, r);
-        await this.merge(arr, l, mid, r);
-      }
-    },
-    async merge(arr, l, mid, r) {
-      const left = arr.slice(l, mid + 1);
-      const right = arr.slice(mid + 1, r + 1);
-      let i = 0,
-        j = 0,
-        k = l;
-
-      while (i < left.length && j < right.length && this.isSorting) {
-        this.comparingIndices = [k, l + i];
-        await this.sleep(50); // Adjust delay as needed
-        this.stepCount++;
-        if (left[i] <= right[j]) {
-          arr[k++] = left[i++];
-        } else {
-          arr[k++] = right[j++];
+    const submitFile = async () => {
+        if (fileToUpload.value) {
+        const formData = new FormData();
+        formData.append('file', fileToUpload.value);
+        await fileStore.uploadFile(formData, classValue);
+        fileStore.listFiles(classValue);
         }
-        this.sortedArray = [...arr]; // Update sorted array for visualization
-        await this.sleep(50); // Adjust delay as needed
-        this.stepCount++;
-      }
+    };
 
-      while (i < left.length && this.isSorting) {
-        arr[k++] = left[i++];
-        this.sortedArray = [...arr]; // Update sorted array for visualization
-        await this.sleep(50); // Adjust delay as needed
-        this.stepCount++;
-      }
+    loaderStore.pageIsLoading();
+    fileStore.listFiles(classValue);
+    loaderStore.pageIsLoaded();
 
-      while (j < right.length && this.isSorting) {
-        arr[k++] = right[j++];
-        this.sortedArray = [...arr]; // Update sorted array for visualization
-        await this.sleep(50); // Adjust delay as needed
-        this.stepCount++;
-      }
-
-      this.comparingIndices = [];
-      this.currentIndex = -1;
+    return {
+        authStore,
+        fileStore,
+        goEditorJohnson,
+        loadGraph,
+        uploadFile,
+        submitFile,
+    };
     },
-    async selectionSort(arr) {
-      for (let i = 0; i < arr.length - 1 && this.isSorting; i++) {
-        let minIndex = i;
-        this.currentIndex = i;
-        await this.sleep(50); // Adjust delay as needed
-        this.stepCount++;
-        for (let j = i + 1; j < arr.length && this.isSorting; j++) {
-          this.comparingIndices = [i, j];
-          await this.sleep(50); // Adjust delay as needed
-          this.stepCount++;
-          if (arr[j] < arr[minIndex]) {
-            minIndex = j;
-          }
-        }
-        this.comparingIndices = [];
-        if (minIndex !== i && this.isSorting) {
-          this.swap(arr, i, minIndex);
-          await this.sleep(50); // Adjust delay as needed
-          this.stepCount++;
-        }
-      }
-      this.currentIndex = -1;
-    },
-    async insertionSort(arr) {
-      for (let i = 1; i < arr.length && this.isSorting; i++) {
-        let current = arr[i];
-        let j = i - 1;
-        this.currentIndex = i;
-        await this.sleep(50); // Adjust delay as needed
-        this.stepCount++;
-        while (j >= 0 && arr[j] > current && this.isSorting) {
-          this.comparingIndices = [j, j + 1];
-          await this.sleep(50); // Adjust delay as needed
-          this.stepCount++;
-          arr[j + 1] = arr[j];
-          j--;
-        }
-        arr[j + 1] = current;
-        await this.sleep(50); // Adjust delay as needed
-        this.stepCount++;
-      }
-      this.currentIndex = -1;
-    },
-    async shellSort(arr) {
-      const n = arr.length;
-      for (let gap = Math.floor(n / 2); gap > 0 && this.isSorting; gap = Math.floor(gap / 2)) {
-        for (let i = gap; i < n && this.isSorting; i++) {
-          const temp = arr[i];
-          let j = i;
-          this.currentIndex = i;
-          await this.sleep(50); // Adjust delay as needed
-          this.stepCount++;
-          while (j >= gap && arr[j - gap] > temp && this.isSorting) {
-            arr[j] = arr[j - gap];
-            j -= gap;
-            await this.sleep(50); // Adjust delay as needed
-            this.stepCount++;
-          }
-          arr[j] = temp;
-          await this.sleep(50); // Adjust delay as needed
-          this.stepCount++;
-        }
-      }
-      this.currentIndex = -1;
-    },
-    swap(arr, i, j) {
-      const temp = arr[i];
-      arr[i] = arr[j];
-      arr[j] = temp;
-    },
-    sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    },
-    goBack() {
-      this.$router.push('/graphs_home');
-    },
-    comparingColor(index) {
-      if (this.comparingIndices.includes(index)) {
-        return 'salmon'; // Color for comparing elements
-      } else if (this.currentIndex === index) {
-        return 'dark-red'; // Color for current element
-      } else {
-        return 'light-red'; // Default color
-      }
-    },
-    openRandomArrayModal() {
-      this.randomArrayModal = true;
-    },
-    closeRandomArrayModal() {
-      this.randomArrayModal = false;
-    },
-    openFileNameModal() {
-      this.fileNameModal = true;
-    },
-    closeFileNameModal() {
-      this.fileNameModal = false;
-    },
-    showErrorModal(message) {
-      this.errorMessage = message;
-      this.errorModal = true;
-    },
-    closeErrorModal() {
-      this.errorModal = false;
-    },
-    generateRandomArray() {
-      const numberOfElements = this.randomArraySize;
-
-      if (!isNaN(numberOfElements) && numberOfElements > 0) {
-        const randomArray = [];
-        for (let i = 0; i < numberOfElements; i++) {
-          randomArray.push(Math.floor(Math.random() * 100)); // Generates Random numbers between 0 an 99
-        }
-        this.inputNumbers = randomArray.join(', '); // Update the arrays input bar with the random generated array
-        this.closeRandomArrayModal();
-      } else {
-        this.showErrorModal(`Ingrese un número válido para generar un array aleatorio.`);
-      }
-    },
-    saveArray() {
-      const numbersArray = this.inputNumbers.split(',').map(num => parseInt(num.trim()));
-      if (!numbersArray.every(num => !isNaN(num))) {
-        this.showErrorModal('Ingrese números válidos separados por coma.');
-        return;
-      }
-
-      const content = numbersArray.join(', ');
-      const blob = new Blob([content], { type: 'text/plain' });
-
-      // Asks the user to introduce the file name
-      if (!this.fileName) {
-        this.showErrorModal('Nombre de archivo no válido.');
-        return;
-      }
-
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = this.fileName;
-      a.click();
-
-      URL.revokeObjectURL(a.href);
-      this.closeFileNameModal();
-    },
-    loadArray() {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'text/plain';
-      input.onchange = async (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-          const content = event.target.result;
-          const array = content.split(',').map(num => parseInt(num.trim()));
-          this.sortedArray = [...array]; 
-          this.originalArray = [...array]; 
-          this.inputNumbers = this.sortedArray.join(', '); //Updates the input bar with the loaded array
-          this.$forceUpdate(); 
-        };
-        reader.readAsText(file);
-      };
-      input.click();
-    },
-    calculateBarHeight(value) {
-      const maxValue = Math.max(...this.sortedArray);
-      return (value / maxValue) * 200;
-    },
-    calculateElementWidth() {
-      const totalElements = this.sortedArray.length || this.originalArray.length || 1;
-      return 100 / totalElements;
-    }
-  }
 };
 </script>
-
-<style scoped>
-.sorts-container {
-  margin-top: 20px;
-  padding: 20px;
-  border: 1px solid darkred;
-  border-radius: 5px;
-  position: relative;
-}
-
-.input-container,
-.buttons-container,
-.result-container,
-.original-container {
-  margin-bottom: 20px;
-}
-
-.input-container label,
-.result-container h3,
-.original-container h3 {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.input-container input[type="text"] {
-  width: 100%;
-  padding: 8px;
-  font-size: 16px;
-}
-
-.buttons-container {
-  display: flex;
-  justify-content: center;
-}
-
-.buttons-container button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  color: darkred;
-}
-
-.numbers-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.number-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.box {
-  padding: 8px;
-  margin: 5px;
-  border: 1px solid darkred;
-  border-radius: 3px;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-}
-
-.bar-container {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: 200px; 
-}
-
-.bar {
-  width: 30px;
-  background-color: red;
-  transition: height 0.3s ease-in-out;
-}
-
-.back-button {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: darkred;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
-.dark-red {
-  color: darkred;
-}
-
-.light-red {
-  color: lightcoral;
-}
-
-.salmon {
-  background-color: salmon;
-}
-</style>
