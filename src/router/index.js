@@ -11,7 +11,7 @@ import EditorJohnson from "../views/EditorJohnson.vue";
 import Assignment from "../views/Assignment.vue";
 import EditorAssignment from "../views/EditorAssignment.vue";
 import NorthWest from "../views/NorthWest.vue";
-import EditorNorthWest from "../views/EditorNorthWest.vue";
+import EditorNorthWestGraph from "../views/EditorNorthWestGraph.vue";
 import BinaryTrees from "../views/BinaryTrees.vue";
 import EditorBinaryTrees from "../views/EditorBinaryTrees.vue";
 import Sorts from "../views/Sorts.vue";
@@ -68,8 +68,8 @@ const routes = [
     component: NorthWest,
   },
   {
-    path: "/editor_north_west",
-    component: EditorNorthWest,
+    path: "/north_west_graph",
+    component: EditorNorthWestGraph,
   },
   {
     path:"/sorts",

@@ -719,7 +719,6 @@ import {
   VNetworkGraphInstance,
   EventHandlers,
   defineConfigs,
-  Edge,
 } from "v-network-graph";
 import { Background } from "@vue-flow/background";
 import data from "../data/initial-data.js";
