@@ -8,10 +8,10 @@
       <div class="d-block text-center">
         <div class="form-check form-switch mb-3">
           <input class="form-check-input" type="checkbox" id="maximizeSwitch" v-model="maximize" />
-          <label class="form-check-label text-info" for="maximizeSwitch">
-            {{ maximize ? "Minimizar" : "Maximizar" }}
+          <label :class="{'text-success': maximize, 'text-info': !maximize}" class="form-check-label" for="maximizeSwitch">
+            {{ maximize ? "Maximizar" : "Minimizar" }}
           </label>
-        </div>
+        </div>                   
         <button type="button" class="btn btn-success" @click="solveNorthWest">
           Resolver
         </button>
@@ -174,14 +174,14 @@ export default {
         edges.forEach(edge => {
           row.push(edge.label);
         });
-        row.push(""); // Para la columna "Oferta"
+        row.push(0); // Para la columna "Oferta"
         return row;
       });
 
       // Crear la fila de "Demanda"
       let demandRow = [];
       if (tableData.length > 0) {
-        demandRow = ["Demanda", ...new Array(tableData[0].length - 1).fill("")];
+        demandRow = ["Demanda", ...new Array(tableData[0].length - 1).fill(0)];
       }
 
       state.tableData = [
@@ -280,3 +280,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.form-check-input-success:checked {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+</style>
