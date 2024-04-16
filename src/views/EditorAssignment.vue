@@ -203,6 +203,11 @@
               ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar"
               o simplemente usa la mágica tecla "Delete" en tu teclado.
             </p>
+            <img
+              src="../assets/AgregarA.jpg"
+              alt="AgregarA"
+              class="img-fluid"
+            />
             <p>
               <strong>Agregar Aristas ➡️</strong><br />
               Haz clic en dos nodos y crea una conexión con el botón "Agregar
@@ -272,6 +277,11 @@
               No dejes que tus obras maestras se pierdan. Guarda y abre archivos
               localmente para retomar tus épicas creaciones.
             </p>
+            <img
+              src="../assets/MatrizAd.jpg"
+              alt="MatrizAd"
+              class="img-fluid"
+            />
             <p>
               <strong>Matriz de Adyacencia 📊</strong><br />
               Haz clic en "Matriz de Adyacencia" para explorar la estructura
