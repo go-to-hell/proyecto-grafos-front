@@ -65,9 +65,9 @@ export default {
     const fileToUpload = ref(null);
     const loaderStore = useLoaderStore();
 
-    const goEditorJohnson = () => {
+    const goEditorSorts = () => {
         fileStore.clearGraphData();
-        router.push("/editor_Sorts");
+        router.push("/editor_sorts");
     };
 
     const uploadFile = (event) => {
@@ -96,7 +96,7 @@ export default {
     return {
         authStore,
         fileStore,
-        goEditorJohnson,
+        goEditorSorts,
         loadGraph,
         uploadFile,
         submitFile,
