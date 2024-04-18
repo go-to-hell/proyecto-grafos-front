@@ -13,7 +13,7 @@
             <button class="btn btn-primary me-2 flex-shrink-0" type="submit">
             <i class="bi bi-search"></i> Buscar
             </button>
-            <button @click="goEditorJohnson" class="btn btn-secondary flex-shrink-0" type="button">
+            <button @click="goEditorSorts" class="btn btn-secondary flex-shrink-0" type="button">
             <i class="bi bi-plus-circle"></i> Crear
             </button>
         </div>
@@ -76,7 +76,7 @@ export default {
     };
 
     const loadGraph = async (fileId) => {
-        await fileStore.justTheJSON(fileId);
+        await fileStore.justTheTXT(fileId);
         router.push("/editor_sorts");
     };
 

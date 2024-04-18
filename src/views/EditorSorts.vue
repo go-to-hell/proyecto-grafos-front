@@ -16,7 +16,7 @@
       <button @click="loadArray" class="btn btn-secondary">Cargar Arreglo</button>
     </div>
     <div class="input-container">
-      <label for="animationDelay">Velocidad de la animación:</label>
+      <label for="animationDelay">Delay de la animación:</label>
       <input
         type="range"
         id="animationDelay"
