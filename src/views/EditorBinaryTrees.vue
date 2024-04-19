@@ -560,7 +560,7 @@
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
-          data-bs-title="Mostrar BFS."
+          data-bs-title="Mostrar DFS."
           class="bi bi-123 rounded-circle py-3 px-4"
           :class="
             treeStore.tree.root ? 'btn btn-warning' : 'btn btn-outline-warning'
@@ -645,7 +645,7 @@ let layouts;
 if (fileStore.graphData) {
   nodes = reactive({ ...fileStore.graphData.nodes });
   edges = reactive({ ...fileStore.graphData.edges });
-  layouts = reactive(fileStore.graphData.layouts);
+ layouts = reactive(fileStore.graphData.layouts);
 } else {
   nodes = reactive({ ...data.nodes });
   edges = reactive({ ...data.edges });
@@ -813,52 +813,38 @@ var userLeafInput = ref("");
 
 // Validate User Input ----------------------------------------------------
 const validateUserInput = () => {
-  userLeafInput.value = userLeafInput.value.replace(/[^0-9]/g, "");
+  userLeafInput.value = userLeafInput.value.replace(/[^0-9,]/g, "");
 };
 
 // Adding Node -------------------------------------------------------------
-const handleNodeAddition = async (number) => {
-  if (graph.value) {
-    const locationData = await treeStore.insertNode(
-      number,
-      `node${nextNodeIndex.value}`
-    );
-    console.log("Position:", locationData);
-    const position = locationData.split(",").slice(0, -1);
-    const parentId = locationData.split(",").slice(-1)[0];
-    console.log("Position:", position, "Parent:", parentId);
-    const nodeId = `node${nextNodeIndex.value}`;
-
-    const svgPoint = {
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2,
-    };
-
-    const svgToDomPoint =
-      graph.value.translateFromDomToSvgCoordinates(svgPoint);
-
-    nodes[nodeId] = {
-      id: nodeId,
-      name: number.toString(),
-      x: svgToDomPoint.x,
-      y: svgToDomPoint.y,
-    };
-    layouts.nodes[nodeId] = { x: svgToDomPoint.x, y: svgToDomPoint.y };
-
-    nextNodeIndex.value++;
-
-    if (parentId !== "") {
-      console.log("attaching to parent" + parentId);
-      connectToLastAddedNode(nodeId, parentId);
-    }
-  } else return;
+const handleNodeAddition = async (number : number) => {
+  if (graph.value) await treeStore.insertNode(number);
 };
 
 // New function to adapt the layout of the tree
 // install dagre library `npm install dagre`
-function treelayout() {
+async function treelayout() {
   if (nodes.length) return;
   if (!edges) return;
+  // clear current graph
+  for (const nodeId in nodes) {
+    delete nodes[nodeId];
+  }
+
+  for (const edgeId in edges) {
+    delete edges[edgeId];
+  }
+
+  // get correct display from store
+  const graphToDisplay = await treeStore.getGraphDisplay();
+  graphToDisplay.nodes.forEach((node) => {
+    nodes[node.id] = node;
+  });
+  graphToDisplay.edges.forEach((edge) => {
+    edges[edge.id] = edge;
+  });
+  console.log("nodes:", nodes);
+  console.log("edges:", edges);
   // convert graph
   // ref: https://github.com/dagrejs/dagre/wiki
   const g = new dagre.graphlib.Graph();
@@ -906,15 +892,18 @@ function treelayout() {
 }
 
 async function startAddingNode() {
-  const number = parseInt(userLeafInput.value);
-  if (number && !isNaN(number)) {
-    handleNodeAddition(number);
-  }
-  await treeStore.consolelogtree();
-  // if there is more than one node adapt the layout
-  if (Object.keys(nodes).length > 1) {
-    treelayout();
-  }
+  await userLeafInput.value.split(",").forEach(
+    async (number) => {
+      let num = parseInt(number);
+      if (num && !isNaN(num)) {
+        handleNodeAddition(num);
+      }
+      await treeStore.consolelogtree();
+    }
+  );
+  treeStore.generateDisplayTree();
+  treelayout();
+  
   userLeafInput.value = "";
 }
 

@@ -2,13 +2,11 @@ import { defineStore } from "pinia";
 
 class TreeNode {
     value: number;
-    nodeid: string;
     left: TreeNode | null;
     right: TreeNode | null;
 
-    constructor(value: number, nodeid: string) {
+    constructor(value: number) {
         this.value = value;
-        this.nodeid = nodeid;
         this.left = null;
         this.right = null;
     }
@@ -17,16 +15,14 @@ class TreeNode {
         if (node.value < this.value) {
             if (this.left === null) {
                 this.left = node;
-                return "l," + this.nodeid;
             } else {
-                return "l," + this.left.addNode(node);
+                this.left.addNode(node);
             }
         } else {
             if (this.right === null) {
                 this.right = node;
-                return "r," + this.nodeid;
             } else {
-                return "r," + this.right.addNode(node);
+                this.right.addNode(node);
             }
         }
     }
@@ -36,20 +32,46 @@ type BinaryTree = {
     root: TreeNode | null;
 };
 
+class Node {
+    id: string;
+    name: string;
+
+    constructor(id: string, name: string) {
+        this.id = id;
+        this.name = name;
+    }
+};
+
+class Edge {
+    id: string;
+    source: string;
+    target: string;
+
+    constructor(id:string, source: string, target: string) {
+        this.id = id;
+        this.source = source;
+        this.target = target;
+    }
+};
+
 export const useTreeStore = defineStore("trees", {
     state: () => ({
         tree: {
             root: null,
         } as BinaryTree,
+        graphdisplay: {
+            nodes: [] as Node[],
+            edges: [] as Edge[]
+        }
     }),
 
     actions: {
-        async insertNode(node: number, nodeid: string) {
+        async insertNode(node: number) {
             if (this.tree.root === null) {
-                this.tree.root = new TreeNode(node, nodeid);
+                this.tree.root = new TreeNode(node);
                 return "";
             } else {
-                return this.tree.root.addNode(new TreeNode(node, nodeid));
+                return this.tree.root.addNode(new TreeNode(node));
             }
         },
 
@@ -116,6 +138,49 @@ export const useTreeStore = defineStore("trees", {
 
         async consolelogtree() {
             console.log(this.tree);
+        },
+
+        async deleteGraph() {
+            this.graphdisplay.nodes = [];
+            this.graphdisplay.edges = [];
+        },
+
+        async generateDisplayTree() {
+            // Read the tree in preorder and for each node do the following:
+            // 1. If the node is the root, create a node with the value of the node, and id = 0
+            // 2. create a node with the value of the node, and an id
+            // 3. create an edge from the parent to the node
+
+            this.deleteGraph();
+            let id = 0;
+            let edgeid = 0;
+
+            const traverse = (node: TreeNode | null, parent: string | null) => {
+                if (node !== null) {
+                    const currentNodeId = "Treenode" + id.toString();
+                    this.graphdisplay.nodes.push(new Node(currentNodeId, node.value.toString()));
+                    if (parent !== null) {
+                        this.graphdisplay.edges.push(new Edge("Edge" + edgeid.toString(), parent.toString(), currentNodeId));
+                        edgeid++;
+                    }
+                    id++;
+                    if (node.left !== undefined) {
+                        traverse(node.left, currentNodeId);
+                    }
+                    if (node.right !== undefined) {
+                        traverse(node.right, currentNodeId);
+                    }
+                }
+            };
+
+            if (this.tree !== undefined) {
+                traverse(this.tree.root, null);
+            }
+            console.log("generated graph ", this.graphdisplay);
+        },
+
+        async getGraphDisplay() {
+            return this.graphdisplay;
         }
     },
 });
