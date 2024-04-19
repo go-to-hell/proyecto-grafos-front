@@ -1,7 +1,7 @@
 <template>
   <div class="sorts-container">
     <!-- Botón de retorno -->
-    <button class="back-button" @click="goBack">
+    <button class="btn back-button" @click="goBack">
       <span style="font-size: 20px; color: white;">&#8592;</span>
       Volver
     </button>
@@ -11,17 +11,30 @@
     <div class="input-container">
       <label for="inputNumbers">Ingrese los números (separados por coma) o genere aleatorio:</label>
       <input type="text" id="inputNumbers" v-model="inputNumbers">
-      <button @click="openRandomArrayModal">Generar Aleatorio</button>
-      <button @click="openFileNameModal">Guardar Arreglo</button>
-      <button @click="loadArray">Cargar Arreglo</button>
+      <button @click="openRandomArrayModal" class="btn btn-secondary">Generar Aleatorio</button>
+      <button @click="openFileNameModal" class="btn btn-secondary">Guardar Arreglo</button>
+      <button @click="loadArray" class="btn btn-secondary">Cargar Arreglo</button>
+    </div>
+    <div class="input-container">
+      <label for="animationDelay">Delay de la animación:</label>
+      <input
+        type="range"
+        id="animationDelay"
+        v-model.number="animationDelay"
+        min="0"
+        max="1000"
+        step="10"
+        @input="updateDelay"
+      />
+      <span>{{ animationDelay }} ms</span>
     </div>
 
     <div class="buttons-container">
-      <button @click="runSort('selectionSort')" :disabled="isSorting || isLoading">Selection Sort</button>
-      <button @click="runSort('insertionSort')" :disabled="isSorting || isLoading">Insertion Sort</button>
-      <button @click="runSort('mergeSort')" :disabled="isSorting || isLoading">Merge Sort</button>
-      <button @click="runSort('shellSort')" :disabled="isSorting || isLoading">Shell Sort</button>
-      <button @click="stopSort" :disabled="!isSorting">Detener</button>
+      <button @click="runSort('selectionSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Selection Sort</button>
+      <button @click="runSort('insertionSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Insertion Sort</button>
+      <button @click="runSort('mergeSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Merge Sort</button>
+      <button @click="runSort('shellSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Shell Sort</button>
+      <button @click="stopSort" :disabled="!isSorting" class="btn btn-danger">Detener</button>
     </div>
 
     <div v-if="sortedArray.length > 0" class="result-container">
@@ -102,7 +115,7 @@
       </div>
     </div>
 
-    <!-- Modal pfor show an error message -->
+    <!-- Modal para mostrar un mensaje de error -->
     <div class="modal" :class="{ 'd-block': errorModal }">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -116,6 +129,9 @@
         </div>
       </div>
     </div>
+
+    
+    
   </div>
 </template>
 
@@ -137,7 +153,8 @@ export default {
       fileNameModal: false,
       fileName: 'arrayData.txt',
       errorModal: false,
-      errorMessage: ''
+      errorMessage: '',
+      animationDelay: 50 // Valor inicial para el retardo de la animación
     };
   },
   methods: {
@@ -176,7 +193,7 @@ export default {
       this.isSorting = false;
       this.sortedArray = [...this.originalArray]; // Restore original array
       this.isLoading = false; // Deactivate loading state
-      this.stepCount = -1; // Restart counter
+      this.stepCount = 0; // Restart counter
     },
     async animateSort(type, arr) {
       const n = arr.length;
@@ -217,7 +234,7 @@ export default {
 
       while (i < left.length && j < right.length && this.isSorting) {
         this.comparingIndices = [k, l + i];
-        await this.sleep(50); // Adjust delay as needed
+        await this.sleep(this.animationDelay); // Adjust delay as needed
         this.stepCount++;
         if (left[i] <= right[j]) {
           arr[k++] = left[i++];
@@ -225,21 +242,21 @@ export default {
           arr[k++] = right[j++];
         }
         this.sortedArray = [...arr]; // Update sorted array for visualization
-        await this.sleep(50); // Adjust delay as needed
+        await this.sleep(this.animationDelay); // Adjust delay as needed
         this.stepCount++;
       }
 
       while (i < left.length && this.isSorting) {
         arr[k++] = left[i++];
         this.sortedArray = [...arr]; // Update sorted array for visualization
-        await this.sleep(50); // Adjust delay as needed
+        await this.sleep(this.animationDelay); // Adjust delay as needed
         this.stepCount++;
       }
 
       while (j < right.length && this.isSorting) {
         arr[k++] = right[j++];
         this.sortedArray = [...arr]; // Update sorted array for visualization
-        await this.sleep(50); // Adjust delay as needed
+        await this.sleep(this.animationDelay); // Adjust delay as needed
         this.stepCount++;
       }
 
@@ -250,11 +267,11 @@ export default {
       for (let i = 0; i < arr.length - 1 && this.isSorting; i++) {
         let minIndex = i;
         this.currentIndex = i;
-        await this.sleep(50); // Adjust delay as needed
+        await this.sleep(this.animationDelay); // Adjust delay as needed
         this.stepCount++;
         for (let j = i + 1; j < arr.length && this.isSorting; j++) {
           this.comparingIndices = [i, j];
-          await this.sleep(50); // Adjust delay as needed
+          await this.sleep(this.animationDelay); // Adjust delay as needed
           this.stepCount++;
           if (arr[j] < arr[minIndex]) {
             minIndex = j;
@@ -263,54 +280,64 @@ export default {
         this.comparingIndices = [];
         if (minIndex !== i && this.isSorting) {
           this.swap(arr, i, minIndex);
-          await this.sleep(50); // Adjust delay as needed
+          await this.sleep(this.animationDelay); // Adjust delay as needed
           this.stepCount++;
         }
       }
       this.currentIndex = -1;
     },
     async insertionSort(arr) {
+      this.stepCount=0;
       for (let i = 1; i < arr.length && this.isSorting; i++) {
         let current = arr[i];
         let j = i - 1;
         this.currentIndex = i;
-        await this.sleep(50); // Adjust delay as needed
+        await this.sleep(this.animationDelay); // Adjust delay as needed
         this.stepCount++;
         while (j >= 0 && arr[j] > current && this.isSorting) {
           this.comparingIndices = [j, j + 1];
-          await this.sleep(50); // Adjust delay as needed
+          await this.sleep(this.animationDelay); // Adjust delay as needed
           this.stepCount++;
           arr[j + 1] = arr[j];
           j--;
         }
         arr[j + 1] = current;
-        await this.sleep(50); // Adjust delay as needed
+        await this.sleep(this.animationDelay); // Adjust delay as needed
         this.stepCount++;
       }
       this.currentIndex = -1;
     },
     async shellSort(arr) {
       const n = arr.length;
+      this.stepCount=0;
       for (let gap = Math.floor(n / 2); gap > 0 && this.isSorting; gap = Math.floor(gap / 2)) {
         for (let i = gap; i < n && this.isSorting; i++) {
           const temp = arr[i];
           let j = i;
           this.currentIndex = i;
-          await this.sleep(50); // Adjust delay as needed
+          this.sortedArray = [...arr];
           this.stepCount++;
-          while (j >= gap && arr[j - gap] > temp && this.isSorting) {
-            arr[j] = arr[j - gap];
-            j -= gap;
-            await this.sleep(50); // Adjust delay as needed
-            this.stepCount++;
-          }
-          arr[j] = temp;
-          await this.sleep(50); // Adjust delay as needed
+          await this.sleep(this.animationDelay);
+
+        while (j >= gap && arr[j - gap] > temp && this.isSorting) {
+          this.comparingIndices = [j, j - gap];
+          this.sortedArray = [...arr];
           this.stepCount++;
+          await this.sleep(this.animationDelay);
+          arr[j] = arr[j - gap];
+          j -= gap;
         }
+
+        arr[j] = temp;
+        this.comparingIndices = [];
+        this.currentIndex = -1;
+        this.sortedArray = [...arr];
+        this.stepCount++;
+        await this.sleep(this.animationDelay);
       }
-      this.currentIndex = -1;
-    },
+    }
+     this.currentIndex = -1;
+  },
     swap(arr, i, j) {
       const temp = arr[i];
       arr[i] = arr[j];
@@ -446,6 +473,7 @@ export default {
   width: 100%;
   padding: 8px;
   font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .buttons-container {
@@ -455,10 +483,8 @@ export default {
 
 .buttons-container button {
   margin: 0 10px;
-  padding: 10px 20px;
   font-size: 16px;
-  cursor: pointer;
-  color: darkred;
+  margin-top: 10px;
 }
 
 .numbers-container {

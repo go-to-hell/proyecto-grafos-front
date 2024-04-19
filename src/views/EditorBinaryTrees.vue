@@ -1,12 +1,22 @@
 <template>
   <div class="my-3">
-
     <div class="container d-flex justify-content-between mb-4 mt-5">
       <div>
         <h1 class="mt-4">Árboles Binarios</h1>
-        <h5>Ingrese números para ir armando su árbol binario:</h5>
+        <h5>Ingrese números para armar su árbol binario:</h5>
       </div>
       <div class="my-auto">
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Ingresar."
+          class="btn btn-info me-3"
+          @click="openInputOrderModal"
+        >
+          Ingresar Datos
+        </button>
         <button
           type="button"
           data-bs-toggle="tooltip"
@@ -302,6 +312,85 @@
       </div>
     </div>
 
+    <!-- Input To Order Binary Tree -->
+    <div
+      class="modal fade"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+      id="inputToOrderModal"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable animate__animated animate__backInDown"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Ingresar Árbol Binario</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex text-center justify-content-center">
+              <i
+                class="bi bi-info-circle-fill me-1"
+                style="font-size: 1.2em"
+              ></i>
+              <p>
+                Ingrese números separados por comas para armar su Árbol Binario.
+              </p>
+            </div>
+            <div class="mb-3">
+              <label for="postOrderInput" class="col-form-label">
+                PostOrden:
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="postOrderInput"
+                v-model="postOrderUserInput"
+                @input="validateUserInput"
+                placeholder="Ingrese Árbol Binario en PostOrden"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="inOrderInput" class="col-form-label">InOrden:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inOrderInput"
+                v-model="inOrderUserInput"
+                @input="validateUserInput"
+                placeholder="Ingrese Árbol Binario en InOrden"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              data-bs-dismiss="modal"
+              class="btn btn-success"
+              @click="handleUserInputOrder"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Bootstrap alert for saveGraph success/error -->
     <div style="width: fit-content; margin: auto">
       <div
@@ -360,7 +449,7 @@
     </div>
 
     <div class="editor-container">
-      <div class="container editor-content border border-5">
+      <div class="container editor-content border border-3 border-success">
         <!-- Editor Content -->
         <v-network-graph
           tabindex="0"
@@ -629,6 +718,7 @@ import { useTreeStore } from "../stores/tree.js"; // import the tree store
 import * as bootstrap from "bootstrap";
 import SweetAlert from "sweetalert2";
 import dagre from "dagre/dist/dagre.min.js"; // import dagre library
+import { event } from "jquery";
 
 const router = useRouter();
 const fileStore = useFileStore();
@@ -810,10 +900,14 @@ const configs = defineConfigs({
 });
 
 var userLeafInput = ref("");
+var postOrderUserInput = ref("");
+var inOrderUserInput = ref("");
 
 // Validate User Input ----------------------------------------------------
 const validateUserInput = () => {
   userLeafInput.value = userLeafInput.value.replace(/[^0-9,]/g, "");
+  postOrderUserInput.value = postOrderUserInput.value.replace(/[^0-9,\.]+/, "");
+  inOrderUserInput.value = inOrderUserInput.value.replace(/[^0-9,\.]+/, "");
 };
 
 // Adding Node -------------------------------------------------------------
@@ -1069,6 +1163,28 @@ const showConfirmAlert = (
   });
 };
 
+let inputToOrderModal: Modal | null = null;
+
+const openInputOrderModal = () => {
+  inputToOrderModal?.show();
+};
+
+const handleUserInputOrder = () => {
+  if (postOrderUserInput.value || inOrderUserInput.value) {
+    SweetAlert.fire({
+      title: postOrderUserInput.value,
+      text: inOrderUserInput.value,
+    });
+  } else {
+    showSimpleAlert(
+      "Error",
+      "Ingrese los valores requeridos por favor.",
+      "error"
+    );
+  }
+  postOrderUserInput.value = inOrderUserInput.value = "";
+};
+
 // Event Handling -------------------------------------------------------------
 // const isBoxSelectionMode = ref(false);
 // const eventHandlers: EventHandlers = {
@@ -1111,6 +1227,9 @@ onMounted(() => {
 
   const clearAllModalElement = document.getElementById("confirmClearAllModal");
   clearAllModal = new Modal(clearAllModalElement);
+
+  const inputToOrderElement = document.getElementById("inputToOrderModal");
+  inputToOrderModal = new Modal(inputToOrderElement);
 
   const tooltipTriggerList = document.querySelectorAll(
     '[data-bs-toggle="tooltip"]'
