@@ -181,6 +181,34 @@ export const useTreeStore = defineStore("trees", {
 
         async getGraphDisplay() {
             return this.graphdisplay;
+        },
+
+        async generateFromPostorderAndInorder(postorder: number[], inorder: number[]) {
+            // The last element in the postorder is the root of the tree
+            // Find the root in the inorder list
+            // The elements to the left of the root in the inorder list are the left subtree
+            // The elements to the right of the root in the inorder list are the right subtree
+            // The number of elements in the left subtree is the same as the number of elements in the left subtree in the postorder list
+            // The number of elements in the right subtree is the same as the number of elements in the right subtree in the postorder list
+            // Recursively build the left and right subtrees
+
+            const buildTree = (postorder: number[], inorder: number[]) => {
+                if (postorder.length === 0) {
+                    return null;
+                }
+                const root = postorder[postorder.length - 1];
+                const rootIndex = inorder.indexOf(root);
+                const leftInorder = inorder.slice(0, rootIndex);
+                const rightInorder = inorder.slice(rootIndex + 1);
+                const leftPostorder = postorder.slice(0, leftInorder.length);
+                const rightPostorder = postorder.slice(leftInorder.length, postorder.length - 1);
+                const node = new TreeNode(root);
+                node.left = buildTree(leftPostorder, leftInorder);
+                node.right = buildTree(rightPostorder, rightInorder);
+                return node;
+            };
+
+            this.tree.root = buildTree(postorder, inorder);
         }
     },
 });

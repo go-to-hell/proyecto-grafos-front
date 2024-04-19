@@ -1170,18 +1170,59 @@ const openInputOrderModal = () => {
 };
 
 const handleUserInputOrder = () => {
-  if (postOrderUserInput.value || inOrderUserInput.value) {
-    SweetAlert.fire({
-      title: postOrderUserInput.value,
-      text: inOrderUserInput.value,
-    });
-  } else {
+  if (!postOrderUserInput.value && !inOrderUserInput.value) {
     showSimpleAlert(
       "Error",
       "Ingrese los valores requeridos por favor.",
       "error"
     );
   }
+
+  const postOrder = postOrderUserInput.value.split(",");
+  const inOrder = inOrderUserInput.value.split(",");
+  console.log("PostOrder:", postOrder);
+  console.log("InOrder:", inOrder);
+
+  if (postOrder.length !== inOrder.length) {
+    showSimpleAlert(
+      "Error",
+      "Los tamaños de los recorridos no coinciden.",
+      "error"
+    );
+    return;
+  }
+
+  // parse the strings to numbers
+  const postOrderInts = postOrder.map((element) => parseInt(element));
+  const inOrderInts = inOrder.map((element) => parseInt(element));
+
+  // Check both arrays have the same elements
+  const postOrderSet = new Set(postOrderInts);
+  const inOrderSet = new Set(inOrderInts);
+  postOrderSet.forEach((element) => {
+    if (!inOrderSet.has(element)) {
+      showSimpleAlert(
+        "Error",
+        "Los elementos de los recorridos no coinciden.",
+        "error"
+      );
+      return;
+    }
+  });
+
+  // Clear the previous tree
+  treeStore.clearTree();
+
+  // Generate the tree
+  treeStore.generateFromPostorderAndInorder(postOrderInts, inOrderInts);
+
+  // Generate the display tree
+  treeStore.generateDisplayTree();
+  treelayout();
+
+  // Close the modal
+  inputToOrderModal?.hide();
+
   postOrderUserInput.value = inOrderUserInput.value = "";
 };
 
