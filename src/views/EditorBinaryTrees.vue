@@ -1,12 +1,22 @@
 <template>
   <div class="my-3">
-
     <div class="container d-flex justify-content-between mb-4 mt-5">
       <div>
         <h1 class="mt-4">Árboles Binarios</h1>
-        <h5>Ingrese números para ir armando su árbol binario:</h5>
+        <h5>Ingrese números para armar su árbol binario:</h5>
       </div>
       <div class="my-auto">
+        <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Ingresar."
+          class="btn btn-info me-3"
+          @click="openInputOrderModal"
+        >
+          Ingresar Datos
+        </button>
         <button
           type="button"
           data-bs-toggle="tooltip"
@@ -302,6 +312,85 @@
       </div>
     </div>
 
+    <!-- Input To Order Binary Tree -->
+    <div
+      class="modal fade"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+      id="inputToOrderModal"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable animate__animated animate__backInDown"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Ingresar Árbol Binario</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex text-center justify-content-center">
+              <i
+                class="bi bi-info-circle-fill me-1"
+                style="font-size: 1.2em"
+              ></i>
+              <p>
+                Ingrese números separados por comas para armar su Árbol Binario.
+              </p>
+            </div>
+            <div class="mb-3">
+              <label for="postOrderInput" class="col-form-label">
+                PostOrden:
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="postOrderInput"
+                v-model="postOrderUserInput"
+                @input="validateUserInput"
+                placeholder="Ingrese Árbol Binario en PostOrden"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="inOrderInput" class="col-form-label">InOrden:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inOrderInput"
+                v-model="inOrderUserInput"
+                @input="validateUserInput"
+                placeholder="Ingrese Árbol Binario en InOrden"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              data-bs-dismiss="modal"
+              class="btn btn-success"
+              @click="handleUserInputOrder"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Bootstrap alert for saveGraph success/error -->
     <div style="width: fit-content; margin: auto">
       <div
@@ -360,7 +449,7 @@
     </div>
 
     <div class="editor-container">
-      <div class="container editor-content border border-5">
+      <div class="container editor-content border border-3 border-success">
         <!-- Editor Content -->
         <v-network-graph
           tabindex="0"
@@ -560,7 +649,7 @@
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
-          data-bs-title="Mostrar BFS."
+          data-bs-title="Mostrar DFS."
           class="bi bi-123 rounded-circle py-3 px-4"
           :class="
             treeStore.tree.root ? 'btn btn-warning' : 'btn btn-outline-warning'
@@ -629,6 +718,7 @@ import { useTreeStore } from "../stores/tree.js"; // import the tree store
 import * as bootstrap from "bootstrap";
 import SweetAlert from "sweetalert2";
 import dagre from "dagre/dist/dagre.min.js"; // import dagre library
+import { event } from "jquery";
 
 const router = useRouter();
 const fileStore = useFileStore();
@@ -645,7 +735,7 @@ let layouts;
 if (fileStore.graphData) {
   nodes = reactive({ ...fileStore.graphData.nodes });
   edges = reactive({ ...fileStore.graphData.edges });
-  layouts = reactive(fileStore.graphData.layouts);
+ layouts = reactive(fileStore.graphData.layouts);
 } else {
   nodes = reactive({ ...data.nodes });
   edges = reactive({ ...data.edges });
@@ -810,55 +900,45 @@ const configs = defineConfigs({
 });
 
 var userLeafInput = ref("");
+var postOrderUserInput = ref("");
+var inOrderUserInput = ref("");
 
 // Validate User Input ----------------------------------------------------
 const validateUserInput = () => {
-  userLeafInput.value = userLeafInput.value.replace(/[^0-9]/g, "");
+  userLeafInput.value = userLeafInput.value.replace(/[^0-9,]/g, "");
+  postOrderUserInput.value = postOrderUserInput.value.replace(/[^0-9,\.]+/, "");
+  inOrderUserInput.value = inOrderUserInput.value.replace(/[^0-9,\.]+/, "");
 };
 
 // Adding Node -------------------------------------------------------------
-const handleNodeAddition = async (number) => {
-  if (graph.value) {
-    const locationData = await treeStore.insertNode(
-      number,
-      `node${nextNodeIndex.value}`
-    );
-    console.log("Position:", locationData);
-    const position = locationData.split(",").slice(0, -1);
-    const parentId = locationData.split(",").slice(-1)[0];
-    console.log("Position:", position, "Parent:", parentId);
-    const nodeId = `node${nextNodeIndex.value}`;
-
-    const svgPoint = {
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2,
-    };
-
-    const svgToDomPoint =
-      graph.value.translateFromDomToSvgCoordinates(svgPoint);
-
-    nodes[nodeId] = {
-      id: nodeId,
-      name: number.toString(),
-      x: svgToDomPoint.x,
-      y: svgToDomPoint.y,
-    };
-    layouts.nodes[nodeId] = { x: svgToDomPoint.x, y: svgToDomPoint.y };
-
-    nextNodeIndex.value++;
-
-    if (parentId !== "") {
-      console.log("attaching to parent" + parentId);
-      connectToLastAddedNode(nodeId, parentId);
-    }
-  } else return;
+const handleNodeAddition = async (number : number) => {
+  if (graph.value) await treeStore.insertNode(number);
 };
 
 // New function to adapt the layout of the tree
 // install dagre library `npm install dagre`
-function treelayout() {
+async function treelayout() {
   if (nodes.length) return;
   if (!edges) return;
+  // clear current graph
+  for (const nodeId in nodes) {
+    delete nodes[nodeId];
+  }
+
+  for (const edgeId in edges) {
+    delete edges[edgeId];
+  }
+
+  // get correct display from store
+  const graphToDisplay = await treeStore.getGraphDisplay();
+  graphToDisplay.nodes.forEach((node) => {
+    nodes[node.id] = node;
+  });
+  graphToDisplay.edges.forEach((edge) => {
+    edges[edge.id] = edge;
+  });
+  console.log("nodes:", nodes);
+  console.log("edges:", edges);
   // convert graph
   // ref: https://github.com/dagrejs/dagre/wiki
   const g = new dagre.graphlib.Graph();
@@ -906,15 +986,18 @@ function treelayout() {
 }
 
 async function startAddingNode() {
-  const number = parseInt(userLeafInput.value);
-  if (number && !isNaN(number)) {
-    handleNodeAddition(number);
-  }
-  await treeStore.consolelogtree();
-  // if there is more than one node adapt the layout
-  if (Object.keys(nodes).length > 1) {
-    treelayout();
-  }
+  await userLeafInput.value.split(",").forEach(
+    async (number) => {
+      let num = parseInt(number);
+      if (num && !isNaN(num)) {
+        handleNodeAddition(num);
+      }
+      await treeStore.consolelogtree();
+    }
+  );
+  treeStore.generateDisplayTree();
+  treelayout();
+  
   userLeafInput.value = "";
 }
 
@@ -1080,6 +1163,69 @@ const showConfirmAlert = (
   });
 };
 
+let inputToOrderModal: Modal | null = null;
+
+const openInputOrderModal = () => {
+  inputToOrderModal?.show();
+};
+
+const handleUserInputOrder = () => {
+  if (!postOrderUserInput.value && !inOrderUserInput.value) {
+    showSimpleAlert(
+      "Error",
+      "Ingrese los valores requeridos por favor.",
+      "error"
+    );
+  }
+
+  const postOrder = postOrderUserInput.value.split(",");
+  const inOrder = inOrderUserInput.value.split(",");
+  console.log("PostOrder:", postOrder);
+  console.log("InOrder:", inOrder);
+
+  if (postOrder.length !== inOrder.length) {
+    showSimpleAlert(
+      "Error",
+      "Los tamaños de los recorridos no coinciden.",
+      "error"
+    );
+    return;
+  }
+
+  // parse the strings to numbers
+  const postOrderInts = postOrder.map((element) => parseInt(element));
+  const inOrderInts = inOrder.map((element) => parseInt(element));
+
+  // Check both arrays have the same elements
+  const postOrderSet = new Set(postOrderInts);
+  const inOrderSet = new Set(inOrderInts);
+  postOrderSet.forEach((element) => {
+    if (!inOrderSet.has(element)) {
+      showSimpleAlert(
+        "Error",
+        "Los elementos de los recorridos no coinciden.",
+        "error"
+      );
+      return;
+    }
+  });
+
+  // Clear the previous tree
+  treeStore.clearTree();
+
+  // Generate the tree
+  treeStore.generateFromPostorderAndInorder(postOrderInts, inOrderInts);
+
+  // Generate the display tree
+  treeStore.generateDisplayTree();
+  treelayout();
+
+  // Close the modal
+  inputToOrderModal?.hide();
+
+  postOrderUserInput.value = inOrderUserInput.value = "";
+};
+
 // Event Handling -------------------------------------------------------------
 // const isBoxSelectionMode = ref(false);
 // const eventHandlers: EventHandlers = {
@@ -1122,6 +1268,9 @@ onMounted(() => {
 
   const clearAllModalElement = document.getElementById("confirmClearAllModal");
   clearAllModal = new Modal(clearAllModalElement);
+
+  const inputToOrderElement = document.getElementById("inputToOrderModal");
+  inputToOrderModal = new Modal(inputToOrderElement);
 
   const tooltipTriggerList = document.querySelectorAll(
     '[data-bs-toggle="tooltip"]'
