@@ -17,44 +17,33 @@
     </div>
     <div class="input-container">
       <label for="animationDelay">Delay de la animación:</label>
-      <input
-        type="range"
-        id="animationDelay"
-        v-model.number="animationDelay"
-        min="0"
-        max="1000"
-        step="10"
-        @input="updateDelay"
-      />
+      <input type="range" id="animationDelay" v-model.number="animationDelay" min="0" max="1000" step="10"
+        @input="updateDelay" />
       <span>{{ animationDelay }} ms</span>
     </div>
 
     <div class="buttons-container">
-      <button @click="runSort('selectionSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Selection Sort</button>
-      <button @click="runSort('insertionSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Insertion Sort</button>
-      <button @click="runSort('mergeSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Merge Sort</button>
-      <button @click="runSort('shellSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Shell Sort</button>
+      <button @click="runSort('selectionSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Selection
+        Sort</button>
+      <button @click="runSort('insertionSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Insertion
+        Sort</button>
+      <button @click="runSort('mergeSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Merge
+        Sort</button>
+      <button @click="runSort('shellSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Shell
+        Sort</button>
       <button @click="stopSort" :disabled="!isSorting" class="btn btn-danger">Detener</button>
-      <button
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-custom-class="custom-tooltip"
-          data-bs-title="Ayuda."
-          class="btn btn-dark bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
-          @click="openHelp"></button>
+      <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+        data-bs-title="Ayuda."
+        class="btn btn-dark bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
+        @click="openHelp"></button>
     </div>
 
     <div v-if="sortedArray.length > 0" class="result-container">
       <h3 v-if="sortType">Resultado de {{ sortType }}</h3>
       <p>Pasos realizados: {{ stepCount }}</p>
       <div class="numbers-container">
-        <div
-          v-for="(value, index) in sortedArray"
-          :key="index"
-          class="number-container"
-          :style="{ width: `${calculateElementWidth()}%` }"
-        >
+        <div v-for="(value, index) in sortedArray" :key="index" class="number-container"
+          :style="{ width: `${calculateElementWidth()}%` }">
           <div class="bar-container">
             <div class="bar" :style="{ height: `${calculateBarHeight(value)}px`, backgroundColor: 'red' }"></div>
           </div>
@@ -69,12 +58,8 @@
     <div v-if="originalArray.length > 0" class="original-container">
       <h3>Arreglo Original</h3>
       <div class="numbers-container">
-        <div
-          v-for="(value, index) in originalArray"
-          :key="index"
-          class="number-container"
-          :style="{ width: `${calculateElementWidth()}%` }"
-        >
+        <div v-for="(value, index) in originalArray" :key="index" class="number-container"
+          :style="{ width: `${calculateElementWidth()}%` }">
           <div class="bar-container">
             <div class="bar" :style="{ height: `${calculateBarHeight(value)}px`, backgroundColor: 'red' }"></div>
           </div>
@@ -136,47 +121,45 @@
           </div>
         </div>
       </div>
-    
-      <button
+
+      <!-- <button
       
     type="button"
     class="btn btn-dark bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
     @click="openHelp"
-  ></button>
+  ></button> -->
+    </div>
+    <!-- Modal para el Centro de Ayuda -->
+    <div class="modal fade" id="helpCenterModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Centro de Ayuda</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <!-- Modal para el Centro de Ayuda -->
-          <div class="modal" id="helpCenterModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Centro de Ayuda</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
+          <div class="modal-body">
             <p>
               ¡Hola! 😄 ¡Bienvenido al increíble mundo de los Sorts! 🌐✨ Aquí
               te dejamos una guía rápida para que domines esta herramienta como
               un pro:
             </p>
-            <img
-              src="../assets/Array.png"
-              alt="Array"
-              class="img-fluid"
-            />
+            <img src="../assets/Array.png" alt="Array" class="img-fluid" />
             <p>
               <strong>Arrays </strong><br />
-              Ingresa en este espacio una lista de números (separados por comas) y deja que el programa se encargue. ¿No tienes una lista para anotar? Genera una aleatoria. ¿Tienes una ya guardada? Pues cargala en formato txt desde tu dispositivo.
+              Ingresa en este espacio una lista de números (separados por comas) y deja que el programa se encargue. ¿No
+              tienes una lista para anotar? Genera una aleatoria. ¿Tienes una ya guardada? Pues cargala en formato txt
+              desde tu dispositivo.
             </p>
-            <img
-              src="../assets/sorts2.jpg"
-              alt="Sorts"
-              class="img-fluid"
-            />
+            <img src="../assets/sorts2.jpg" alt="Sorts" class="img-fluid" />
             <p>
               <strong>Sorts</strong><br />
-             Una vez ya tienes tu array colocado, selecciona por que metodo de ordenamiento quieres que este se ordene presionando una de las opciones. La opción que elijas te mostrará una animacion de como se ordenan esos numeros mediante el metodo seleccionado y la cantidad de pasos que tardó en ordenarlo (a la cual puedes ajustarle la velocidad). ¿Te equivocaste de método? No hay problema, pulsa el botón de detener y aquí no habrá pasado NADA 
+              Una vez ya tienes tu array colocado, selecciona por que metodo de ordenamiento quieres que este se ordene
+              presionando una de las opciones. La opción que elijas te mostrará una animacion de como se ordenan esos
+              numeros mediante el metodo seleccionado y la cantidad de pasos que tardó en ordenarlo (a la cual puedes
+              ajustarle la velocidad). ¿Te equivocaste de método? No hay problema, pulsa el botón de detener y aquí no
+              habrá pasado NADA
             </p>
-        </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
@@ -187,6 +170,9 @@
 </template>
 
 <script>
+import { Modal } from 'bootstrap';
+import * as bootstrap from "bootstrap";
+
 export default {
   data() {
     return {
@@ -207,6 +193,10 @@ export default {
       errorMessage: '',
       animationDelay: 50, // Valor inicial para el retardo de la animación
     };
+  },
+  onMounted() {
+    const helpCenterModalElement = document.getElementById("helpCenterModal");
+    helpCenterModal = new Modal(helpCenterModalElement);
   },
   methods: {
     async runSort(type) {
@@ -338,7 +328,7 @@ export default {
       this.currentIndex = -1;
     },
     async insertionSort(arr) {
-      this.stepCount=0;
+      this.stepCount = 0;
       for (let i = 1; i < arr.length && this.isSorting; i++) {
         let current = arr[i];
         let j = i - 1;
@@ -360,7 +350,7 @@ export default {
     },
     async shellSort(arr) {
       const n = arr.length;
-      this.stepCount=0;
+      this.stepCount = 0;
       for (let gap = Math.floor(n / 2); gap > 0 && this.isSorting; gap = Math.floor(gap / 2)) {
         for (let i = gap; i < n && this.isSorting; i++) {
           const temp = arr[i];
@@ -370,25 +360,25 @@ export default {
           this.stepCount++;
           await this.sleep(this.animationDelay);
 
-        while (j >= gap && arr[j - gap] > temp && this.isSorting) {
-          this.comparingIndices = [j, j - gap];
+          while (j >= gap && arr[j - gap] > temp && this.isSorting) {
+            this.comparingIndices = [j, j - gap];
+            this.sortedArray = [...arr];
+            this.stepCount++;
+            await this.sleep(this.animationDelay);
+            arr[j] = arr[j - gap];
+            j -= gap;
+          }
+
+          arr[j] = temp;
+          this.comparingIndices = [];
+          this.currentIndex = -1;
           this.sortedArray = [...arr];
           this.stepCount++;
           await this.sleep(this.animationDelay);
-          arr[j] = arr[j - gap];
-          j -= gap;
         }
-
-        arr[j] = temp;
-        this.comparingIndices = [];
-        this.currentIndex = -1;
-        this.sortedArray = [...arr];
-        this.stepCount++;
-        await this.sleep(this.animationDelay);
       }
-    }
-     this.currentIndex = -1;
-  },
+      this.currentIndex = -1;
+    },
     swap(arr, i, j) {
       const temp = arr[i];
       arr[i] = arr[j];
@@ -476,10 +466,10 @@ export default {
         reader.onload = async (event) => {
           const content = event.target.result;
           const array = content.split(',').map(num => parseInt(num.trim()));
-          this.sortedArray = [...array]; 
-          this.originalArray = [...array]; 
+          this.sortedArray = [...array];
+          this.originalArray = [...array];
           this.inputNumbers = this.sortedArray.join(', '); //Updates the input bar with the loaded array
-          this.$forceUpdate(); 
+          this.$forceUpdate();
         };
         reader.readAsText(file);
       };
@@ -492,10 +482,11 @@ export default {
     calculateElementWidth() {
       const totalElements = this.sortedArray.length || this.originalArray.length || 1;
       return 100 / totalElements;
-    }
-  },
-  openHelp  () {
-    $('#helpCenterModal').modal('show'); // Use jQuery to show the modal
+    },
+    openHelp() {
+      helpCenterModal.show();
+    },
+
   }
 };
 </script>
@@ -568,7 +559,7 @@ export default {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  height: 200px; 
+  height: 200px;
 }
 
 .bar {
