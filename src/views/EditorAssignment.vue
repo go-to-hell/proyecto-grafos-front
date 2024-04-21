@@ -225,6 +225,15 @@
               útiles!
             </p>
             <img
+              src="../assets/RAS.png"
+              alt="Resolver"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Resplver Asignación</strong><br />
+              Selecciona si quieres maximizar o minimizar la matriz de adyacencia que se genera y presiona la opción de resolver la asignación. El editor se encargará de resolverla y te mostrará un cuadro indicando cual es la asignación ideal para tu solicitud.
+            </p>
+            <img
               src="../assets/Direccion.jpg"
               alt="Direccion"
               class="img-fluid"

@@ -35,6 +35,14 @@
       <button @click="runSort('mergeSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Merge Sort</button>
       <button @click="runSort('shellSort')" :disabled="isSorting || isLoading" class="btn btn-primary">Shell Sort</button>
       <button @click="stopSort" :disabled="!isSorting" class="btn btn-danger">Detener</button>
+      <button
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          data-bs-custom-class="custom-tooltip"
+          data-bs-title="Ayuda."
+          class="btn btn-dark bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
+          @click="openHelp"></button>
     </div>
 
     <div v-if="sortedArray.length > 0" class="result-container">
@@ -128,10 +136,53 @@
           </div>
         </div>
       </div>
+    
+      <button
+      
+    type="button"
+    class="btn btn-dark bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
+    @click="openHelp"
+  ></button>
+          </div>
+          <!-- Modal para el Centro de Ayuda -->
+          <div class="modal" id="helpCenterModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Centro de Ayuda</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+              ¡Hola! 😄 ¡Bienvenido al increíble mundo de los Sorts! 🌐✨ Aquí
+              te dejamos una guía rápida para que domines esta herramienta como
+              un pro:
+            </p>
+            <img
+              src="../assets/Array.png"
+              alt="Array"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Arrays </strong><br />
+              Ingresa en este espacio una lista de números (separados por comas) y deja que el programa se encargue. ¿No tienes una lista para anotar? Genera una aleatoria. ¿Tienes una ya guardada? Pues cargala en formato txt desde tu dispositivo.
+            </p>
+            <img
+              src="../assets/sorts2.jpg"
+              alt="Sorts"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Sorts</strong><br />
+             Una vez ya tienes tu array colocado, selecciona por que metodo de ordenamiento quieres que este se ordene presionando una de las opciones. La opción que elijas te mostrará una animacion de como se ordenan esos numeros mediante el metodo seleccionado y la cantidad de pasos que tardó en ordenarlo (a la cual puedes ajustarle la velocidad). ¿Te equivocaste de método? No hay problema, pulsa el botón de detener y aquí no habrá pasado NADA 
+            </p>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+        </div>
+      </div>
     </div>
-
-    
-    
   </div>
 </template>
 
@@ -154,7 +205,7 @@ export default {
       fileName: 'arrayData.txt',
       errorModal: false,
       errorMessage: '',
-      animationDelay: 50 // Valor inicial para el retardo de la animación
+      animationDelay: 50, // Valor inicial para el retardo de la animación
     };
   },
   methods: {
@@ -442,6 +493,9 @@ export default {
       const totalElements = this.sortedArray.length || this.originalArray.length || 1;
       return 100 / totalElements;
     }
+  },
+  openHelp  () {
+    $('#helpCenterModal').modal('show'); // Use jQuery to show the modal
   }
 };
 </script>

@@ -220,6 +220,24 @@
               útiles!
             </p>
             <img
+              src="../assets/NW.png"
+              alt="NW"
+              class="img-fluid"
+            />
+            <p>
+              <strong>NorthWest</strong><br />
+              Selecciona este botón para ver como quedan los nodos ingresados dentro de una matriz ordenada para resolver por el metodo NorthWest. Agrega los valores de Oferta y Demanda, así como la suma de estas para poder resolver.
+            </p>
+            <img
+              src="../assets/RNW.png"
+              alt="Resolver"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Resolver por NorthWest </strong><br />
+              Selecciona si quieres minimizar o maximizar la matriz de datos y dale al botón de resolver para obtener la matriz resuelta.
+            </p>
+            <img
               src="../assets/Direccion.jpg"
               alt="Direccion"
               class="img-fluid"

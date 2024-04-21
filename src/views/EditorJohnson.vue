@@ -225,6 +225,15 @@
                 útiles!
             </p>
             <img
+              src="../assets/RJS.png"
+              alt="Resolver"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Resolver</strong><br />
+              Dale al botón de Resolver y disfruta. El editor te mostrará la ruta crítica de manera escrita y marcará el camino en el grafico de gráfos resaltando las aristas de la ruta crítica.
+            </p>
+            <img
                 src="../assets/Direccion.jpg"
                 alt="Direccion"
                 class="img-fluid"
