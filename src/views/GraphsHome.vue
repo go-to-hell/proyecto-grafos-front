@@ -51,6 +51,22 @@
         buttonText="Ir a Árboles Binarios"
         @button_clicked="goBinaryTrees"
       />
+      <Card
+        :imageSource="6"
+        imageAlt="Algoritmo de Kruskal"
+        cardTitle="Algoritmo de Kruskal"
+        cardText="El algoritmo de Kruskal es un algoritmo voraz utilizado para encontrar el árbol de expansión mínima de un grafo conexo y no dirigido.<br>Este árbol de expansión mínima conecta todos los vértices del grafo con el mínimo costo total de aristas.<br>El algoritmo sigue estos pasos:<br>1. Ordenar las aristas por peso.<br>2. Inicializar el árbol de expansión mínima.<br>3. Recorrer las aristas ordenadas.<br>4. Agregar aristas al árbol si no forman ciclos.<br>5. Repetir hasta conectar todos los vértices.<br>Este algoritmo garantiza encontrar el árbol de expansión mínima al seleccionar la arista de menor peso en cada paso sin formar ciclos.<br>La complejidad temporal suele ser O(E log E), donde E es el número de aristas en el grafo, debido al paso de ordenar las aristas por peso."
+        buttonText="Ir a Kruskal"
+        @button_clicked="goKruskal"
+      />
+      <Card
+        :imageSource="7"
+        imageAlt="Algoritmo de Dijkstra"
+        cardTitle="Algoritmo de Dijkstra"
+        cardText="El algoritmo de Dijkstra es un método para encontrar el camino más corto desde un vértice de inicio dado hacia todos los demás vértices en un grafo con pesos no negativos.<br>El algoritmo funciona mediante la construcción de una estructura de datos llamada 'cola de prioridad' (generalmente implementada con un heap binario) para mantener un conjunto de vértices cuyas distancias más cortas desde el vértice de inicio ya se han determinado.<br>El algoritmo procede de la siguiente manera:<br>1. Inicializar la distancia del vértice de inicio como 0 y todas las demás distancias como infinito.<br>2. Agregar todos los vértices al conjunto de vértices no visitados.<br>3. Mientras queden vértices no visitados:<br>   a. Seleccionar el vértice no visitado con la distancia más corta.<br>   b. Para cada vecino del vértice seleccionado, actualizar la distancia más corta si la distancia actual desde el vértice de inicio, pasando por el vértice seleccionado, es menor que la distancia registrada anteriormente.<br>   c. Marcar el vértice seleccionado como visitado.<br>4. Una vez que todos los vértices hayan sido visitados, el camino más corto desde el vértice de inicio hacia todos los demás vértices estará determinado.<br>El algoritmo de Dijkstra es óptimo para grafos con pesos no negativos y puede encontrar el camino más corto desde un único vértice a todos los demás en tiempo O(V log V + E), donde V es el número de vértices y E es el número de aristas en el grafo."
+        buttonText="Ir a Dijkstra"
+        @button_clicked="goDijkstra"
+      />
     </div>
   </div>
 </template>
@@ -90,6 +106,12 @@ export default {
     },
     goBinaryTrees() {
       this.router.push("/binary_trees");
+    },
+    goKruskal() {
+      this.router.push("/kruskal");
+    },
+    goDijkstra() {
+      this.router.push("/dijkstra");
     },
   },
 };
