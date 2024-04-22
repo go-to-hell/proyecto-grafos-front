@@ -17,6 +17,10 @@ import EditorBinaryTrees from "../views/EditorBinaryTrees.vue";
 import Sorts from "../views/Sorts.vue";
 import EditorSorts from "../views/EditorSorts.vue";
 import EditorTrees from "../views/EditorTrees.vue";
+import Kruskal from "../views/Kruskal.vue";
+import EditorKruskal from "../views/EditorKruskal.vue";
+import Dijkstra from "../views/Dijkstra.vue";
+import EditorDijkstra from "../views/EditorDijkstra.vue";
 
 const routes = [
   {
@@ -72,24 +76,41 @@ const routes = [
     component: EditorNorthWestGraph,
   },
   {
-    path:"/sorts",
+    path: "/sorts",
     component: Sorts,
   },
   {
-    path:"/editor_sorts",
+    path: "/editor_sorts",
     component: EditorSorts,
   },
   {
     path: "/editor_trees",
     component: EditorTrees,
-  },{
+  },
+  {
     path: "/binary_trees",
     component: BinaryTrees,
   },
   {
     path: "/editor_binary_trees",
     component: EditorBinaryTrees,
-  }
+  },
+  {
+    path: "/kruskal",
+    component: Kruskal,
+  },
+  {
+    path: "/editor_kruskal",
+    component: EditorKruskal,
+  },
+  {
+    path: "/dijkstra",
+    component: Dijkstra,
+  },
+  {
+    path: "/editor_dijkstra",
+    component: EditorDijkstra,
+  },
 ];
 
 const router = createRouter({

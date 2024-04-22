@@ -3,7 +3,7 @@
     <img :src="imageSelected" class="card-img-top" :alt="imageAlt" />
     <div class="card-body">
       <h5 class="card-title">{{ cardTitle }}</h5>
-      <p class="card-text">{{ cardText }}</p>
+      <p class="card-text" v-html="cardText"></p>
       <div class="text-center">
         <button @click="cardButtonClick" class="btn btn-info">
           {{ buttonText }}
@@ -20,6 +20,8 @@ import AssignmentAlgorithm from "../assets/AlgorithmsImages/AssignmentAlgorithm.
 import NorthWestAlgorithm from "../assets/AlgorithmsImages/NorthWestAlgorithm.gif";
 import SortingAlgorithms from "../assets/AlgorithmsImages/SortingAlgorithms.png";
 import BinaryTreesAlgorithm from "../assets/AlgorithmsImages/BinaryTreesAlgorithm.png";
+import KruskalAlgorithm from "../assets/AlgorithmsImages/KruskalAlgorithm.jpg";
+import DijkstraAlgorithm from "../assets/AlgorithmsImages/DijkstraAlgorithm.png";
 
 export default {
   props: {
@@ -39,6 +41,8 @@ export default {
         NorthWestAlgorithm,
         SortingAlgorithms,
         BinaryTreesAlgorithm,
+        KruskalAlgorithm,
+        DijkstraAlgorithm,
       ],
     };
   },

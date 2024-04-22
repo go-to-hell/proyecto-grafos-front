@@ -131,7 +131,7 @@
     </div>
     <!-- Modal para el Centro de Ayuda -->
     <div class="modal fade" id="helpCenterModal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-dialog modal-dialog-scrollable animate__animated animate__bounce">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Centro de Ayuda</h5>
@@ -186,6 +186,7 @@ export default {
       isSorting: false,
       stepCount: 0,
       randomArrayModal: false,
+      helpCenterModal: false,
       randomArraySize: 10,
       fileNameModal: false,
       fileName: 'arrayData.txt',
@@ -194,9 +195,9 @@ export default {
       animationDelay: 50, // Valor inicial para el retardo de la animación
     };
   },
-  onMounted() {
+  mounted() {
     const helpCenterModalElement = document.getElementById("helpCenterModal");
-    helpCenterModal = new Modal(helpCenterModalElement);
+    this.helpCenterModal = new Modal(helpCenterModalElement);
   },
   methods: {
     async runSort(type) {
@@ -484,10 +485,9 @@ export default {
       return 100 / totalElements;
     },
     openHelp() {
-      helpCenterModal.show();
+      this.helpCenterModal?.show();
     },
-
-  }
+  },
 };
 </script>
 
