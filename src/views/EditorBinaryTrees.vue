@@ -587,7 +587,7 @@
         data-bs-custom-class="custom-tooltip"
         data-bs-title="Ingrese la hoja del árbol binario y presione el botón."
       >
-        <label for="binaryTreeLeaf" class="form-label">Hoja del árbol:</label>
+        <label for="binaryTreeLeaf" class="form-label">Hoja(s) del árbol:</label>
         <div class="input-group">
           <input
             type="text"
@@ -595,7 +595,7 @@
             class="form-control"
             v-model="userLeafInput"
             @input="validateUserInput"
-            placeholder="Hoja del árbol binario"
+            placeholder="Hoja(s) del árbol binario"
             aria-label="Hoja del árbol binario"
             aria-describedby="button-addNode"
           />
@@ -1251,20 +1251,19 @@ const saveGraphError = ref(false);
 
 const fileNameToSave = ref("");
 
-const saveGraph = () => {
+const saveGraph = async () => {
   try {
-    const graphData = {
-      nodes: nodes,
-      edges: edges,
-      layouts: layouts,
-    };
-    const binaryTree = treeStore.tree;
-    const JsonData = {
-      graphData: graphData,
-      binaryTree: binaryTree,
-    };
+    const preorderData = await treeStore.preOrderTraversal()
+    const inorderData = await treeStore.inOrderTraversal()
+    const postorderData = await treeStore.postOrderTraversal()
 
-    const Json = JSON.stringify(JsonData, null, 2);
+    const jsonData = {
+      preorder: preorderData,
+      inorder: inorderData,
+      postorder: postorderData
+    }
+
+    const Json = JSON.stringify(jsonData, null, 2);
     const blob = new Blob([Json], { type: "application/json" });
 
     // Create a download link
@@ -1323,32 +1322,27 @@ const loadGraph = async () => {
       fileNameSaved.value = file.name;
       const fileContent = await file.text();
       console.log("File content:", fileContent);
-      const graphData = JSON.parse(fileContent);
+      const filedataparsed = JSON.parse(fileContent);
 
-      // Update nodes, edges, layouts and Binary Tree with loaded data
-      Object.assign(nodes, graphData.graphData.nodes);
-      Object.assign(edges, graphData.graphData.edges);
-      Object.assign(layouts, graphData.graphData.layouts);
-      Object.assign(treeStore.tree, graphData.binaryTree);
-
-      const nodesLength = Object.keys(nodes).length;
-      const edgesLength = Object.keys(edges).length;
-      console.log("Nodes length:", nodesLength);
-      console.log("Edges length:", edgesLength);
-      nextNodeIndex.value = nodesLength + 1;
-      nextEdgeIndex.value = edgesLength + 1;
-
-      console.log("NODES", nodes);
-      console.log("EDGES", edges);
-      console.log("BINARY TREE", treeStore.tree);
-
-      // If a node or an edge does not exist in the JSON but it exists in the canvas, delete it
-      for (const nodeId in nodes) {
-        if (!graphData.graphData.nodes[nodeId]) {
-          delete nodes[nodeId];
-          delete layouts.nodes[nodeId];
-        }
+      // Clear the previous tree
+      treeStore.clearTree();
+      for(const nodeId in nodes) {
+        delete nodes[nodeId];
       }
+      for(const edgeId in edges) {
+        delete edges[edgeId];
+      }
+
+      // Generate the tree from the preorder attribute in the json
+      const preorderData = filedataparsed.preorder
+
+      for (const number of preorderData) {
+        handleNodeAddition(number);
+      }
+
+      //place the display tree
+      treeStore.generateDisplayTree();
+      treelayout();
 
       // Upload the file
       const fileResponse = await fileStore.uploadFile(file);
