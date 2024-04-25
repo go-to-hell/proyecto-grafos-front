@@ -532,10 +532,6 @@
     <div class="d-flex flex-column position-absolute top-0 end-0 m-1">
         <button
             type="button"
-            data-bs-toggle="tooltip"
-            data-bs-placement="left"
-            data-bs-custom-class="custom-tooltip"
-            data-bs-title="Ir atrás."
             class="btn btn-primary bi bi-arrow-left mb-1"
             @click="goBack"
         ></button>
