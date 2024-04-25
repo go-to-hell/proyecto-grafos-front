@@ -14,6 +14,7 @@ export const useAlgorithmStore = defineStore("algorithm", {
     edgeSlackList: [],
     assignmentDataOutput: null,
     northWestDataOutput: null,
+    kruskalsTreeEdgesDataOutput: null,
   }),
 
   actions: {
@@ -140,5 +141,24 @@ export const useAlgorithmStore = defineStore("algorithm", {
       );
       this.northWestDataOutput = response.data;
     },
+    async loadKruskalsTreeEdges(kruskalsTreeEdgesDataInput, maximize) {
+      //console.log(kruskalsTreeEdgesDataInput);
+      //console.log("maximize", maximize);
+      const authStore = useAuthStore();
+      const response = await axios.post(
+        `http://localhost:8000/spanning_tree/?maximize=${maximize}`,  
+        kruskalsTreeEdgesDataInput,
+        {
+          headers: {
+            Authorization: `Bearer ${authStore.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      this.kruskalsTreeEdgesDataOutput = response.data.paths;
+    },
+    getKruskalsTreeEdges() {
+      return this.kruskalsTreeEdgesDataOutput;
+    }
   },
 });
