@@ -476,10 +476,6 @@
     <!-- More Functions Button -->
     <button
       type="button"
-      data-bs-toggle="tooltip"
-      data-bs-placement="left"
-      data-bs-custom-class="custom-tooltip"
-      data-bs-title="Ir atrás."
       class="btn btn-primary bi bi-arrow-left position-absolute top-0 end-0 m-1"
       @click="goBack"
     ></button>

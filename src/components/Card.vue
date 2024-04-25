@@ -1,5 +1,8 @@
 <template>
-  <div class="card mb-3 border-secondary-subtle mx-auto w-75 shadow">
+  <div
+    class="card mb-3 border-secondary-subtle mx-auto w-75 shadow"
+    :id="cardId"
+  >
     <img :src="imageSelected" class="card-img-top" :alt="imageAlt" />
     <div class="card-body">
       <h5 class="card-title">{{ cardTitle }}</h5>
@@ -22,9 +25,11 @@ import SortingAlgorithms from "../assets/AlgorithmsImages/SortingAlgorithms.png"
 import BinaryTreesAlgorithm from "../assets/AlgorithmsImages/BinaryTreesAlgorithm.png";
 import KruskalAlgorithm from "../assets/AlgorithmsImages/KruskalAlgorithm.jpg";
 import DijkstraAlgorithm from "../assets/AlgorithmsImages/DijkstraAlgorithm.png";
+import CompetAlgorithm from "../assets/AlgorithmsImages/CompetAlgorithm.png";
 
 export default {
   props: {
+    cardId: String,
     imageSource: Number,
     imageAlt: String,
     cardTitle: String,
@@ -43,6 +48,7 @@ export default {
         BinaryTreesAlgorithm,
         KruskalAlgorithm,
         DijkstraAlgorithm,
+        CompetAlgorithm,
       ],
     };
   },

@@ -1,9 +1,21 @@
 <template>
   <NavBar />
   <div class="container">
-    <h5 class="mb-4 mt-3">Seleccione el algoritmo que desee desarrollar:</h5>
+    <h5 class="mb-4 mt-4">Seleccione el algoritmo que desee desarrollar:</h5>
+    <div class="btn-group mb-4" role="group">
+      <a class="btn graphs-button" href="#Graphs">Grafos</a>
+      <a class="btn johnson-button" href="#Johnson">Johnson</a>
+      <a class="btn assignment-button" href="#Assignment">Asignación</a>
+      <a class="btn northWest-button" href="#NorthWest">North West</a>
+      <a class="btn sorts-button" href="#Sorts">Sorts</a>
+      <a class="btn binaryTrees-button" href="#BinaryTrees">Árboles Binarios</a>
+      <a class="btn kruskal-button" href="#Kruskal">Kruskal</a>
+      <a class="btn dijkstra-button" href="#Dijkstra">Dijkstra</a>
+      <a class="btn compet-button" href="#Compet">Compet</a>
+    </div>
     <div class="bg-info-subtle py-3">
       <Card
+        cardId="Graphs"
         :imageSource="0"
         imageAlt="Grafos"
         cardTitle="Grafos"
@@ -12,6 +24,7 @@
         @button_clicked="goGraphs"
       />
       <Card
+        cardId="Johnson"
         :imageSource="1"
         imageAlt="Algoritmo de Johnson"
         cardTitle="Algoritmo de Johnson"
@@ -20,6 +33,7 @@
         @button_clicked="goJohnson"
       />
       <Card
+        cardId="Assignment"
         :imageSource="2"
         imageAlt="Algoritmo de Asignación"
         cardTitle="Algoritmo de Asignación"
@@ -28,6 +42,7 @@
         @button_clicked="goAssignment"
       />
       <Card
+        cardId="NorthWest"
         :imageSource="3"
         imageAlt="Algoritmo North West"
         cardTitle="Algoritmo North West"
@@ -36,6 +51,7 @@
         @button_clicked="goNorthWest"
       />
       <Card
+        cardId="Sorts"
         :imageSource="4"
         imageAlt="Algoritmos de Ordenamiento"
         cardTitle="Algoritmos de Ordenamiento"
@@ -44,14 +60,16 @@
         @button_clicked="goSorts"
       />
       <Card
+        cardId="BinaryTrees"
         :imageSource="5"
-        imageAlt="Algoritmo Árboles Binarios"
+        imageAlt="Algoritmo Ordenamiento"
         cardTitle="Algoritmo Árboles Binarios"
         cardText="Son estructuras de datos en forma de árbol donde cada nodo tiene, como máximo, dos hijos: uno izquierdo y uno derecho. El nodo superior se conoce como raíz. Los nodos sin hijos se llaman hojas. Los árboles binarios se utilizan para organizar y almacenar datos de manera jerárquica, lo que permite búsquedas eficientes, inserciones y eliminaciones. Además, pueden ser de varios tipos, como árboles binarios de búsqueda (BST), árboles AVL, árboles rojo-negro, entre otros, cada uno con diferentes reglas y características de balanceo y ordenamiento."
         buttonText="Ir a Árboles Binarios"
         @button_clicked="goBinaryTrees"
       />
       <Card
+        cardId="Kruskal"
         :imageSource="6"
         imageAlt="Algoritmo de Kruskal"
         cardTitle="Algoritmo de Kruskal"
@@ -60,6 +78,7 @@
         @button_clicked="goKruskal"
       />
       <Card
+        cardId="Dijkstra"
         :imageSource="7"
         imageAlt="Algoritmo de Dijkstra"
         cardTitle="Algoritmo de Dijkstra"
@@ -68,11 +87,12 @@
         @button_clicked="goDijkstra"
       />
       <Card
-        :imageSource="7"
-        imageAlt="Competencias"
-        cardTitle="Competencias"
-        cardText="En esta sección podrás competir con otros usuarios en la resolución de problemas de algoritmos y estructuras de datos. Cada competencia consta de varios problemas que deberás resolver en un tiempo limitado. Al finalizar, podrás ver tu puntaje y compararlo con otros participantes. ¡Demuestra tus habilidades y compite para ser el mejor!"
-        buttonText="Ir a Competencias"
+        cardId="Compet"
+        :imageSource="8"
+        imageAlt="Algoritmo de Compet"
+        cardTitle="Algoritmo de Compet"
+        cardText="Un algoritmo de competencias es un conjunto de procedimientos y pasos diseñados para evaluar y medir las habilidades y conocimientos específicos de una persona en relación con ciertas competencias o capacidades.<br>Estos algoritmos son utilizados en diversos contextos, como la selección de personal, la evaluación educativa y el desarrollo profesional.<br>Aquí hay una descripción general de cómo podría estructurarse un algoritmo de competencias:<br>1. Identificación de competencias clave: El primer paso es identificar las competencias clave que son relevantes para el contexto en el que se utilizará el algoritmo. Estas competencias pueden variar ampliamente según la industria, el puesto de trabajo o el objetivo de la evaluación.<br>2. Desarrollo de criterios de evaluación: Una vez identificadas las competencias clave, se desarrollan criterios específicos para evaluar cada una de ellas. Estos criterios pueden incluir habilidades técnicas, habilidades blandas, conocimientos específicos, experiencia previa, entre otros.<br>3. Diseño de pruebas o actividades de evaluación: Se diseñan pruebas o actividades que permitan evaluar cada una de las competencias identificadas. Estas pruebas pueden incluir entrevistas estructuradas, estudios de casos, pruebas técnicas, ejercicios prácticos, entre otros.<br>4. Calibración del algoritmo: Antes de implementar el algoritmo, es importante calibrarlo para asegurar su validez y fiabilidad. Esto puede implicar realizar pruebas piloto, ajustar los criterios de evaluación o realizar análisis estadísticos para garantizar la consistencia y la objetividad de las evaluaciones.<br>5. Implementación y evaluación continua: Una vez que el algoritmo está calibrado y listo para su uso, se implementa en el proceso de evaluación. Es importante realizar una evaluación continua del rendimiento del algoritmo y realizar ajustes según sea necesario para garantizar su efectividad y precisión a lo largo del tiempo.<br>Un algoritmo de competencias es una herramienta estructurada diseñada para evaluar y medir las habilidades y conocimientos específicos de las personas en relación con ciertas competencias clave. Su objetivo es facilitar procesos de selección, evaluación y desarrollo profesional de manera objetiva y eficiente."
+        buttonText="Ir a Compet"
         @button_clicked="goCompet"
       />
     </div>
@@ -123,7 +143,66 @@ export default {
     },
     goCompet() {
       this.router.push("/compet");
-    }
+    },
   },
 };
 </script>
+
+<style scoped>
+html {
+  scroll-behavior: smooth;
+}
+
+.graphs-button {
+  background-color: #ecf4ff;
+}
+
+.johnson-button {
+  background-color: #c8e0ff;
+}
+
+.assignment-button {
+  background-color: #a3ccff;
+}
+
+.northWest-button {
+  background-color: #89bcf9;
+}
+
+.sorts-button {
+  background-color: #6ea4ff;
+  color: white;
+}
+
+.binaryTrees-button {
+  background-color: #5690ff;
+  color: white;
+}
+
+.kruskal-button {
+  background-color: #3c7aff;
+  color: white;
+}
+
+.dijkstra-button {
+  background-color: #2360ff;
+  color: white;
+}
+
+.compet-button {
+  background-color: #0046ff;
+  color: white;
+}
+
+.graphs-button:hover,
+.johnson-button:hover,
+.assignment-button:hover,
+.northWest-button:hover,
+.sorts-button:hover,
+.binaryTrees-button:hover,
+.kruskal-button:hover,
+.dijkstra-button:hover,
+.compet-button:hover {
+  background-color: #2aefff;
+}
+</style>
