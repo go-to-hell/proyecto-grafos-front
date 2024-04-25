@@ -21,6 +21,8 @@ import Kruskal from "../views/Kruskal.vue";
 import EditorKruskal from "../views/EditorKruskal.vue";
 import Dijkstra from "../views/Dijkstra.vue";
 import EditorDijkstra from "../views/EditorDijkstra.vue";
+import Compet from "../views/Compet.vue";
+import EditorCompet from "../views/EditorCompet.vue";
 
 const routes = [
   {
@@ -110,6 +112,14 @@ const routes = [
   {
     path: "/editor_dijkstra",
     component: EditorDijkstra,
+  },
+  {
+    path: "/compet",
+    component: Compet,
+  },
+  {
+    path: "/editor_compet",
+    component: EditorCompet,
   },
 ];
 

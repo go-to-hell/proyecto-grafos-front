@@ -67,6 +67,14 @@
         buttonText="Ir a Dijkstra"
         @button_clicked="goDijkstra"
       />
+      <Card
+        :imageSource="7"
+        imageAlt="Competencias"
+        cardTitle="Competencias"
+        cardText="En esta sección podrás competir con otros usuarios en la resolución de problemas de algoritmos y estructuras de datos. Cada competencia consta de varios problemas que deberás resolver en un tiempo limitado. Al finalizar, podrás ver tu puntaje y compararlo con otros participantes. ¡Demuestra tus habilidades y compite para ser el mejor!"
+        buttonText="Ir a Competencias"
+        @button_clicked="goCompet"
+      />
     </div>
   </div>
 </template>
@@ -113,6 +121,9 @@ export default {
     goDijkstra() {
       this.router.push("/dijkstra");
     },
+    goCompet() {
+      this.router.push("/compet");
+    }
   },
 };
 </script>
