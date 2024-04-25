@@ -17,6 +17,8 @@ import EditorBinaryTrees from "../views/EditorBinaryTrees.vue";
 import Sorts from "../views/Sorts.vue";
 import EditorSorts from "../views/EditorSorts.vue";
 import EditorTrees from "../views/EditorTrees.vue";
+import Compet from "../views/Compet.vue";
+import CompetEditor from "../views/CompetEditor.vue";
 
 const routes = [
   {
@@ -89,6 +91,14 @@ const routes = [
   {
     path: "/editor_binary_trees",
     component: EditorBinaryTrees,
+  },
+  {
+    path: "/compet/",
+    component: Compet,
+  },
+  {
+    path: "/compet_editor/",
+    component: CompetEditor,
   }
 ];
 
