@@ -14,7 +14,7 @@
             <i class="bi bi-search"></i> Buscar
         </button>
         <button
-            @click="goEditorBinaryTrees"
+            @click="goEditorCompet"
             class="btn btn-secondary flex-shrink-0"
             type="button"
         >
@@ -91,28 +91,28 @@ setup() {
     const fileToUpload = ref(null);
     const loaderStore = useLoaderStore();
 
-    const goEditorBinaryTrees = () => {
-    fileStore.clearGraphData();
-    router.push("/editor_binary_trees");
+    const goEditorCompet = () => {
+        fileStore.clearGraphData();
+        router.push("/editor_compet");
     };
 
     const uploadFile = (event) => {
-    fileToUpload.value = event.target.files[0];
-    fileStore.listFiles(classValue);
+        fileToUpload.value = event.target.files[0];
+        fileStore.listFiles(classValue);
     };
 
     const loadGraph = async (fileId) => {
-    await fileStore.justTheJSON(fileId);
-    router.push("/editor_binary_trees");
+        await fileStore.justTheJSON(fileId);
+        router.push("/editor_compet");
     };
 
     const submitFile = async () => {
-    if (fileToUpload.value) {
-        const formData = new FormData();
-        formData.append("file", fileToUpload.value);
-        await fileStore.uploadFile(formData, classValue);
-        fileStore.listFiles(classValue);
-    }
+        if (fileToUpload.value) {
+            const formData = new FormData();
+            formData.append("file", fileToUpload.value);
+            await fileStore.uploadFile(formData, classValue);
+            fileStore.listFiles(classValue);
+        }
     };
 
     loaderStore.pageIsLoading();
@@ -120,12 +120,12 @@ setup() {
     loaderStore.pageIsLoaded();
 
     return {
-    authStore,
-    fileStore,
-    goEditorBinaryTrees,
-    loadGraph,
-    uploadFile,
-    submitFile,
+        authStore,
+        fileStore,
+        goEditorCompet,
+        loadGraph,
+        uploadFile,
+        submitFile,
     };
 },
 };
