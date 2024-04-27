@@ -552,10 +552,6 @@
     <div class="position-absolute top-0 end-0 m-1 text-center">
       <button
         type="button"
-        data-bs-toggle="tooltip"
-        data-bs-placement="left"
-        data-bs-custom-class="custom-tooltip"
-        data-bs-title="Ir atrás."
         class="btn btn-warning bi bi-arrow-left mb-3"
         @click="goBack"
       ></button>
