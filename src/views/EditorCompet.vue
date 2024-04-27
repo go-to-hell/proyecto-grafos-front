@@ -1,11 +1,21 @@
 <template>
   <div>
     <!-- Rename Node Modal -->
-    <div class="modal" tabindex="-1" id="renameNodeModal">
-      <div class="modal-dialog">
+    <div
+      class="modal fade"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+      id="renameNodeModal"
+    >
+      <div
+        class="modal-dialog modal-dialog-scrollable modal-dialog-centered animate__animated animate__backInDown"
+      >
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Ingresa valores para el algoritmo</h5>
+            <h5 class="modal-title">Ingrese valores para el algoritmo:</h5>
             <button
               type="button"
               class="btn-close"
@@ -13,29 +23,29 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body d-flex">
             <input
               type="number"
-              class="form-control mb-2"
+              class="form-control me-3"
               v-model="newNodeNamePart1"
-              placeholder="Ingrese el primer número"
+              placeholder="Primer Número"
             />
             <input
               type="number"
               class="form-control"
               v-model="newNodeNamePart2"
-              placeholder="Ingrese el segundo número"
+              placeholder="Segundo Número"
             />
           </div>
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-outline-danger"
               data-bs-dismiss="modal"
             >
               Cancelar
             </button>
-            <button type="button" class="btn btn-primary" @click="renameNode">
+            <button type="button" class="btn btn-success" @click="renameNode">
               Guardar cambios
             </button>
           </div>
@@ -51,7 +61,7 @@
       aria-labelledby="confirmDeleteModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="confirmDeleteModalLabel">
@@ -70,14 +80,14 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-outline-danger"
               data-bs-dismiss="modal"
             >
               Cancelar
             </button>
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn btn-success"
               @click="confirmDelete"
             >
               Confirmar
@@ -95,7 +105,7 @@
       aria-labelledby="confirmClearAllModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="confirmClearAllModalLabel">
@@ -114,14 +124,14 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-outline-danger"
               data-bs-dismiss="modal"
             >
               Cancelar
             </button>
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn btn-success"
               @click="confirmClearAll"
             >
               Confirmar
@@ -133,7 +143,7 @@
 
     <!-- Help Center Modal -->
     <div class="modal fade" tabindex="-1" id="helpCenterModal">
-      <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Centro de Ayuda</h5>
@@ -255,7 +265,7 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn btn-success"
               data-bs-dismiss="modal"
             >
               OK
@@ -266,7 +276,7 @@
     </div>
 
     <!-- File name to save -->
-    <div class="modal" tabindex="-1" id="fileNameToSave">
+    <div class="modal fade" tabindex="-1" id="fileNameToSave">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -289,12 +299,12 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-outline-danger"
               data-bs-dismiss="modal"
             >
               Cancelar
             </button>
-            <button type="button" class="btn btn-primary" @click="saveGraph">
+            <button type="button" class="btn btn-success" @click="saveGraph">
               Guardar
             </button>
           </div>
@@ -405,24 +415,33 @@
           @mousemove="updateMousePosition"
           @click="handleNodeAddition"
         >
-        <template 
-          #override-node-label="{ nodeId, x, y, scale, textAnchor, dominantBaseline, text, config }"
-        >
-          <text
-            :font-size="12"
-            text-anchor="middle"
-            fill="#ffffff"
-          >{{layouts.nodes[nodeId].x.toFixed(2)}}, {{layouts.nodes[nodeId].y.toFixed(2)}}</text>
-          <text
-            x="0"
-            y="0"
-            :font-size="config.fontSize * scale"
-            :text-anchor="textAnchor"
-            :dominant-baseline="dominantBaseline"
-            :fill="config.color"
-            :transform="`translate(${x} ${y})`"
-          >{{ text }}</text>
-        </template>
+          <template
+            #override-node-label="{
+              nodeId,
+              x,
+              y,
+              scale,
+              textAnchor,
+              dominantBaseline,
+              text,
+              config,
+            }"
+          >
+            <text :font-size="12" text-anchor="middle" fill="#ffffff"
+              >{{ layouts.nodes[nodeId].x.toFixed(2) }},
+              {{ layouts.nodes[nodeId].y.toFixed(2) }}</text
+            >
+            <text
+              x="0"
+              y="0"
+              :font-size="config.fontSize * scale"
+              :text-anchor="textAnchor"
+              :dominant-baseline="dominantBaseline"
+              :fill="config.color"
+              :transform="`translate(${x} ${y})`"
+              >{{ text }}</text
+            >
+          </template>
           <Background />
         </v-network-graph>
       </div>
@@ -432,10 +451,6 @@
     <div class="position-absolute top-0 end-0 m-1 text-center">
       <button
         type="button"
-        data-bs-toggle="tooltip"
-        data-bs-placement="left"
-        data-bs-custom-class="custom-tooltip"
-        data-bs-title="Ir atrás."
         class="btn btn-primary bi bi-arrow-left mb-3"
         @click="goBack"
       ></button>
@@ -447,7 +462,7 @@
             data-bs-placement="left"
             data-bs-custom-class="custom-tooltip"
             data-bs-title="Resolver."
-            class="btn btn-info"
+            class="btn btn-success"
             @click="solveCompet"
           >
             Resolver compet
@@ -455,7 +470,7 @@
         </span>
       </div>
     </div>
-  
+
     <span
       data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasRight"
@@ -495,15 +510,18 @@
           <button
             @click="openHelp"
             data-bs-dismiss="offcanvas"
-            class="btn btn-outline-info w-100 py-2 mb-2 d-lg-none"
+            class="btn btn-outline-success w-100 py-2 mb-2 d-lg-none"
           >
             Centro de Ayuda
           </button>
-          <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">
+          <button
+            class="btn btn-outline-success w-100 py-2"
+            @click="panToCenter"
+          >
             Centrar
           </button>
           <button
-            class="btn btn-outline-info w-100 py-2 mt-2"
+            class="btn btn-outline-success w-100 py-2 mt-2"
             @click="fitToContents"
           >
             Ajustar
@@ -511,11 +529,11 @@
         </div>
         <div class="d-flex gap-3">
           <button
-            class="btn btn-outline-info bi bi-plus-circle w-100 py-2 mt-1"
+            class="btn btn-outline-success bi bi-plus-circle w-100 py-2 mt-1"
             @click="zoomIn"
           ></button>
           <button
-            class="btn btn-outline-info bi bi-dash-circle w-100 py-2 mt-1"
+            class="btn btn-outline-success bi bi-dash-circle w-100 py-2 mt-1"
             @click="zoomOut"
           ></button>
         </div>
@@ -523,15 +541,15 @@
           data-bs-dismiss="offcanvas"
           :class="
             isBoxSelectionMode
-              ? 'btn btn-info w-100 py-2 mt-3'
-              : 'btn btn-outline-info w-100 py-2 mt-3'
+              ? 'btn btn-warning w-100 py-2 mt-3'
+              : 'btn btn-outline-success w-100 py-2 mt-3'
           "
           @click="toggleBoxSelection"
         >
           {{ isBoxSelectionMode ? "Detener selección" : "Iniciar selección" }}
         </button>
         <button
-          class="btn btn-outline-info w-100 py-2 mt-2"
+          class="btn btn-outline-success w-100 py-2 mt-2"
           data-bs-dismiss="offcanvas"
           @click="openFileNameModal"
         >
@@ -544,13 +562,13 @@
           accept=".json"
         />
         <button
-          class="btn btn-outline-info w-100 py-2 mt-2"
+          class="btn btn-outline-success w-100 py-2 mt-2"
           data-bs-dismiss="offcanvas"
           @click="openGraphFile"
         >
           Abrir Archivo
         </button>
-        <button @click="goBack" class="btn btn-outline-info w-100 py-2 mt-2">
+        <button @click="goBack" class="btn btn-outline-success w-100 py-2 mt-2">
           Ir a inicio
         </button>
       </div>
@@ -569,7 +587,9 @@
           data-bs-title="Agregar Nodo."
           class="bi bi-node-plus rounded-circle py-3 px-4"
           :class="
-            isAddingNode === true ? 'btn btn-info' : 'btn btn-outline-info'
+            isAddingNode === true
+              ? 'btn btn-warning'
+              : 'btn btn-outline-success'
           "
           @click="startAddingNode"
         ></button>
@@ -582,8 +602,8 @@
           class="bi bi-trash rounded-circle py-3 px-4"
           :class="
             selectedEdges.length > 0 || selectedNodes.length > 0
-              ? 'btn btn-info'
-              : 'btn btn-outline-info'
+              ? 'btn btn-warning'
+              : 'btn btn-outline-success'
           "
           @click="handleDeletion"
         ></button>
@@ -599,8 +619,8 @@
           v-show="selectedNodes.length === 1"
           :class="
             selectedNodes.length === 1 || selectedEdges.length === 1
-              ? 'btn btn-info'
-              : 'btn btn-outline-info'
+              ? 'btn btn-warning'
+              : 'btn btn-outline-success'
           "
           @click="openRenameModal"
         ></button>
@@ -610,7 +630,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Guardar."
-          class="btn btn-outline-info bi bi-floppy rounded-circle py-3 px-4"
+          class="btn btn-outline-success bi bi-floppy rounded-circle py-3 px-4"
           @click="openFileNameModal"
         ></button>
         <button
@@ -619,7 +639,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Abrir."
-          class="btn btn-outline-info bi bi-folder2-open rounded-circle py-3 px-4"
+          class="btn btn-outline-success bi bi-folder2-open rounded-circle py-3 px-4"
           @click="openGraphFile"
         ></button>
         <button
@@ -628,7 +648,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Limpiar."
-          class="btn btn-outline-info bi bi-file-earmark-x rounded-circle py-3 px-4"
+          class="btn btn-outline-success bi bi-file-earmark-x rounded-circle py-3 px-4"
           @click="handleClearAll"
         ></button>
         <button
@@ -676,7 +696,6 @@ import { Modal } from "bootstrap";
 import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
 
-
 const router = useRouter();
 const fileStore = useFileStore();
 
@@ -689,7 +708,6 @@ let nodes: Nodes;
 let edges: Edges;
 let layouts = ref<vNG.Layouts>({ nodes: {} /* empty */ });
 
-
 if (fileStore.graphData) {
   nodes = reactive({ ...fileStore.graphData.nodes });
   edges = reactive({ ...fileStore.graphData.edges });
@@ -699,7 +717,6 @@ if (fileStore.graphData) {
   edges = reactive({ ...data.edges });
   layouts = reactive(data.layouts);
 }
-
 
 const nextNodeIndex = ref(Object.keys(nodes).length + 1);
 const nextEdgeIndex = ref(Object.keys(edges).length + 1);
@@ -728,7 +745,7 @@ const configs = defineConfigs({
   },
   node: {
     selectable: true,
-    draggable: true,
+    draggable: (node) => (node.isCompetNode ? false : true),
     normal: {
       type: "circle",
       radius: 40,
@@ -736,9 +753,9 @@ const configs = defineConfigs({
       height: 40,
       borderRadius: 4,
       strokeWidth: 3,
-      strokeColor: "#000000",
+      strokeColor: (node) => (node.isCompetNode ? "#F8FF6C" : "#E800FF"),
       strokeDasharray: "0",
-      color: node => node.isCompetNode ? '#EE4A2C' : '#599db9',
+      color: (node) => (node.isCompetNode ? "#FFC900" : "#7588FF"),
     },
     hover: {
       type: "circle",
@@ -747,9 +764,9 @@ const configs = defineConfigs({
       height: 40,
       borderRadius: 4,
       strokeWidth: 2,
-      strokeColor: "#000000",
+      strokeColor: (node) => (node.isCompetNode ? "#3258FF" : "#2ECFD9"),
       strokeDasharray: "0",
-      color: node => node.isCompetNode ? '#F3806B' : '#599db9',
+      color: (node) => (node.isCompetNode ? "#F3806B" : "#DC1CF0"),
     },
     selected: {
       type: "circle",
@@ -758,9 +775,9 @@ const configs = defineConfigs({
       height: 40,
       borderRadius: 4,
       strokeWidth: 2,
-      strokeColor: "#000000",
+      strokeColor: (node) => (node.isCompetNode ? "#3258FF" : "#00C6E1"),
       strokeDasharray: "0",
-      color: node => node.isCompetNode ? '#F3806B' : '#dd2288',
+      color: (node) => (node.isCompetNode ? "#F3806B" : "#00DB6D"),
     },
     label: {
       visible: true,
@@ -921,7 +938,7 @@ const solveCompet = () => {
     sumX += nodes[nodeId].x;
     sumY += nodes[nodeId].y;
 
-    const [a, b] = nodes[nodeId].name.split(',').map(Number);
+    const [a, b] = nodes[nodeId].name.split(",").map(Number);
     sumA += a;
     sumB += b;
 
@@ -973,7 +990,6 @@ const handleDeletion = () => {
     confirmDeleteModal.value?.show();
   }
 };
-
 
 // Event Handling -------------------------------------------------------------
 const EVENTS_COUNT = 6;
@@ -1118,8 +1134,6 @@ onMounted(() => {
 
   initialLocationSelLoopEdgeLabel();
 });
-
-
 
 // Rename Node -------------------------------------------------------------
 const newNodeNamePart1 = ref("");
