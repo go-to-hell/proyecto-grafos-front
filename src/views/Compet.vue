@@ -12,8 +12,8 @@
           />
           <button class="btn btn-primary me-2 flex-shrink-0" type="submit">
             <i class="bi bi-search"></i> Buscar
-          </button>
-          <button
+        </button>
+        <button
             @click="goEditorCompet"
             class="btn btn-secondary flex-shrink-0"
             type="button"
@@ -121,12 +121,12 @@ export default {
     loaderStore.pageIsLoaded();
 
     return {
-      authStore,
-      fileStore,
-      goEditorCompet,
-      loadGraph,
-      uploadFile,
-      submitFile,
+        authStore,
+        fileStore,
+        goEditorCompet,
+        loadGraph,
+        uploadFile,
+        submitFile,
     };
   },
 };
