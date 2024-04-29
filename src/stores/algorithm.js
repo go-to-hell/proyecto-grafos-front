@@ -15,6 +15,7 @@ export const useAlgorithmStore = defineStore("algorithm", {
     assignmentDataOutput: null,
     northWestDataOutput: null,
     kruskalsTreeEdgesDataOutput: null,
+    dijkstraDataOutput: null,
   }),
 
   actions: {
@@ -161,4 +162,26 @@ export const useAlgorithmStore = defineStore("algorithm", {
       return this.kruskalsTreeEdgesDataOutput;
     }
   },
+  async loadDijkstra(dijktraDataInput, maximize) {
+    //console.log(kruskalsTreeEdgesDataInput);
+    //console.log("maximize", maximize);
+    const authStore = useAuthStore();
+    const response = await axios.post(
+      `http://localhost:8000/dijkstra/?maximize=${maximize}&start_node=${dijktraDataInput.startNode}`,  
+      dijkstraDataOutputDataInput,
+      {
+        headers: {
+          Authorization: `Bearer ${authStore.accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    this.dijkstraDataOutput = response.data;
+  },
+  getDijkstraNodes() {
+    return this.dijkstraDataOutput.nodes;
+  },
+  getDijkstraEdges() {
+    return this.dijkstraDataOutput.edges;
+  }
 });
