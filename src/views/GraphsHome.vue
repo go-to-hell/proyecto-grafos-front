@@ -1,7 +1,7 @@
 <template>
   <NavBar />
   <div class="container">
-    <h5 class="mb-4 mt-4">Seleccione el algoritmo que desee desarrollar:</h5>
+    <h5 class="my-4">Seleccione el algoritmo que desee desarrollar:</h5>
     <div class="btn-group mb-4" role="group">
       <a class="btn graphs-button" href="#Graphs">Grafos</a>
       <a class="btn johnson-button" href="#Johnson">Johnson</a>
