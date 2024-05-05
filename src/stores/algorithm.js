@@ -160,28 +160,49 @@ export const useAlgorithmStore = defineStore("algorithm", {
     },
     getKruskalsTreeEdges() {
       return this.kruskalsTreeEdgesDataOutput;
+  },
+  
+  async loadDijkstra(dijkstraDataInput, maximize, startNode) {
+    try {
+      const authStore = useAuthStore(); // Supongamos que useAuthStore() devuelve el objeto de autenticación necesario
+  
+      // Realiza una solicitud POST a la URL con los parámetros maximize y startNode
+      console.log(dijkstraDataInput);
+      console.log("maximize", maximize);
+      console.log("startNode", startNode);
+      
+      const response = await axios.post(
+        `http://localhost:8000/dijkstra/?maximize=${maximize}&start_node=${startNode}`,
+        dijkstraDataInput,
+        {
+          headers: {
+            Authorization: `Bearer ${authStore.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      // Guarda la salida de la respuesta en dijkstraDataOutput
+      console.log(response.data);
+      this.dijkstraDataOutput = response.data;
+      
+    } catch (error) {
+      // Si ocurre un error, imprime el mensaje de error y propaga el error para manejarlo en el componente
+      console.error('Error en loadDijkstra:', error.message);
+      throw error;
     }
   },
-  async loadDijkstra(dijktraDataInput, maximize) {
-    //console.log(kruskalsTreeEdgesDataInput);
-    //console.log("maximize", maximize);
-    const authStore = useAuthStore();
-    const response = await axios.post(
-      `http://localhost:8000/dijkstra/?maximize=${maximize}&start_node=${dijktraDataInput.startNode}`,  
-      dijkstraDataOutputDataInput,
-      {
-        headers: {
-          Authorization: `Bearer ${authStore.accessToken}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    this.dijkstraDataOutput = response.data;
-  },
+  
+  // Función para obtener los nodos resultantes del algoritmo de Dijkstra
   getDijkstraNodes() {
+    // Retorna los nodos (vertices) de la salida almacenada en dijkstraDataOutput
     return this.dijkstraDataOutput.nodes;
   },
+  
+  // Función para obtener las aristas (caminos) resultantes del algoritmo de Dijkstra
   getDijkstraEdges() {
+    // Retorna las aristas (caminos) de la salida almacenada en dijkstraDataOutput
     return this.dijkstraDataOutput.edges;
   }
+  },
 });

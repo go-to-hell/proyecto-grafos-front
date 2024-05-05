@@ -483,15 +483,20 @@
           class="btn btn-primary bi bi-arrow-left mb-1"
           @click="goBack"
       ></button>
-      <input class="form-check-input" type="checkbox" id="maximizeSwitch" v-model="maximize" />
-      <label :class="{'text-success': maximize, 'text-info': !maximize}" class="form-check-label" for="maximizeSwitch">
-            {{ maximize ? "Max." : "Min." }}
-      </label>
-         
-    <v-combobox
-        label="Ingrese nodo inicial"
-        :items="[]"
-    ></v-combobox>
+      <div class="form-check custom-checkbox"> <!-- Contenedor del checkbox y texto -->
+    <label class="form-check-label" for="maximizeSwitch">
+        {{ maximize ? "Max." : "Min." }}
+    </label>
+    <input class="form-check-input" type="checkbox" id="maximizeSwitch" v-model="maximize" />
+</div>
+
+
+    <select v-model="startNode" required>
+        <option value="" disabled>Seleccione el nodo de inicio</option>
+        <option v-for="(node, nodeId) in nodes" :key="nodeId" :value="nodeId">
+            {{ node.name }}
+        </option>
+    </select>
     
       <button
           type="button"
@@ -739,7 +744,20 @@
       </div>
       </div>
   </div>
+  <div class="graph-container">
+  <div v-if="graph && graph.nodes" v-for="node in graph.nodes" :key="node.id" class="graph-node" :style="{ left: node.x + 'px', top: node.y + 'px' }">
+    {{ node.label }}
+  </div>
+</div>
+<div class="node-list">
+      <div v-for="node in nodes" :key="node.id" class="node">
+        <!-- Mostrar la etiqueta del nodo con estilos -->
+        <div class="node-label">
+          {{ node.label }}
+        </div>
+      </div>
     </div>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -759,7 +777,8 @@ import { Modal } from "bootstrap";
 import { useAlgorithmStore } from "../stores/algorithm";
 import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
-import * as vNG from "v-network-graph"
+import * as vNG from "v-network-graph";
+
 
 const router = useRouter();
 const fileStore = useFileStore();
@@ -923,7 +942,7 @@ edge: {
       color: null,
   },
   target: {
-      type: "none",
+      type: "arrow",
       width: 4,
       height: 4,
       margin: -1,
@@ -1124,30 +1143,108 @@ tooltipTriggerList.forEach((tooltipTriggerEl: Element) => {
 });
 });
 
+const calculateNodeValues = (responseData, maximize) => {
+  const { nodes, edges } = responseData;
+  const nodeValues = {};
+
+  for (const nodeId in nodes) {
+    const connectedEdges = edges.filter(
+      (edge) => edge.source === nodeId || edge.target === nodeId
+    );
+
+    let nodeValue;
+
+    if (maximize) {
+      // Maximizar: Obtener el valor máximo de los edges conectados
+      nodeValue = Math.max(...connectedEdges.map((edge) => edge.value));
+    } else {
+      // Minimizar: Obtener el valor mínimo de los edges conectados
+      nodeValue = Math.min(...connectedEdges.map((edge) => edge.value));
+    }
+
+    nodeValues[nodeId] = nodeValue;
+  }
+
+  return nodeValues;
+};
 
 
 // Dijkstra's Algorithm -------------------------------------------------------------
 const solveDijkstra = async () => {
-  const algorithmStore = useAlgorithmStore();
+  try {
+    const n = nodes;
+    const e = edges;
+    const max = maximize.value;
+    const sN = startNode.value;
 
-  // Load the graph data from the API
-  const graphData = {
-      nodes: nodes,
-      edges: edges,
-  };
+    // Preparar los datos del grafo para Dijkstra
+    const graphData = {
+      nodes: n,
+      edges: e,
+    };
 
-  const jsonData = JSON.stringify(graphData, null, 2); // Indentación de 2 espacios
-  await algorithmStore.loadDijkstra(jsonData, maximize.value, startNode.value);
+    const jsonData = JSON.stringify(graphData);
 
-  // por cada arista en el árbol de expansión mínima, se agrega un nuevo path
-  let Dijkstra = algorithmStore.getDijkstra();
-  if (Dijkstra !== null) {
-    paths.value = Dijkstra;
+    // Realizar la llamada a la función loadDijkstra del store para ejecutar el algoritmo
+    await algorithmStore.loadDijkstra(jsonData, max, sN);
+
+    // Obtener los resultados del algoritmo de Dijkstra desde el estado local del componente Vue a través del store
+    const { dijkstraNodes, dijkstraEdges } = algorithmStore.getDijkstraNodes();
+
+    // Calcular el valor máximo o mínimo de los bordes conectados para cada nodo
+    const nodeValueMap = {}; // Objeto para almacenar los valores máximo o mínimo por nodo
+
+    for (let i = 0; i < e.length; i++) {
+      const edge = e[i];
+      const { target, weight } = edge;
+      const pathWeight = dijkstraNodes[target].distance; // Peso del camino más corto al nodo target
+
+      if (pathWeight !== Infinity) {
+        if (max) {
+          // Calcular el máximo valor de los bordes conectados
+          if (!nodeValueMap[target] || weight > nodeValueMap[target]) {
+            nodeValueMap[target] = weight;
+          }
+        } else {
+          // Calcular el mínimo valor de los bordes conectados
+          if (!nodeValueMap[target] || weight < nodeValueMap[target]) {
+            nodeValueMap[target] = weight;
+          }
+        }
+      }
+    }
+
+    // Actualizar las etiquetas de los nodos con el valor máximo o mínimo calculado
+    for (let i = 0; i < n.length; i++) {
+      const node = n[i];
+      const nodeId = node.id;
+      const value = nodeValueMap[nodeId];
+
+      if (value !== undefined) {
+        // Actualizar la etiqueta del nodo en la lista de nodos
+        node.label = max ? `Max Value: ${value}` : `Min Value: ${value}`;
+      }
+    }
+
+    // Mostrar los nodos actualizados en la interfaz
+    updateNodeLabels(); // Llama a la función para actualizar las etiquetas en la interfaz
+  } catch (error) {
+    console.error("Error in solveDijkstra:", error.message);
+    // Manejar el error según sea necesario
   }
-
-  // Muestra las aristas críticas en la consola
-  console.log("Dijkstra MST Edges:", algorithmStore.criticalEdges);
 };
+
+// Función para actualizar las etiquetas de los nodos en la interfaz
+const updateNodeLabels = () => {
+  // Obtener todos los elementos de nodo en la interfaz
+  const nodeElements = document.querySelectorAll(".node-label");
+
+  // Iterar sobre los nodos y actualizar las etiquetas en la interfaz
+  nodeElements.forEach((element, index) => {
+    element.textContent = nodes[index].label;
+  });
+};
+
 
 // Rename Node -------------------------------------------------------------
 const newNodeName = ref("");
@@ -1359,5 +1456,24 @@ display: none;
 .arrow {
   color: #f00;
   font-weight: bold;
+}
+.graph-container {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #ccc;
+}
+
+.graph-node {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
 }
 </style>
