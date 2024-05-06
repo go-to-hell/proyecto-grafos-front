@@ -925,6 +925,15 @@ onUnmounted(() => {
 
 // Compet algorithm -------------------------------------------------------------
 const solveCompet = () => {
+  // Find and delete the existing compet node
+  for (let nodeId in nodes) {
+    if (nodes[nodeId].isCompetNode) {
+      delete nodes[nodeId];
+      delete layouts.nodes[nodeId];
+      break;
+    }
+  }
+
   // Calculate the centroid for x, y
   let sumX = 0;
   let sumY = 0;
