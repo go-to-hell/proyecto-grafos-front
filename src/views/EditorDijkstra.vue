@@ -458,16 +458,69 @@
           @click="handleNodeAddition"
           @keydown="edgeAdditionKey"
       >
-          <template #edge-label="{ edge, hovered, selected, ...slotProps }">
-          <v-edge-label
-              :class="{ hovered, selected }"
-              :text="edge.label"
-              align="center"
-              vertical-align="above"
-              v-bind="slotProps"
-          />
-          </template>
-          <Background />
+      <template #override-node-label="{
+  nodeId,
+  scale,
+  textAnchor,
+  dominantBaseline,
+  text,
+  config,
+}">
+  <!-- Mostrar el dijkstravalue dentro del nodo -->
+  <text
+    x="config.x"
+    :y="config.y"
+    :font-size="config.fontSize * scale"
+    text-anchor="middle"
+    :dominant-baseline="dominantBaseline"
+    :fill="config.color"
+  >
+  {{ nodes[nodeId].name }}: {{ nodes[nodeId].dijkstravalue }}
+  </text>
+</template>
+<template #edge-label="{ edge, hovered, selected, ...slotProps }">
+            <v-edge-label
+                :class="{ hovered, selected }"
+                :text="edge.label"
+                align="center"
+                vertical-align="above"
+                v-bind="slotProps"
+            />
+            <v-edge-label 
+                :class="{ hovered, selected }"
+                :text="edge.earlyStart"
+                align="source"
+                vertical-align="above"
+                v-bind="slotProps"
+                fill="#ff5500"
+                :font-size="12 * scale"
+                v-if="edge.earlyStart || edge.earlyStart === 0"
+            />
+            </template>
+<!--<template #override-edge-label="{
+  edges,
+  scale,
+  textAnchor,
+  dominantBaseline,
+  text,
+  config,
+}">
+  <!-- Mostrar el dijkstravalue dentro del edge 
+  <text
+    x="config.x"
+    :y="config.y"
+    :font-size="config.fontSize * scale"
+    text-anchor="middle"
+    :dominant-baseline="dominantBaseline"
+    :fill="config.color"
+  >
+  {{ edges.label }}
+  </text>
+</template>-->
+ 
+
+
+     <Background />
       </v-network-graph>
       </div>
   </div>
@@ -749,14 +802,7 @@
     {{ node.label }}
   </div>
 </div>
-<div class="node-list">
-      <div v-for="node in nodes" :key="node.id" class="node">
-        <!-- Mostrar la etiqueta del nodo con estilos -->
-        <div class="node-label">
-          {{ node.label }}
-        </div>
-      </div>
-    </div>
+
 </div>
 </template>
 
@@ -1189,62 +1235,20 @@ const solveDijkstra = async () => {
     await algorithmStore.loadDijkstra(jsonData, max, sN);
 
     // Obtener los resultados del algoritmo de Dijkstra desde el estado local del componente Vue a través del store
-    const { dijkstraNodes, dijkstraEdges } = algorithmStore.getDijkstraNodes();
+    const dijkstraNodes = algorithmStore.getDijkstraNodes();
 
-    // Calcular el valor máximo o mínimo de los bordes conectados para cada nodo
-    const nodeValueMap = {}; // Objeto para almacenar los valores máximo o mínimo por nodo
+   for(const nodeId in dijkstraNodes){
+    console.log("Node ID:", nodeId);
+    console.log("Node Value:", dijkstraNodes[nodeId]);
+    nodes[nodeId].dijkstravalue = dijkstraNodes[nodeId];
+   }
+    console.log("Dijkstra nodes:", dijkstraNodes);
 
-    for (let i = 0; i < e.length; i++) {
-      const edge = e[i];
-      const { target, weight } = edge;
-      const pathWeight = dijkstraNodes[target].distance; // Peso del camino más corto al nodo target
-
-      if (pathWeight !== Infinity) {
-        if (max) {
-          // Calcular el máximo valor de los bordes conectados
-          if (!nodeValueMap[target] || weight > nodeValueMap[target]) {
-            nodeValueMap[target] = weight;
-          }
-        } else {
-          // Calcular el mínimo valor de los bordes conectados
-          if (!nodeValueMap[target] || weight < nodeValueMap[target]) {
-            nodeValueMap[target] = weight;
-          }
-        }
-      }
-    }
-
-    // Actualizar las etiquetas de los nodos con el valor máximo o mínimo calculado
-    for (let i = 0; i < n.length; i++) {
-      const node = n[i];
-      const nodeId = node.id;
-      const value = nodeValueMap[nodeId];
-
-      if (value !== undefined) {
-        // Actualizar la etiqueta del nodo en la lista de nodos
-        node.label = max ? `Max Value: ${value}` : `Min Value: ${value}`;
-      }
-    }
-
-    // Mostrar los nodos actualizados en la interfaz
-    updateNodeLabels(); // Llama a la función para actualizar las etiquetas en la interfaz
   } catch (error) {
     console.error("Error in solveDijkstra:", error.message);
     // Manejar el error según sea necesario
   }
 };
-
-// Función para actualizar las etiquetas de los nodos en la interfaz
-const updateNodeLabels = () => {
-  // Obtener todos los elementos de nodo en la interfaz
-  const nodeElements = document.querySelectorAll(".node-label");
-
-  // Iterar sobre los nodos y actualizar las etiquetas en la interfaz
-  nodeElements.forEach((element, index) => {
-    element.textContent = nodes[index].label;
-  });
-};
-
 
 // Rename Node -------------------------------------------------------------
 const newNodeName = ref("");
