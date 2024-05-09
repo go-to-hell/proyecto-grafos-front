@@ -225,13 +225,22 @@
               útiles!
           </p>
           <img
-            src="../assets/RJS.png"
+            src="../assets/RK.png"
             alt="Resolver"
             class="img-fluid"
           />
           <p>
-            <strong>Resolver</strong><br />
-            Dale al botón de Resolver y disfruta. El editor te mostrará la ruta crítica de manera escrita y marcará el camino en el grafico de gráfos resaltando las aristas de la ruta crítica.
+                <strong>Resolver 🧠</strong><br />
+                Selecciona entre maximizar y minimizar, dale al boton de resolver y disfruta.
+          </p>
+            <img
+                src="../assets/ResK.png"
+                alt="Resultado"
+                class="img-fluid"
+            />
+            <p>
+            <strong>Resultado</strong><br />
+             El editor te mostrará la ruta crítica  y marcará el camino en el grafico de gráfos resaltando las aristas de la ruta crítica.
           </p>
           <img
               src="../assets/Direccion.jpg"
@@ -287,16 +296,7 @@
               localmente para retomar tus épicas creaciones.
           </p>
           
-          <img
-            src="../assets/MatrizAd.jpg"
-            alt="MatrizAd"
-            class="img-fluid"
-          />
-          <p>
-              <strong>Matriz de Adyacencia 📊</strong><br />
-              Haz clic en "Matriz de Adyacencia" para explorar la estructura
-              subyacente de tu obra maestra en forma de matriz.
-          </p>
+          
           <p>
               ¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los
               grafos con tu creatividad desbordante. ¡Buena suerte, maestro del

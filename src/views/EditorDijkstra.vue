@@ -225,13 +225,13 @@
               útiles!
           </p>
           <img
-            src="../assets/RJS.png"
-            alt="Resolver"
+            src="../assets/IniciarDijkstra.png"
+            alt="INDijkstra"
             class="img-fluid"
           />
           <p>
-            <strong>Resolver</strong><br />
-            Dale al botón de Resolver y disfruta. El editor te mostrará la ruta crítica de manera escrita y marcará el camino en el grafico de gráfos resaltando las aristas de la ruta crítica.
+              <strong>Iniciar Dijkstra 📊</strong><br />
+              Selecciona si es que quieres maximizar o minimizar el camino y selecciona el nodo de inicio, luego dale al botón de resolver.
           </p>
           <img
               src="../assets/Direccion.jpg"
@@ -287,16 +287,7 @@
               localmente para retomar tus épicas creaciones.
           </p>
           
-          <img
-            src="../assets/MatrizAd.jpg"
-            alt="MatrizAd"
-            class="img-fluid"
-          />
-          <p>
-              <strong>Matriz de Adyacencia 📊</strong><br />
-              Haz clic en "Matriz de Adyacencia" para explorar la estructura
-              subyacente de tu obra maestra en forma de matriz.
-          </p>
+          
           <p>
               ¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los
               grafos con tu creatividad desbordante. ¡Buena suerte, maestro del
