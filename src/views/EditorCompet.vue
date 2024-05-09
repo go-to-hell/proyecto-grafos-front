@@ -172,6 +172,21 @@
               maestra! Luego, simplemente dale clic en el área de dibujo para
               soltar esos nodos como si fueran confeti.
             </p>
+          
+            <img
+              src="../assets/RenombrarN.png"
+              alt="Renombrar"
+              class="img-fluid"
+            />
+            <p>
+              <strong>Renombrar Nodos 🏷️</strong><br />
+              Dale a tus nodos los valores que necesites para poder encontrar el centroide
+            </p>
+            <img src="../assets/ResolverC.png" alt="Resolver" class="img-fluid" />
+            <p>
+              <strong>Resolver Compet 🏆</strong><br />
+              ¡Haz clic en el botón "Resolver Compet" y veras como el centroide aparece en tu pantalla con los valores y coordenadas correspondientes! 🎩✨
+            </p>
             <img
               src="../assets/EliminarN.jpg"
               alt="EliminarN"
@@ -182,27 +197,7 @@
               ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar"
               o simplemente usa la mágica tecla "Delete" en tu teclado.
             </p>
-            <img
-              src="../assets/AgregarA.jpg"
-              alt="AgregarA"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Agregar Aristas ➡️</strong><br />
-              Haz clic en dos nodos y crea una conexión con el botón "Agregar
-              Arista". ¡Conecta tus ideas de manera brillante!
-            </p>
-            <img
-              src="../assets/EliminarA.jpg"
-              alt="EliminarA"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Eliminar Aristas 🗡️</strong><br />
-              Selecciona una arista y presiona "Eliminar Arista" o utiliza la
-              tecla "Delete". ¡Desconecta sin esfuerzo tus conexiones menos
-              útiles!
-            </p>
+            
             <img src="../assets/CyA.jpg" alt="CyA" class="img-fluid" />
             <p>
               <strong>Centrar y Ajustar 🔄</strong><br />
@@ -225,36 +220,13 @@
               ¿Quieres destacar varios nodos a la vez? Activa "Iniciar
               Selección" y desata tu poder de selección masiva.
             </p>
-            <img
-              src="../assets/Renombrar.jpg"
-              alt="Renombrar"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Renombrar Nodos y Aristas 🏷️</strong><br />
-              Dale a tus nodos y aristas nombres épicos. Haz clic en ellos,
-              edita el nombre y sé el narrador de tu propio grafo.
-            </p>
-            <p>
-              <strong>Enlazar Nodos con Shift+Alt+e 🌐</strong><br />
-              Selecciona dos nodos y mantén presionadas las teclas Shift+Alt+e
-              para enlazarlos con una arista.
-            </p>
+           
+            
             <img src="../assets/GyA.jpg" alt="GyA" class="img-fluid" />
             <p>
               <strong>Guardar y Abrir 📂</strong><br />
               No dejes que tus obras maestras se pierdan. Guarda y abre archivos
               localmente para retomar tus épicas creaciones.
-            </p>
-            <img
-              src="../assets/MatrizAd.jpg"
-              alt="MatrizAd"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Matriz de Adyacencia 📊</strong><br />
-              Haz clic en "Matriz de Adyacencia" para explorar la estructura
-              subyacente de tu obra maestra en forma de matriz.
             </p>
             <p>
               ¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los

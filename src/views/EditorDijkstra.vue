@@ -225,13 +225,13 @@
               útiles!
           </p>
           <img
-            src="../assets/RJS.png"
-            alt="Resolver"
+            src="../assets/IniciarDijkstra.png"
+            alt="INDijkstra"
             class="img-fluid"
           />
           <p>
-            <strong>Resolver</strong><br />
-            Dale al botón de Resolver y disfruta. El editor te mostrará la ruta crítica de manera escrita y marcará el camino en el grafico de gráfos resaltando las aristas de la ruta crítica.
+              <strong>Iniciar Dijkstra 📊</strong><br />
+              Selecciona si es que quieres maximizar o minimizar el camino y selecciona el nodo de inicio, luego dale al botón de resolver.
           </p>
           <img
               src="../assets/Direccion.jpg"
@@ -287,16 +287,7 @@
               localmente para retomar tus épicas creaciones.
           </p>
           
-          <img
-            src="../assets/MatrizAd.jpg"
-            alt="MatrizAd"
-            class="img-fluid"
-          />
-          <p>
-              <strong>Matriz de Adyacencia 📊</strong><br />
-              Haz clic en "Matriz de Adyacencia" para explorar la estructura
-              subyacente de tu obra maestra en forma de matriz.
-          </p>
+          
           <p>
               ¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los
               grafos con tu creatividad desbordante. ¡Buena suerte, maestro del
@@ -458,16 +449,69 @@
           @click="handleNodeAddition"
           @keydown="edgeAdditionKey"
       >
-          <template #edge-label="{ edge, hovered, selected, ...slotProps }">
-          <v-edge-label
-              :class="{ hovered, selected }"
-              :text="edge.label"
-              align="center"
-              vertical-align="above"
-              v-bind="slotProps"
-          />
-          </template>
-          <Background />
+      <template #override-node-label="{
+  nodeId,
+  scale,
+  textAnchor,
+  dominantBaseline,
+  text,
+  config,
+}">
+  <!-- Mostrar el dijkstravalue dentro del nodo -->
+  <text
+    x="config.x"
+    :y="config.y"
+    :font-size="config.fontSize * scale"
+    text-anchor="middle"
+    :dominant-baseline="dominantBaseline"
+    :fill="config.color"
+  >
+  {{ nodes[nodeId].name }}: {{ nodes[nodeId].dijkstravalue }}
+  </text>
+</template>
+<template #edge-label="{ edge, hovered, selected, ...slotProps }">
+            <v-edge-label
+                :class="{ hovered, selected }"
+                :text="edge.label"
+                align="center"
+                vertical-align="above"
+                v-bind="slotProps"
+            />
+            <v-edge-label 
+                :class="{ hovered, selected }"
+                :text="edge.earlyStart"
+                align="source"
+                vertical-align="above"
+                v-bind="slotProps"
+                fill="#ff5500"
+                :font-size="12 * scale"
+                v-if="edge.earlyStart || edge.earlyStart === 0"
+            />
+            </template>
+<!--<template #override-edge-label="{
+  edges,
+  scale,
+  textAnchor,
+  dominantBaseline,
+  text,
+  config,
+}">
+  <!-- Mostrar el dijkstravalue dentro del edge 
+  <text
+    x="config.x"
+    :y="config.y"
+    :font-size="config.fontSize * scale"
+    text-anchor="middle"
+    :dominant-baseline="dominantBaseline"
+    :fill="config.color"
+  >
+  {{ edges.label }}
+  </text>
+</template>-->
+ 
+
+
+     <Background />
       </v-network-graph>
       </div>
   </div>
@@ -483,15 +527,20 @@
           class="btn btn-primary bi bi-arrow-left mb-1"
           @click="goBack"
       ></button>
-      <input class="form-check-input" type="checkbox" id="maximizeSwitch" v-model="maximize" />
-      <label :class="{'text-success': maximize, 'text-info': !maximize}" class="form-check-label" for="maximizeSwitch">
-            {{ maximize ? "Max." : "Min." }}
-      </label>
-         
-    <v-combobox
-        label="Ingrese nodo inicial"
-        :items="[]"
-    ></v-combobox>
+      <div class="form-check custom-checkbox"> <!-- Contenedor del checkbox y texto -->
+    <label class="form-check-label" for="maximizeSwitch">
+        {{ maximize ? "Max." : "Min." }}
+    </label>
+    <input class="form-check-input" type="checkbox" id="maximizeSwitch" v-model="maximize" />
+</div>
+
+
+    <select v-model="startNode" required>
+        <option value="" disabled>Seleccione el nodo de inicio</option>
+        <option v-for="(node, nodeId) in nodes" :key="nodeId" :value="nodeId">
+            {{ node.name }}
+        </option>
+    </select>
     
       <button
           type="button"
@@ -739,7 +788,13 @@
       </div>
       </div>
   </div>
-    </div>
+  <div class="graph-container">
+  <div v-if="graph && graph.nodes" v-for="node in graph.nodes" :key="node.id" class="graph-node" :style="{ left: node.x + 'px', top: node.y + 'px' }">
+    {{ node.label }}
+  </div>
+</div>
+
+</div>
 </template>
 
 <script setup lang="ts">
@@ -759,7 +814,8 @@ import { Modal } from "bootstrap";
 import { useAlgorithmStore } from "../stores/algorithm";
 import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
-import * as vNG from "v-network-graph"
+import * as vNG from "v-network-graph";
+
 
 const router = useRouter();
 const fileStore = useFileStore();
@@ -923,7 +979,7 @@ edge: {
       color: null,
   },
   target: {
-      type: "none",
+      type: "arrow",
       width: 4,
       height: 4,
       margin: -1,
@@ -1124,29 +1180,65 @@ tooltipTriggerList.forEach((tooltipTriggerEl: Element) => {
 });
 });
 
+const calculateNodeValues = (responseData, maximize) => {
+  const { nodes, edges } = responseData;
+  const nodeValues = {};
+
+  for (const nodeId in nodes) {
+    const connectedEdges = edges.filter(
+      (edge) => edge.source === nodeId || edge.target === nodeId
+    );
+
+    let nodeValue;
+
+    if (maximize) {
+      // Maximizar: Obtener el valor máximo de los edges conectados
+      nodeValue = Math.max(...connectedEdges.map((edge) => edge.value));
+    } else {
+      // Minimizar: Obtener el valor mínimo de los edges conectados
+      nodeValue = Math.min(...connectedEdges.map((edge) => edge.value));
+    }
+
+    nodeValues[nodeId] = nodeValue;
+  }
+
+  return nodeValues;
+};
 
 
 // Dijkstra's Algorithm -------------------------------------------------------------
 const solveDijkstra = async () => {
-  const algorithmStore = useAlgorithmStore();
+  try {
+    const n = nodes;
+    const e = edges;
+    const max = maximize.value;
+    const sN = startNode.value;
 
-  // Load the graph data from the API
-  const graphData = {
-      nodes: nodes,
-      edges: edges,
-  };
+    // Preparar los datos del grafo para Dijkstra
+    const graphData = {
+      nodes: n,
+      edges: e,
+    };
 
-  const jsonData = JSON.stringify(graphData, null, 2); // Indentación de 2 espacios
-  await algorithmStore.loadDijkstra(jsonData, maximize.value, startNode.value);
+    const jsonData = JSON.stringify(graphData);
 
-  // por cada arista en el árbol de expansión mínima, se agrega un nuevo path
-  let Dijkstra = algorithmStore.getDijkstra();
-  if (Dijkstra !== null) {
-    paths.value = Dijkstra;
+    // Realizar la llamada a la función loadDijkstra del store para ejecutar el algoritmo
+    await algorithmStore.loadDijkstra(jsonData, max, sN);
+
+    // Obtener los resultados del algoritmo de Dijkstra desde el estado local del componente Vue a través del store
+    const dijkstraNodes = algorithmStore.getDijkstraNodes();
+
+   for(const nodeId in dijkstraNodes){
+    console.log("Node ID:", nodeId);
+    console.log("Node Value:", dijkstraNodes[nodeId]);
+    nodes[nodeId].dijkstravalue = dijkstraNodes[nodeId];
+   }
+    console.log("Dijkstra nodes:", dijkstraNodes);
+
+  } catch (error) {
+    console.error("Error in solveDijkstra:", error.message);
+    // Manejar el error según sea necesario
   }
-
-  // Muestra las aristas críticas en la consola
-  console.log("Dijkstra MST Edges:", algorithmStore.criticalEdges);
 };
 
 // Rename Node -------------------------------------------------------------
@@ -1359,5 +1451,24 @@ display: none;
 .arrow {
   color: #f00;
   font-weight: bold;
+}
+.graph-container {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #ccc;
+}
+
+.graph-node {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
 }
 </style>
