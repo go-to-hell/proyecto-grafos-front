@@ -1150,7 +1150,7 @@ const newNodeNamePart2 = ref("");
 const newEdgeName = ref("");
 
 const renameNode = () => {
-  if (!newNodeNamePart1.value || !newNodeNamePart2.value) return;
+  if (newNodeNamePart1.value === null || newNodeNamePart1.value === undefined || newNodeNamePart2.value === null || newNodeNamePart2.value === undefined) return;
   const nodeId = selectedNodes.value[0];
   nodes[nodeId].name = `${newNodeNamePart1.value}, ${newNodeNamePart2.value}`;
   newNodeNamePart1.value = "";
