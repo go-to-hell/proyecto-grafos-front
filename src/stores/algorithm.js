@@ -162,7 +162,7 @@ export const useAlgorithmStore = defineStore("algorithm", {
       return this.kruskalsTreeEdgesDataOutput;
   },
   
-  async loadDijkstra(dijkstraDataInput, maximize, startNode) {
+  async loadDijkstra(dijkstraDataInput, maximize, startNode, endNode) {
     try {
       const authStore = useAuthStore(); // Supongamos que useAuthStore() devuelve el objeto de autenticación necesario
   
@@ -172,7 +172,7 @@ export const useAlgorithmStore = defineStore("algorithm", {
       console.log("startNode", startNode);
       
       const response = await axios.post(
-        `http://localhost:8000/dijkstra/?maximize=${maximize}&start_node=${startNode}`,
+        `http://localhost:8000/dijkstra/?start_node=${startNode}&end_node=${endNode}&maximize=${maximize}`,
         dijkstraDataInput,
         {
           headers: {

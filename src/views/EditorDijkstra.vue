@@ -541,6 +541,13 @@
             {{ node.name }}
         </option>
     </select>
+
+    <select v-model="endNode" required>
+        <option value="" disabled>Seleccione el nodo de destino</option>
+        <option v-for="(node, nodeId) in nodes" :key="nodeId" :value="nodeId">
+            {{ node.name }}
+        </option>
+    </select>
     
       <button
           type="button"
@@ -855,6 +862,7 @@ const zoomOut = () => graph.value?.zoomOut();
 
 const maximize = ref(false);
 const startNode = ref("");
+const endNode = ref("");
 
 const configs = defineConfigs({
 view: {
@@ -1213,6 +1221,7 @@ const solveDijkstra = async () => {
     const e = edges;
     const max = maximize.value;
     const sN = startNode.value;
+    const eN = endNode.value;
 
     // Preparar los datos del grafo para Dijkstra
     const graphData = {
@@ -1223,7 +1232,7 @@ const solveDijkstra = async () => {
     const jsonData = JSON.stringify(graphData);
 
     // Realizar la llamada a la función loadDijkstra del store para ejecutar el algoritmo
-    await algorithmStore.loadDijkstra(jsonData, max, sN);
+    await algorithmStore.loadDijkstra(jsonData, max, sN, eN);
 
     // Obtener los resultados del algoritmo de Dijkstra desde el estado local del componente Vue a través del store
     const dijkstraNodes = algorithmStore.getDijkstraNodes();
@@ -1234,6 +1243,13 @@ const solveDijkstra = async () => {
     nodes[nodeId].dijkstravalue = dijkstraNodes[nodeId];
    }
     console.log("Dijkstra nodes:", dijkstraNodes);
+
+    // por cada arista en la ruta, se agrega un nuevo path
+    let optimalPath = algorithmStore.getDijkstraEdges();
+    console.log("Optimal Path:", optimalPath);
+    if (optimalPath !== null) {
+        paths.value = optimalPath;
+    }
 
   } catch (error) {
     console.error("Error in solveDijkstra:", error.message);
