@@ -156,9 +156,9 @@
           </div>
           <div class="modal-body">
             <p>
-              ¡Hola! 😄 ¡Bienvenido a la rama de Árboles Binarios! 🌐✨ Aquí
-              te dejamos una guía rápida para que domines esta herramienta como
-              un pro:
+              ¡Hola! 😄 ¡Bienvenido a la rama de Árboles Binarios! 🌐✨ Aquí te
+              dejamos una guía rápida para que domines esta herramienta como un
+              pro:
             </p>
             <p>✨ ¡Bienvenido a tu Editor de Árboles Favorito! 🚀</p>
             <img
@@ -168,7 +168,10 @@
             />
             <p>
               <strong>Agregar Hojas 🧩</strong><br />
-              ¡Haz clic en el área que indica “agregar hoja del árbol” y coloca el número que desees para dar inicio a tu árbol! Luego haz clic en la fecha para poder mostrar esta hoja en el gráfico y poder agregar hojas nuevas de la misma manera.
+              ¡Haz clic en el área que indica “agregar hoja del árbol” y coloca
+              el número que desees para dar inicio a tu árbol! Luego haz clic en
+              la fecha para poder mostrar esta hoja en el gráfico y poder
+              agregar hojas nuevas de la misma manera.
             </p>
             <img
               src="../assets/PreInPost.png"
@@ -177,29 +180,26 @@
             />
             <p>
               <strong> Orden del arbol 🗑️</strong><br />
-              ¿Quieres ver como quedan ordenadas las hojas que ingresaste? Pues estos botones están para ello, Selecciona el botón dependiendo del tipo de orden que desees que se te muestre.
+              ¿Quieres ver como quedan ordenadas las hojas que ingresaste? Pues
+              estos botones están para ello, Selecciona el botón dependiendo del
+              tipo de orden que desees que se te muestre.
             </p>
             <p>
-            <img
-              src="../assets/DFS.png"
-              alt="DFS"
-              class="img-fluid"
-            />
+              <img src="../assets/DFS.png" alt="DFS" class="img-fluid" />
             </p>
             <p>
               <strong>DFS 🗡️</strong><br />
-              Selecciona esta opción para poder ver el DFS del árbol binario que acabas de crear, esta opción te mostrará el Preorden, Postorden e InOrden en uno sólo
+              Selecciona esta opción para poder ver el DFS del árbol binario que
+              acabas de crear, esta opción te mostrará el Preorden, Postorden e
+              InOrden en uno sólo
             </p>
 
-
-            <img
-              src="../assets/Datos.png"
-              alt="Datos"
-              class="img-fluid"
-            />
+            <img src="../assets/Datos.png" alt="Datos" class="img-fluid" />
             <p>
               <strong>Ingresar Datos 🚦</strong><br />
-              Selecciona esta opción y podrás ingresar manualmente los datos de PostOrden e InOrden para que se construya el árbol binario a partir de ellos. 
+              Selecciona esta opción y podrás ingresar manualmente los datos de
+              PostOrden e InOrden para que se construya el árbol binario a
+              partir de ellos.
             </p>
             <img src="../assets/CyA.jpg" alt="CyA" class="img-fluid" />
             <p>
@@ -225,230 +225,222 @@
               grafo! 🚀🎨
             </p>
           </div>
-          </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary"
-              data-bs-dismiss="modal"
-            >
-              OK
-            </button>
-          </div>
         </div>
       </div>
-    
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
 
-    <!-- File name to save -->
-    <div class="modal" tabindex="-1" id="fileNameToSave">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Guardar archivo</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+  <!-- File name to save -->
+  <div class="modal" tabindex="-1" id="fileNameToSave">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Guardar archivo</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <input
+            type="text"
+            class="form-control"
+            v-model="fileNameToSave"
+            placeholder="Ingrese el nombre del archivo a guardar"
+          />
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancelar
+          </button>
+          <button type="button" class="btn btn-primary" @click="saveGraph">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input To Order Binary Tree -->
+  <div
+    class="modal fade"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+    id="inputToOrderModal"
+  >
+    <div
+      class="modal-dialog modal-dialog-centered modal-dialog-scrollable animate__animated animate__backInDown"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ingresar Árbol Binario</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex text-center justify-content-center">
+            <i class="bi bi-info-circle-fill me-1" style="font-size: 1.2em"></i>
+            <p>
+              Ingrese números separados por comas para armar su Árbol Binario.
+            </p>
           </div>
-          <div class="modal-body">
+          <div class="mb-3">
+            <label for="postOrderInput" class="col-form-label">
+              PostOrden:
+            </label>
             <input
               type="text"
               class="form-control"
-              v-model="fileNameToSave"
-              placeholder="Ingrese el nombre del archivo a guardar"
+              id="postOrderInput"
+              v-model="postOrderUserInput"
+              @input="validateUserInput"
+              placeholder="Ingrese Árbol Binario en PostOrden"
             />
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cancelar
-            </button>
-            <button type="button" class="btn btn-primary" @click="saveGraph">
-              Guardar
-            </button>
+          <div class="mb-3">
+            <label for="inOrderInput" class="col-form-label">InOrden:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="inOrderInput"
+              v-model="inOrderUserInput"
+              @input="validateUserInput"
+              placeholder="Ingrese Árbol Binario en InOrden"
+            />
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Input To Order Binary Tree -->
-    <div
-      class="modal fade"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
-      id="inputToOrderModal"
-    >
-      <div
-        class="modal-dialog modal-dialog-centered modal-dialog-scrollable animate__animated animate__backInDown"
-      >
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Ingresar Árbol Binario</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="d-flex text-center justify-content-center">
-              <i
-                class="bi bi-info-circle-fill me-1"
-                style="font-size: 1.2em"
-              ></i>
-              <p>
-                Ingrese números separados por comas para armar su Árbol Binario.
-              </p>
-            </div>
-            <div class="mb-3">
-              <label for="postOrderInput" class="col-form-label">
-                PostOrden:
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                id="postOrderInput"
-                v-model="postOrderUserInput"
-                @input="validateUserInput"
-                placeholder="Ingrese Árbol Binario en PostOrden"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="inOrderInput" class="col-form-label">InOrden:</label>
-              <input
-                type="text"
-                class="form-control"
-                id="inOrderInput"
-                v-model="inOrderUserInput"
-                @input="validateUserInput"
-                placeholder="Ingrese Árbol Binario en InOrden"
-              />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-outline-danger"
-              data-bs-dismiss="modal"
-            >
-              Cancelar
-            </button>
-            <button
-              type="button"
-              data-bs-dismiss="modal"
-              class="btn btn-success"
-              @click="handleUserInputOrder"
-            >
-              OK
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bootstrap alert for saveGraph success/error -->
-    <div style="width: fit-content; margin: auto">
-      <div
-        v-if="saveGraphError"
-        class="alert alert-danger alert-dismissible fade show mt-2"
-        role="alert"
-      >
-        Error al guardar el grafo.
-        <button
-          type="button"
-          class="btn-close"
-          @click="saveGraphError = false"
-        ></button>
-      </div>
-
-      <!-- Bootstrap alert for loadGraph success/error -->
-      <div
-        v-if="loadGraphSuccess"
-        class="alert alert-success alert-dismissible fade show mt-2"
-        role="alert"
-      >
-        El grafo ha sido cargado exitosamente.
-        <button
-          type="button"
-          class="btn-close"
-          @click="loadGraphSuccess = false"
-        ></button>
-      </div>
-      <div
-        v-if="loadGraphError"
-        class="alert alert-danger alert-dismissible fade show mt-2"
-        role="alert"
-      >
-        Error al cargar el grafo.
-        <button
-          type="button"
-          class="btn-close"
-          @click="loadGraphError = false"
-        ></button>
-      </div>
-
-      <!-- Bootstrap alert to show File Name Saved -->
-      <div
-        v-if="fileNameSaved"
-        class="alert alert-info alert-dismissible fade show mt-2"
-        role="alert"
-      >
-        Archivo seleccionado: {{ fileNameSaved }}
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="alert"
-          aria-label="Close"
-        ></button>
-      </div>
-    </div>
-
-    <div class="editor-container">
-      <div class="container editor-content border border-3 border-success">
-        <!-- Editor Content -->
-        <v-network-graph
-          tabindex="0"
-          ref="graph"
-          v-model:zoom-level="zoomLevel"
-          v-model:selected-nodes="selectedNodes"
-          v-model:selected-edges="selectedEdges"
-          :nodes="nodes"
-          :edges="edges"
-          :layouts="layouts"
-          :configs="configs"
-        >
-          <template
-            #override-node-label="{
-              //   nodeId,
-              scale,
-              text,
-              //   x,
-              //   y,
-              //   config,
-              //   textAnchor,
-              //   dominantBaseline,
-            }"
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-danger"
+            data-bs-dismiss="modal"
           >
-            <text
-              x="0"
-              y="0"
-              :font-size="20 * scale"
-              text-anchor="middle"
-              dominant-baseline="central"
-              fill="#ffffff"
-              >{{ text }}
-            </text>
-            <!-- <text
+            Cancelar
+          </button>
+          <button
+            type="button"
+            data-bs-dismiss="modal"
+            class="btn btn-success"
+            @click="handleUserInputOrder"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap alert for saveGraph success/error -->
+  <div style="width: fit-content; margin: auto">
+    <div
+      v-if="saveGraphError"
+      class="alert alert-danger alert-dismissible fade show mt-2"
+      role="alert"
+    >
+      Error al guardar el grafo.
+      <button
+        type="button"
+        class="btn-close"
+        @click="saveGraphError = false"
+      ></button>
+    </div>
+
+    <!-- Bootstrap alert for loadGraph success/error -->
+    <div
+      v-if="loadGraphSuccess"
+      class="alert alert-success alert-dismissible fade show mt-2"
+      role="alert"
+    >
+      El grafo ha sido cargado exitosamente.
+      <button
+        type="button"
+        class="btn-close"
+        @click="loadGraphSuccess = false"
+      ></button>
+    </div>
+    <div
+      v-if="loadGraphError"
+      class="alert alert-danger alert-dismissible fade show mt-2"
+      role="alert"
+    >
+      Error al cargar el grafo.
+      <button
+        type="button"
+        class="btn-close"
+        @click="loadGraphError = false"
+      ></button>
+    </div>
+
+    <!-- Bootstrap alert to show File Name Saved -->
+    <div
+      v-if="fileNameSaved"
+      class="alert alert-info alert-dismissible fade show mt-2"
+      role="alert"
+    >
+      Archivo seleccionado: {{ fileNameSaved }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+
+  <div class="editor-container">
+    <div class="container editor-content border border-3 border-success">
+      <!-- Editor Content -->
+      <v-network-graph
+        tabindex="0"
+        ref="graph"
+        v-model:zoom-level="zoomLevel"
+        v-model:selected-nodes="selectedNodes"
+        v-model:selected-edges="selectedEdges"
+        :nodes="nodes"
+        :edges="edges"
+        :layouts="layouts"
+        :configs="configs"
+      >
+        <template
+          #override-node-label="{
+            //   nodeId,
+            scale,
+            text,
+            //   x,
+            //   y,
+            //   config,
+            //   textAnchor,
+            //   dominantBaseline,
+          }"
+        >
+          <text
+            x="0"
+            y="0"
+            :font-size="20 * scale"
+            text-anchor="middle"
+            dominant-baseline="central"
+            fill="#ffffff"
+            >{{ text }}
+          </text>
+          <!-- <text
               x="0"
               y="0"
               :font-size="config.fontSize * scale"
@@ -458,8 +450,8 @@
               :transform="`translate(${x} ${y})`"
               >{{ nodeId }}</text
             > -->
-          </template>
-          <!-- <template #edge-label="{ edge, hovered, selected, ...slotProps }">
+        </template>
+        <!-- <template #edge-label="{ edge, hovered, selected, ...slotProps }">
               <v-edge-label
                 :class="{ hovered, selected }"
                 :text="edge.label"
@@ -468,196 +460,192 @@
                 v-bind="slotProps"
               />
             </template> -->
-          <Background />
-        </v-network-graph>
-      </div>
+        <Background />
+      </v-network-graph>
     </div>
+  </div>
 
-    <!-- More Functions Button -->
+  <!-- More Functions Button -->
+  <button
+    type="button"
+    class="btn btn-primary bi bi-arrow-left position-absolute top-0 end-0 m-1"
+    @click="goBack"
+  ></button>
+
+  <span
+    data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasRight"
+    aria-controls="offcanvasRight"
+  >
     <button
+      class="btn btn-primary bi bi-list position-absolute sticky-top top-0 start-0 m-1"
       type="button"
-      class="btn btn-primary bi bi-arrow-left position-absolute top-0 end-0 m-1"
-      @click="goBack"
+      data-bs-toggle="tooltip"
+      data-bs-placement="left"
+      data-bs-custom-class="custom-tooltip"
+      data-bs-title="Funciones Extra."
     ></button>
+  </span>
 
-    <span
-      data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasRight"
-      aria-controls="offcanvasRight"
-    >
+  <div
+    class="offcanvas offcanvas-start"
+    data-bs-backdrop="static"
+    tabindex="-1"
+    id="offcanvasRight"
+    aria-labelledby="offcanvasRightLabel"
+  >
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title fw-bold" id="offcanvasRightLabel">
+        Funciones Extra...
+      </h5>
       <button
-        class="btn btn-primary bi bi-list position-absolute sticky-top top-0 start-0 m-1"
         type="button"
-        data-bs-toggle="tooltip"
-        data-bs-placement="left"
-        data-bs-custom-class="custom-tooltip"
-        data-bs-title="Funciones Extra."
+        class="btn-close"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
       ></button>
-    </span>
-
-    <div
-      class="offcanvas offcanvas-start"
-      data-bs-backdrop="static"
-      tabindex="-1"
-      id="offcanvasRight"
-      aria-labelledby="offcanvasRightLabel"
-    >
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title fw-bold" id="offcanvasRightLabel">
-          Funciones Extra...
-        </h5>
+    </div>
+    <div class="offcanvas-body">
+      <div>Seleccione la función que desee.</div>
+      <div class="my-3">
         <button
-          type="button"
-          class="btn-close"
+          @click="openHelp"
           data-bs-dismiss="offcanvas"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="offcanvas-body">
-        <div>Seleccione la función que desee.</div>
-        <div class="my-3">
-          <button
-            @click="openHelp"
-            data-bs-dismiss="offcanvas"
-            class="btn btn-outline-warning w-100 py-2 mb-2 d-lg-none"
-          >
-            Centro de Ayuda
-          </button>
-          <button
-            class="btn btn-outline-warning w-100 py-2"
-            @click="panToCenter"
-          >
-            Centrar
-          </button>
-          <button
-            class="btn btn-outline-warning w-100 py-2 mt-2"
-            @click="fitToContents"
-          >
-            Ajustar
-          </button>
-        </div>
-        <div class="d-flex gap-3">
-          <button
-            class="btn btn-outline-warning bi bi-plus-circle w-100 py-2 mt-1"
-            @click="zoomIn"
-          ></button>
-          <button
-            class="btn btn-outline-warning bi bi-dash-circle w-100 py-2 mt-1"
-            @click="zoomOut"
-          ></button>
-        </div>
+          class="btn btn-outline-warning w-100 py-2 mb-2 d-lg-none"
+        >
+          Centro de Ayuda
+        </button>
+        <button class="btn btn-outline-warning w-100 py-2" @click="panToCenter">
+          Centrar
+        </button>
         <button
           class="btn btn-outline-warning w-100 py-2 mt-2"
-          data-bs-dismiss="offcanvas"
-          @click="openFileNameModal"
+          @click="fitToContents"
         >
-          Guardar Archivo
+          Ajustar
         </button>
+      </div>
+      <div class="d-flex gap-3">
+        <button
+          class="btn btn-outline-warning bi bi-plus-circle w-100 py-2 mt-1"
+          @click="zoomIn"
+        ></button>
+        <button
+          class="btn btn-outline-warning bi bi-dash-circle w-100 py-2 mt-1"
+          @click="zoomOut"
+        ></button>
+      </div>
+      <button
+        class="btn btn-outline-warning w-100 py-2 mt-2"
+        data-bs-dismiss="offcanvas"
+        @click="openFileNameModal"
+      >
+        Guardar Archivo
+      </button>
+      <input
+        type="file"
+        class="upload-file my-2 mt-2 form-control"
+        @change="loadGraph"
+        accept=".json"
+      />
+      <button
+        class="btn btn-outline-warning w-100 py-2 mt-2"
+        data-bs-dismiss="offcanvas"
+        @click="openGraphFile"
+      >
+        Abrir Archivo
+      </button>
+      <button @click="goBack" class="btn btn-outline-warning w-100 py-2 mt-2">
+        Ir a inicio
+      </button>
+    </div>
+  </div>
+
+  <!-- View Controls -->
+  <div
+    class="d-md-flex d-block gap-5 w-100 justify-content-center position-absolute sticky-bottom bg-warning bg-opacity-10 py-3 px-3 py-md-4 px-md-5"
+  >
+    <div
+      class="w-25 mb-2 mb-md-0"
+      data-bs-toggle="tooltip"
+      data-bs-placement="left"
+      data-bs-custom-class="custom-tooltip"
+      data-bs-title="Ingrese la hoja del árbol binario y presione el botón."
+    >
+      <label for="binaryTreeLeaf" class="form-label">Hoja(s) del árbol:</label>
+      <div class="input-group">
         <input
-          type="file"
-          class="upload-file my-2 mt-2 form-control"
-          @change="loadGraph"
-          accept=".json"
+          type="text"
+          id="binaryTreeLeaf"
+          class="form-control"
+          v-model="userLeafInput"
+          @input="validateUserInput"
+          placeholder="Hoja(s) del árbol binario"
+          aria-label="Hoja del árbol binario"
+          aria-describedby="button-addNode"
         />
         <button
-          class="btn btn-outline-warning w-100 py-2 mt-2"
-          data-bs-dismiss="offcanvas"
-          @click="openGraphFile"
-        >
-          Abrir Archivo
-        </button>
-        <button @click="goBack" class="btn btn-outline-warning w-100 py-2 mt-2">
-          Ir a inicio
-        </button>
+          class="btn btn-success bi bi-arrow-up-circle"
+          style="font-size: 1.3em"
+          type="button"
+          id="button-addNode"
+          @click="startAddingNode"
+        ></button>
       </div>
     </div>
-
-    <!-- View Controls -->
-    <div
-      class="d-md-flex d-block gap-5 w-100 justify-content-center position-absolute sticky-bottom bg-warning bg-opacity-10 py-3 px-3 py-md-4 px-md-5"
-    >
-      <div
-        class="w-25 mb-2 mb-md-0"
+    <div class="d-flex gap-2 gap-md-5 mb-2 mb-md-0">
+      <button
+        type="button"
         data-bs-toggle="tooltip"
-        data-bs-placement="left"
+        data-bs-placement="top"
         data-bs-custom-class="custom-tooltip"
-        data-bs-title="Ingrese la hoja del árbol binario y presione el botón."
-      >
-        <label for="binaryTreeLeaf" class="form-label">Hoja(s) del árbol:</label>
-        <div class="input-group">
-          <input
-            type="text"
-            id="binaryTreeLeaf"
-            class="form-control"
-            v-model="userLeafInput"
-            @input="validateUserInput"
-            placeholder="Hoja(s) del árbol binario"
-            aria-label="Hoja del árbol binario"
-            aria-describedby="button-addNode"
-          />
-          <button
-            class="btn btn-success bi bi-arrow-up-circle"
-            style="font-size: 1.3em"
-            type="button"
-            id="button-addNode"
-            @click="startAddingNode"
-          ></button>
-        </div>
-      </div>
-      <div class="d-flex gap-2 gap-md-5 mb-2 mb-md-0">
-        <button
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-custom-class="custom-tooltip"
-          data-bs-title="Mostrar DFS."
-          class="bi bi-123 rounded-circle py-3 px-4"
-          :class="
-            treeStore.tree.root ? 'btn btn-warning' : 'btn btn-outline-warning'
-          "
-          @click="showBFS"
-        ></button>
-      </div>
-      <div class="d-flex gap-2 gap-md-5">
-        <button
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-custom-class="custom-tooltip"
-          data-bs-title="Guardar."
-          class="btn btn-outline-warning bi bi-floppy rounded-circle py-3 px-4"
-          @click="openFileNameModal"
-        ></button>
-        <button
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-custom-class="custom-tooltip"
-          data-bs-title="Abrir."
-          class="btn btn-outline-warning bi bi-folder2-open rounded-circle py-3 px-4"
-          @click="openGraphFile"
-        ></button>
-        <button
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-custom-class="custom-tooltip"
-          data-bs-title="Limpiar."
-          class="btn btn-outline-warning bi bi-file-earmark-x rounded-circle py-3 px-4"
-          @click="handleClearAll"
-        ></button>
-        <button
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-custom-class="custom-tooltip"
-          data-bs-title="Ayuda."
-          class="btn btn-success bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
-          @click="openHelp"
-        ></button>
-      </div>
+        data-bs-title="Mostrar DFS."
+        class="bi bi-123 rounded-circle py-3 px-4"
+        :class="
+          treeStore.tree.root ? 'btn btn-warning' : 'btn btn-outline-warning'
+        "
+        @click="showBFS"
+      ></button>
     </div>
-
+    <div class="d-flex gap-2 gap-md-5">
+      <button
+        type="button"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        data-bs-custom-class="custom-tooltip"
+        data-bs-title="Guardar."
+        class="btn btn-outline-warning bi bi-floppy rounded-circle py-3 px-4"
+        @click="openFileNameModal"
+      ></button>
+      <button
+        type="button"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        data-bs-custom-class="custom-tooltip"
+        data-bs-title="Abrir."
+        class="btn btn-outline-warning bi bi-folder2-open rounded-circle py-3 px-4"
+        @click="openGraphFile"
+      ></button>
+      <button
+        type="button"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        data-bs-custom-class="custom-tooltip"
+        data-bs-title="Limpiar."
+        class="btn btn-outline-warning bi bi-file-earmark-x rounded-circle py-3 px-4"
+        @click="handleClearAll"
+      ></button>
+      <button
+        type="button"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        data-bs-custom-class="custom-tooltip"
+        data-bs-title="Ayuda."
+        class="btn btn-success bi bi-question-lg position-absolute end-0 me-5 rounded-circle py-2 px-3 d-none d-lg-block"
+        @click="openHelp"
+      ></button>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -696,7 +684,7 @@ let layouts;
 if (fileStore.graphData) {
   nodes = reactive({ ...fileStore.graphData.nodes });
   edges = reactive({ ...fileStore.graphData.edges });
- layouts = reactive(fileStore.graphData.layouts);
+  layouts = reactive(fileStore.graphData.layouts);
 } else {
   nodes = reactive({ ...data.nodes });
   edges = reactive({ ...data.edges });
@@ -872,7 +860,7 @@ const validateUserInput = () => {
 };
 
 // Adding Node -------------------------------------------------------------
-const handleNodeAddition = async (number : number) => {
+const handleNodeAddition = async (number: number) => {
   if (graph.value) await treeStore.insertNode(number);
 };
 
@@ -947,18 +935,16 @@ async function treelayout() {
 }
 
 async function startAddingNode() {
-  await userLeafInput.value.split(",").forEach(
-    async (number) => {
-      let num = parseInt(number);
-      if (num && !isNaN(num)) {
-        handleNodeAddition(num);
-      }
-      await treeStore.consolelogtree();
+  await userLeafInput.value.split(",").forEach(async (number) => {
+    let num = parseInt(number);
+    if (num && !isNaN(num)) {
+      handleNodeAddition(num);
     }
-  );
+    await treeStore.consolelogtree();
+  });
   treeStore.generateDisplayTree();
   treelayout();
-  
+
   userLeafInput.value = "";
 }
 
@@ -1249,15 +1235,15 @@ const fileNameToSave = ref("");
 
 const saveGraph = async () => {
   try {
-    const preorderData = await treeStore.preOrderTraversal()
-    const inorderData = await treeStore.inOrderTraversal()
-    const postorderData = await treeStore.postOrderTraversal()
+    const preorderData = await treeStore.preOrderTraversal();
+    const inorderData = await treeStore.inOrderTraversal();
+    const postorderData = await treeStore.postOrderTraversal();
 
     const jsonData = {
       preorder: preorderData,
       inorder: inorderData,
-      postorder: postorderData
-    }
+      postorder: postorderData,
+    };
 
     const Json = JSON.stringify(jsonData, null, 2);
     const blob = new Blob([Json], { type: "application/json" });
@@ -1322,15 +1308,15 @@ const loadGraph = async () => {
 
       // Clear the previous tree
       treeStore.clearTree();
-      for(const nodeId in nodes) {
+      for (const nodeId in nodes) {
         delete nodes[nodeId];
       }
-      for(const edgeId in edges) {
+      for (const edgeId in edges) {
         delete edges[edgeId];
       }
 
       // Generate the tree from the preorder attribute in the json
-      const preorderData = filedataparsed.preorder
+      const preorderData = filedataparsed.preorder;
 
       for (const number of preorderData) {
         handleNodeAddition(number);
@@ -1404,7 +1390,7 @@ const handleClearAll = () => {
 <style scoped>
 .editor-container {
   display: flex;
-  height: 30em;
+  height: 27em;
 }
 
 .v-network-graph:active {
