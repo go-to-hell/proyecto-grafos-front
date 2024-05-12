@@ -516,7 +516,7 @@
             data-bs-toggle="tooltip"
             data-bs-placement="left"
             data-bs-custom-class="custom-tooltip"
-            data-bs-title="NORTH WEST ALGORITHM."
+            data-bs-title="Resolver NORTH WEST."
             class="btn btn-danger"
             @click="updateNodeEdgeValues"
           >
