@@ -481,13 +481,12 @@
             />
             <v-edge-label
               :class="{ hovered, selected }"
-              :text="edge.earlyStart"
+              :text="edge.edgeId"
               align="source"
               vertical-align="above"
               v-bind="slotProps"
               fill="#ff5500"
               :font-size="12 * scale"
-              v-if="edge.earlyStart || edge.earlyStart === 0"
             />
           </template>
           <!--<template #override-edge-label="{
@@ -1249,7 +1248,16 @@ const solveDijkstra = async () => {
     const jsonData = JSON.stringify(graphData);
 
     // Realizar la llamada a la función loadDijkstra del store para ejecutar el algoritmo
-    await algorithmStore.loadDijkstra(jsonData, max, sN, eN);
+    try {
+      await algorithmStore.loadDijkstra(jsonData, max, sN, eN);
+    } catch (error) {
+      console.error("Error in loadDijkstra:", error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred while executing Dijkstra's algorithm.",
+      });
+    }
 
     // Obtener los resultados del algoritmo de Dijkstra desde el estado local del componente Vue a través del store
     const dijkstraNodes = algorithmStore.getDijkstraNodes();
@@ -1257,7 +1265,7 @@ const solveDijkstra = async () => {
     for (const nodeId in dijkstraNodes) {
       console.log("Node ID:", nodeId);
       console.log("Node Value:", dijkstraNodes[nodeId]);
-      nodes[nodeId].dijkstravalue = dijkstraNodes[nodeId];
+      nodes[nodeId].dijkstravalue = dijkstraNodes[nodeId].distance;
     }
     console.log("Dijkstra nodes:", dijkstraNodes);
 
