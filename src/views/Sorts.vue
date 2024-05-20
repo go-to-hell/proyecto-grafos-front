@@ -58,7 +58,7 @@ export default {
     NavBar,
     },
     setup() {
-    let classValue = 4;
+    let classValue = 5;
     const authStore = useAuthStore();
     const fileStore = useFileStore();
     const router = useRouter();

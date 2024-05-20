@@ -84,7 +84,7 @@
       NavBar,
     },
     setup() {
-      let classValue = 2;
+      let classValue = 8;
       const authStore = useAuthStore();
       const fileStore = useFileStore();
       const router = useRouter();
