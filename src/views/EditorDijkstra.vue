@@ -841,6 +841,7 @@ import { useAlgorithmStore } from "../stores/algorithm";
 import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
 import * as vNG from "v-network-graph";
+import Swal from "sweetalert2";
 
 const router = useRouter();
 const fileStore = useFileStore();

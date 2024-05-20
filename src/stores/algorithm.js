@@ -191,10 +191,6 @@ export const useAlgorithmStore = defineStore("algorithm", {
         console.error('Error in loadDijkstra:', error.message);
         throw error;
       }
-  
-      // Guarda la salida de la respuesta en dijkstraDataOutput
-      console.log("salida", response.data);
-      this.dijkstraDataOutput = response.data;
       
     } catch (error) {
       // Si ocurre un error, imprime el mensaje de error y propaga el error para manejarlo en el componente
