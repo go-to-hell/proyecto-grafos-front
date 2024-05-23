@@ -23,6 +23,7 @@ import Dijkstra from "../views/Dijkstra.vue";
 import EditorDijkstra from "../views/EditorDijkstra.vue";
 import Compet from "../views/Compet.vue";
 import EditorCompet from "../views/EditorCompet.vue";
+import CablewayProjectHome from "../views/CablewayProjectHome.vue";
 
 const routes = [
   {
@@ -120,6 +121,10 @@ const routes = [
   {
     path: "/editor_compet",
     component: EditorCompet,
+  },
+  {
+    path: "/cableway_project",
+    component: CablewayProjectHome,
   },
 ];
 
