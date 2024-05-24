@@ -1,0 +1,482 @@
+<template>
+  <NavBarVue />
+  <div class="bg-info">
+    <nav
+      class="navbar-collapse.justify-content-center navbar-dark bg-primary sticky-top"
+    >
+      <div class="d-flex justify-content-center">
+        <img
+          src="../assets/CablewayProjectImages/logo01.png"
+          alt=""
+          width="580"
+          height="70"
+          class="d-inline-block align-text-top mt-2 animate__animated animate__lightSpeedInLeft"
+        />
+      </div>
+    </nav>
+    <br /><br />
+    <div class="container">
+      <form action="/" method="POST">
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                Escoja una tarjeta del teleferico
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              class="accordion-collapse collapse show"
+              aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body" style="background-color: lightblue">
+                <fieldset>
+                  <div class="row">
+                    <div class="form-check col-md-4 col-sm-12">
+                      <input
+                        class="form-check -input"
+                        type="radio"
+                        name="tarjeta"
+                        id="tarjeta1"
+                        value="1"
+                        checked
+                      />
+                      <label
+                        class="form-check-label label_tarjeta"
+                        for="tarjeta1"
+                      >
+                        <img
+                          class="tarjetas"
+                          src="../assets/CablewayProjectImages/tarjeta_normal.png"
+                        />
+                        Tarjeta Normal
+                      </label>
+                    </div>
+                    <div class="form-check col-md-4 col-sm-12">
+                      <input
+                        class="form-check -input"
+                        type="radio"
+                        name="tarjeta"
+                        id="tarjeta2"
+                        value="2"
+                      />
+                      <label
+                        class="form-check-label label_tarjeta"
+                        for="tarjeta2"
+                      >
+                        <img
+                          class="tarjetas"
+                          src="../assets/CablewayProjectImages/tarjeta_estudiantil.png"
+                        />
+                        Tarjeta Estudiantil
+                      </label>
+                    </div>
+                    <div class="form-check col-md-4 col-sm-12">
+                      <input
+                        class="form-check -input"
+                        type="radio"
+                        name="tarjeta"
+                        id="tarjeta3"
+                        value="3"
+                      />
+                      <label
+                        class="form-check-label label_tarjeta"
+                        for="tarjeta3"
+                      >
+                        <img
+                          class="tarjetas"
+                          src="../assets/CablewayProjectImages/tarjeta_preferencial.png"
+                        />
+                        Tarjeta Preferencial
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                Escoja las líneas que no se encuentran disponibles
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingTwo"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body">
+                <fieldset>
+                  <div class="row">
+                    <div class="col-md-4 col-sm-12">
+                      <input
+                        type="checkbox"
+                        name="Azul"
+                        value="Azul"
+                        id="Azul"
+                      />
+                      <label for="Azul" class="label_linea"
+                        ><img
+                          src="../assets/CablewayProjectImages/icono-azul.png"
+                        />
+                        Azul</label
+                      >
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="checkbox" name="Cafe" id="Cafe" />
+                      <label for="Cafe" class="label_linea"
+                        ><img
+                          src="../assets/CablewayProjectImages/icono-cafe.png"
+                        />
+                        Cafe</label
+                      >
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="checkbox" name="Plateada" id="Plateada" />
+                      <label for="Plateada" class="label_linea"
+                        ><img
+                          src="../assets/CablewayProjectImages/icono-plateada.png"
+                        />
+                        Plateada</label
+                      >
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="checkbox" name="Naranja" id="Naranja" />
+                      <label for="Naranja" class="label_linea"
+                        ><img
+                          src="../assets/CablewayProjectImages/icono-naranja.png"
+                        />
+                        Naranja</label
+                      >
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="checkbox" name="Roja" id="Roja" />
+                      <label for="Roja" class="label_linea"
+                        ><img
+                          src="../assets/CablewayProjectImages/icono-roja.png"
+                        />
+                        Roja</label
+                      >
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="checkbox" name="Verde" id="Verde" />
+                      <label for="Verde" class="label_linea"
+                        ><img
+                          src="../assets/CablewayProjectImages/icono-verde.png"
+                        />
+                        Verde</label
+                      >
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="checkbox" name="Celeste" id="Celeste" />
+                      <label for="Celeste" class="label_linea"
+                        ><img
+                          src="../assets/CablewayProjectImages/icono-celeste.png"
+                        />
+                        Celeste</label
+                      >
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="checkbox" name="Blanca" id="Blanca" />
+                      <label for="Blanca" class="label_linea"
+                        ><img
+                          src="../assets/CablewayProjectImages/icono-blanca.png"
+                        />
+                        Blanca</label
+                      >
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="checkbox" name="Amarilla" id="Amarilla" />
+                      <label for="Amarilla" class="label_linea"
+                        ><img
+                          src="../assets/CablewayProjectImages/icono-amarilla.png"
+                        />
+                        Amarilla</label
+                      >
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="checkbox" name="Morada" id="Morada" />
+                      <label for="Morada" class="label_linea"
+                        ><img
+                          src="../assets/CablewayProjectImages/icono-morada.png"
+                        />
+                        Morada</label
+                      >
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Origen: </label>
+          <select
+            name="org1"
+            class="form-select"
+            aria-label="Default select example"
+          >
+            {% for e in estacionLinea %}
+            <option value="{{e}}">{{ e }}</option>
+            {% endfor%}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Destino: </label>
+          <select
+            name="org2"
+            class="form-select"
+            aria-label="Default select example"
+          >
+            {% for e in estacionLinea %}
+            <option value="{{e}}">{{ e }}</option>
+            {% endfor%}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Optimizar: </label>
+          <select
+            name="opt"
+            class="form-select"
+            aria-label="Default select example"
+          >
+            <option value="Tiempo">Tiempo</option>
+            <option value="Dinero">Dinero</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-2">enviar</button>
+      </form>
+    </div>
+    <br />
+    <div class="container">
+      {% if destinos %}
+      <h1>Origen: ORIGEN</h1>
+      <h1>Destino: DESTINO</h1>
+      <h1>Optimizar: OPT</h1>
+      {% endif %} {% if lineas_deshabilitadas %}
+      <h1>Lineas deshabilitadas:</h1>
+      {% for i in lineas_deshabilitadas%}
+      <h3>{{ 1 }}</h3>
+      {% endfor %} {% endif %}
+    </div>
+    <hr />
+    {% if rutaPosible == False %}
+    <div class="container">
+      <h1>No existe una ruta disponible</h1>
+    </div>
+    {% else %}
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+          {% if tiempo %}
+          <h1>Tiempo total:</h1>
+          <h5>TIEMPO minutos con TIEMPO segundos</h5>
+          {% endif %} {% if precio %}
+          <h1>Precio total:</h1>
+          <h5>Bs PRECIO</h5>
+          {% endif %}
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6">
+          <div class="row d-flex justify-content-center text-center">
+            {% if tiempo %}
+            <h1 class="mt-3 d-flex justify-content-start">Ruta a seguir:</h1>
+            {% endif %}
+            <div class="col"></div>
+            <div class="col mt-3">
+              {% if rutamin %} {% for e in rutamin %} {% if e!= destinos.0 %}
+              <p id="arrow" class="me-5"></p>
+              {% endif %}
+              <h5 id="circle">{{ e }}</h5>
+              {% endfor%} {% endif %}
+            </div>
+            <div class="col"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <hr />
+    <div class="container"></div>
+    <br /><br /><br />
+  </div>
+</template>
+
+<script>
+import NavBarVue from "../components/NavBar.vue";
+
+export default {
+  components: {
+    NavBarVue,
+  },
+};
+</script>
+
+<style scoped>
+#circle {
+  width: 200px;
+  height: 200px;
+  line-height: 200px;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #000;
+  text-align: center;
+  background: #fff;
+  font-family: "Nunito Sans";
+  font-weight: bold;
+}
+
+#arrow {
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  margin-left: 45px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.label_linea {
+  border: 1px solid #fff;
+  padding: 10px;
+  display: block;
+  position: relative;
+  margin: 10px;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-radius: 10px;
+}
+
+.label_linea::before {
+  background-color: white;
+  color: white;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  border: 1px solid grey;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 28px;
+  transition-duration: 0.4s;
+  transform: scale(0);
+}
+
+.label_linea img {
+  height: 50px;
+  width: 50px;
+  transition-duration: 0.2s;
+  transform-origin: 50% 50%;
+}
+
+:checked + .label_linea {
+  border-color: #ddd;
+}
+
+:checked + .label_linea::before {
+  content: "✓";
+  background-color: grey;
+  transform: scale(1);
+}
+
+.tarjetas {
+  width: 100px;
+}
+
+input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.label_tarjeta {
+  border: 1px solid #fff;
+  padding: 10px;
+  display: block;
+  position: relative;
+  margin: 10px;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-radius: 10px;
+  background-color: rgb(71, 74, 232);
+  color: #fff;
+}
+
+.label_tarjeta::before {
+  background-color: white;
+  color: white;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  border: 1px solid grey;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 28px;
+  transition-duration: 0.4s;
+  transform: scale(0);
+}
+
+.label_tarjeta img {
+  width: 100px;
+  transition-duration: 0.2s;
+  transform-origin: 50% 50%;
+}
+
+:checked + .label_tarjeta {
+  border-color: aqua;
+}
+
+:checked + .label_tarjeta::before {
+  content: "✓";
+  background-color: rgb(0, 217, 0);
+  transform: scale(1);
+}
+</style>

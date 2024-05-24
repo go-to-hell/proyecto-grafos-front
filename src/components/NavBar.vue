@@ -41,6 +41,16 @@
               Grafos
             </router-link>
           </li>
+          <li class="nav-item me-md-2" v-if="authStore.isLoggedIn">
+            <router-link
+              :class="{ active: $route.path === '/cableway_project' }"
+              to="/cableway_project"
+              class="nav-link w-100"
+              @click="goCablewayProject"
+            >
+              Teleférico
+            </router-link>
+          </li>
         </ul>
         <button
           v-if="!authStore.isLoggedIn"
@@ -82,6 +92,10 @@ export default {
       router.push("/graphs_home");
     };
 
+    const goCablewayProject = () => {
+      router.push("cableway_project");
+    };
+
     const goLogin = () => {
       router.push("/login");
     };
@@ -97,6 +111,7 @@ export default {
 
     return {
       goGraphsHome,
+      goCablewayProject,
       goLogin,
       goSignUp,
       logout,
