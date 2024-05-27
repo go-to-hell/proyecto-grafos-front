@@ -444,19 +444,51 @@
         <div class="editor-content" id="bottom">
           <!-- Editor Content -->
           <v-network-graph
-          ref="graph"
-          :nodes="data.nodes"
-          :edges="data.edges"
-          :layouts="data.layouts"
-          :configs="data.configs"
-          :paths="paths"
-        >
-          <template #edge-label="{ edge, hovered, selected, ...slotProps }">
-            <v-edge-label
-              :class="{ hovered, selected }"
-              :text="secondsToTime(edge.label)"
-              align="center"
-              vertical-align="above"
+            ref="graph"
+            :nodes="data.nodes"
+            :edges="data.edges"
+            :layouts="data.layouts"
+            :configs="data.configs"
+            :paths="paths"
+          >
+          <template #edge-label="{ edge, ...slotProps }">
+            <v-edge-label :text="secondsToTime(edge.label)" align="center" vertical-align="above" v-bind="slotProps" />
+          </template>
+          
+          <defs>
+            <clipPath id="cablewayCircle" clipPathUnits="objectBoundingBox">
+              <circle cx="0.5" cy="0.5" r="0.5" />
+            </clipPath>
+          </defs>
+
+          <template #override-node="{ nodeId, scale, config, edge, hovered, selected, ...slotProps}">
+            <!-- circle for filling background -->
+            <circle
+              class="cableway-circle"
+              :r="config.radius * scale"
+              fill="#ffffff"
+              v-bind="slotProps"
+            />
+            <!--
+              The base position of the <image /> is top left. The node's
+              center should be (0,0), so slide it by specifying x and y.
+            -->
+            <image
+              class="cableway-picture"
+              :x="-config.radius * scale"
+              :y="-config.radius * scale"
+              :width="config.radius * scale * 2"
+              :height="config.radius * scale * 2"
+              :xlink:href="`src/assets/CablewayProjectImages/${data.nodes[nodeId].icon}`"
+              clip-path="url(#cablewayCircle)"
+            />
+            <!-- circle for drawing stroke -->
+            <circle
+              class="cableway-circle"
+              :r="config.radius * scale"
+              fill="none"
+              stroke="#808080"
+              :stroke-width="1 * scale"
               v-bind="slotProps"
             />
           </template>
@@ -715,4 +747,15 @@ input[type="radio"] {
 .controls-body {
   padding: 10px; /* Espaciado alrededor del cuerpo */
 }
+
+.cableway-circle,
+.cableway-picture {
+  transition: all 0.1s linear;
+}
+
+
+.cableway-picture {
+  pointer-events: none;
+}
+
 </style>

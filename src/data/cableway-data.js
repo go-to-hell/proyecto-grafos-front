@@ -8,157 +8,183 @@ const nodes = {
     "id": "node1",
     "name": "Rio Seco",
     "x": -541.5,
-    "y": -70.5
+    "y": -70.5,
+    "icon": "icono-azul.png"
   },
   "node2": {
     "id": "node2",
     "name": "UPEA",
     "x": 861.9266967773438,
-    "y": -400.7640075683594
+    "y": -400.7640075683594,
+    "icon": "icono-azul.png"
   },
   "node3": {
     "id": "node3",
     "name": "Plaza La Paz",
     "x": 2281.9267578125,
-    "y": -460.7640075683594
+    "y": -460.7640075683594,
+    "icon": "icono-azul.png"
   },
   "node4": {
     "id": "node4",
     "name": "Plaza Libertad",
     "x": 3371.9267578125,
-    "y": -440.7640075683594
+    "y": -440.7640075683594,
+    "icon": "icono-azul.png"
   },
   "node5": {
     "id": "node5",
     "name": "16 de Julio",
     "x": 997.6127319335938,
-    "y": -214.175537109375
+    "y": -214.175537109375,
+    "icon": "icono-plateada.png"
   },
   "node6": {
     "id": "node6",
     "name": "Cementerio",
     "x": 2117.61279296875,
-    "y": -174.175537109375
+    "y": -174.175537109375,
+    "icon": "icono-roja.png"
   },
   "node7": {
     "id": "node7",
     "name": "Central",
     "x": 2917.612548828125,
-    "y": -884.175537109375
+    "y": -884.175537109375,
+    "icon": "icono-roja.png"
   },
   "node8": {
     "id": "node8",
     "name": "Armentia",
     "x": 3777.612548828125,
-    "y": -874.175537109375
+    "y": -874.175537109375,
+    "icon": "icono-naranja.png"
   },
   "node9": {
     "id": "node9",
     "name": "Periférica",
     "x": 4457.61279296875,
-    "y": -1374.175537109375
+    "y": -1374.175537109375,
+    "icon": "icono-naranja.png"
   },
   "node10": {
     "id": "node10",
     "name": "Villarroel",
     "x": 5147.61279296875,
-    "y": -1864.175537109375
+    "y": -1864.175537109375,
+    "icon": "icono-naranja.png"
   },
   "node11": {
     "id": "node11",
     "name": "Busch",
     "x": 5257.61279296875,
-    "y": -734.175537109375
+    "y": -734.175537109375,
+    "icon": "icono-blanca.png"
   },
   "node12": {
     "id": "node12",
     "name": "Triangular",
     "x": 5267.61279296875,
-    "y": 105.82444763183594
+    "y": 105.82444763183594,
+    "icon": "icono-blanca.png"
   },
   "node13": {
     "id": "node13",
     "name": "Del Poeta",
     "x": 5367.61279296875,
-    "y": 845.8244018554688
+    "y": 845.8244018554688,
+    "icon": "icono-blanca.png"
   },
   "node14": {
     "id": "node14",
     "name": "Libertador",
     "x": 5417.61279296875,
-    "y": 1605.824462890625
+    "y": 1605.824462890625,
+    "icon": "icono-verde.png"
   },
   "node15": {
     "id": "node15",
     "name": "Alto Obrajes",
     "x": 6137.61279296875,
-    "y": 1685.824462890625
+    "y": 1685.824462890625,
+    "icon": "icono-verde.png"
   },
   "node16": {
     "id": "node16",
     "name": "Obrajes",
     "x": 6987.61279296875,
-    "y": 1825.8243408203125
+    "y": 1825.8243408203125,
+    "icon": "icono-verde.png"
   },
   "node17": {
     "id": "node17",
     "name": "Irpavi",
     "x": 7567.6123046875,
-    "y": 2365.824462890625
+    "y": 2365.824462890625,
+    "icon": "icono-verde.png"
   },
   "node18": {
     "id": "node18",
     "name": "Sopocachi",
     "x": 4027.612548828125,
-    "y": 1495.824462890625
+    "y": 1495.824462890625,
+    "icon": "icono-amarilla.png"
   },
   "node19": {
     "id": "node19",
     "name": "Buenos Aires",
     "x": 2677.61279296875,
-    "y": 1705.824462890625
+    "y": 1705.824462890625,
+    "icon": "icono-amarilla.png"
   },
   "node20": {
     "id": "node20",
     "name": "Satelite",
     "x": 1287.6126708984375,
-    "y": 1835.8243408203125
+    "y": 1835.8243408203125,
+    "icon": "icono-plateada.png"
   },
   "node21": {
     "id": "node21",
     "name": "Faro Murillo",
     "x": 1087.6126708984375,
-    "y": 725.824462890625
+    "y": 725.824462890625,
+    "icon": "icono-morada.png"
   },
   "node22": {
     "id": "node22",
     "name": "Obelisco",
     "x": 2217.61279296875,
-    "y": 445.8244323730469
+    "y": 445.8244323730469,
+    "icon": "icono-morada.png"
   },
   "node23": {
     "id": "node23",
     "name": "6 de Marzo",
     "x": -162.38723754882812,
-    "y": 785.8244018554688
+    "y": 785.8244018554688,
+    "icon": "icono-morada.png"
   },
   "node24": {
     "id": "node24",
     "name": "Del Teatro",
     "x": 4317.61279296875,
-    "y": 515.824462890625
+    "y": 515.824462890625,
+    "icon": "icono-celeste.png"
   },
   "node25": {
     "id": "node25",
     "name": "El Prado",
     "x": 3487.612548828125,
-    "y": 35.8244514465332
+    "y": 35.8244514465332,
+    "icon": "icono-celeste.png"
   },
   "node26": {
     "id": "node26",
     "name": "Las Villas",
     "x": 6387.61279296875,
-    "y": -544.175537109375
+    "y": -544.175537109375,
+    "icon": "icono-cafe.png"
   }
 };
 
@@ -381,47 +407,47 @@ const edges = {
   "edge48": {
     "source": "node10",
     "target": "node9",
-    "label": 274
+    "label": "274"
   },
   "edge49": {
     "source": "node9",
     "target": "node8",
-    "label": 227
+    "label": "227"
   },
   "edge50": {
     "source": "node8",
     "target": "node7",
-    "label": 239
+    "label": "239"
   },
   "edge51": {
     "source": "node7",
     "target": "node6",
-    "label": 309
+    "label": "309"
   },
   "edge52": {
     "source": "node6",
     "target": "node5",
-    "label": 338
+    "label": "338"
   },
   "edge53": {
     "source": "node5",
     "target": "node4",
-    "label": 268
+    "label": "268"
   },
   "edge54": {
     "source": "node4",
     "target": "node3",
-    "label": 258
+    "label": "258"
   },
   "edge55": {
     "source": "node3",
     "target": "node2",
-    "label": 283
+    "label": "283"
   },
   "edge56": {
     "source": "node2",
     "target": "node1",
-    "label": 426
+    "label": "426"
   }
 };
 
@@ -675,6 +701,7 @@ const configs = reactive(
     },
   })
 )
+
 
 export default {
   nodes,
