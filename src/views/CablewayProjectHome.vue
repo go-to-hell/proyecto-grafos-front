@@ -236,6 +236,7 @@
                           aria-expanded="false"
                           aria-controls="collapseTwo"
                         >
+                        <!-- TODO Map to v-model and add on backend -->
                           Escoja las líneas que no se encuentran disponibles
                         </button>
                       </h2>
@@ -453,7 +454,7 @@
           <template #edge-label="{ edge, hovered, selected, ...slotProps }">
             <v-edge-label
               :class="{ hovered, selected }"
-              :text="edge.label"
+              :text="secondsToTime(edge.label)"
               align="center"
               vertical-align="above"
               v-bind="slotProps"
@@ -522,6 +523,13 @@ const optimalValue = ref<string | null>(null);
 const findPathAndScroll = async () => {
   await findPath();
   scrollToBottom();
+}
+
+const secondsToTime = (secondsString: string) => {
+  const seconds = parseInt(secondsString);
+  const minutes = Math.floor(seconds / 60);
+  const secondsLeft = seconds % 60;
+  return `${minutes}:${secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft}`; 
 }
 
 const findPath = async () => {
