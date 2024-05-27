@@ -1,6 +1,6 @@
 <template>
   <NavBarVue />
-  <div class="bg-info">
+  <body>
     <nav
       class="navbar-collapse.justify-content-center navbar-dark bg-primary sticky-top"
     >
@@ -42,125 +42,6 @@
             <p>
               ✨ ¡Bienvenido a <i class="text-success">Bajo Esquina</i> ! 🚠
             </p>
-            <!-- <img
-              src="../assets/AgregarN.jpg"
-              alt="AgregarN"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Agregar Nodos 🧩</strong><br />
-              ¡Haz clic en el botón "Agregar" y comienza a crear tu obra
-              maestra! Luego, simplemente dale clic en el área de dibujo para
-              soltar esos nodos como si fueran confeti.
-            </p>
-            <img
-              src="../assets/EliminarN.jpg"
-              alt="EliminarN"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Eliminar Nodos 🗑️</strong><br />
-              ¿Te arrepentiste de ese nodo? Haz clic en él y presiona "Eliminar"
-              o simplemente usa la mágica tecla "Delete" en tu teclado.
-            </p>
-            <img
-              src="../assets/AgregarA.jpg"
-              alt="AgregarA"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Agregar Aristas ➡️</strong><br />
-              Haz clic en dos nodos y crea una conexión con el botón "Agregar
-              Arista". ¡Conecta tus ideas de manera brillante!
-            </p>
-            <img
-              src="../assets/EliminarA.jpg"
-              alt="EliminarA"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Eliminar Aristas 🗡️</strong><br />
-              Selecciona una arista y presiona "Eliminar Arista" o utiliza la
-              tecla "Delete". ¡Desconecta sin esfuerzo tus conexiones menos
-              útiles!
-            </p>
-            <img
-              src="../assets/RAS.png"
-              alt="Resolver"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Resplver Asignación</strong><br />
-              Selecciona si quieres maximizar o minimizar la matriz de adyacencia que se genera y presiona la opción de resolver la asignación. El editor se encargará de resolverla y te mostrará un cuadro indicando cual es la asignación ideal para tu solicitud.
-            </p>
-            <img
-              src="../assets/Direccion.jpg"
-              alt="Direccion"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Dirección de Aristas 🚦</strong><br />
-              Selecciona una arista y elige su destino con los botones de
-              dirección. ¡Controla el flujo de la conexión con estilo!
-            </p>
-            <img src="../assets/CyA.jpg" alt="CyA" class="img-fluid" />
-            <p>
-              <strong>Centrar y Ajustar 🔄</strong><br />
-              ¡No más caos desordenado! Utiliza los botones para centrar y
-              ajustar tu grafo y obtener una vista panorámica.
-            </p>
-            <img src="../assets/Zoom.jpg" alt="Zoom" class="img-fluid" />
-            <p>
-              <strong>Zoom In & Zoom Out 🔍</strong><br />
-              Acércate a la acción con "Zoom In" o toma una vista general con
-              "Zoom Out". ¡Tu grafo, tu perspectiva!
-            </p>
-            <img
-              src="../assets/Seleccion.jpg"
-              alt="Seleccion"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Iniciar Selección 🎯</strong><br />
-              ¿Quieres destacar varios nodos a la vez? Activa "Iniciar
-              Selección" y desata tu poder de selección masiva.
-            </p>
-            <img
-              src="../assets/Renombrar.jpg"
-              alt="Renombrar"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Renombrar Nodos y Aristas 🏷️</strong><br />
-              Dale a tus nodos y aristas nombres épicos. Haz clic en ellos,
-              edita el nombre y sé el narrador de tu propio grafo.
-            </p>
-            <p>
-              <strong>Enlazar Nodos con Shift+Alt+e 🌐</strong><br />
-              Selecciona dos nodos y mantén presionadas las teclas Shift+Alt+e
-              para enlazarlos con una arista.
-            </p>
-            <img src="../assets/GyA.jpg" alt="GyA" class="img-fluid" />
-            <p>
-              <strong>Guardar y Abrir 📂</strong><br />
-              No dejes que tus obras maestras se pierdan. Guarda y abre archivos
-              localmente para retomar tus épicas creaciones.
-            </p>
-            <img
-              src="../assets/MatrizAd.jpg"
-              alt="MatrizAd"
-              class="img-fluid"
-            />
-            <p>
-              <strong>Matriz de Adyacencia 📊</strong><br />
-              Haz clic en "Matriz de Adyacencia" para explorar la estructura
-              subyacente de tu obra maestra en forma de matriz.
-            </p>
-            <p>
-              ¡Y eso es básicamente todo! Ahora, ve y conquista el mundo de los
-              grafos con tu creatividad desbordante. ¡Buena suerte, maestro del
-              grafo! 🚀🎨
-            </p> -->
           </div>
           <div class="modal-footer">
             <button
@@ -175,32 +56,42 @@
       </div>
     </div>
 
-    <div v-if="!destinos">
-      <div>
-        <img
-          src="../assets/CablewayProjectImages/UCBFlag.jpg"
-          alt=""
-          class="UCBFlag animate__animated animate__fadeIn animate__slower end-0 me-3"
-        />
-        <iframe
-          width="935"
-          height="526"
-          class="d-block mx-auto"
-          style="border-radius: 15px; overflow: hidden"
-          src="https://www.youtube.com/embed/uyGp0JKlktA?autoplay=1&mute=1&controls=0"
-          title="EL ALTO - LA PAZ, Bolivia. Great experience with Mi Teleférico, longest cable car of the world."
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-        ></iframe>
-        <img
-          src="../assets/CablewayProjectImages/BolivianFlag.jpg"
-          alt=""
-          class="BolivianFlag animate__animated animate__fadeIn animate__slower"
-        />
-      </div>
-      <div class="py-4 text-center">
+    <div>
+      <div class="container my-4">
+        <div class="row">
+          <div class="col-12 col-md-2 d-none d-md-flex justify-content-center align-items-center mb-3 mb-md-0">
+            <img
+              src="../assets/CablewayProjectImages/UCBFlag.jpg"
+              alt="UCB Flag"
+              class="UCBFlag animate__animated animate__fadeIn animate__slower w-100"
+              style="max-width: 200px;"
+            />
+          </div>
+          <div class="col-12 col-md-8 mb-3 mb-md-0">
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe
+                class="embed-responsive-item w-100"
+                height="400"
+                src="https://www.youtube.com/embed/uyGp0JKlktA?autoplay=1&mute=1&controls=0"
+                title="EL ALTO - LA PAZ, Bolivia. Great experience with Mi Teleférico, longest cable car of the world."
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <div class="col-12 col-md-2 d-none d-md-flex justify-content-center align-items-center">
+            <img
+              src="../assets/CablewayProjectImages/UCBFlag.jpg"
+              alt="UCB Flag"
+              class="UCBFlag animate__animated animate__fadeIn animate__slower w-100"
+              style="max-width: 200px;"
+            />
+          </div>
+        </div>
+      </div>         
+      <div class="py-4 my-4 text-center">
         <button
           type="button"
           class="btn btn-warning btn-lg me-4 shadow"
@@ -242,8 +133,8 @@
             </div>
             <div class="modal-body">
               <div class="container">
-                <form action="/" method="POST">
-                  <div class="accordion" id="accordionExample">
+                <div>
+                  <div class="accordion" id="uniqueAccordionID1">
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="headingOne">
                         <button
@@ -261,7 +152,7 @@
                         id="collapseOne"
                         class="accordion-collapse collapse show"
                         aria-labelledby="headingOne"
-                        data-bs-parent="#accordionExample"
+                        data-bs-parent="#uniqueAccordionID1"
                       >
                         <div
                           class="accordion-body"
@@ -271,7 +162,8 @@
                             <div class="row">
                               <div class="form-check col-md-4 col-sm-12">
                                 <input
-                                  class="form-check -input"
+                                  v-model="cardtype"
+                                  class="form-check-input"
                                   type="radio"
                                   name="tarjeta"
                                   id="tarjeta1"
@@ -291,7 +183,7 @@
                               </div>
                               <div class="form-check col-md-4 col-sm-12">
                                 <input
-                                  class="form-check -input"
+                                  class="form-check-input"
                                   type="radio"
                                   name="tarjeta"
                                   id="tarjeta2"
@@ -310,7 +202,7 @@
                               </div>
                               <div class="form-check col-md-4 col-sm-12">
                                 <input
-                                  class="form-check -input"
+                                  class="form-check-input"
                                   type="radio"
                                   name="tarjeta"
                                   id="tarjeta3"
@@ -332,7 +224,8 @@
                         </div>
                       </div>
                     </div>
-
+                  </div>
+                  <div class="accordion" id="uniqueAccordionID2">
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="headingTwo">
                         <button
@@ -350,7 +243,7 @@
                         id="collapseTwo"
                         class="accordion-collapse collapse"
                         aria-labelledby="headingTwo"
-                        data-bs-parent="#accordionExample"
+                        data-bs-parent="#uniqueAccordionID2"
                       >
                         <div class="accordion-body bg-info-subtle">
                           <fieldset>
@@ -497,47 +390,31 @@
 
                   <div class="form-group my-3">
                     <label>Origen: </label>
-                    <select
-                      name="org1"
-                      class="form-select"
-                      aria-label="Default select example"
-                    >
-                      {% for e in estacionLinea %}
-                      <option value="{{e}}">{{ e }}</option>
-                      {% endfor%}
+                    <select v-model="startNode" name="org1" class="form-select" aria-label="Default select example">
+                      <option v-for="(node, key) in data.nodes" :value="key">{{ node.name }}</option>
                     </select>
                   </div>
-
+                
                   <div class="form-group">
                     <label>Destino: </label>
-                    <select
-                      name="org2"
-                      class="form-select"
-                      aria-label="Default select example"
-                    >
-                      {% for e in estacionLinea %}
-                      <option value="{{e}}">{{ e }}</option>
-                      {% endfor%}
+                    <select v-model="endNode" name="org2" class="form-select" aria-label="Default select example">
+                      <option v-for="(node, key) in data.nodes" :value="key">{{ node.name }}</option>
                     </select>
                   </div>
 
                   <div class="form-group my-3">
                     <label>Optimizar: </label>
                     <select
+                      v-model="timeOrMoney"
                       name="opt"
                       class="form-select"
                       aria-label="Default select example"
                     >
-                      <option value="Tiempo">Tiempo</option>
-                      <option value="Dinero">Dinero</option>
+                      <option value="time">Tiempo</option>
+                      <option value="money" disabled>Dinero</option>
                     </select>
                   </div>
-                  <div class="mt-4 text-center">
-                    <button type="submit" class="btn btn-success">
-                      ENVIAR
-                    </button>
-                  </div>
-                </form>
+                </div>
               </div>
             </div>
             <div class="modal-footer">
@@ -549,13 +426,8 @@
                 >
                   Cancelar
                 </button>
-                <button
-                  type="button"
-                  data-bs-dismiss="modal"
-                  class="btn btn-success"
-                  @click="handleDijkstraAlgorithm"
-                >
-                  OK
+                <button type="button" class="btn btn-success"  data-bs-dismiss="modal" @click="findPathAndScroll">
+                  ENVIAR
                 </button>
               </div>
             </div>
@@ -563,109 +435,112 @@
         </div>
       </div>
     </div>
-    <div v-if="destinos">
-      <div class="container">
-        {% if destinos %}
-        <h1>Origen: ORIGEN</h1>
-        <h1>Destino: DESTINO</h1>
-        <h1>Optimizar: OPT</h1>
-        {% endif %} {% if lineas_deshabilitadas %}
-        <h1>Lineas deshabilitadas:</h1>
-        {% for i in lineas_deshabilitadas%}
-        <h3>{{ 1 }}</h3>
-        {% endfor %} {% endif %}
+    <hr/>
+    <h2 class="text-primary text-center">Mapa de Teleférico</h2>
+    <h1 class="text-primary p-2">Tiempo estimado: {{ optimalValue }}</h1>
+    <div class="d-flex">
+      <div class="editor-container flex-grow-1">
+        <div class="editor-content" id="bottom">
+          <!-- Editor Content -->
+          <v-network-graph
+          ref="graph"
+          :nodes="data.nodes"
+          :edges="data.edges"
+          :layouts="data.layouts"
+          :configs="data.configs"
+          :paths="paths"
+        >
+          <template #edge-label="{ edge, hovered, selected, ...slotProps }">
+            <v-edge-label
+              :class="{ hovered, selected }"
+              :text="edge.label"
+              align="center"
+              vertical-align="above"
+              v-bind="slotProps"
+            />
+          </template>
+        </v-network-graph>
+        </div>
       </div>
-      <hr />
-      {% if rutaPosible == False %}
-      <div class="container">
-        <h1>No existe una ruta disponible</h1>
-      </div>
-      {% else %}
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12 col-md-6 col-lg-6">
-            {% if tiempo %}
-            <h1>Tiempo total:</h1>
-            <h5>TIEMPO minutos con TIEMPO segundos</h5>
-            {% endif %} {% if precio %}
-            <h1>Precio total:</h1>
-            <h5>Bs PRECIO</h5>
-            {% endif %}
+      <div class="controls-container">
+        <div class="controls-header">
+          <h5 class="controls-title fw-bold">
+            Funciones
+          </h5>
+        </div>
+        <div class="controls-body">
+          <div>
+            <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">
+              Centrar
+            </button>
+            <button
+              class="btn btn-outline-info w-100 py-2 mt-3"
+              @click="fitToContents"
+            >
+              Ajustar
+            </button>
           </div>
-
-          <div class="col-sm-12 col-md-6 col-lg-6">
-            <div class="row d-flex justify-content-center text-center">
-              {% if tiempo %}
-              <h1 class="mt-3 d-flex justify-content-start">Ruta a seguir:</h1>
-              {% endif %}
-              <div class="col"></div>
-              <div class="col mt-3">
-                {% if rutamin %} {% for e in rutamin %} {% if e!= destinos.0 %}
-                <p id="arrow" class="me-5"></p>
-                {% endif %}
-                <h5 id="circle">{{ e }}</h5>
-                {% endfor%} {% endif %}
-              </div>
-              <div class="col"></div>
-            </div>
+          <div class="d-flex gap-3">
+            <button
+              class="btn btn-outline-info bi bi-plus-circle w-100 py-2 mt-3"
+              @click="zoomIn"
+            ></button>
+            <button
+              class="btn btn-outline-info bi bi-dash-circle w-100 py-2 mt-3"
+              @click="zoomOut"
+            ></button>
           </div>
         </div>
       </div>
-      {% endif %}
     </div>
 
-    <div class="container"></div>
-    <br /><br />
-  </div>
+  </body>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref } from "vue"
+import * as vNG from "v-network-graph"
+import data from "../data/cableway-data.js";
 import NavBarVue from "../components/NavBar.vue";
+import { useCablewayStore } from "../stores/cableway";
 
-export default {
-  components: {
-    NavBarVue,
-  },
-  data() {
-    return {
-      destinos: false,
-    };
-  },
-  mounted() {
-    window.scrollTo({ top: 100, behavior: "smooth" });
-  },
-  methods: {
-    handleDijkstraAlgorithm() {
-      this.destinos = true;
-    },
-  },
-};
+const cablewayStore = useCablewayStore();
+const graph = ref<vNG.Instance | null>(null);
+  const paths = ref<vNG.Paths>({});
+
+const panToCenter = () => graph.value?.panToCenter();
+const fitToContents = () => graph.value?.fitToContents();
+const zoomIn = () => graph.value?.zoomIn();
+const zoomOut = () => graph.value?.zoomOut();
+
+const startNode = ref("");
+const endNode = ref("");
+const cardtype = ref("");
+const timeOrMoney = ref("");
+const optimalValue = ref<string | null>(null);
+
+const findPathAndScroll = async () => {
+  await findPath();
+  scrollToBottom();
+}
+
+const findPath = async () => {
+  await cablewayStore.dijkstraCableway(startNode.value, endNode.value, cardtype.value, timeOrMoney.value);
+  optimalValue.value = cablewayStore.optimalValue;
+
+  paths.value = {};
+  paths.value = cablewayStore.optimalPath;
+  console.log(cablewayStore.optimalValue);
+  console.log(cablewayStore.optimalPath);
+}
+
+const scrollToBottom = () => {
+  const element = document.getElementById('bottom');
+  element?.scrollIntoView({ behavior: 'smooth' });
+}
 </script>
 
 <style scoped>
-#circle {
-  width: 200px;
-  height: 200px;
-  line-height: 200px;
-  border-radius: 50%;
-  font-size: 20px;
-  color: #000;
-  text-align: center;
-  background: #fff;
-  font-family: "Nunito Sans";
-  font-weight: bold;
-}
-
-#arrow {
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
-  margin-left: 45px;
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-}
-
 input[type="checkbox"] {
   position: absolute;
   opacity: 0;
@@ -772,8 +647,8 @@ input[type="radio"] {
   -ms-user-select: none;
   user-select: none;
   border-radius: 10px;
-  background-color: rgb(71, 74, 232);
-  color: #fff;
+  background-color: rgb(0, 0, 0);
+  color: #f8f4f4;
 }
 
 .label_tarjeta::before {
@@ -808,5 +683,28 @@ input[type="radio"] {
   content: "✓";
   background-color: rgb(0, 194, 0);
   transform: scale(1);
+}
+
+.editor-container {
+  display: flex;
+  height: 75vh;
+}
+
+.editor-content {
+  flex: 1;
+}
+
+.controls-container {
+  width: 200px; /* Ancho del contenedor de controles */
+  border-left: 1px solid #ccc; /* Línea divisoria entre el editor y los controles */
+}
+
+.controls-header {
+  padding: 5px; /* Espaciado alrededor del encabezado */
+  border-bottom: 1px solid #ccc; /* Línea divisoria entre el encabezado y el cuerpo */
+}
+
+.controls-body {
+  padding: 10px; /* Espaciado alrededor del cuerpo */
 }
 </style>
