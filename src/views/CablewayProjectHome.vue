@@ -59,12 +59,14 @@
     <div>
       <div class="container my-4">
         <div class="row">
-          <div class="col-12 col-md-2 d-none d-md-flex justify-content-center align-items-center mb-3 mb-md-0">
+          <div
+            class="col-12 col-md-2 d-none d-md-flex justify-content-center align-items-center mb-3 mb-md-0"
+          >
             <img
               src="../assets/CablewayProjectImages/UCBFlag.jpg"
               alt="UCB Flag"
               class="UCBFlag animate__animated animate__fadeIn animate__slower w-100"
-              style="max-width: 200px;"
+              style="max-width: 200px"
             />
           </div>
           <div class="col-12 col-md-8 mb-3 mb-md-0">
@@ -81,16 +83,18 @@
               ></iframe>
             </div>
           </div>
-          <div class="col-12 col-md-2 d-none d-md-flex justify-content-center align-items-center">
+          <div
+            class="col-12 col-md-2 d-none d-md-flex justify-content-center align-items-center"
+          >
             <img
               src="../assets/CablewayProjectImages/UCBFlag.jpg"
               alt="UCB Flag"
               class="UCBFlag animate__animated animate__fadeIn animate__slower w-100"
-              style="max-width: 200px;"
+              style="max-width: 200px"
             />
           </div>
         </div>
-      </div>         
+      </div>
       <div class="py-4 my-4 text-center">
         <button
           type="button"
@@ -236,7 +240,7 @@
                           aria-expanded="false"
                           aria-controls="collapseTwo"
                         >
-                        <!-- TODO Map to v-model and add on backend -->
+                          <!-- TODO Map to v-model and add on backend -->
                           Escoja las líneas que no se encuentran disponibles
                         </button>
                       </h2>
@@ -255,6 +259,7 @@
                                   name="Azul"
                                   value="Azul"
                                   id="Azul"
+                                  v-model="blueLine"
                                 />
                                 <label for="Azul" class="label_linea"
                                   ><img
@@ -265,7 +270,12 @@
                                 >
                               </div>
                               <div class="col-md-4 col-sm-12">
-                                <input type="checkbox" name="Cafe" id="Cafe" />
+                                <input
+                                  type="checkbox"
+                                  name="Cafe"
+                                  id="Cafe"
+                                  v-model="brownLine"
+                                />
                                 <label for="Cafe" class="label_linea"
                                   ><img
                                     src="../assets/CablewayProjectImages/icono-cafe.png"
@@ -279,6 +289,7 @@
                                   type="checkbox"
                                   name="Plateada"
                                   id="Plateada"
+                                  v-model="silverLine"
                                 />
                                 <label for="Plateada" class="label_linea"
                                   ><img
@@ -293,6 +304,7 @@
                                   type="checkbox"
                                   name="Naranja"
                                   id="Naranja"
+                                  v-model="orangeLine"
                                 />
                                 <label for="Naranja" class="label_linea"
                                   ><img
@@ -303,7 +315,12 @@
                                 >
                               </div>
                               <div class="col-md-4 col-sm-12">
-                                <input type="checkbox" name="Roja" id="Roja" />
+                                <input
+                                  type="checkbox"
+                                  name="Roja"
+                                  id="Roja"
+                                  v-model="redLine"
+                                />
                                 <label for="Roja" class="label_linea"
                                   ><img
                                     src="../assets/CablewayProjectImages/icono-roja.png"
@@ -317,6 +334,7 @@
                                   type="checkbox"
                                   name="Verde"
                                   id="Verde"
+                                  v-model="greenLine"
                                 />
                                 <label for="Verde" class="label_linea"
                                   ><img
@@ -331,6 +349,7 @@
                                   type="checkbox"
                                   name="Celeste"
                                   id="Celeste"
+                                  v-model="skyBlueLine"
                                 />
                                 <label for="Celeste" class="label_linea"
                                   ><img
@@ -345,6 +364,7 @@
                                   type="checkbox"
                                   name="Blanca"
                                   id="Blanca"
+                                  v-model="whiteLine"
                                 />
                                 <label for="Blanca" class="label_linea"
                                   ><img
@@ -359,6 +379,7 @@
                                   type="checkbox"
                                   name="Amarilla"
                                   id="Amarilla"
+                                  v-model="yellowLine"
                                 />
                                 <label for="Amarilla" class="label_linea"
                                   ><img
@@ -373,6 +394,7 @@
                                   type="checkbox"
                                   name="Morada"
                                   id="Morada"
+                                  v-model="purpleLine"
                                 />
                                 <label for="Morada" class="label_linea"
                                   ><img
@@ -391,15 +413,29 @@
 
                   <div class="form-group my-3">
                     <label>Origen: </label>
-                    <select v-model="startNode" name="org1" class="form-select" aria-label="Default select example">
-                      <option v-for="(node, key) in data.nodes" :value="key">{{ node.name }}</option>
+                    <select
+                      v-model="startNode"
+                      name="org1"
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option v-for="(node, key) in data.nodes" :value="key">
+                        {{ node.name }}
+                      </option>
                     </select>
                   </div>
-                
+
                   <div class="form-group">
                     <label>Destino: </label>
-                    <select v-model="endNode" name="org2" class="form-select" aria-label="Default select example">
-                      <option v-for="(node, key) in data.nodes" :value="key">{{ node.name }}</option>
+                    <select
+                      v-model="endNode"
+                      name="org2"
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option v-for="(node, key) in data.nodes" :value="key">
+                        {{ node.name }}
+                      </option>
                     </select>
                   </div>
 
@@ -427,7 +463,12 @@
                 >
                   Cancelar
                 </button>
-                <button type="button" class="btn btn-success"  data-bs-dismiss="modal" @click="findPathAndScroll">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  data-bs-dismiss="modal"
+                  @click="findPathAndScroll"
+                >
                   ENVIAR
                 </button>
               </div>
@@ -436,7 +477,7 @@
         </div>
       </div>
     </div>
-    <hr/>
+    <hr />
     <h2 class="text-primary text-center">Mapa de Teleférico</h2>
     <h1 class="text-primary p-2">Tiempo estimado: {{ optimalValue }}</h1>
     <div class="d-flex">
@@ -445,65 +486,81 @@
           <!-- Editor Content -->
           <v-network-graph
             ref="graph"
-            :nodes="data.nodes"
-            :edges="data.edges"
+            :nodes="nodes"
+            :edges="edges"
             :layouts="data.layouts"
             :configs="data.configs"
             :paths="paths"
           >
-          <template #edge-label="{ edge, ...slotProps }">
-            <v-edge-label :text="secondsToTime(edge.label)" align="center" vertical-align="above" v-bind="slotProps" />
-          </template>
-          
-          <defs>
-            <clipPath id="cablewayCircle" clipPathUnits="objectBoundingBox">
-              <circle cx="0.5" cy="0.5" r="0.5" />
-            </clipPath>
-          </defs>
+            <template #edge-label="{ edge, ...slotProps }">
+              <v-edge-label
+                :text="secondsToTime(edge.label)"
+                align="center"
+                vertical-align="above"
+                v-bind="slotProps"
+              />
+            </template>
 
-          <template #override-node="{ nodeId, scale, config, edge, hovered, selected, ...slotProps}">
-            <!-- circle for filling background -->
-            <circle
-              class="cableway-circle"
-              :r="config.radius * scale"
-              fill="#ffffff"
-              v-bind="slotProps"
-            />
-            <!--
+            <defs>
+              <clipPath id="cablewayCircle" clipPathUnits="objectBoundingBox">
+                <circle cx="0.5" cy="0.5" r="0.5" />
+              </clipPath>
+            </defs>
+
+            <template
+              #override-node="{
+                nodeId,
+                scale,
+                config,
+                edge,
+                hovered,
+                selected,
+                ...slotProps
+              }"
+            >
+              <!-- circle for filling background -->
+              <circle
+                class="cableway-circle"
+                :r="config.radius * scale"
+                fill="#ffffff"
+                v-bind="slotProps"
+              />
+              <!--
               The base position of the <image /> is top left. The node's
               center should be (0,0), so slide it by specifying x and y.
             -->
-            <image
-              class="cableway-picture"
-              :x="-config.radius * scale"
-              :y="-config.radius * scale"
-              :width="config.radius * scale * 2"
-              :height="config.radius * scale * 2"
-              :xlink:href="`src/assets/CablewayProjectImages/${data.nodes[nodeId].icon}`"
-              clip-path="url(#cablewayCircle)"
-            />
-            <!-- circle for drawing stroke -->
-            <circle
-              class="cableway-circle"
-              :r="config.radius * scale"
-              fill="none"
-              stroke="#808080"
-              :stroke-width="1 * scale"
-              v-bind="slotProps"
-            />
-          </template>
-        </v-network-graph>
+              <image
+                class="cableway-picture"
+                :x="-config.radius * scale"
+                :y="-config.radius * scale"
+                :width="config.radius * scale * 2"
+                :height="config.radius * scale * 2"
+                :xlink:href="`src/assets/CablewayProjectImages/${nodes[nodeId].icon}`"
+                clip-path="url(#cablewayCircle)"
+              />
+              <!-- circle for drawing stroke -->
+              <circle
+                class="cableway-circle"
+                :r="config.radius * scale"
+                fill="none"
+                stroke="#808080"
+                :stroke-width="1 * scale"
+                v-bind="slotProps"
+              />
+            </template>
+          </v-network-graph>
         </div>
       </div>
       <div class="controls-container">
         <div class="controls-header">
-          <h5 class="controls-title fw-bold">
-            Funciones
-          </h5>
+          <h5 class="controls-title fw-bold">Funciones</h5>
         </div>
         <div class="controls-body">
           <div>
-            <button class="btn btn-outline-info w-100 py-2" @click="panToCenter">
+            <button
+              class="btn btn-outline-info w-100 py-2"
+              @click="panToCenter"
+            >
               Centrar
             </button>
             <button
@@ -526,20 +583,129 @@
         </div>
       </div>
     </div>
-
   </body>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
-import * as vNG from "v-network-graph"
+import { ref, reactive } from "vue";
+import * as vNG from "v-network-graph";
 import data from "../data/cableway-data.js";
 import NavBarVue from "../components/NavBar.vue";
 import { useCablewayStore } from "../stores/cableway";
 
+let nodes: vNG.Nodes;
+let edges: vNG.Edges;
+
+nodes = reactive({ ...data.nodes });
+edges = reactive({ ...data.edges });
+
+var blueLine = ref(false);
+var brownLine = ref(false);
+var silverLine = ref(false);
+var orangeLine = ref(false);
+var redLine = ref(false);
+var greenLine = ref(false);
+var skyBlueLine = ref(false);
+var whiteLine = ref(false);
+var yellowLine = ref(false);
+var purpleLine = ref(false);
+
+const unavailableCablewayLine = (
+  isCablewayLineUnavailable: boolean,
+  cablewayLine: string,
+  unavailableLineImage: string,
+  unavailableNodes: string[],
+  edgesToDelete: string[]
+) => {
+  if (isCablewayLineUnavailable) {
+    console.log(`${cablewayLine} Cableway Line NOT Available.`);
+    const deleteNodes = unavailableNodes;
+    const deleteEdges = edgesToDelete;
+    for (const nodeId of deleteNodes) {
+      nodes[nodeId].icon = unavailableLineImage;
+    }
+    for (const edgeId of deleteEdges) {
+      delete edges[edgeId];
+    }
+  }
+};
+
+const getUnavailableCablewayLines = () => {
+  unavailableCablewayLine(
+    blueLine.value,
+    "Blue",
+    "BlueLineUnavailable.jpg",
+    ["node1", "node2", "node3", "node4", "node5"],
+    ["edge1", "edge2", "edge3", "edge4", "edge53", "edge54", "edge55", "edge56"]
+  );
+  unavailableCablewayLine(
+    brownLine.value,
+    "Brown",
+    "BrownLineUnavailable.jpg",
+    ["node11", "node26"],
+    ["edge25", "edge34"]
+  );
+  unavailableCablewayLine(
+    silverLine.value,
+    "Silver",
+    "SilverLineUnavailable.jpg",
+    ["node5", "node20", "node21"],
+    ["edge5", "edge6", "edge44", "edge47"]
+  );
+  unavailableCablewayLine(
+    orangeLine.value,
+    "Orange",
+    "OrangeLineUnavailable.jpg",
+    ["node7", "node8", "node9", "node10"],
+    ["edge17", "edge18", "edge19", "edge48", "edge49", "edge50"]
+  );
+  unavailableCablewayLine(
+    redLine.value,
+    "Red",
+    "RedLineUnavailable.jpg",
+    ["node5", "node6", "node7"],
+    ["edge15", "edge16", "edge51", "edge52"]
+  );
+  unavailableCablewayLine(
+    greenLine.value,
+    "Green",
+    "GreenLineUnavailable.jpg",
+    ["node14", "node15", "node16", "node17"],
+    ["edge12", "edge13", "edge14", "edge35", "edge36", "edge38"]
+  );
+  unavailableCablewayLine(
+    skyBlueLine.value,
+    "Skyblue",
+    "SkyblueLineUnavailable.jpg",
+    ["node14", "node13", "node24", "node25"],
+    ["edge24", "edge26", "edge27", "edge28", "edge29", "edge32"]
+  );
+  unavailableCablewayLine(
+    whiteLine.value,
+    "White",
+    "WhiteLineUnavailable.jpg",
+    ["node10", "node11", "node12", "node13"],
+    ["edge20", "edge21", "edge23", "edge30", "edge31", "edge33"]
+  );
+  unavailableCablewayLine(
+    yellowLine.value,
+    "Yellow",
+    "YellowLineUnavailable.jpg",
+    ["node14", "node18", "node19", "node20"],
+    ["edge9", "edge10", "edge11", "edge39", "edge41", "edge43"]
+  );
+  unavailableCablewayLine(
+    purpleLine.value,
+    "Purple",
+    "PurpleLineUnavailable.jpg",
+    ["node21", "node22", "node23"],
+    ["edge7", "edge8", "edge45", "edge46"]
+  );
+};
+
 const cablewayStore = useCablewayStore();
 const graph = ref<vNG.Instance | null>(null);
-  const paths = ref<vNG.Paths>({});
+const paths = ref<vNG.Paths>({});
 
 const panToCenter = () => graph.value?.panToCenter();
 const fitToContents = () => graph.value?.fitToContents();
@@ -555,29 +721,42 @@ const optimalValue = ref<string | null>(null);
 const findPathAndScroll = async () => {
   await findPath();
   scrollToBottom();
-}
+};
 
 const secondsToTime = (secondsString: string) => {
   const seconds = parseInt(secondsString);
   const minutes = Math.floor(seconds / 60);
   const secondsLeft = seconds % 60;
-  return `${minutes}:${secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft}`; 
-}
+  return `${minutes}:${secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft}`;
+};
 
 const findPath = async () => {
-  await cablewayStore.dijkstraCableway(startNode.value, endNode.value, cardtype.value, timeOrMoney.value);
+  getUnavailableCablewayLines();
+  const cablewayData = {
+    nodes: nodes,
+    edges: edges,
+    layouts: data.layouts,
+  };
+  console.log("CablewayData:", cablewayData);
+  await cablewayStore.dijkstraCableway(
+    cablewayData,
+    startNode.value,
+    endNode.value,
+    cardtype.value,
+    timeOrMoney.value
+  );
   optimalValue.value = cablewayStore.optimalValue;
 
   paths.value = {};
   paths.value = cablewayStore.optimalPath;
   console.log(cablewayStore.optimalValue);
   console.log(cablewayStore.optimalPath);
-}
+};
 
 const scrollToBottom = () => {
-  const element = document.getElementById('bottom');
-  element?.scrollIntoView({ behavior: 'smooth' });
-}
+  const element = document.getElementById("bottom");
+  element?.scrollIntoView({ behavior: "smooth" });
+};
 </script>
 
 <style scoped>
@@ -753,9 +932,7 @@ input[type="radio"] {
   transition: all 0.1s linear;
 }
 
-
 .cableway-picture {
   pointer-events: none;
 }
-
 </style>

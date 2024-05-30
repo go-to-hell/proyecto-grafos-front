@@ -1,563 +1,614 @@
-import { defineConfigs } from "v-network-graph"
-import * as vNG from "v-network-graph"
-import { reactive } from "vue"
+import { defineConfigs } from "v-network-graph";
+import * as vNG from "v-network-graph";
+import { reactive } from "vue";
 
-
-const nodes = { 
-  "node1": {
-    "id": "node1",
-    "name": "Rio Seco",
-    "x": -541.5,
-    "y": -70.5,
-    "icon": "icono-azul.png"
+const nodes = {
+  node1: {
+    id: "node1",
+    name: "Rio Seco",
+    x: -541.5,
+    y: -70.5,
+    icon: "icono-azul.png",
   },
-  "node2": {
-    "id": "node2",
-    "name": "UPEA",
-    "x": 861.9266967773438,
-    "y": -400.7640075683594,
-    "icon": "icono-azul.png"
+  node2: {
+    id: "node2",
+    name: "UPEA",
+    x: 861.9266967773438,
+    y: -400.7640075683594,
+    icon: "icono-azul.png",
   },
-  "node3": {
-    "id": "node3",
-    "name": "Plaza La Paz",
-    "x": 2281.9267578125,
-    "y": -460.7640075683594,
-    "icon": "icono-azul.png"
+  node3: {
+    id: "node3",
+    name: "Plaza La Paz",
+    x: 2281.9267578125,
+    y: -460.7640075683594,
+    icon: "icono-azul.png",
   },
-  "node4": {
-    "id": "node4",
-    "name": "Plaza Libertad",
-    "x": 3371.9267578125,
-    "y": -440.7640075683594,
-    "icon": "icono-azul.png"
+  node4: {
+    id: "node4",
+    name: "Plaza Libertad",
+    x: 3371.9267578125,
+    y: -440.7640075683594,
+    icon: "icono-azul.png",
   },
-  "node5": {
-    "id": "node5",
-    "name": "16 de Julio",
-    "x": 997.6127319335938,
-    "y": -214.175537109375,
-    "icon": "icono-plateada.png"
+  node5: {
+    id: "node5",
+    name: "16 de Julio",
+    x: 997.6127319335938,
+    y: -214.175537109375,
+    icon: "RedBlueSilverLines.png",
   },
-  "node6": {
-    "id": "node6",
-    "name": "Cementerio",
-    "x": 2117.61279296875,
-    "y": -174.175537109375,
-    "icon": "icono-roja.png"
+  node6: {
+    id: "node6",
+    name: "Cementerio",
+    x: 2117.61279296875,
+    y: -174.175537109375,
+    icon: "icono-roja.png",
   },
-  "node7": {
-    "id": "node7",
-    "name": "Central",
-    "x": 2917.612548828125,
-    "y": -884.175537109375,
-    "icon": "icono-roja.png"
+  node7: {
+    id: "node7",
+    name: "Central",
+    x: 2917.612548828125,
+    y: -884.175537109375,
+    icon: "RedOrangeLines.png",
   },
-  "node8": {
-    "id": "node8",
-    "name": "Armentia",
-    "x": 3777.612548828125,
-    "y": -874.175537109375,
-    "icon": "icono-naranja.png"
+  node8: {
+    id: "node8",
+    name: "Armentia",
+    x: 3777.612548828125,
+    y: -874.175537109375,
+    icon: "icono-naranja.png",
   },
-  "node9": {
-    "id": "node9",
-    "name": "Periférica",
-    "x": 4457.61279296875,
-    "y": -1374.175537109375,
-    "icon": "icono-naranja.png"
+  node9: {
+    id: "node9",
+    name: "Periférica",
+    x: 4457.61279296875,
+    y: -1374.175537109375,
+    icon: "icono-naranja.png",
   },
-  "node10": {
-    "id": "node10",
-    "name": "Villarroel",
-    "x": 5147.61279296875,
-    "y": -1864.175537109375,
-    "icon": "icono-naranja.png"
+  node10: {
+    id: "node10",
+    name: "Villarroel",
+    x: 5147.61279296875,
+    y: -1864.175537109375,
+    icon: "OrangeWhiteLines.png",
   },
-  "node11": {
-    "id": "node11",
-    "name": "Busch",
-    "x": 5257.61279296875,
-    "y": -734.175537109375,
-    "icon": "icono-blanca.png"
+  node11: {
+    id: "node11",
+    name: "Busch",
+    x: 5257.61279296875,
+    y: -734.175537109375,
+    icon: "WhiteBrownLines.png",
   },
-  "node12": {
-    "id": "node12",
-    "name": "Triangular",
-    "x": 5267.61279296875,
-    "y": 105.82444763183594,
-    "icon": "icono-blanca.png"
+  node12: {
+    id: "node12",
+    name: "Triangular",
+    x: 5267.61279296875,
+    y: 105.82444763183594,
+    icon: "icono-blanca.png",
   },
-  "node13": {
-    "id": "node13",
-    "name": "Del Poeta",
-    "x": 5367.61279296875,
-    "y": 845.8244018554688,
-    "icon": "icono-blanca.png"
+  node13: {
+    id: "node13",
+    name: "Del Poeta",
+    x: 5367.61279296875,
+    y: 845.8244018554688,
+    icon: "SkyBlueWhiteLines.png",
   },
-  "node14": {
-    "id": "node14",
-    "name": "Libertador",
-    "x": 5417.61279296875,
-    "y": 1605.824462890625,
-    "icon": "icono-verde.png"
+  node14: {
+    id: "node14",
+    name: "Libertador",
+    x: 5417.61279296875,
+    y: 1605.824462890625,
+    icon: "SkyBlueYellowGreenLines.png",
   },
-  "node15": {
-    "id": "node15",
-    "name": "Alto Obrajes",
-    "x": 6137.61279296875,
-    "y": 1685.824462890625,
-    "icon": "icono-verde.png"
+  node15: {
+    id: "node15",
+    name: "Alto Obrajes",
+    x: 6137.61279296875,
+    y: 1685.824462890625,
+    icon: "icono-verde.png",
   },
-  "node16": {
-    "id": "node16",
-    "name": "Obrajes",
-    "x": 6987.61279296875,
-    "y": 1825.8243408203125,
-    "icon": "icono-verde.png"
+  node16: {
+    id: "node16",
+    name: "Obrajes",
+    x: 6987.61279296875,
+    y: 1825.8243408203125,
+    icon: "icono-verde.png",
   },
-  "node17": {
-    "id": "node17",
-    "name": "Irpavi",
-    "x": 7567.6123046875,
-    "y": 2365.824462890625,
-    "icon": "icono-verde.png"
+  node17: {
+    id: "node17",
+    name: "Irpavi",
+    x: 7567.6123046875,
+    y: 2365.824462890625,
+    icon: "icono-verde.png",
   },
-  "node18": {
-    "id": "node18",
-    "name": "Sopocachi",
-    "x": 4027.612548828125,
-    "y": 1495.824462890625,
-    "icon": "icono-amarilla.png"
+  node18: {
+    id: "node18",
+    name: "Sopocachi",
+    x: 4027.612548828125,
+    y: 1495.824462890625,
+    icon: "icono-amarilla.png",
   },
-  "node19": {
-    "id": "node19",
-    "name": "Buenos Aires",
-    "x": 2677.61279296875,
-    "y": 1705.824462890625,
-    "icon": "icono-amarilla.png"
+  node19: {
+    id: "node19",
+    name: "Buenos Aires",
+    x: 2677.61279296875,
+    y: 1705.824462890625,
+    icon: "icono-amarilla.png",
   },
-  "node20": {
-    "id": "node20",
-    "name": "Satelite",
-    "x": 1287.6126708984375,
-    "y": 1835.8243408203125,
-    "icon": "icono-plateada.png"
+  node20: {
+    id: "node20",
+    name: "Satelite",
+    x: 1287.6126708984375,
+    y: 1835.8243408203125,
+    icon: "YellowSilverLines.png",
   },
-  "node21": {
-    "id": "node21",
-    "name": "Faro Murillo",
-    "x": 1087.6126708984375,
-    "y": 725.824462890625,
-    "icon": "icono-morada.png"
+  node21: {
+    id: "node21",
+    name: "Faro Murillo",
+    x: 1087.6126708984375,
+    y: 725.824462890625,
+    icon: "PurpleSilverLines.png",
   },
-  "node22": {
-    "id": "node22",
-    "name": "Obelisco",
-    "x": 2217.61279296875,
-    "y": 445.8244323730469,
-    "icon": "icono-morada.png"
+  node22: {
+    id: "node22",
+    name: "Obelisco",
+    x: 2217.61279296875,
+    y: 445.8244323730469,
+    icon: "icono-morada.png",
   },
-  "node23": {
-    "id": "node23",
-    "name": "6 de Marzo",
-    "x": -162.38723754882812,
-    "y": 785.8244018554688,
-    "icon": "icono-morada.png"
+  node23: {
+    id: "node23",
+    name: "6 de Marzo",
+    x: -162.38723754882812,
+    y: 785.8244018554688,
+    icon: "icono-morada.png",
   },
-  "node24": {
-    "id": "node24",
-    "name": "Del Teatro",
-    "x": 4317.61279296875,
-    "y": 515.824462890625,
-    "icon": "icono-celeste.png"
+  node24: {
+    id: "node24",
+    name: "Del Teatro",
+    x: 4317.61279296875,
+    y: 515.824462890625,
+    icon: "icono-celeste.png",
   },
-  "node25": {
-    "id": "node25",
-    "name": "El Prado",
-    "x": 3487.612548828125,
-    "y": 35.8244514465332,
-    "icon": "icono-celeste.png"
+  node25: {
+    id: "node25",
+    name: "El Prado",
+    x: 3487.612548828125,
+    y: 35.8244514465332,
+    icon: "icono-celeste.png",
   },
-  "node26": {
-    "id": "node26",
-    "name": "Las Villas",
-    "x": 6387.61279296875,
-    "y": -544.175537109375,
-    "icon": "icono-cafe.png"
-  }
+  node26: {
+    id: "node26",
+    name: "Las Villas",
+    x: 6387.61279296875,
+    y: -544.175537109375,
+    icon: "icono-cafe.png",
+  },
 };
 
 const edges = {
-  "edge1": {
-    "source": "node1",
-    "target": "node2",
-    "label": "426"
+  edge1: {
+    source: "node1",
+    target: "node2",
+    label: "426",
+    color: "DarkBlue",
   },
-  "edge2": {
-    "source": "node2",
-    "target": "node3",
-    "label": "283"
+  edge2: {
+    source: "node2",
+    target: "node3",
+    label: "283",
+    color: "DarkBlue",
   },
-  "edge3": {
-    "source": "node3",
-    "target": "node4",
-    "label": "258"
+  edge3: {
+    source: "node3",
+    target: "node4",
+    label: "258",
+    color: "DarkBlue",
   },
-  "edge4": {
-    "source": "node4",
-    "target": "node5",
-    "label": "268"
+  edge4: {
+    source: "node4",
+    target: "node5",
+    label: "268",
+    color: "DarkBlue",
   },
-  "edge5": {
-    "source": "node5",
-    "target": "node21",
-    "label": "516"
+  edge5: {
+    source: "node5",
+    target: "node21",
+    label: "516",
+    color: "Silver",
   },
-  "edge6": {
-    "source": "node21",
-    "target": "node20",
-    "label": "246"
+  edge6: {
+    source: "node21",
+    target: "node20",
+    label: "246",
+    color: "Silver",
   },
-  "edge7": {
-    "source": "node21",
-    "target": "node22",
-    "label": "480"
+  edge7: {
+    source: "node21",
+    target: "node22",
+    label: "480",
+    color: "RebeccaPurple",
   },
-  "edge8": {
-    "source": "node21",
-    "target": "node23",
-    "label": "487"
+  edge8: {
+    source: "node21",
+    target: "node23",
+    label: "487",
+    color: "RebeccaPurple",
   },
-  "edge9": {
-    "source": "node20",
-    "target": "node19",
-    "label": "240"
+  edge9: {
+    source: "node20",
+    target: "node19",
+    label: "240",
+    color: "Gold",
   },
-  "edge10": {
-    "source": "node19",
-    "target": "node18",
-    "label": "375"
+  edge10: {
+    source: "node19",
+    target: "node18",
+    label: "375",
+    color: "Gold",
   },
-  "edge11": {
-    "source": "node18",
-    "target": "node14",
-    "label": "397"
+  edge11: {
+    source: "node18",
+    target: "node14",
+    label: "397",
+    color: "Gold",
   },
-  "edge12": {
-    "source": "node14",
-    "target": "node15",
-    "label": "205"
+  edge12: {
+    source: "node14",
+    target: "node15",
+    label: "205",
+    color: "Green",
   },
-  "edge13": {
-    "source": "node15",
-    "target": "node16",
-    "label": "309"
+  edge13: {
+    source: "node15",
+    target: "node16",
+    label: "309",
+    color: "Green",
   },
-  "edge14": {
-    "source": "node16",
-    "target": "node17",
-    "label": "467"
+  edge14: {
+    source: "node16",
+    target: "node17",
+    label: "467",
+    color: "Green",
   },
-  "edge15": {
-    "source": "node5",
-    "target": "node6",
-    "label": "338"
+  edge15: {
+    source: "node5",
+    target: "node6",
+    label: "338",
+    color: "Red",
   },
-  "edge16": {
-    "source": "node6",
-    "target": "node7",
-    "label": "309"
+  edge16: {
+    source: "node6",
+    target: "node7",
+    label: "309",
+    color: "Red",
   },
-  "edge17": {
-    "source": "node7",
-    "target": "node8",
-    "label": "239"
+  edge17: {
+    source: "node7",
+    target: "node8",
+    label: "239",
+    color: "Orange",
   },
-  "edge18": {
-    "source": "node8",
-    "target": "node9",
-    "label": "227"
+  edge18: {
+    source: "node8",
+    target: "node9",
+    label: "227",
+    color: "Orange",
   },
-  "edge19": {
-    "source": "node9",
-    "target": "node10",
-    "label": "276"
+  edge19: {
+    source: "node9",
+    target: "node10",
+    label: "276",
+    color: "Orange",
   },
-  "edge20": {
-    "source": "node10",
-    "target": "node11",
-    "label": "237"
+  edge20: {
+    source: "node10",
+    target: "node11",
+    label: "237",
+    color: "LightGray",
   },
-  "edge21": {
-    "source": "node11",
-    "target": "node12",
-    "label": "288"
+  edge21: {
+    source: "node11",
+    target: "node12",
+    label: "288",
+    color: "LightGray",
   },
-  "edge23": {
-    "source": "node12",
-    "target": "node13",
-    "label": "196"
+  edge23: {
+    source: "node12",
+    target: "node13",
+    label: "196",
+    color: "LightGray",
   },
-  "edge24": {
-    "source": "node13",
-    "target": "node14",
-    "label": "190"
+  edge24: {
+    source: "node13",
+    target: "node14",
+    label: "190",
+    color: "DeepSkyBlue",
   },
-  "edge25": {
-    "source": "node11",
-    "target": "node26",
-    "label": "227"
+  edge25: {
+    source: "node11",
+    target: "node26",
+    label: "227",
+    color: "Maroon",
   },
-  "edge26": {
-    "source": "node13",
-    "target": "node24",
-    "label": "210"
+  edge26: {
+    source: "node13",
+    target: "node24",
+    label: "210",
+    color: "DeepSkyBlue",
   },
-  "edge27": {
-    "source": "node24",
-    "target": "node25",
-    "label": "220"
+  edge27: {
+    source: "node24",
+    target: "node25",
+    label: "220",
+    color: "DeepSkyBlue",
   },
-  "edge28": {
-    "source": "node25",
-    "target": "node24",
-    "label": "220"
+  edge28: {
+    source: "node25",
+    target: "node24",
+    label: "220",
+    color: "DeepSkyBlue",
   },
-  "edge29": {
-    "source": "node24",
-    "target": "node13",
-    "label": "210"
+  edge29: {
+    source: "node24",
+    target: "node13",
+    label: "210",
+    color: "DeepSkyBlue",
   },
-  "edge30": {
-    "source": "node13",
-    "target": "node12",
-    "label": "196"
+  edge30: {
+    source: "node13",
+    target: "node12",
+    label: "196",
+    color: "LightGray",
   },
-  "edge31": {
-    "source": "node12",
-    "target": "node11",
-    "label": "288"
+  edge31: {
+    source: "node12",
+    target: "node11",
+    label: "288",
+    color: "LightGray",
   },
-  "edge32": {
-    "source": "node14",
-    "target": "node13",
-    "label": "190"
+  edge32: {
+    source: "node14",
+    target: "node13",
+    label: "190",
+    color: "DeepSkyBlue",
   },
-  "edge33": {
-    "source": "node11",
-    "target": "node10",
-    "label": "237"
+  edge33: {
+    source: "node11",
+    target: "node10",
+    label: "237",
+    color: "LightGray",
   },
-  "edge34": {
-    "source": "node26",
-    "target": "node11",
-    "label": "227"
+  edge34: {
+    source: "node26",
+    target: "node11",
+    label: "227",
+    color: "Maroon",
   },
-  "edge35": {
-    "source": "node15",
-    "target": "node14",
-    "label": "205"
+  edge35: {
+    source: "node15",
+    target: "node14",
+    label: "205",
+    color: "Green",
   },
-  "edge36": {
-    "source": "node16",
-    "target": "node15",
-    "label": "309"
+  edge36: {
+    source: "node16",
+    target: "node15",
+    label: "309",
+    color: "Green",
   },
-  "edge38": {
-    "source": "node17",
-    "target": "node16",
-    "label": "467"
+  edge38: {
+    source: "node17",
+    target: "node16",
+    label: "467",
+    color: "Green",
   },
-  "edge39": {
-    "source": "node14",
-    "target": "node18",
-    "label": "397"
+  edge39: {
+    source: "node14",
+    target: "node18",
+    label: "397",
+    color: "Gold",
   },
-  "edge41": {
-    "source": "node18",
-    "target": "node19",
-    "label": "375"
+  edge41: {
+    source: "node18",
+    target: "node19",
+    label: "375",
+    color: "Gold",
   },
-  "edge43": {
-    "source": "node19",
-    "target": "node20",
-    "label": "240"
+  edge43: {
+    source: "node19",
+    target: "node20",
+    label: "240",
+    color: "Gold",
   },
-  "edge44": {
-    "source": "node20",
-    "target": "node21",
-    "label": "246"
+  edge44: {
+    source: "node20",
+    target: "node21",
+    label: "246",
+    color: "Silver",
   },
-  "edge45": {
-    "source": "node22",
-    "target": "node21",
-    "label": "480"
+  edge45: {
+    source: "node22",
+    target: "node21",
+    label: "480",
+    color: "RebeccaPurple",
   },
-  "edge46": {
-    "source": "node23",
-    "target": "node21",
-    "label": "487"
+  edge46: {
+    source: "node23",
+    target: "node21",
+    label: "487",
+    color: "RebeccaPurple",
   },
-  "edge47": {
-    "source": "node21",
-    "target": "node5",
-    "label": "516"
+  edge47: {
+    source: "node21",
+    target: "node5",
+    label: "516",
+    color: "Silver",
   },
-  "edge48": {
-    "source": "node10",
-    "target": "node9",
-    "label": "274"
+  edge48: {
+    source: "node10",
+    target: "node9",
+    label: "274",
+    color: "Orange",
   },
-  "edge49": {
-    "source": "node9",
-    "target": "node8",
-    "label": "227"
+  edge49: {
+    source: "node9",
+    target: "node8",
+    label: "227",
+    color: "Orange",
   },
-  "edge50": {
-    "source": "node8",
-    "target": "node7",
-    "label": "239"
+  edge50: {
+    source: "node8",
+    target: "node7",
+    label: "239",
+    color: "Orange",
   },
-  "edge51": {
-    "source": "node7",
-    "target": "node6",
-    "label": "309"
+  edge51: {
+    source: "node7",
+    target: "node6",
+    label: "309",
+    color: "Red",
   },
-  "edge52": {
-    "source": "node6",
-    "target": "node5",
-    "label": "338"
+  edge52: {
+    source: "node6",
+    target: "node5",
+    label: "338",
+    color: "Red",
   },
-  "edge53": {
-    "source": "node5",
-    "target": "node4",
-    "label": "268"
+  edge53: {
+    source: "node5",
+    target: "node4",
+    label: "268",
+    color: "DarkBlue",
   },
-  "edge54": {
-    "source": "node4",
-    "target": "node3",
-    "label": "258"
+  edge54: {
+    source: "node4",
+    target: "node3",
+    label: "258",
+    color: "DarkBlue",
   },
-  "edge55": {
-    "source": "node3",
-    "target": "node2",
-    "label": "283"
+  edge55: {
+    source: "node3",
+    target: "node2",
+    label: "283",
+    color: "DarkBlue",
   },
-  "edge56": {
-    "source": "node2",
-    "target": "node1",
-    "label": "426"
-  }
+  edge56: {
+    source: "node2",
+    target: "node1",
+    label: "426",
+    color: "DarkBlue",
+  },
 };
 
 const layouts = {
-  "nodes": {
-    "node1": {
-      "x": -3081.5,
-      "y": -310.5
+  nodes: {
+    node1: {
+      x: -3081.5,
+      y: -310.5,
     },
-    "node2": {
-      "x": -1938.073,
-      "y": -710.764
+    node2: {
+      x: -1938.073,
+      y: -710.764,
     },
-    "node3": {
-      "x": -778.073,
-      "y": -720.764
+    node3: {
+      x: -778.073,
+      y: -720.764,
     },
-    "node4": {
-      "x": 221.927,
-      "y": -740.764
+    node4: {
+      x: 221.927,
+      y: -740.764,
     },
-    "node5": {
-      "x": 1227.613,
-      "y": -494.176
+    node5: {
+      x: 1227.613,
+      y: -494.176,
     },
-    "node6": {
-      "x": 2257.613,
-      "y": -534.176
+    node6: {
+      x: 2257.613,
+      y: -534.176,
     },
-    "node7": {
-      "x": 2691.628,
-      "y": -1576.092
+    node7: {
+      x: 2691.628,
+      y: -1576.092,
     },
-    "node8": {
-      "x": 3954.129,
-      "y": -1809.551
+    node8: {
+      x: 3954.129,
+      y: -1809.551,
     },
-    "node9": {
-      "x": 5178.519,
-      "y": -1983.923
+    node9: {
+      x: 5178.519,
+      y: -1983.923,
     },
-    "node10": {
-      "x": 6270.941,
-      "y": -2216.346
+    node10: {
+      x: 6270.941,
+      y: -2216.346,
     },
-    "node11": {
-      "x": 6293.215,
-      "y": -1136.597
+    node11: {
+      x: 6293.215,
+      y: -1136.597,
     },
-    "node12": {
-      "x": 6234.478,
-      "y": -61.144
+    node12: {
+      x: 6234.478,
+      y: -61.144,
     },
-    "node13": {
-      "x": 5869.277,
-      "y": 893.551
+    node13: {
+      x: 5869.277,
+      y: 893.551,
     },
-    "node14": {
-      "x": 5690.539,
-      "y": 1985.973
+    node14: {
+      x: 5690.539,
+      y: 1985.973,
     },
-    "node15": {
-      "x": 6819.931,
-      "y": 1802.793
+    node15: {
+      x: 6819.931,
+      y: 1802.793,
     },
-    "node16": {
-      "x": 8011.089,
-      "y": 1650.372
+    node16: {
+      x: 8011.089,
+      y: 1650.372,
     },
-    "node17": {
-      "x": 9188.014,
-      "y": 2335.215
+    node17: {
+      x: 9188.014,
+      y: 2335.215,
     },
-    "node18": {
-      "x": 3987.613,
-      "y": 1525.824
+    node18: {
+      x: 3987.613,
+      y: 1525.824,
     },
-    "node19": {
-      "x": 2677.61279296875,
-      "y": 1705.824462890625
+    node19: {
+      x: 2677.61279296875,
+      y: 1705.824462890625,
     },
-    "node20": {
-      "x": 1287.6126708984375,
-      "y": 1835.8243408203125
+    node20: {
+      x: 1287.6126708984375,
+      y: 1835.8243408203125,
     },
-    "node21": {
-      "x": 1197.613,
-      "y": 785.824
+    node21: {
+      x: 1197.613,
+      y: 785.824,
     },
-    "node22": {
-      "x": 2285.845,
-      "y": 631.025
+    node22: {
+      x: 2285.845,
+      y: 631.025,
     },
-    "node23": {
-      "x": 22.813,
-      "y": 1058.752
+    node23: {
+      x: 22.813,
+      y: 1058.752,
     },
-    "node24": {
-      "x": 4724.076,
-      "y": 178.856
+    node24: {
+      x: 4724.076,
+      y: 178.856,
     },
-    "node25": {
-      "x": 3887.613,
-      "y": -454.176
+    node25: {
+      x: 3887.613,
+      y: -454.176,
     },
-    "node26": {
-      "x": 7486.394,
-      "y": -799.629
-    }
-  }
+    node26: {
+      x: 7486.394,
+      y: -799.629,
+    },
+  },
 };
 
 const configs = reactive(
@@ -640,7 +691,7 @@ const configs = reactive(
     edge: {
       normal: {
         width: 3,
-        color: "#000000",
+        color: (edge) => edge.color,
         dasharray: "0",
         linecap: "butt",
         animate: false,
@@ -700,12 +751,11 @@ const configs = reactive(
       },
     },
   })
-)
-
+);
 
 export default {
   nodes,
   edges,
   layouts,
   configs,
-}
+};
