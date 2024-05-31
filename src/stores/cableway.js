@@ -1,10 +1,9 @@
 import { defineStore } from "pinia";
 import { useAuthStore } from "./auth";
 import axios from "axios";
-// import cablewayData from "../data/cableway-data.json";
 
 export const useCablewayStore = defineStore("cableway", {
-  state: () => ({ optimalValue: null, optimalPath: {} }),
+  state: () => ({ edges: {}, optimalValue: null, optimalPath: {} }),
 
   actions: {
     async dijkstraCableway(
@@ -12,13 +11,24 @@ export const useCablewayStore = defineStore("cableway", {
       startNode,
       endNode,
       cardtype,
-      timeOrMoney
+      targetVariable,
+      energyConstraint
     ) {
       const authStore = useAuthStore();
-      const requestBody = cablewayData;
 
+      // Set default value for cardtype if it's empty
+      if (!cardtype) {
+        cardtype = "regular";
+      }
+
+      const requestBody = {
+        VEGraph: cablewayData,
+        disabledLines: []
+      };
+
+      console.log(requestBody);
       const response = await axios.post(
-        `http://localhost:8000/dijkstra/telefericos?startNode=${startNode}&endNode=${endNode}&maximize=false&cardtype=${cardtype}&timeOrMoney=${timeOrMoney}`,
+        `http://localhost:8000/dijkstra/telefericos?startNode=${startNode}&endNode=${endNode}&maximize=false&cardtype=${cardtype}&targetVariable=${targetVariable}&energy_constraint=${energyConstraint}`,
         requestBody,
         {
           headers: {
@@ -28,6 +38,8 @@ export const useCablewayStore = defineStore("cableway", {
         }
       );
 
+      console.log(response.data);
+      this.edges = response.data.edges;
       this.optimalValue = response.data.optimalValue;
       this.optimalPath = response.data.optimalPath;
     },

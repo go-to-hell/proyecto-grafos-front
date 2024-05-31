@@ -171,13 +171,10 @@
                                   type="radio"
                                   name="tarjeta"
                                   id="tarjeta1"
-                                  value="1"
+                                  value="regular"
                                   checked
                                 />
-                                <label
-                                  class="form-check-label label_tarjeta text-center"
-                                  for="tarjeta1"
-                                >
+                                <label class="form-check-label label_tarjeta text-center" for="tarjeta1">
                                   <img
                                     class="tarjetas d-block mx-auto"
                                     src="../assets/CablewayProjectImages/tarjeta_normal.png"
@@ -187,16 +184,14 @@
                               </div>
                               <div class="form-check col-md-4 col-sm-12">
                                 <input
+                                  v-model="cardtype"
                                   class="form-check-input"
                                   type="radio"
                                   name="tarjeta"
                                   id="tarjeta2"
-                                  value="2"
+                                  value="student"
                                 />
-                                <label
-                                  class="form-check-label label_tarjeta text-center"
-                                  for="tarjeta2"
-                                >
+                                <label class="form-check-label label_tarjeta text-center" for="tarjeta2">
                                   <img
                                     class="tarjetas d-block mx-auto"
                                     src="../assets/CablewayProjectImages/tarjeta_estudiantil.png"
@@ -206,16 +201,14 @@
                               </div>
                               <div class="form-check col-md-4 col-sm-12">
                                 <input
+                                  v-model="cardtype"
                                   class="form-check-input"
                                   type="radio"
                                   name="tarjeta"
                                   id="tarjeta3"
-                                  value="3"
+                                  value="senior"
                                 />
-                                <label
-                                  class="form-check-label label_tarjeta text-center"
-                                  for="tarjeta3"
-                                >
+                                <label class="form-check-label label_tarjeta text-center" for="tarjeta3">
                                   <img
                                     class="tarjetas d-block mx-auto"
                                     src="../assets/CablewayProjectImages/tarjeta_preferencial.png"
@@ -439,17 +432,32 @@
                     </select>
                   </div>
 
-                  <div class="form-group my-3">
-                    <label>Optimizar: </label>
-                    <select
-                      v-model="timeOrMoney"
-                      name="opt"
-                      class="form-select"
-                      aria-label="Default select example"
-                    >
-                      <option value="time">Tiempo</option>
-                      <option value="money" disabled>Dinero</option>
-                    </select>
+                  <div>
+                    <div class="form-group my-3">
+                      <label>Optimizar: </label>
+                      <select
+                        v-model="targetVariable"
+                        name="opt"
+                        class="form-select"
+                        aria-label="Default select example"
+                      >
+                        <option value="time">Tiempo</option>
+                        <option value="money">Dinero</option>
+                        <option value="energy">Energía</option>
+                      </select>
+                    </div>
+                    <div class="form-group my-3" v-if="targetVariable === 'energy'">
+                      <label>Energy Constraint: </label>
+                      <input
+                        v-model="energyConstraint"
+                        type="number"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        class="form-control"
+                        placeholder="0"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -479,7 +487,7 @@
     </div>
     <hr />
     <h2 class="text-primary text-center">Mapa de Teleférico</h2>
-    <h1 class="text-primary p-2">Tiempo estimado: {{ optimalValue }}</h1>
+    <h1 class="text-primary p-2">Valor óptimo estimado: {{ optimalValue }}</h1>
     <div class="d-flex">
       <div class="editor-container flex-grow-1">
         <div class="editor-content" id="bottom">
@@ -494,11 +502,12 @@
           >
             <template #edge-label="{ edge, ...slotProps }">
               <v-edge-label
-                :text="secondsToTime(edge.label)"
+                :text="edge.label"
                 align="center"
                 vertical-align="above"
                 v-bind="slotProps"
               />
+
             </template>
 
             <defs>
@@ -715,7 +724,8 @@ const zoomOut = () => graph.value?.zoomOut();
 const startNode = ref("");
 const endNode = ref("");
 const cardtype = ref("");
-const timeOrMoney = ref("");
+const targetVariable = ref("");
+const energyConstraint = ref(0);
 const optimalValue = ref<string | null>(null);
 
 const findPathAndScroll = async () => {
@@ -731,6 +741,7 @@ const secondsToTime = (secondsString: string) => {
 };
 
 const findPath = async () => {
+  edges = reactive({ ...data.edges });
   getUnavailableCablewayLines();
   const cablewayData = {
     nodes: nodes,
@@ -738,20 +749,27 @@ const findPath = async () => {
     layouts: data.layouts,
   };
   console.log("CablewayData:", cablewayData);
+
   await cablewayStore.dijkstraCableway(
     cablewayData,
     startNode.value,
     endNode.value,
     cardtype.value,
-    timeOrMoney.value
+    targetVariable.value,
+    energyConstraint.value
   );
+
+  edges = reactive({ ...cablewayStore.edges });
+
   optimalValue.value = cablewayStore.optimalValue;
 
   paths.value = {};
   paths.value = cablewayStore.optimalPath;
   console.log(cablewayStore.optimalValue);
   console.log(cablewayStore.optimalPath);
+  console.log(cablewayStore.edges);
 };
+
 
 const scrollToBottom = () => {
   const element = document.getElementById("bottom");
