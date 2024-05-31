@@ -626,15 +626,19 @@ const unavailableCablewayLine = (
   unavailableNodes: string[],
   edgesToDelete: string[]
 ) => {
+  const deleteNodes = unavailableNodes;
+  const deleteEdges = edgesToDelete;
   if (isCablewayLineUnavailable) {
     console.log(`${cablewayLine} Cableway Line NOT Available.`);
-    const deleteNodes = unavailableNodes;
-    const deleteEdges = edgesToDelete;
     for (const nodeId of deleteNodes) {
       nodes[nodeId].icon = unavailableLineImage;
     }
     for (const edgeId of deleteEdges) {
       delete edges[edgeId];
+    }
+  } else {
+    for (const nodeId of deleteNodes) {
+      nodes[nodeId].icon = data.nodes[nodeId].icon;
     }
   }
 };
@@ -741,6 +745,7 @@ const secondsToTime = (secondsString: string) => {
 };
 
 const findPath = async () => {
+  paths.value = {};
   edges = reactive({ ...data.edges });
   getUnavailableCablewayLines();
   const cablewayData = {
@@ -763,7 +768,6 @@ const findPath = async () => {
 
   optimalValue.value = cablewayStore.optimalValue;
 
-  paths.value = {};
   paths.value = cablewayStore.optimalPath;
   console.log(cablewayStore.optimalValue);
   console.log(cablewayStore.optimalPath);
