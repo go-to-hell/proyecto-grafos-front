@@ -60,6 +60,11 @@ export const useAuthStore = defineStore('auth', {
             this.accessToken = null;
             localStorage.removeItem('accessToken');
             localStorage.removeItem('currentUser');
-        }
+        },
+
+                //FUNCTEC
+                getCurrentUser() {
+                    return this.currentUser;
+                }
     },
 });

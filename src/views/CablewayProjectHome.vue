@@ -223,7 +223,7 @@
                     </div>
                   </div>
                   <div class="accordion" id="uniqueAccordionID2">
-                    <div class="accordion-item">
+                    <div class="accordion-item" v-if="currentUser === 'admin'">
                       <h2 class="accordion-header" id="headingTwo">
                         <button
                           class="accordion-button collapsed"
@@ -443,7 +443,7 @@
                       >
                         <option value="time">Tiempo</option>
                         <option value="money">Dinero</option>
-                        <option value="energy">Energía</option>
+                        <option value="energy" v-if="currentUser === 'admin'">Energía</option>
                       </select>
                     </div>
                     <div class="form-group my-3" v-if="targetVariable === 'energy'">
@@ -601,6 +601,7 @@ import * as vNG from "v-network-graph";
 import data from "../data/cableway-data.js";
 import NavBarVue from "../components/NavBar.vue";
 import { useCablewayStore } from "../stores/cableway";
+import { useAuthStore } from "../stores/auth.js";
 
 let nodes: vNG.Nodes;
 let edges: vNG.Edges;
@@ -618,6 +619,10 @@ var skyBlueLine = ref(false);
 var whiteLine = ref(false);
 var yellowLine = ref(false);
 var purpleLine = ref(false);
+
+// FUNCTEC
+// Deshabilitar items según el usuario es administrador
+const currentUser = useAuthStore().getCurrentUser();
 
 const unavailableCablewayLine = (
   isCablewayLineUnavailable: boolean,
