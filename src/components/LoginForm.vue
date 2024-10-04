@@ -73,7 +73,7 @@ export default {
             false,
             2500
           );
-          router.push("/");
+          router.push("/cableway_project");
         } else {
           showSimpleAlert(
             "Error",

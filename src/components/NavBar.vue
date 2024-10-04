@@ -31,7 +31,7 @@
               Inicio
             </router-link>
           </li>
-          <li class="nav-item me-md-2" v-if="authStore.isLoggedIn">
+          <!-- <li class="nav-item me-md-2" v-if="authStore.isLoggedIn">
             <router-link
               :class="{ active: $route.path === '/graphs_home' }"
               to="/graphs_home"
@@ -40,7 +40,7 @@
             >
               Grafos
             </router-link>
-          </li>
+          </li> -->
           <li class="nav-item me-md-2" v-if="authStore.isLoggedIn">
             <router-link
               :class="{ active: $route.path === '/cableway_project' }"

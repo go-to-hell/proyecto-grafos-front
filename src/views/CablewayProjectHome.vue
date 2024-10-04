@@ -223,7 +223,7 @@
                     </div>
                   </div>
                   <div class="accordion" id="uniqueAccordionID2">
-                    <div class="accordion-item" v-if="currentUser === 'admin'">
+                    <div class="accordion-item" v-if="currentUser.username === 'admin'">
                       <h2 class="accordion-header" id="headingTwo">
                         <button
                           class="accordion-button collapsed"
@@ -443,7 +443,7 @@
                       >
                         <option value="time">Tiempo</option>
                         <option value="money">Dinero</option>
-                        <option value="energy" v-if="currentUser === 'admin'">Energía</option>
+                        <option value="energy" v-if="currentUser.username === 'admin'">Energía</option>
                       </select>
                     </div>
                     <div class="form-group my-3" v-if="targetVariable === 'energy'">
@@ -623,6 +623,7 @@ var purpleLine = ref(false);
 // FUNCTEC
 // Deshabilitar items según el usuario es administrador
 const currentUser = useAuthStore().getCurrentUser();
+console.log("Current User:", currentUser.username);
 
 const unavailableCablewayLine = (
   isCablewayLineUnavailable: boolean,

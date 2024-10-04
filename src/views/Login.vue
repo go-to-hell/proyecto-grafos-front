@@ -145,7 +145,8 @@ export default {
     };
 
     const goBack = () => {
-      router.go(-1);
+      console.log("redirecionando a cableway_project");
+      router.push("/cableway_project");
     };
 
     return {
