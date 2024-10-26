@@ -18,7 +18,7 @@
             </button>
         </div>
         <div class="d-flex align-items-center mt-2 w-100">
-            <input type="file" @change="uploadFile" class="form-control me-3 flex-grow-1">
+            <input name="uploadFile" title="upload file" type="file" @change="uploadFile" class="form-control me-3 flex-grow-1">
             <button class="btn btn-primary flex-shrink-0" type="button" @click="submitFile">
             <i class="bi bi-upload"></i> Subir proyecto
             </button>

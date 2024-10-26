@@ -537,11 +537,12 @@
       <button
         type="button"
         class="btn btn-primary bi bi-arrow-left mb-1"
+        title="Regresar"
         @click="goBack"
       ></button>
 
       <button type="button" class="btn btn-success" @click="solveJohnson">
-        Resolver
+        <span style="font-size: 1.5em;"><b>Resolver</b></span>
       </button>
     </div>
 
@@ -552,6 +553,7 @@
     >
       <button
         class="btn btn-primary bi bi-list position-absolute sticky-top top-0 start-0 m-1"
+        title="Funciones Extra."
         type="button"
         data-bs-toggle="tooltip"
         data-bs-placement="left"
@@ -655,6 +657,7 @@
       <div class="d-flex gap-2 gap-md-5 mb-2 mb-md-0">
         <button
           type="button"
+          title="Agregar nodo"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
@@ -669,6 +672,7 @@
         ></button>
         <button
           type="button"
+          title="Agregar arista"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
@@ -683,6 +687,7 @@
         ></button>
         <button
           type="button"
+          title="Eliminar"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
@@ -699,6 +704,7 @@
       <div class="d-flex gap-2 gap-md-5">
         <button
           type="button"
+          title="Renombrar nodo"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
@@ -714,6 +720,7 @@
         ></button>
         <button
           type="button"
+          title="Renombrar arista"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
@@ -729,6 +736,7 @@
         ></button>
         <button
           type="button"
+          title="Guardar"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
@@ -738,6 +746,7 @@
         ></button>
         <button
           type="button"
+          title="Abrir"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
@@ -747,6 +756,7 @@
         ></button>
         <button
           type="button"
+          title="Limpiar"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
@@ -756,6 +766,7 @@
         ></button>
         <button
           type="button"
+          title="Ayuda"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
@@ -816,6 +827,7 @@ import { useAlgorithmStore } from "../stores/algorithm";
 import { useFileStore } from "../stores/file";
 import * as bootstrap from "bootstrap";
 import * as vNG from "v-network-graph";
+import SweetAlert from "sweetalert2";
 
 const router = useRouter();
 const fileStore = useFileStore();
@@ -1188,7 +1200,34 @@ const solveJohnson = async () => {
   };
 
   const jsonData = JSON.stringify(graphData, null, 2); // Indentación de 2 espacios
-  await algorithmStore.loadJohnsonCriticalPath(jsonData);
+  await algorithmStore.loadJohnsonCriticalPath(jsonData).catch((error) => {
+    console.error("Error al cargar el grafo en el algoritmo de Johnson:", error.code);
+    if (error.response.status === 400) {
+      SweetAlert.fire({
+      icon: "error",
+      title: "Error al cargar el grafo en el algoritmo de Johnson",
+      text: "Tu grafo es invalido, revisa que tenga un único nodo inicial y final. Y que no tenga ciclos o negativos.",
+      });
+    } else if (error.response.status === 401) {
+      SweetAlert.fire({
+      icon: "warning",
+      title: "Sesión expirada",
+      text: "Necesitas iniciar sesión nuevamente.",
+      showCancelButton: true,
+      confirmButtonText: "Iniciar sesión",
+      }).then((result) => {
+      if (result.isConfirmed) {
+        router.push("/login");
+      }
+      });
+    } else {
+      SweetAlert.fire({
+      icon: "error",
+      title: "Error",
+      text: "Ocurrió un error al cargar el grafo. Por favor, inténtalo de nuevo más tarde.",
+      });
+    }
+  });
 
   // Actualiza los bordes en el path
   paths.value = {

@@ -47,7 +47,10 @@ export const useAlgorithmStore = defineStore("algorithm", {
             "Content-Type": "application/json",
           },
         }
-      );
+      ).catch((error) => {
+        console.log('Error in loadJohnsonCriticalPath:', error);
+        throw error;
+      });
 
       this.johnsonCriticalPathDataOutput = response.data;
 
