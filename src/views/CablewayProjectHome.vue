@@ -98,6 +98,7 @@
       <div class="py-4 my-4 text-center">
         <button
           type="button"
+          id="cablewayDataButton"
           class="btn btn-warning btn-lg me-4 shadow"
           data-bs-toggle="modal"
           data-bs-target="#cablewayData"
@@ -420,6 +421,7 @@
                     <label>Origen: </label>
                     <select
                       v-model="startNode"
+                      id="origin"
                       name="org1"
                       class="form-select"
                       aria-label="Default select example"
@@ -434,6 +436,7 @@
                     <label>Destino: </label>
                     <select
                       v-model="endNode"
+                      id="destination"
                       name="org2"
                       class="form-select"
                       aria-label="Default select example"
@@ -450,13 +453,15 @@
                       <select
                         v-model="targetVariable"
                         name="opt"
+                        id="optimization"
                         class="form-select"
                         aria-label="Default select example"
                       >
-                        <option value="time">Tiempo</option>
-                        <option value="money">Dinero</option>
+                        <option value="time" id="time">Tiempo</option>
+                        <option value="money" id="money">Dinero</option>
                         <option
                           value="energy"
+                          id="energy"
                           v-if="currentUser.username === 'admin'"
                         >
                           Energía
@@ -493,6 +498,7 @@
                 </button>
                 <button
                   type="button"
+                  id="findPathButton"
                   class="btn btn-success"
                   data-bs-dismiss="modal"
                   @click="findPathAndScroll"
@@ -507,7 +513,9 @@
     </div>
     <hr />
     <h2 class="text-primary text-center">Mapa de Teleférico</h2>
-    <h1 class="text-primary p-2">Valor óptimo estimado: {{ optimalValue }}</h1>
+    <h1 class="text-primary p-2" id="optimumValue ">
+      Valor óptimo estimado: {{ optimalValue }}
+    </h1>
     <div class="d-flex">
       <div class="editor-container flex-grow-1">
         <div class="editor-content" id="bottom">
