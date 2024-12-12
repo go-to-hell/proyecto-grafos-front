@@ -39,7 +39,7 @@
       <button
         class="w-75 mx-auto my-4"
         :class="buttonClasses"
-        id="singUpSubmitButton"
+        id="signUpSubmitButton"
         type="submit"
       >
         <span>Registrarse</span>

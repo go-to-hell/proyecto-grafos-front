@@ -8,6 +8,7 @@
       <input
         type="text"
         :class="inputClasses"
+        id="loginUsernameField"
         placeholder="Ingresa tu nombre de usuario"
         v-model="username"
         autofocus
@@ -15,6 +16,7 @@
       <input
         type="password"
         :class="inputClasses"
+        id="loginPasswordField"
         placeholder="Ingresa tu contraseña"
         v-model="password"
       />
@@ -23,7 +25,9 @@
       <a class="text-danger mt-1 mb-4 text-end" href="/">
         ¿Olvidaste tu contraseña?
       </a>
-      <button :class="buttonClasses" type="submit">Iniciar Sesión</button>
+      <button :class="buttonClasses" id="loginButton" type="submit">
+        Iniciar Sesión
+      </button>
     </div>
   </form>
 </template>
