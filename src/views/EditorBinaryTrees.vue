@@ -13,6 +13,7 @@
           data-bs-custom-class="custom-tooltip"
           data-bs-title="Ingresar."
           class="btn btn-info me-3"
+          id="addData"
           @click="openInputOrderModal"
         >
           Ingresar Datos
@@ -23,6 +24,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="PreOrden."
+          id="preOrder"
           class="btn btn-success me-3"
           @click="printPreOrder"
         >
@@ -34,6 +36,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="InOrden."
+          id="inOrder"
           class="btn btn-warning me-3"
           @click="printInOrder"
         >
@@ -45,6 +48,7 @@
           data-bs-placement="top"
           data-bs-custom-class="custom-tooltip"
           data-bs-title="PostOrden."
+          id="postOrder"
           class="btn btn-danger me-3"
           @click="printPostOrder"
         >

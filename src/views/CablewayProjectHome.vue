@@ -174,7 +174,10 @@
                                   value="regular"
                                   checked
                                 />
-                                <label class="form-check-label label_tarjeta text-center" for="tarjeta1">
+                                <label
+                                  class="form-check-label label_tarjeta text-center"
+                                  for="tarjeta1"
+                                >
                                   <img
                                     class="tarjetas d-block mx-auto"
                                     src="../assets/CablewayProjectImages/tarjeta_normal.png"
@@ -191,7 +194,10 @@
                                   id="tarjeta2"
                                   value="student"
                                 />
-                                <label class="form-check-label label_tarjeta text-center" for="tarjeta2">
+                                <label
+                                  class="form-check-label label_tarjeta text-center"
+                                  for="tarjeta2"
+                                >
                                   <img
                                     class="tarjetas d-block mx-auto"
                                     src="../assets/CablewayProjectImages/tarjeta_estudiantil.png"
@@ -208,7 +214,10 @@
                                   id="tarjeta3"
                                   value="senior"
                                 />
-                                <label class="form-check-label label_tarjeta text-center" for="tarjeta3">
+                                <label
+                                  class="form-check-label label_tarjeta text-center"
+                                  for="tarjeta3"
+                                >
                                   <img
                                     class="tarjetas d-block mx-auto"
                                     src="../assets/CablewayProjectImages/tarjeta_preferencial.png"
@@ -223,7 +232,10 @@
                     </div>
                   </div>
                   <div class="accordion" id="uniqueAccordionID2">
-                    <div class="accordion-item" v-if="currentUser.username === 'admin'">
+                    <div
+                      class="accordion-item"
+                      v-if="currentUser.username === 'admin'"
+                    >
                       <h2 class="accordion-header" id="headingTwo">
                         <button
                           class="accordion-button collapsed"
@@ -443,10 +455,18 @@
                       >
                         <option value="time">Tiempo</option>
                         <option value="money">Dinero</option>
-                        <option value="energy" v-if="currentUser.username === 'admin'">Energía</option>
+                        <option
+                          value="energy"
+                          v-if="currentUser.username === 'admin'"
+                        >
+                          Energía
+                        </option>
                       </select>
                     </div>
-                    <div class="form-group my-3" v-if="targetVariable === 'energy'">
+                    <div
+                      class="form-group my-3"
+                      v-if="targetVariable === 'energy'"
+                    >
                       <label>Energy Constraint: </label>
                       <input
                         v-model="energyConstraint"
@@ -507,7 +527,6 @@
                 vertical-align="above"
                 v-bind="slotProps"
               />
-
             </template>
 
             <defs>
@@ -568,12 +587,14 @@
           <div>
             <button
               class="btn btn-outline-info w-100 py-2"
+              id="panToCenter"
               @click="panToCenter"
             >
               Centrar
             </button>
             <button
               class="btn btn-outline-info w-100 py-2 mt-3"
+              id="fitToContents"
               @click="fitToContents"
             >
               Ajustar
@@ -582,10 +603,12 @@
           <div class="d-flex gap-3">
             <button
               class="btn btn-outline-info bi bi-plus-circle w-100 py-2 mt-3"
+              id="zoomIn"
               @click="zoomIn"
             ></button>
             <button
               class="btn btn-outline-info bi bi-dash-circle w-100 py-2 mt-3"
+              id="zoomOut"
               @click="zoomOut"
             ></button>
           </div>
@@ -779,7 +802,6 @@ const findPath = async () => {
   console.log(cablewayStore.optimalPath);
   console.log(cablewayStore.edges);
 };
-
 
 const scrollToBottom = () => {
   const element = document.getElementById("bottom");

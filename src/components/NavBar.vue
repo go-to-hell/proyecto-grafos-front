@@ -26,6 +26,7 @@
               :class="{ active: $route.path === '/' }"
               to="/"
               class="nav-link"
+              id="home"
               aria-current="page"
             >
               Inicio
@@ -36,6 +37,7 @@
               :class="{ active: $route.path === '/graphs_home' }"
               to="/graphs_home"
               class="nav-link w-100"
+              id="graphshome"
               @click="goGraphsHome"
             >
               Grafos
@@ -46,6 +48,7 @@
               :class="{ active: $route.path === '/cableway_project' }"
               to="/cableway_project"
               class="nav-link w-100"
+              id="cablewayproject"
               @click="goCablewayProject"
             >
               Teleférico
@@ -55,12 +58,14 @@
         <button
           v-if="!authStore.isLoggedIn"
           class="btn btn-success mx-auto d-block d-md-inline-block mx-md-2 my-2"
+          id="login"
           @click="goLogin"
         >
           Ingresar
         </button>
         <button
           v-if="!authStore.isLoggedIn"
+          id="Register"
           class="btn btn-info mx-auto d-block d-md-inline-block mx-md-2 me-md-4 my-2"
           @click="goSignUp"
         >
@@ -68,6 +73,7 @@
         </button>
         <button
           v-if="authStore.isLoggedIn"
+          id="logout"
           class="btn btn-danger mx-auto d-block d-md-inline-block mx-md-4 my-2"
           @click="logout"
         >
