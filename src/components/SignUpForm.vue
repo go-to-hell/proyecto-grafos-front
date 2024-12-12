@@ -9,6 +9,7 @@
     <form @submit.prevent="submitForm">
       <input
         type="text"
+        id="usernameField"
         placeholder="Ingresa tu nombre de usuario"
         :class="inputClasses"
         v-model="username"
@@ -16,23 +17,31 @@
       />
       <input
         type="email"
+        id="emailField"
         placeholder="Ingresa tu dirección email"
         :class="inputClasses"
         v-model="email"
       />
       <input
         type="password"
+        id="passwordField"
         placeholder="Ingresa tu contraseña"
         :class="inputClasses"
         v-model="password"
       />
       <input
         type="password"
+        id="confirmPasswordField"
         placeholder="Ingresa nuevamente tu contraseña"
         :class="inputClasses"
         v-model="repeatedPassword"
       />
-      <button class="w-75 mx-auto my-4" :class="buttonClasses" type="submit">
+      <button
+        class="w-75 mx-auto my-4"
+        :class="buttonClasses"
+        id="singUpSubmitButton"
+        type="submit"
+      >
         <span>Registrarse</span>
       </button>
     </form>
@@ -82,7 +91,7 @@ export default {
             `Usuario ${authStore.users[0].username} registrado correctamente.`,
             "success",
             false,
-            2500
+            3000
           );
           router.push("/");
         } else {

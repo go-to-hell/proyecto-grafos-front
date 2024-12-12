@@ -8,6 +8,7 @@
             class="form-control me-3 bg-body-tertiary flex-grow-1"
             type="search"
             placeholder="Buscar..."
+            id="search"
             aria-label="Buscar"
           />
           <button class="btn btn-primary me-2 flex-shrink-0" type="submit">
@@ -16,6 +17,7 @@
           <button
             @click="goEditorBinaryTrees"
             class="btn btn-secondary flex-shrink-0"
+            id="createGraphButton"
             type="button"
           >
             <i class="bi bi-plus-circle"></i> Crear
@@ -25,11 +27,13 @@
           <input
             type="file"
             @change="uploadFile"
+            id="file"
             class="form-control me-3 flex-grow-1"
           />
           <button
             class="btn btn-primary flex-shrink-0"
             type="button"
+            id="uploadFileButton"
             @click="submitFile"
           >
             <i class="bi bi-upload"></i> Subir proyecto
