@@ -11,9 +11,9 @@
     <div class="input-container">
       <label for="inputNumbers">Ingrese los números (separados por coma) o genere aleatorio:</label>
       <input type="text" id="inputNumbers" v-model="inputNumbers">
-      <button @click="openRandomArrayModal" class="btn btn-secondary">Generar Aleatorio</button>
-      <button @click="openFileNameModal" class="btn btn-secondary">Guardar Arreglo</button>
-      <button @click="loadArray" class="btn btn-secondary">Cargar Arreglo</button>
+      <button @click="openRandomArrayModal" class="btn btn-secondary" id="randomArrayButton">Generar Aleatorio</button>
+      <button @click="openFileNameModal" class="btn btn-secondary" id="saveArrayButton">Guardar Arreglo</button>
+      <button @click="loadArray" class="btn btn-secondary" id="loadArrayButton">Cargar Arreglo</button>
     </div>
     <div class="input-container">
       <label for="animationDelay">Delay de la animación:</label>
@@ -172,6 +172,7 @@
 <script>
 import { Modal } from 'bootstrap';
 import * as bootstrap from "bootstrap";
+import Swal from 'sweetalert2';
 
 export default {
   data() {
@@ -258,6 +259,12 @@ export default {
         default:
           break;
       }
+      Swal.fire({
+        title: 'Ordenamiento Completo',
+        text: `El ordenamiento ${type} ha sido completado.`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
     },
     async mergeSort(arr, l, r) {
       if (l < r && this.isSorting) {
@@ -348,6 +355,7 @@ export default {
         this.stepCount++;
       }
       this.currentIndex = -1;
+      this.comparingIndices = []; // Restablecer los índices de comparación
     },
     async shellSort(arr) {
       const n = arr.length;

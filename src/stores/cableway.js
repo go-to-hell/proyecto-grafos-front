@@ -38,7 +38,7 @@ export const useCablewayStore = defineStore("cableway", {
         }
       );
 
-      console.log(response.data);
+      console.log("cableway response data: ", response.data);
       this.edges = response.data.edges;
       this.optimalValue = response.data.optimalValue;
       this.optimalPath = response.data.optimalPath;

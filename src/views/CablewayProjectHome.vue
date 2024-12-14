@@ -806,9 +806,9 @@ const findPath = async () => {
   optimalValue.value = cablewayStore.optimalValue;
 
   paths.value = cablewayStore.optimalPath;
-  console.log(cablewayStore.optimalValue);
-  console.log(cablewayStore.optimalPath);
-  console.log(cablewayStore.edges);
+  console.log("Optimal Value: ", cablewayStore.optimalValue);
+  console.log("Optimal Path: ", cablewayStore.optimalPath);
+  console.log("Edges: ", cablewayStore.edges);
 };
 
 const scrollToBottom = () => {
