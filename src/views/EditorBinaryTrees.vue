@@ -232,7 +232,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+        <button id="ok-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">
           OK
         </button>
       </div>
@@ -340,6 +340,7 @@
             Cancelar
           </button>
           <button
+            id="button-addNode-ok"
             type="button"
             data-bs-dismiss="modal"
             class="btn btn-success"
@@ -599,6 +600,7 @@
     </div>
     <div class="d-flex gap-2 gap-md-5 mb-2 mb-md-0">
       <button
+        id="showBFS"
         type="button"
         data-bs-toggle="tooltip"
         data-bs-placement="top"
